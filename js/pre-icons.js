@@ -189,12 +189,80 @@ function iconSeq04(suffix) {
     </svg>`;
 }
 
+function iconSeq05(suffix) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+      <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+      <rect x="15" y="25" width="111" height="75" rx="4" fill="none" stroke="#5B8FB9" stroke-width="2"/>
+      <rect x="18" y="28" width="100" height="69" fill="#DCEAF5">
+        <animate attributeName="width" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="100.0;80.7;49.3;46.0;44.5;44.0;44.5;46.0;49.3;80.7;100.0"/>
+      </rect>
+      <circle r="3.2" fill="#2D5F8A">
+        <animate attributeName="cx" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="35.8;32.9;28.2;29.6;25.6;29.3;25.6;29.6;28.2;32.9;35.8"/>
+        <animate attributeName="cy" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="62.0;62.0;62.0;62.4;61.6;62.4;61.6;62.4;62.0;62.0;62.0"/>
+      </circle>
+      <circle r="3" fill="#5B8FB9">
+        <animate attributeName="cx" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="54.2;47.4;36.5;37.2;32.9;36.5;32.9;37.2;36.5;47.4;54.2"/>
+        <animate attributeName="cy" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="62.0;62.0;62.0;62.9;61.1;62.9;61.1;62.9;62.0;62.0;62.0"/>
+      </circle>
+      <circle r="3.4" fill="#2D5F8A">
+        <animate attributeName="cx" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="72.6;62.0;44.7;44.8;40.2;43.7;40.2;44.8;44.7;62.0;72.6"/>
+        <animate attributeName="cy" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="62.0;62.0;62.0;63.2;60.8;63.2;60.8;63.2;62.0;62.0;62.0"/>
+      </circle>
+      <circle r="3" fill="#5B8FB9">
+        <animate attributeName="cx" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="88.2;74.3;51.7;51.3;46.4;49.8;46.4;51.3;51.7;74.3;88.2"/>
+        <animate attributeName="cy" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="62.0;62.0;62.0;62.8;61.2;62.8;61.2;62.8;62.0;62.0;62.0"/>
+      </circle>
+      <circle r="3.2" fill="#2D5F8A">
+        <animate attributeName="cx" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="103.0;86.0;58.3;57.4;52.2;55.6;52.2;57.4;58.3;86.0;103.0"/>
+        <animate attributeName="cy" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="62.0;62.0;62.0;62.3;61.7;62.3;61.7;62.3;62.0;62.0;62.0"/>
+      </circle>
+      <rect y="22" width="8" height="81" fill="#2D5F8A" rx="1">
+        <animate attributeName="x" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="118.0;98.7;67.3;64.0;62.5;62.0;62.5;64.0;67.3;98.7;118.0"/>
+      </rect>
+      <text x="70" y="18" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="9" fill="#2D5F8A">Volume comprimé</text>
+      <circle cx="168" cy="55" r="24" fill="#fff" stroke="#2D5F8A" stroke-width="3"/>
+      <text x="168" y="52" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="8" fill="#2D5F8A">P</text>
+      <line x1="168" y1="55" x2="168" y2="37" stroke="#E8783A" stroke-width="2.5" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" dur="5s" repeatCount="indefinite"
+          keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+          values="-32.0 168 55;-6.5 168 55;35.0 168 55;39.4 168 55;41.3 168 55;42.0 168 55;41.3 168 55;39.4 168 55;35.0 168 55;-6.5 168 55;-32.0 168 55"/>
+      </line>
+      <text x="168" y="105" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="8" fill="#5A6B7A">Pression</text>
+    </svg>`;
+}
+
 const PRE_ICONS = {
   'seq00': iconSeq00,
   'seq01': iconLumiereCouleurs,
   'seq02': iconModelesOndulatoireParticulaire,
   'seq03': iconSeq03,
-  'seq04': iconSeq04
+  'seq04': iconSeq04,
+  'seq05': iconSeq05
 };
 
 function getIconPre(name, suffix) {
