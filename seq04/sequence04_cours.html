@@ -418,6 +418,44 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
       </div>
     </div>
 
+    <p style="font-size:.88rem;line-height:1.65;margin-bottom:10px;">Observons cette transformation directement dans le bécher : un copeau de cuivre plongé dans une solution contenant des ions argent Ag⁺(aq). Fais glisser le curseur pour voir, espèce par espèce, comment se forme le dépôt d'argent (l'« arbre de Diane ») et comment les ions Cu²⁺(aq) diffusent dans la solution.</p>
+
+    <svg viewBox="0 0 400 300" style="max-width:420px;width:100%;height:auto;display:block;margin:0 auto 6px;" id="raAtomicSvg">
+      <rect width="400" height="300" fill="#F5F7FA"/>
+      <text x="200" y="18" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="11" fill="#2D5F8A">Bécher : copeau de Cu(s) dans une solution de Ag⁺(aq)</text>
+
+      <!-- Bécher -->
+      <path d="M50,45 L50,270 Q50,285 65,285 L335,285 Q350,285 350,270 L350,45" fill="none" stroke="#5B8FB9" stroke-width="3" stroke-linecap="round"/>
+      <path d="M50,60 L50,270 Q50,285 65,285 L335,285 Q350,285 350,270 L350,60 Z" fill="#DCEAF5" id="raLiquid" opacity="0.85"/>
+
+      <!-- Copeau de cuivre -->
+      <g id="raCopperChip">
+        <path d="M110,150 Q98,175 115,200 Q130,216 155,206 Q176,196 179,175 Q181,153 165,144 Q140,133 110,150 Z" fill="#B5651D" stroke="#8B4513" stroke-width="1.5"/>
+        <text x="142" y="178" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="12" fill="#fff">Cu(s)</text>
+      </g>
+
+      <!-- Couche dynamique : ions Ag+, dépôts Ag, électrons, ions Cu2+ -->
+      <g id="raAtomicDynamic"></g>
+
+      <!-- Légende couleurs -->
+      <g font-family="Nunito" font-size="8.5" fill="#5A6B7A">
+        <circle cx="60" cy="298" r="5" fill="#7B4FA6"/><text x="68" y="301">Ag⁺(aq)</text>
+        <circle cx="130" cy="298" r="5" fill="#8A8F98"/><text x="138" y="301">Ag(s) déposé</text>
+        <circle cx="220" cy="298" r="5" fill="#3A6EA5"/><text x="228" y="301">Cu²⁺(aq)</text>
+        <circle cx="290" cy="298" r="4" fill="#E8783A"/><text x="298" y="301">e⁻</text>
+      </g>
+    </svg>
+
+    <div class="redox-slider-wrap">
+      <span class="redox-slider-label">⚛️ Début</span>
+      <input type="range" min="0" max="100" value="0" id="raAtomicSlider" class="redox-slider" oninput="raAtomicUpdate(this.value)">
+      <span class="redox-slider-label">Fin ⚛️</span>
+    </div>
+    <p style="text-align:center;font-size:.82rem;color:var(--texte-leger);font-weight:700;margin-bottom:4px;" id="raAtomicLegend">🖱️ Fais glisser le curseur : à chaque pas, un atome de cuivre cède 2 électrons à deux ions Ag⁺ voisins.</p>
+    <p style="text-align:center;font-size:.78rem;color:var(--texte-leger);margin-bottom:16px;">Chaque atome de cuivre en surface cède 2 e⁻ à deux ions Ag⁺ voisins : ceux-ci se transforment en argent métallique et se déposent sur le cuivre, tandis que l'atome de cuivre devient un ion Cu²⁺(aq) qui diffuse dans la solution.</p>
+
+    <p style="text-align:center;font-size:.85rem;color:var(--texte);font-weight:700;margin:4px 0 16px;background:var(--orange-clair);border-radius:10px;padding:8px 14px;">🔍 Zoomons maintenant sur un seul échange d'électrons entre les deux couples pour identifier clairement chaque demi-équation.</p>
+
     <svg viewBox="0 0 400 150" style="max-width:420px;width:100%;height:auto;display:block;margin:0 auto 10px;" id="redoxAnimSvg">
       <rect width="400" height="150" rx="12" fill="#F5F7FA" stroke="#DDE3EC"/>
       <text x="90" y="24" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="11" fill="#2D5F8A">Couple Cu²⁺(aq)/Cu(s)</text>
@@ -825,6 +863,16 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
 <!-- ══════════════════ TAB 3 — EXERCICES ══════════════════ -->
 <div class="panel" id="tab-exercices">
 
+  <nav class="sub-tabs-nav" id="sub-nav-exercices">
+    <button class="sub-tab-btn active" onclick="switchSubTab('exercices',0)">🟢 Facile</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('exercices',1)">🔵 Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('exercices',2)">🔴 Difficile</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('exercices',3)">🧪 Applications</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('exercices',4)">🕵️ Escape Game</button>
+  </nav>
+
+  <div class="sub-tab-content active" id="exercices-sub-0">
+
   <div class="intro-box">Cinq niveaux d'exercices, du plus simple au plus complexe. Pour chaque niveau, suivez les étapes de la fiche méthode : d'abord le nombre d'électrons échangés dans chaque demi-équation, puis l'équation-bilan complète.</div>
 
   <!-- NIVEAU 1 -->
@@ -883,6 +931,10 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
     </ol>
   </div>
 
+  </div><!-- /exercices-sub-0 (Facile) -->
+
+  <div class="sub-tab-content" id="exercices-sub-1">
+
   <!-- NIVEAU 3 -->
   <div class="exo-box">
     <h5><span class="diff-badge d3">Niveau 3</span>Eau oxygénée et ions fer (II)</h5>
@@ -911,6 +963,10 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
       </li>
     </ol>
   </div>
+
+  </div><!-- /exercices-sub-1 (Intermédiaire) -->
+
+  <div class="sub-tab-content" id="exercices-sub-2">
 
   <!-- NIVEAU 4 -->
   <div class="exo-box">
@@ -972,6 +1028,12 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
     </ol>
   </div>
 
+  </div><!-- /exercices-sub-2 (Difficile) -->
+
+  <div class="sub-tab-content" id="exercices-sub-3">
+
+  <div class="intro-box">Ces exercices reprennent des situations concrètes déjà rencontrées (activité expérimentale, dispositif de protection) pour réinvestir la notion de couple oxydant/réducteur.</div>
+
   <div class="exo-box">
     <h5><span class="diff-badge d3">🧪 Application</span>La bouteille bleue — retour sur l'activité expérimentale</h5>
     <div class="exo-enonce">
@@ -1014,6 +1076,81 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
       </li>
     </ol>
   </div>
+
+  <div class="exo-box">
+    <h5><span class="diff-badge d3">🧪 Application</span>L'anode sacrificielle — protéger la coque d'un bateau</h5>
+    <div class="exo-enonce">
+      La coque d'un bateau, en acier (assimilé à du fer Fe(s)), est plongée dans l'eau de mer, un électrolyte conducteur. Pour éviter qu'elle ne rouille, on y fixe des blocs de <strong>zinc Zn(s)</strong>, appelés <strong>anodes sacrificielles</strong>, reliés électriquement à la coque (couples Zn²⁺(aq)/Zn(s) et Fe²⁺(aq)/Fe(s)).
+    </div>
+
+    <svg viewBox="0 0 400 260" style="max-width:420px;width:100%;height:auto;display:block;margin:10px auto 6px;" id="anAnodeSvg">
+      <rect width="400" height="260" fill="#F5F7FA"/>
+      <text x="200" y="18" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="11" fill="#2D5F8A">Coque en fer protégée par une anode de zinc, dans l'eau de mer</text>
+
+      <!-- Eau de mer -->
+      <rect x="20" y="30" width="360" height="215" rx="8" fill="#CFE3E8" opacity="0.75"/>
+      <path d="M20,34 Q40,28 60,34 T100,34 T140,34 T180,34 T220,34 T260,34 T300,34 T340,34 T380,34" fill="none" stroke="#7FB3C0" stroke-width="1.5"/>
+
+      <!-- Coque en fer -->
+      <rect x="40" y="40" width="55" height="195" fill="#5A6B7A" stroke="#3A4653" stroke-width="1.5"/>
+      <text x="67" y="145" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="12" fill="#fff" transform="rotate(-90 67 145)">Fe(s) — coque</text>
+
+      <!-- Bloc de zinc (anode), fixé sur la coque -->
+      <g id="anZincBlock">
+        <rect id="anZincRect" x="95" y="105" width="38" height="60" fill="#B8BEC7" stroke="#7A828E" stroke-width="1.5"/>
+        <text x="114" y="139" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="11" fill="#3A4653">Zn(s)</text>
+      </g>
+
+      <!-- Couche dynamique : électrons et ions Zn2+ -->
+      <g id="anDynamic"></g>
+
+      <!-- Légende couleurs -->
+      <g font-family="Nunito" font-size="8.5" fill="#5A6B7A">
+        <circle cx="60" cy="252" r="4" fill="#E8783A"/><text x="68" y="255">e⁻ (dans le métal)</text>
+        <circle cx="190" cy="252" r="5" fill="#3AA1A0"/><text x="198" y="255">Zn²⁺(aq)</text>
+      </g>
+    </svg>
+
+    <div class="redox-slider-wrap">
+      <span class="redox-slider-label">⚛️ Début</span>
+      <input type="range" min="0" max="100" value="0" id="anSlider" class="redox-slider" oninput="raAnodeUpdate(this.value)">
+      <span class="redox-slider-label">Fin ⚛️</span>
+    </div>
+    <p style="text-align:center;font-size:.82rem;color:var(--texte-leger);font-weight:700;margin-bottom:4px;" id="anLegend">🖱️ Fais glisser le curseur pour voir le zinc se consommer au fil du temps.</p>
+    <p style="text-align:center;font-size:.78rem;color:var(--texte-leger);margin-bottom:16px;">Le zinc, plus réducteur que le fer, cède préférentiellement ses électrons : c'est lui qui s'oxyde et se dissout progressivement, à la place du fer.</p>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION a</div>
+      <div class="qtext">Identifier, dans ce dispositif, le réducteur et l'oxydant qui réagissent réellement (celui qui cède des électrons et celui qui pourrait les capter).</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁 Afficher la correction</button>
+      <div class="reveal-body">Le <strong>zinc Zn(s)</strong> est le réducteur : c'est lui qui cède ses électrons (il s'oxyde). Le <strong>dioxygène dissous O₂(aq)</strong> de l'eau de mer joue le rôle d'oxydant en captant ces électrons (couple O₂(aq)/H₂O(l)) : c'est cette réaction, et non la corrosion du fer, qui consomme les électrons cédés par le zinc.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION b</div>
+      <div class="qtext">Écrire la demi-équation électronique d'oxydation du zinc (couple Zn²⁺(aq)/Zn(s)).</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁 Afficher la correction</button>
+      <div class="reveal-body"><strong>Zn(s) = Zn²⁺(aq) + 2 e⁻</strong></div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION c</div>
+      <div class="qtext">Le fer et le zinc sont tous deux des réducteurs. Pourquoi est-ce le zinc qui s'oxyde en priorité, protégeant ainsi le fer ?</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁 Afficher la correction</button>
+      <div class="reveal-body">Le zinc est un réducteur <strong>plus fort</strong> que le fer : il cède plus facilement ses électrons. Reliés électriquement, les deux métaux sont au même potentiel, mais c'est le réducteur le plus réactif — le zinc — qui s'oxyde en premier. Tant qu'il en reste, le fer ne cède pas ses propres électrons : il est protégé, on parle de <strong>protection cathodique</strong>.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION d</div>
+      <div class="qtext">Que se passe-t-il lorsque toute l'anode de zinc a été consommée ? Quelle conséquence pratique cela a-t-il pour l'entretien du bateau ?</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁 Afficher la correction</button>
+      <div class="reveal-body">Une fois le zinc entièrement consommé, il n'y a plus de réducteur « sacrifié » pour protéger la coque : c'est alors le <strong>fer lui-même qui commence à s'oxyder</strong> (à rouiller). Il faut donc <strong>contrôler régulièrement l'anode et la remplacer</strong> avant qu'elle ne soit totalement usée, pour que la coque reste protégée en continu.</div>
+    </div>
+  </div>
+
+  </div><!-- /exercices-sub-3 (Applications) -->
+
+  <div class="sub-tab-content" id="exercices-sub-4">
 
   <div class="section-title"><span class="icon">🕵️</span>Escape Game — Le Coffre du Chimiste</div>
 
@@ -1111,6 +1248,8 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
     <button class="escape-reset" onclick="escNewMystery()">🎲 Nouveau mystère (recommencer)</button>
     <div class="escape-score" id="escScore">Épreuves réussies : 0 / 3</div>
   </div>
+
+  </div><!-- /exercices-sub-4 (Escape Game) -->
 
 </div><!-- /tab-exercices -->
 
@@ -1291,6 +1430,180 @@ function raUpdate(val){
   else if(t < 0.85) phase.textContent = '2 e⁻ en transit : Cu cède, Ag⁺ capte';
   else phase.textContent = 'Après l\'échange : Cu²⁺(aq) et Ag(s) sont formés';
 }
+
+/* ===== Animation atomique réaliste : bécher Cu(s) / Ag+(aq) ===== */
+var RA_CU_EDGE = {x:160, y:160};
+var RA_NSTEPS = 4;
+var raIons = [
+  {id:'ag8', ox:195, oy:150, dx:190, dy:154, step:0},
+  {id:'ag7', ox:205, oy:220, dx:184, dy:196, step:0},
+  {id:'ag1', ox:220, oy:80,  dx:175, dy:138, step:1},
+  {id:'ag6', ox:255, oy:250, dx:164, dy:210, step:1},
+  {id:'ag2', ox:270, oy:65,  dx:197, dy:126, step:2},
+  {id:'ag5', ox:300, oy:225, dx:154, dy:220, step:2},
+  {id:'ag4', ox:320, oy:170, dx:204, dy:148, step:3},
+  {id:'ag3', ox:310, oy:110, dx:209, dy:164, step:3}
+];
+var raCuMarkers = [
+  {id:'cu0', sx:95,  sy:190, step:0},
+  {id:'cu1', sx:85,  sy:150, step:1},
+  {id:'cu2', sx:100, sy:225, step:2},
+  {id:'cu3', sx:75,  sy:175, step:3}
+];
+
+function raIonMarkup(x,y,color,label){
+  return '<g><circle cx="'+x+'" cy="'+y+'" r="8" fill="'+color+'" stroke="#fff" stroke-width="1"/>' +
+    '<text x="'+x+'" y="'+(y+2.5)+'" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="6.5" fill="#fff">'+label+'</text></g>';
+}
+
+function raCuIonMarkup(x,y,opacity){
+  return '<g opacity="'+opacity+'"><circle cx="'+x+'" cy="'+y+'" r="9" fill="#3A6EA5" stroke="#fff" stroke-width="0.8"/>' +
+    '<text x="'+x+'" y="'+(y+2.3)+'" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="6" fill="#fff">Cu²⁺</text></g>';
+}
+
+function raElectronMarkup(x,y){
+  return '<g><circle cx="'+x+'" cy="'+y+'" r="7" fill="#E8783A" stroke="#fff" stroke-width="1"/>' +
+    '<text x="'+x+'" y="'+(y+2.3)+'" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="6.5" fill="#fff">e⁻</text></g>';
+}
+
+function raAtomicUpdate(val){
+  var t = val/100;
+  var stepFloat = t*RA_NSTEPS;
+  var currentStep = Math.min(Math.floor(stepFloat), RA_NSTEPS-1);
+  var localP = stepFloat - currentStep;
+  if(val >= 100){ currentStep = RA_NSTEPS-1; localP = 1; }
+
+  var parts = [];
+  var totalDeposited = 0;
+
+  raIons.forEach(function(ion){
+    if(ion.step < currentStep || (ion.step === currentStep && localP >= 1)){
+      parts.push(raIonMarkup(ion.dx, ion.dy, '#8A8F98', 'Ag'));
+      totalDeposited++;
+    } else if(ion.step === currentStep){
+      var p2 = Math.max(0, (localP - 0.6)/0.4);
+      var x = ion.ox + (ion.dx-ion.ox)*p2;
+      var y = ion.oy + (ion.dy-ion.oy)*p2;
+      var color = raLerpColor('#7B4FA6', '#8A8F98', p2);
+      var label = p2 > 0.5 ? 'Ag' : 'Ag⁺';
+      parts.push(raIonMarkup(x, y, color, label));
+      if(p2 >= 1) totalDeposited++;
+    } else {
+      parts.push(raIonMarkup(ion.ox, ion.oy, '#7B4FA6', 'Ag⁺'));
+    }
+  });
+
+  if(currentStep < RA_NSTEPS){
+    raIons.filter(function(i){ return i.step === currentStep; }).forEach(function(ion){
+      var pe = Math.min(localP/0.6, 1);
+      if(pe > 0 && pe < 1){
+        var mx = (RA_CU_EDGE.x+ion.ox)/2, my = (RA_CU_EDGE.y+ion.oy)/2 - 22;
+        var x = (1-pe)*(1-pe)*RA_CU_EDGE.x + 2*(1-pe)*pe*mx + pe*pe*ion.ox;
+        var y = (1-pe)*(1-pe)*RA_CU_EDGE.y + 2*(1-pe)*pe*my + pe*pe*ion.oy;
+        parts.push(raElectronMarkup(x, y));
+      }
+    });
+  }
+
+  raCuMarkers.forEach(function(m){
+    if(m.step < currentStep){
+      parts.push(raCuIonMarkup(m.sx, m.sy, 1));
+    } else if(m.step === currentStep){
+      var x = RA_CU_EDGE.x + (m.sx-RA_CU_EDGE.x)*localP;
+      var y = RA_CU_EDGE.y + (m.sy-RA_CU_EDGE.y)*localP;
+      parts.push(raCuIonMarkup(x, y, Math.max(localP, 0.15)));
+    }
+  });
+
+  document.getElementById('raAtomicDynamic').innerHTML = parts.join('');
+
+  var scale = 1 - 0.08*t;
+  document.getElementById('raCopperChip').setAttribute('transform', 'translate(142,175) scale('+scale+') translate(-142,-175)');
+
+  var legend = document.getElementById('raAtomicLegend');
+  var totalE = totalDeposited * 2;
+  if(val <= 2){
+    legend.textContent = '🖱️ Fais glisser le curseur : à chaque pas, un atome de cuivre cède 2 électrons à deux ions Ag⁺ voisins.';
+  } else if(val >= 100){
+    legend.textContent = '✅ Transformation terminée : ' + (RA_NSTEPS*2) + ' électrons échangés, ' + (RA_NSTEPS*2) + ' atomes Ag(s) déposés, ' + RA_NSTEPS + ' ions Cu²⁺(aq) libérés en solution.';
+  } else {
+    legend.textContent = '⚡ ' + totalE + ' électron(s) déjà échangé(s) — le dépôt d\'argent grandit sur le cuivre.';
+  }
+}
+
+/* ===== Animation atomique : anode sacrificielle Zn / coque Fe ===== */
+var AN_ZINC_EDGE = {x:114, y:135};
+var AN_NSTEPS = 4;
+var anZn2Settle = [
+  {x:220, y:70},
+  {x:280, y:110},
+  {x:250, y:180},
+  {x:310, y:200}
+];
+var anElecTarget = [
+  {x:70, y:80},
+  {x:70, y:120},
+  {x:70, y:160},
+  {x:70, y:200}
+];
+
+function anIonMarkup(x,y,opacity){
+  return '<g opacity="'+opacity+'"><circle cx="'+x+'" cy="'+y+'" r="7" fill="#3AA1A0" stroke="#fff" stroke-width="1"/>' +
+    '<text x="'+x+'" y="'+(y+2.3)+'" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="5.5" fill="#fff">Zn²⁺</text></g>';
+}
+
+function anElectronMarkup(x,y){
+  return '<g><circle cx="'+x+'" cy="'+y+'" r="6" fill="#E8783A" stroke="#fff" stroke-width="1"/>' +
+    '<text x="'+x+'" y="'+(y+2.3)+'" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="6" fill="#fff">e⁻</text></g>';
+}
+
+function raAnodeUpdate(val){
+  var t = val/100;
+  var stepFloat = t*AN_NSTEPS;
+  var currentStep = Math.min(Math.floor(stepFloat), AN_NSTEPS-1);
+  var localP = stepFloat - currentStep;
+  if(val >= 100){ currentStep = AN_NSTEPS-1; localP = 1; }
+
+  var parts = [];
+
+  for(var i=0; i<AN_NSTEPS; i++){
+    if(i < currentStep || (i === currentStep && localP >= 1)){
+      parts.push(anIonMarkup(anZn2Settle[i].x, anZn2Settle[i].y, 1));
+    } else if(i === currentStep){
+      var x = AN_ZINC_EDGE.x + (anZn2Settle[i].x - AN_ZINC_EDGE.x)*localP;
+      var y = AN_ZINC_EDGE.y + (anZn2Settle[i].y - AN_ZINC_EDGE.y)*localP;
+      parts.push(anIonMarkup(x, y, Math.max(localP, 0.2)));
+    }
+  }
+
+  if(currentStep < AN_NSTEPS){
+    var pe = Math.min(localP/0.6, 1);
+    if(pe > 0 && pe < 1){
+      var target = anElecTarget[currentStep];
+      var mx = (AN_ZINC_EDGE.x+target.x)/2, my = (AN_ZINC_EDGE.y+target.y)/2;
+      var x = (1-pe)*(1-pe)*AN_ZINC_EDGE.x + 2*(1-pe)*pe*mx + pe*pe*target.x;
+      var y = (1-pe)*(1-pe)*AN_ZINC_EDGE.y + 2*(1-pe)*pe*my + pe*pe*target.y;
+      parts.push(anElectronMarkup(x, y));
+    }
+  }
+
+  document.getElementById('anDynamic').innerHTML = parts.join('');
+
+  var widthNow = 38 - 30*t;
+  document.getElementById('anZincRect').setAttribute('width', Math.max(widthNow, 3));
+
+  var legend = document.getElementById('anLegend');
+  var nConsumed = currentStep + (localP >= 1 ? 1 : 0);
+  if(val <= 2){
+    legend.textContent = '🖱️ Fais glisser le curseur pour voir le zinc se consommer au fil du temps.';
+  } else if(val >= 100){
+    legend.textContent = '⚠️ L\'anode de zinc est entièrement consommée : le fer n\'est plus protégé.';
+  } else {
+    legend.textContent = '⚡ Le zinc cède ses électrons au fer et se dissout en Zn²⁺(aq) — la coque reste protégée.';
+  }
+}
+raAtomicUpdate(0);
+raAnodeUpdate(0);
 raUpdate(0);
 
 /* === Sous-onglets génériques === */
