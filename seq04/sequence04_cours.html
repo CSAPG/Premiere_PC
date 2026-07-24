@@ -76,6 +76,13 @@ button.cap-toggle:hover{background:#1e4466}
 .formula .legend{font-size:.78rem;font-weight:500;color:var(--texte-leger);margin-top:8px;text-align:left}
 .exemple-box{background:var(--vert-clair);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
 .exemple-box strong{color:var(--vert)}
+
+/* Curseur de l'animation redox */
+.redox-slider-wrap{display:flex;align-items:center;gap:12px;max-width:420px;margin:0 auto 4px;}
+.redox-slider-label{font-family:'DM Mono',monospace;font-weight:700;font-size:.8rem;color:var(--texte-leger);white-space:nowrap}
+.redox-slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:4px;background:linear-gradient(90deg,#2D5F8A,#7B4FA6);outline:none;cursor:pointer}
+.redox-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#E8783A;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer}
+.redox-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#E8783A;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;border:none}
 .remarque-box{background:var(--violet-clair);border-left:4px solid var(--violet);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
 .remarque-box strong{color:var(--violet)}
 .attention-box{background:var(--rouge-clair);border-left:4px solid var(--rouge);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
@@ -232,6 +239,7 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
 .escape-guess button:hover, .escape-validate-btn:hover{background:#c8602a}
 .escape-eq{color:#dfe4f0;font-family:'DM Mono',monospace;font-size:.9rem;text-align:center;line-height:2.2;margin-bottom:12px}
 .escape-eq select{padding:4px 6px;border-radius:6px;border:none;font-family:'DM Mono',monospace;font-size:.86rem}
+.esc-eq-slot{display:inline-block;min-width:20px;padding:0 4px;color:#ffd76b;font-weight:700;border-bottom:2px solid rgba(255,215,107,.5)}
 .escape-result{text-align:center;font-size:.9rem;font-weight:700;min-height:24px;margin-bottom:10px}
 .escape-result.win{color:#5be08a}
 .escape-result.lose{color:#ff8a8a}
@@ -248,6 +256,35 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
 .escape-victory.show{display:block}
 .escape-victory h3{color:#5be08a;font-family:'Outfit',sans-serif;font-size:1.1rem;margin-bottom:6px}
 .escape-victory p{color:#cfd6e6;font-size:.86rem}
+
+/* Chambre réactionnelle */
+.esc-chamber-wrap{display:flex;justify-content:center;margin-bottom:16px}
+.esc-chamber{width:170px;height:auto;filter:drop-shadow(0 0 12px rgba(0,0,0,.5))}
+#escStrip{transition:height 1s ease, y 1s ease, opacity 1s ease}
+#escLiquid{transition:fill 1.2s ease, opacity 1.2s ease}
+#escDeposit{transition:opacity .8s ease}
+#escBubbles{transition:opacity .6s ease}
+
+/* Clavier numérique digicode */
+.esc-keypad-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
+.esc-code-display{display:flex;gap:8px}
+.esc-digit{width:34px;height:42px;border-radius:8px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.2);color:#ffd76b;font-family:'DM Mono',monospace;font-weight:700;font-size:1.2rem;display:flex;align-items:center;justify-content:center}
+.esc-digit.filled{border-color:#ffd76b;background:rgba(255,215,107,.12)}
+.esc-keypad{display:grid;grid-template-columns:repeat(3,44px);gap:8px}
+.esc-key{width:44px;height:44px;border-radius:8px;border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#dfe4f0;font-family:'DM Mono',monospace;font-weight:700;font-size:1rem;cursor:pointer;transition:background .15s, transform .1s}
+.esc-key:hover{background:rgba(255,255,255,.14)}
+.esc-key:active{transform:scale(.94)}
+
+/* Porte du coffre */
+.esc-vault{position:relative;width:100%;max-width:220px;height:90px;margin:0 auto 16px;overflow:hidden;border-radius:10px;background:#050508;border:2px solid #22222e}
+.esc-vault-door{position:absolute;top:0;width:50%;height:100%;background:linear-gradient(135deg,#3a4150,#1c2028);transition:transform 1s ease;display:flex;align-items:center;border:1px solid #050508}
+.esc-vault-left{left:0;justify-content:flex-end;border-radius:10px 0 0 10px}
+.esc-vault-right{right:0;justify-content:flex-start;border-radius:0 10px 10px 0}
+.esc-vault-door::after{content:'';width:8px;height:26px;background:#0e0e14;border-radius:3px;margin:0 10px}
+.esc-vault.open .esc-vault-left{transform:translateX(-100%)}
+.esc-vault.open .esc-vault-right{transform:translateX(100%)}
+.esc-vault-treasure{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.8rem;opacity:0;transition:opacity .6s ease .5s}
+.esc-vault.open .esc-vault-treasure{opacity:1}
 
 .footer-note{max-width:1300px;margin:0 auto;padding:0 20px 30px;font-size:.76rem;color:var(--texte-leger);text-align:center}
 
@@ -280,23 +317,32 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
     </div>
     <div class="hicon-wrap">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
-        <g class="hicon-scene hicon-a">
-          <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
-          <circle cx="60" cy="65" r="24" fill="#3A8A6E"/>
-          <text x="60" y="70" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="12" fill="#fff">Red</text>
-          <circle cx="140" cy="65" r="24" fill="#C0392B"/>
-          <text x="140" y="70" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="12" fill="#fff">Ox</text>
-          <circle cx="95" cy="55" r="7" fill="#E8783A">
-            <animateMotion dur="2.4s" repeatCount="indefinite" path="M -35,0 Q 0,-25 45,0"/>
-          </circle>
-        </g>
-        <g class="hicon-scene hicon-b">
-          <rect width="200" height="130" rx="10" fill="#FDF0E8"/>
-          <text x="100" y="30" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="11" fill="#2D5F8A">Ox + n e⁻ = Red</text>
-          <circle cx="100" cy="80" r="8" fill="#E8783A"/>
-          <text x="100" y="84" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="9" fill="#fff">e⁻</text>
-          <text x="100" y="112" text-anchor="middle" font-family="Nunito" font-size="9" fill="#5A6B7A">transfert d'électron(s)</text>
-        </g>
+        <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+        <circle cx="60" cy="65" r="24" fill="#2D5F8A">
+          <animate attributeName="fill" values="#2D5F8A;#2D5F8A;#5B8FB9;#5B8FB9;#2D5F8A" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+        </circle>
+        <text x="60" y="69" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="10" fill="#fff">
+          <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+          Cu
+        </text>
+        <text x="60" y="69" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="9" fill="#fff">
+          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+          Cu²⁺
+        </text>
+        <circle cx="140" cy="65" r="24" fill="#7B4FA6">
+          <animate attributeName="fill" values="#7B4FA6;#7B4FA6;#8a93a8;#8a93a8;#7B4FA6" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+        </circle>
+        <text x="140" y="69" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="10" fill="#fff">
+          <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+          Ag⁺
+        </text>
+        <text x="140" y="69" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="10" fill="#fff">
+          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+          Ag
+        </text>
+        <circle cx="95" cy="52" r="6" fill="#E8783A">
+          <animateMotion dur="2.6s" repeatCount="indefinite" path="M -35,0 Q 0,-18 45,0"/>
+        </circle>
       </svg>
     </div>
   </div>
@@ -371,34 +417,60 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
       </div>
     </div>
 
-    <svg viewBox="0 0 400 185" style="max-width:420px;width:100%;height:auto;display:block;margin:0 auto 16px;">
-      <rect width="400" height="185" rx="12" fill="#F5F7FA" stroke="#DDE3EC"/>
-      <circle cx="90" cy="92" r="38" fill="#3A8A6E"/>
-      <text x="90" y="88" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="14" fill="#fff">Red</text>
-      <text x="90" y="104" text-anchor="middle" font-family="Nunito" font-size="10" fill="#fff">(réducteur)</text>
-      <circle cx="310" cy="92" r="38" fill="#C0392B"/>
-      <text x="310" y="88" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="14" fill="#fff">Ox</text>
-      <text x="310" y="104" text-anchor="middle" font-family="Nunito" font-size="10" fill="#fff">(oxydant)</text>
+    <svg viewBox="0 0 400 150" style="max-width:420px;width:100%;height:auto;display:block;margin:0 auto 10px;" id="redoxAnimSvg">
+      <rect width="400" height="150" rx="12" fill="#F5F7FA" stroke="#DDE3EC"/>
+      <text x="90" y="24" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="11" fill="#2D5F8A">Couple Cu²⁺(aq)/Cu(s)</text>
+      <circle cx="90" cy="80" r="36" fill="#2D5F8A" id="raCuCircle"/>
+      <g id="raCuBefore">
+        <text x="90" y="76" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="13" fill="#fff">Cu(s)</text>
+        <text x="90" y="92" text-anchor="middle" font-family="Nunito" font-size="9" fill="#fff">réducteur</text>
+      </g>
+      <g id="raCuAfter">
+        <text x="90" y="76" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="12" fill="#fff">Cu²⁺(aq)</text>
+        <text x="90" y="92" text-anchor="middle" font-family="Nunito" font-size="9" fill="#fff">a cédé 2 e⁻</text>
+      </g>
 
-      <!-- Flèche du haut : oxydation, Red vers Ox -->
-      <path d="M 130 65 Q 200 25 270 65" fill="none" stroke="#3A8A6E" stroke-width="1.7" marker-end="url(#arrowGreen)"/>
-      <text x="200" y="15" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="10" fill="#3A8A6E">oxydation : Red cède n e⁻</text>
-      <circle cx="200" cy="45" r="7" fill="#3A8A6E">
-        <animateMotion dur="2.4s" repeatCount="indefinite" path="M -70,20 Q 0,-20 70,20"/>
-      </circle>
+      <text x="310" y="24" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="11" fill="#7B4FA6">Couple Ag⁺(aq)/Ag(s)</text>
+      <circle cx="310" cy="80" r="36" fill="#7B4FA6" id="raAgCircle"/>
+      <g id="raAgBefore">
+        <text x="310" y="76" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="13" fill="#fff">Ag⁺(aq)</text>
+        <text x="310" y="92" text-anchor="middle" font-family="Nunito" font-size="9" fill="#fff">oxydant</text>
+      </g>
+      <g id="raAgAfter">
+        <text x="310" y="76" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="13" fill="#fff">Ag(s)</text>
+        <text x="310" y="92" text-anchor="middle" font-family="Nunito" font-size="9" fill="#fff">a capté 2 e⁻</text>
+      </g>
 
-      <!-- Flèche du bas : réduction, Ox vers Red -->
-      <path d="M 270 119 Q 200 159 130 119" fill="none" stroke="#C0392B" stroke-width="1.7" marker-end="url(#arrowRed)"/>
-      <text x="200" y="178" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="10" fill="#C0392B">réduction : Ox capte n e⁻</text>
-      <circle cx="200" cy="139" r="7" fill="#C0392B">
-        <animateMotion dur="2.4s" repeatCount="indefinite" path="M 70,-20 Q 0,20 -70,-20"/>
-      </circle>
-
+      <path d="M 130 73 Q 200 43 270 73" fill="none" stroke="#5A6B7A" stroke-width="1.7" stroke-dasharray="4 3" marker-end="url(#arrowGrey)"/>
+      <text x="200" y="122" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="10" fill="#5A6B7A" id="raPhaseLabel">2 e⁻ échangés : Cu cède, Ag⁺ capte</text>
+      <circle cx="130" cy="73" r="7" fill="#E8783A" id="raElectron"/>
       <defs>
-        <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3A8A6E"/></marker>
-        <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#C0392B"/></marker>
+        <marker id="arrowGrey" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5A6B7A"/></marker>
       </defs>
     </svg>
+
+    <div class="redox-slider-wrap">
+      <span class="redox-slider-label">⚛️ Cu(s)</span>
+      <input type="range" min="0" max="100" value="0" id="raSlider" class="redox-slider" oninput="raUpdate(this.value)">
+      <span class="redox-slider-label">Ag⁺(aq) ⚛️</span>
+    </div>
+    <p style="text-align:center;font-size:.78rem;color:var(--texte-leger);margin-bottom:16px;">🖱️ Fais glisser le curseur pour faire voyager l'électron et observer ce que deviennent Cu et Ag⁺.</p>
+
+
+    <div class="grid-2" style="margin-bottom:8px;">
+      <div class="formula" style="border-color:#B8D4EC;background:#E8F1F8;color:#2D5F8A;">
+        Cu(s) = Cu²⁺(aq) + 2 e⁻
+        <div class="legend" style="text-align:center;">oxydation — le réducteur Cu cède 2 e⁻</div>
+      </div>
+      <div class="formula" style="border-color:#DCC8EE;background:#F3EDF9;color:#7B4FA6;">
+        2 Ag⁺(aq) + 2 e⁻ = 2 Ag(s)
+        <div class="legend" style="text-align:center;">réduction — l'oxydant Ag⁺ capte 2 e⁻</div>
+      </div>
+    </div>
+    <div class="formula">
+      Cu(s) + 2 Ag⁺(aq) → Cu²⁺(aq) + 2 Ag(s)
+      <div class="legend" style="text-align:center;">équation-bilan : les électrons échangés se simplifient, ils n'apparaissent plus.</div>
+    </div>
 
     <div class="remarque-box"><strong>Remarques :</strong> Les électrons n'existent pas à l'état libre en solution aqueuse. Dans une demi-équation, l'oxydant est toujours du côté des électrons (Ox + n e⁻ = Red).</div>
 
@@ -805,11 +877,54 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
     </ol>
   </div>
 
+  <div class="exo-box">
+    <h5><span class="diff-badge d3">🧪 Application</span>La bouteille bleue — retour sur l'activité expérimentale</h5>
+    <div class="exo-enonce">
+      Reprenez l'activité expérimentale étudiée dans l'onglet <strong>Cours</strong> : le bleu de méthylène (couple BM⁺(aq)/BMH(aq)) et le glucose (couple RCO₂H(aq)/RCHO(aq)). Complétez maintenant les équations en appliquant la méthode.
+    </div>
+    <div class="activite-photo-row" style="margin-top:0;">
+      <div class="activite-photo">
+        <img src="data:image/jpeg;base64,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" alt="Fiole bleue et fiole incolore côte à côte">
+        <span>Rappel : fiole bleue (BM⁺) et fiole incolore (BMH)</span>
+      </div>
+    </div>
+    <ol class="methode-list">
+      <li>Demi-équation électronique de réduction de BM⁺(aq) :
+        <div class="exo-eq" style="margin-top:8px;">
+          BM⁺(aq) + <select id="bb-a"><option value="">?</option><option value="1">1</option><option value="2">2</option></select> H⁺(aq) +
+          <select id="bb-b"><option value="">?</option><option value="1">1</option><option value="2">2</option></select> e⁻ = BMH(aq)
+        </div>
+        <button class="exo-btn" onclick="checkSelectSet(['bb-a','bb-b'],['1','2'],'bb1-fb')">Vérifier</button>
+        <div class="exo-fb" id="bb1-fb"></div>
+      </li>
+      <li>Demi-équation électronique d'oxydation du glucose RCHO(aq) :
+        <div class="exo-eq" style="margin-top:8px;">
+          RCHO(aq) + <select id="bb-c"><option value="">?</option><option value="1">1</option><option value="2">2</option></select> H₂O(l) = RCO₂H(aq) +
+          <select id="bb-d"><option value="">?</option><option value="1">1</option><option value="2">2</option></select> H⁺(aq) +
+          <select id="bb-e"><option value="">?</option><option value="1">1</option><option value="2">2</option></select> e⁻
+        </div>
+        <button class="exo-btn" onclick="checkSelectSet(['bb-c','bb-d','bb-e'],['1','2','2'],'bb2-fb')">Vérifier</button>
+        <div class="exo-fb" id="bb2-fb"></div>
+      </li>
+      <li>Équation-bilan de la réaction rapide, lors de l'agitation (couples O₂(aq)/H₂O(l) et BM⁺(aq)/BMH(aq)) :
+        <div class="exo-eq" style="margin-top:8px;">
+          <select id="bb-f"><option value="">?</option><option value="1">1</option><option value="2">2</option></select> BMH(aq) +
+          <select id="bb-g"><option value="">?</option><option value="1">1</option><option value="2">2</option></select> O₂(aq) +
+          <select id="bb-h"><option value="">?</option><option value="1">1</option><option value="2">2</option></select> H⁺(aq) →
+          <select id="bb-i"><option value="">?</option><option value="1">1</option><option value="2">2</option></select> H₂O(l) +
+          <select id="bb-j"><option value="">?</option><option value="1">1</option><option value="2">2</option></select> BM⁺(aq)
+        </div>
+        <button class="exo-btn" onclick="checkSelectSet(['bb-f','bb-g','bb-h','bb-i','bb-j'],['2','1','2','2','2'],'bb3-fb')">Vérifier</button>
+        <div class="exo-fb" id="bb3-fb"></div>
+      </li>
+    </ol>
+  </div>
+
   <div class="section-title"><span class="icon">🕵️</span>Escape Game — Le Coffre du Chimiste</div>
 
   <div class="escape-wrap">
-    <div class="escape-story">
-      🔒 Le professeur a enfermé la clé du laboratoire dans un coffre à triple protection. Pour t'échapper, résous les <strong>3 épreuves</strong> dans l'ordre, à partir de l'observation suivante : <em>« Un ruban d'aluminium plongé dans une solution de sulfate de cuivre (II) se recouvre d'un dépôt rougeâtre, tandis que la coloration bleue de la solution s'atténue progressivement. »</em>
+    <div class="escape-story" id="escStory">
+      🔒 Le professeur a enfermé la clé du laboratoire dans un coffre à triple protection. Observe la chambre réactionnelle ci-dessous, puis résous les <strong>3 épreuves</strong> dans l'ordre pour t'échapper.
     </div>
 
     <div class="escape-steps-nav">
@@ -818,41 +933,62 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
       <div class="escape-step-badge" id="ebadge3">3 · 🔑 Couple mystère</div>
     </div>
 
+    <!-- Chambre réactionnelle animée -->
+    <div class="esc-chamber-wrap">
+      <svg viewBox="0 0 200 180" class="esc-chamber">
+        <rect x="0" y="0" width="200" height="180" rx="10" fill="#0e0e18"/>
+        <!-- Bécher -->
+        <path d="M 65 30 L 65 100 Q 65 140 100 140 Q 135 140 135 100 L 135 30" fill="none" stroke="#4a5568" stroke-width="3"/>
+        <!-- Liquide -->
+        <clipPath id="beakerClip"><path d="M 67 60 L 67 100 Q 67 138 100 138 Q 133 138 133 100 L 133 60 Z"/></clipPath>
+        <rect id="escLiquid" x="67" y="60" width="66" height="78" fill="#3A6FD8" opacity="0.75" clip-path="url(#beakerClip)"/>
+        <!-- bulles -->
+        <g id="escBubbles" opacity="0">
+          <circle cx="85" cy="120" r="3" fill="#fff" opacity=".5"><animate attributeName="cy" values="130;65" dur="2s" repeatCount="indefinite"/></circle>
+          <circle cx="105" cy="125" r="2.5" fill="#fff" opacity=".4"><animate attributeName="cy" values="132;70" dur="2.4s" repeatCount="indefinite"/></circle>
+          <circle cx="118" cy="118" r="2" fill="#fff" opacity=".45"><animate attributeName="cy" values="128;62" dur="1.8s" repeatCount="indefinite"/></circle>
+        </g>
+        <!-- Ruban / lame métallique -->
+        <rect id="escStrip" x="96" y="45" width="8" height="75" fill="#a8adb5" rx="2"/>
+        <!-- Dépôt (particules) -->
+        <g id="escDeposit" opacity="0">
+          <circle cx="90" cy="105" r="3" fill="#b5651d"/>
+          <circle cx="99" cy="112" r="2.5" fill="#b5651d"/>
+          <circle cx="107" cy="103" r="2.8" fill="#b5651d"/>
+          <circle cx="93" cy="95" r="2" fill="#b5651d"/>
+          <circle cx="110" cy="93" r="2.3" fill="#b5651d"/>
+        </g>
+        <text x="100" y="20" text-anchor="middle" font-family="Outfit" font-weight="700" font-size="9" fill="#8a93a8" id="escChamberLabel">Chambre réactionnelle</text>
+      </svg>
+    </div>
+
     <!-- ÉTAPE 1 -->
     <div class="escape-stage on" id="estage1">
-      <div class="escape-ctrl">
-        <button class="escape-btn a" onclick="escClue(1)">🔎 Observer le ruban</button>
-        <button class="escape-btn b" onclick="escClue(2)">🔎 Observer le dépôt</button>
-        <button class="escape-btn c" onclick="escClue(3)">🔎 Observer la solution</button>
-      </div>
+      <div class="escape-ctrl" id="escClueBtns"></div>
       <div class="escape-log" id="escLog">Il fait sombre dans le laboratoire. Choisis une observation pour commencer l'enquête…</div>
       <div class="escape-guess">
         <label style="color:#cfd6e6;font-weight:700;font-size:.84rem;">🔎 Quel est l'oxydant de cette transformation ?</label>
-        <select id="escGuess">
-          <option value="?">— choisir —</option>
-          <option value="al">Al(s)</option>
-          <option value="al3">Al³⁺(aq)</option>
-          <option value="cu">Cu(s)</option>
-          <option value="cu2">Cu²⁺(aq)</option>
-        </select>
+        <select id="escGuess"></select>
         <button onclick="escVerify1()">💡 Vérifier ma déduction</button>
       </div>
       <div class="escape-result" id="escResult1"></div>
     </div>
 
-    <!-- ÉTAPE 2 -->
+    <!-- ÉTAPE 2 : digicode à clavier numérique -->
     <div class="escape-stage" id="estage2">
       <div class="escape-locked" id="estage2locked">🔒 Résous d'abord l'étape 1 pour débloquer le digicode.</div>
       <div id="estage2content" style="display:none;">
-        <p style="color:#cfd6e6;font-size:.85rem;text-align:center;margin-bottom:10px;">Le digicode s'ouvre en complétant les coefficients de l'équation-bilan de la transformation observée.</p>
-        <div class="escape-eq">
-          <select id="ecode-a"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select> Al(s) +
-          <select id="ecode-b"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select> Cu²⁺(aq) →
-          <select id="ecode-c"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select> Al³⁺(aq) +
-          <select id="ecode-d"><option value="">?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select> Cu(s)
-        </div>
-        <div style="text-align:center;">
-          <button class="escape-validate-btn" onclick="escVerify2()">🔓 Entrer le digicode</button>
+        <p style="color:#cfd6e6;font-size:.85rem;text-align:center;margin-bottom:10px;">Le digicode à 4 chiffres correspond aux coefficients de l'équation-bilan, dans l'ordre où les espèces apparaissent.</p>
+        <div class="escape-eq" id="escEqSkeleton"></div>
+        <div class="esc-keypad-wrap">
+          <div class="esc-code-display" id="escCodeDisplay">
+            <span class="esc-digit" id="escDigit0">_</span><span class="esc-digit" id="escDigit1">_</span><span class="esc-digit" id="escDigit2">_</span><span class="esc-digit" id="escDigit3">_</span>
+          </div>
+          <div class="esc-keypad" id="escKeypad"></div>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;">
+            <button class="escape-validate-btn" style="background:#3d4b58;" onclick="escCodeClear()">⌫ Effacer</button>
+            <button class="escape-validate-btn" onclick="escVerify2()">🔓 Valider le digicode</button>
+          </div>
         </div>
         <div class="escape-result" id="escResult2"></div>
       </div>
@@ -862,22 +998,22 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
     <div class="escape-stage" id="estage3">
       <div class="escape-locked" id="estage3locked">🔒 Résous d'abord l'étape 2 pour débloquer la serrure finale.</div>
       <div id="estage3content" style="display:none;">
-        <p style="color:#cfd6e6;font-size:.85rem;text-align:center;margin-bottom:10px;">La serrure finale s'ouvre avec le couple oxydant/réducteur du métal qui a été <strong>oxydé</strong> dans cette transformation. Clique sur le bon couple.</p>
-        <div class="escape-comp-grid" id="escCoupleGrid">
-          <button class="escape-comp-btn" onclick="escVerify3('al', this)">Al³⁺(aq)/Al(s)</button>
-          <button class="escape-comp-btn" onclick="escVerify3('cu', this)">Cu²⁺(aq)/Cu(s)</button>
-          <button class="escape-comp-btn" onclick="escVerify3('fe', this)">Fe³⁺(aq)/Fe²⁺(aq)</button>
-          <button class="escape-comp-btn" onclick="escVerify3('mn', this)">MnO₄⁻(aq)/Mn²⁺(aq)</button>
+        <p style="color:#cfd6e6;font-size:.85rem;text-align:center;margin-bottom:10px;">La serrure finale s'ouvre avec le couple oxydant/réducteur du métal qui a été <strong>oxydé</strong> dans cette transformation.</p>
+        <div class="esc-vault">
+          <div class="esc-vault-door esc-vault-left" id="escVaultLeft"></div>
+          <div class="esc-vault-door esc-vault-right" id="escVaultRight"></div>
+          <div class="esc-vault-treasure" id="escTreasure">🔑</div>
         </div>
+        <div class="escape-comp-grid" id="escCoupleGrid"></div>
         <div class="escape-result" id="escResult3"></div>
         <div class="escape-victory" id="escVictory">
           <h3>🎉 Évasion réussie !</h3>
-          <p>Tu as résolu les 3 épreuves : Cu²⁺(aq) était l'oxydant, l'équation-bilan est 2 Al(s) + 3 Cu²⁺(aq) → 2 Al³⁺(aq) + 3 Cu(s), et le couple Al³⁺(aq)/Al(s) est celui du métal oxydé. Clique sur « Recommencer » pour rejouer.</p>
+          <p id="escVictoryText"></p>
         </div>
       </div>
     </div>
 
-    <button class="escape-reset" onclick="escReset()">🔄 Recommencer l'énigme</button>
+    <button class="escape-reset" onclick="escNewMystery()">🎲 Nouveau mystère (recommencer)</button>
     <div class="escape-score" id="escScore">Épreuves réussies : 0 / 3</div>
   </div>
 
@@ -972,6 +1108,42 @@ function showTab(id){
   document.querySelectorAll('.main > .panel').forEach(function(p){ p.classList.remove('on'); });
   document.getElementById('tab-'+id).classList.add('on');
 }
+
+/* === Animation redox pilotée par curseur (Cu/Ag) === */
+function raLerpColor(hexA, hexB, t){
+  var a = [parseInt(hexA.slice(1,3),16), parseInt(hexA.slice(3,5),16), parseInt(hexA.slice(5,7),16)];
+  var b = [parseInt(hexB.slice(1,3),16), parseInt(hexB.slice(3,5),16), parseInt(hexB.slice(5,7),16)];
+  var c = a.map(function(v,i){ return Math.round(v + (b[i]-v)*t); });
+  return 'rgb(' + c.join(',') + ')';
+}
+
+function raUpdate(val){
+  var t = val / 100;
+  // Position de l'électron sur la courbe de Bézier quadratique P0=(130,73) P1=(200,43) P2=(270,73)
+  var p0x=130, p0y=73, p1x=200, p1y=43, p2x=270, p2y=73;
+  var x = (1-t)*(1-t)*p0x + 2*(1-t)*t*p1x + t*t*p2x;
+  var y = (1-t)*(1-t)*p0y + 2*(1-t)*t*p1y + t*t*p2y;
+  document.getElementById('raElectron').setAttribute('cx', x);
+  document.getElementById('raElectron').setAttribute('cy', y);
+
+  // Transition douce entre 40% et 60% du parcours
+  var before = t <= 0.4 ? 1 : (t >= 0.6 ? 0 : (0.6 - t) / 0.2);
+  var after = 1 - before;
+
+  document.getElementById('raCuBefore').style.opacity = before;
+  document.getElementById('raCuAfter').style.opacity = after;
+  document.getElementById('raAgBefore').style.opacity = before;
+  document.getElementById('raAgAfter').style.opacity = after;
+
+  document.getElementById('raCuCircle').setAttribute('fill', raLerpColor('#2D5F8A','#5B8FB9', after));
+  document.getElementById('raAgCircle').setAttribute('fill', raLerpColor('#7B4FA6','#8a93a8', after));
+
+  var phase = document.getElementById('raPhaseLabel');
+  if(t <= 0.15) phase.textContent = 'Avant l\'échange : Cu(s) et Ag⁺(aq) sont encore inchangés';
+  else if(t < 0.85) phase.textContent = '2 e⁻ en transit : Cu cède, Ag⁺ capte';
+  else phase.textContent = 'Après l\'échange : Cu²⁺(aq) et Ag(s) sont formés';
+}
+raUpdate(0);
 
 /* === Sous-onglets génériques === */
 function switchSubTab(group, idx){
@@ -1311,17 +1483,129 @@ function checkSelectSet(ids, answers, fbId){
 }
 
 /* === Escape Game — Le Coffre du Chimiste === */
-var escState = { s1:false, s2:false, s3:false };
+var ESC_SCENARIOS = [
+  {
+    id: 'al_cu',
+    story: "🔒 Le professeur a enfermé la clé du laboratoire dans un coffre à triple protection. Observation : <em>« Un ruban d'aluminium plongé dans une solution de sulfate de cuivre (II) se recouvre d'un dépôt rougeâtre, tandis que la coloration bleue de la solution s'atténue progressivement. »</em>",
+    clues: [
+      { btn:'🔎 Observer le ruban', log:'<b>Ruban :</b> le ruban d\'aluminium métallique Al(s) diminue peu à peu : il est consommé au cours de la réaction.' },
+      { btn:'🔎 Observer le dépôt', log:'<b>Dépôt :</b> un dépôt métallique rougeâtre se forme peu à peu : il s\'agit de cuivre Cu(s).' },
+      { btn:'🔎 Observer la solution', log:'<b>Solution :</b> la coloration bleue, due aux ions Cu²⁺(aq), s\'atténue progressivement.' }
+    ],
+    guessOptions: [ {v:'al',l:'Al(s)'}, {v:'al3',l:'Al³⁺(aq)'}, {v:'cu',l:'Cu(s)'}, {v:'cu2',l:'Cu²⁺(aq)'} ],
+    oxidantCorrect: 'cu2',
+    oxidantExpl: '✓ Exact ! Cu²⁺(aq) capte des électrons pour former Cu(s) : c\'est l\'oxydant.',
+    codeEq: ['Al(s)','Cu²⁺(aq)','Al³⁺(aq)','Cu(s)'],
+    code: ['2','3','2','3'],
+    codeConfirm: '2 Al(s) + 3 Cu²⁺(aq) → 2 Al³⁺(aq) + 3 Cu(s)',
+    coupleOptions: [ {v:'al',l:'Al³⁺(aq)/Al(s)'}, {v:'cu',l:'Cu²⁺(aq)/Cu(s)'}, {v:'fe',l:'Fe³⁺(aq)/Fe²⁺(aq)'}, {v:'zn',l:'Zn²⁺(aq)/Zn(s)'} ],
+    coupleCorrect: 'al',
+    victoryText: 'Cu²⁺(aq) était l\'oxydant, l\'équation-bilan est 2 Al(s) + 3 Cu²⁺(aq) → 2 Al³⁺(aq) + 3 Cu(s), et le couple Al³⁺(aq)/Al(s) est celui du métal oxydé.',
+    liquidStart: '#3A6FD8', liquidEnd: '#cfe0f5', depositColor: '#b5651d', stripColor: '#b0b0b0'
+  },
+  {
+    id: 'zn_ag',
+    story: "🔒 Le professeur a enfermé la clé du laboratoire dans un coffre à triple protection. Observation : <em>« Une lame de zinc plongée dans une solution de nitrate d'argent se recouvre de fins cristaux métalliques, tandis que la solution reste limpide. »</em>",
+    clues: [
+      { btn:'🔎 Observer la lame', log:'<b>Lame :</b> la lame de zinc métallique Zn(s) s\'amincit peu à peu : elle est consommée au cours de la réaction.' },
+      { btn:'🔎 Observer les cristaux', log:'<b>Cristaux :</b> de fins cristaux métalliques argentés se déposent : il s\'agit d\'argent Ag(s).' },
+      { btn:'🔎 Observer la solution', log:'<b>Solution :</b> la solution reste incolore : les ions Ag⁺(aq) disparaissent, remplacés par des ions Zn²⁺(aq), eux aussi incolores.' }
+    ],
+    guessOptions: [ {v:'zn',l:'Zn(s)'}, {v:'zn2',l:'Zn²⁺(aq)'}, {v:'ag',l:'Ag(s)'}, {v:'ag1',l:'Ag⁺(aq)'} ],
+    oxidantCorrect: 'ag1',
+    oxidantExpl: '✓ Exact ! Ag⁺(aq) capte un électron pour former Ag(s) : c\'est l\'oxydant.',
+    codeEq: ['Zn(s)','Ag⁺(aq)','Zn²⁺(aq)','Ag(s)'],
+    code: ['1','2','1','2'],
+    codeConfirm: 'Zn(s) + 2 Ag⁺(aq) → Zn²⁺(aq) + 2 Ag(s)',
+    coupleOptions: [ {v:'zn',l:'Zn²⁺(aq)/Zn(s)'}, {v:'ag',l:'Ag⁺(aq)/Ag(s)'}, {v:'cu',l:'Cu²⁺(aq)/Cu(s)'}, {v:'fe',l:'Fe³⁺(aq)/Fe²⁺(aq)'} ],
+    coupleCorrect: 'zn',
+    victoryText: 'Ag⁺(aq) était l\'oxydant, l\'équation-bilan est Zn(s) + 2 Ag⁺(aq) → Zn²⁺(aq) + 2 Ag(s), et le couple Zn²⁺(aq)/Zn(s) est celui du métal oxydé.',
+    liquidStart: '#e9edf3', liquidEnd: '#eef2f6', depositColor: '#e8e8e8', stripColor: '#8a8f98'
+  }
+];
 
-function escLogAppend(msg){
-  var log = document.getElementById('escLog');
-  log.innerHTML += '<br>' + msg;
+var escState = { s1:false, s2:false, s3:false };
+var escCurrent = null;
+var escCode = [];
+
+function escBuildScenario(prevId){
+  var pool = ESC_SCENARIOS.filter(function(s){ return s.id !== prevId; });
+  var sc = pool.length ? pool[Math.floor(Math.random()*pool.length)] : ESC_SCENARIOS[0];
+  escCurrent = sc;
+  escCode = [];
+
+  document.getElementById('escStory').innerHTML = sc.story;
+
+  document.getElementById('escClueBtns').innerHTML = sc.clues.map(function(c,i){
+    var cls = ['a','b','c'][i % 3];
+    return '<button class="escape-btn '+cls+'" onclick="escClue('+i+')">'+c.btn+'</button>';
+  }).join('');
+  document.getElementById('escLog').innerHTML = 'Il fait sombre dans le laboratoire. Choisis une observation pour commencer l\'enquête…';
+
+  document.getElementById('escGuess').innerHTML = '<option value="?">— choisir —</option>' +
+    sc.guessOptions.map(function(o){ return '<option value="'+o.v+'">'+o.l+'</option>'; }).join('');
+
+  document.getElementById('escEqSkeleton').innerHTML =
+    '<span class="esc-eq-slot" id="eqSlot0">?</span> ' + sc.codeEq[0] + ' + ' +
+    '<span class="esc-eq-slot" id="eqSlot1">?</span> ' + sc.codeEq[1] + ' → ' +
+    '<span class="esc-eq-slot" id="eqSlot2">?</span> ' + sc.codeEq[2] + ' + ' +
+    '<span class="esc-eq-slot" id="eqSlot3">?</span> ' + sc.codeEq[3];
+
+  var keys = '';
+  [1,2,3,4,5,6,7,8,9,'⌫',0,'✓'].forEach(function(k){
+    if(k === '⌫'){ keys += '<button class="esc-key" onclick="escCodeBackspace()">⌫</button>'; }
+    else if(k === '✓'){ keys += '<button class="esc-key" onclick="escVerify2()">✓</button>'; }
+    else { keys += '<button class="esc-key" onclick="escCodePress(\''+k+'\')">'+k+'</button>'; }
+  });
+  document.getElementById('escKeypad').innerHTML = keys;
+  escUpdateCodeDisplay();
+
+  document.getElementById('escCoupleGrid').innerHTML = sc.coupleOptions.map(function(o){
+    return '<button class="escape-comp-btn" onclick="escVerify3(\''+o.v+'\', this)">'+o.l+'</button>';
+  }).join('');
+
+  // Réinitialiser la chambre réactionnelle
+  var liquid = document.getElementById('escLiquid');
+  liquid.setAttribute('fill', sc.liquidStart);
+  liquid.setAttribute('opacity', '0.75');
+  document.getElementById('escStrip').setAttribute('height','75');
+  document.getElementById('escStrip').setAttribute('y','45');
+  document.getElementById('escStrip').setAttribute('fill', sc.stripColor);
+  document.getElementById('escDeposit').setAttribute('opacity','0');
+  document.querySelectorAll('#escDeposit circle').forEach(function(c){ c.setAttribute('fill', sc.depositColor); });
+
+  escState = { s1:false, s2:false, s3:false };
+  ['escResult1','escResult2','escResult3'].forEach(function(id){
+    document.getElementById(id).textContent = ''; document.getElementById(id).className = 'escape-result';
+  });
+  document.getElementById('escGuess').value = '?';
+  document.getElementById('estage2locked').style.display = 'block';
+  document.getElementById('estage2content').style.display = 'none';
+  document.getElementById('estage3locked').style.display = 'block';
+  document.getElementById('estage3content').style.display = 'none';
+  document.getElementById('escVictory').classList.remove('show');
+  var vault = document.querySelector('.esc-vault');
+  if(vault) vault.classList.remove('open');
+  document.querySelectorAll('#escCoupleGrid .escape-comp-btn').forEach(function(b){ b.classList.remove('ok','ko'); });
+  escSetBadges();
 }
 
-function escClue(n){
-  if(n === 1) escLogAppend('<b>Ruban :</b> le ruban d\'aluminium métallique Al(s) disparaît peu à peu : il est consommé au cours de la réaction.');
-  if(n === 2) escLogAppend('<b>Dépôt :</b> un dépôt métallique rougeâtre se forme peu à peu : il s\'agit de cuivre Cu(s).');
-  if(n === 3) escLogAppend('<b>Solution :</b> la coloration bleue, due aux ions Cu²⁺(aq), s\'atténue progressivement : ces ions disparaissent.');
+function escLogAppend(msg){
+  document.getElementById('escLog').innerHTML += '<br>' + msg;
+}
+
+function escClue(i){
+  var sc = escCurrent;
+  escLogAppend(sc.clues[i].log);
+  if(i === 0){
+    document.getElementById('escStrip').setAttribute('height','40');
+    document.getElementById('escStrip').setAttribute('y','80');
+  } else if(i === 1){
+    document.getElementById('escDeposit').setAttribute('opacity','1');
+  } else if(i === 2){
+    document.getElementById('escLiquid').setAttribute('fill', sc.liquidEnd);
+    document.getElementById('escLiquid').setAttribute('opacity', '0.4');
+  }
 }
 
 function escSetBadges(){
@@ -1334,10 +1618,11 @@ function escSetBadges(){
 function escVerify1(){
   var v = document.getElementById('escGuess').value;
   var res = document.getElementById('escResult1');
+  var sc = escCurrent;
   if(v === '?'){ res.className='escape-result'; res.textContent='Choisis une réponse avant de vérifier.'; return; }
-  if(v === 'cu2'){
+  if(v === sc.oxidantCorrect){
     res.className = 'escape-result win';
-    res.textContent = '✓ Exact ! Cu²⁺(aq) capte des électrons pour former Cu(s) : c\'est l\'oxydant.';
+    res.textContent = sc.oxidantExpl;
     escState.s1 = true;
     document.getElementById('estage2locked').style.display = 'none';
     document.getElementById('estage2content').style.display = 'block';
@@ -1348,18 +1633,46 @@ function escVerify1(){
   escSetBadges();
 }
 
-function escVerify2(){
-  var ids = ['ecode-a','ecode-b','ecode-c','ecode-d'];
-  var answers = ['2','3','2','3'];
-  var vals = ids.map(function(id){ return document.getElementById(id).value; });
-  var res = document.getElementById('escResult2');
-  if(vals.some(function(v){ return v === ''; })){
-    res.className = 'escape-result'; res.textContent = 'Complète tous les coefficients avant d\'entrer le digicode.'; return;
+function escUpdateCodeDisplay(){
+  for(var k=0;k<4;k++){
+    var d = document.getElementById('escDigit'+k);
+    var slot = document.getElementById('eqSlot'+k);
+    if(escCode[k] !== undefined){
+      d.textContent = escCode[k]; d.classList.add('filled');
+      if(slot) slot.textContent = escCode[k];
+    } else {
+      d.textContent = '_'; d.classList.remove('filled');
+      if(slot) slot.textContent = '?';
+    }
   }
-  var ok = vals.every(function(v,i){ return v === answers[i]; });
+}
+
+function escCodePress(digit){
+  if(escCode.length >= 4) return;
+  escCode.push(String(digit));
+  escUpdateCodeDisplay();
+}
+
+function escCodeBackspace(){
+  escCode.pop();
+  escUpdateCodeDisplay();
+}
+
+function escCodeClear(){
+  escCode = [];
+  escUpdateCodeDisplay();
+}
+
+function escVerify2(){
+  var res = document.getElementById('escResult2');
+  var sc = escCurrent;
+  if(escCode.length < 4){
+    res.className = 'escape-result'; res.textContent = 'Complète les 4 chiffres du digicode avant de valider.'; return;
+  }
+  var ok = escCode.every(function(v,i){ return v === sc.code[i]; });
   if(ok){
     res.className = 'escape-result win';
-    res.textContent = '✓ Digicode accepté : 2 Al(s) + 3 Cu²⁺(aq) → 2 Al³⁺(aq) + 3 Cu(s).';
+    res.textContent = '✓ Digicode accepté : ' + sc.codeConfirm;
     escState.s2 = true;
     document.getElementById('estage3locked').style.display = 'none';
     document.getElementById('estage3content').style.display = 'block';
@@ -1372,12 +1685,15 @@ function escVerify2(){
 
 function escVerify3(id, btn){
   var res = document.getElementById('escResult3');
+  var sc = escCurrent;
   document.querySelectorAll('#escCoupleGrid .escape-comp-btn').forEach(function(b){ b.classList.remove('ok','ko'); });
-  if(id === 'al'){
+  if(id === sc.coupleCorrect){
     btn.classList.add('ok');
     res.className = 'escape-result win';
     res.textContent = '✓ Le coffre s\'ouvre !';
     escState.s3 = true;
+    document.querySelector('.esc-vault').classList.add('open');
+    document.getElementById('escVictoryText').textContent = sc.victoryText;
     document.getElementById('escVictory').classList.add('show');
   } else {
     btn.classList.add('ko');
@@ -1387,27 +1703,12 @@ function escVerify3(id, btn){
   escSetBadges();
 }
 
-function escReset(){
-  escState = { s1:false, s2:false, s3:false };
-  document.getElementById('escLog').innerHTML = 'Il fait sombre dans le laboratoire. Choisis une observation pour commencer l\'enquête…';
-  document.getElementById('escGuess').value = '?';
-  document.getElementById('escResult1').textContent = '';
-  document.getElementById('escResult1').className = 'escape-result';
-  ['ecode-a','ecode-b','ecode-c','ecode-d'].forEach(function(id){ document.getElementById(id).value = ''; });
-  document.getElementById('estage2locked').style.display = 'block';
-  document.getElementById('estage2content').style.display = 'none';
-  document.getElementById('estage3locked').style.display = 'block';
-  document.getElementById('estage3content').style.display = 'none';
-  document.getElementById('escResult2').textContent = '';
-  document.getElementById('escResult2').className = 'escape-result';
-  document.getElementById('escResult3').textContent = '';
-  document.getElementById('escResult3').className = 'escape-result';
-  document.querySelectorAll('#escCoupleGrid .escape-comp-btn').forEach(function(b){ b.classList.remove('ok','ko'); });
-  document.getElementById('escVictory').classList.remove('show');
-  escSetBadges();
+function escNewMystery(){
+  escBuildScenario(escCurrent ? escCurrent.id : null);
 }
-escSetBadges();
+escBuildScenario(null);
 </script>
+
 
 </body>
 </html>
