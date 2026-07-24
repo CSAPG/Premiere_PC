@@ -157,11 +157,44 @@ function iconSeq03(suffix) {
     </svg>`;
 }
 
+function iconSeq04(suffix) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+      <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+      <circle cx="60" cy="65" r="24" fill="#2D5F8A">
+        <animate attributeName="fill" values="#2D5F8A;#2D5F8A;#5B8FB9;#5B8FB9;#2D5F8A" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+      </circle>
+      <text x="60" y="69" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="10" fill="#fff">
+        <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+        Cu
+      </text>
+      <text x="60" y="69" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="9" fill="#fff">
+        <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+        Cu²⁺
+      </text>
+      <circle cx="140" cy="65" r="24" fill="#7B4FA6">
+        <animate attributeName="fill" values="#7B4FA6;#7B4FA6;#8a93a8;#8a93a8;#7B4FA6" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+      </circle>
+      <text x="140" y="69" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="10" fill="#fff">
+        <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+        Ag⁺
+      </text>
+      <text x="140" y="69" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="10" fill="#fff">
+        <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.4;0.6;0.95;1" dur="2.6s" repeatCount="indefinite"/>
+        Ag
+      </text>
+      <circle cx="95" cy="52" r="6" fill="#E8783A">
+        <animateMotion dur="2.6s" repeatCount="indefinite" path="M -35,0 Q 0,-18 45,0"/>
+      </circle>
+    </svg>`;
+}
+
 const PRE_ICONS = {
   'seq00': iconSeq00,
   'seq01': iconLumiereCouleurs,
   'seq02': iconModelesOndulatoireParticulaire,
-  'seq03': iconSeq03
+  'seq03': iconSeq03,
+  'seq04': iconSeq04
 };
 
 function getIconPre(name, suffix) {
