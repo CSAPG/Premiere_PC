@@ -10,7 +10,7 @@ const PRE_TITRES = {
   '04': "Réactions d'oxydo-réduction",
   '05': "Description d'un fluide au repos",
   '06': "Evolution d'un système chimique",
-  '07': "Interactions fondamentales et introductio à la notion de champs",
+  '07': "Interactions fondamentales et introduction à la notion de champs",
   '08': "Mouvement d'un système",
   '09': "De la structure des entités à la cohésion et à la solubilité-miscibilité d'espèces chimiques",
   '10': "De la structure à la polarité d'une entité",
