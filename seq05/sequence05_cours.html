@@ -302,7 +302,7 @@ table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:mi
 }
 
 /* === Ajouts Séquence 05 — Fluide au repos === */
-.video-wrap{max-width:520px;margin:0 auto 14px;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.15);background:#000}
+.video-wrap{max-width:520px;margin:0 auto 14px;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.15);background:var(--gris-fond)}
 .video-wrap video{display:block;width:100%;height:auto}
 table.macromicro{width:100%;border-collapse:collapse;font-size:.86rem;margin:14px 0}
 table.macromicro th{background:var(--bleu-clair);color:var(--bleu);font-weight:700;padding:9px 10px;text-align:left;border:1px solid var(--gris-bord)}
@@ -326,6 +326,45 @@ table.macromicro td.macro-cell{font-weight:600}
 .blank-in.correct{border-color:var(--vert);background:var(--vert-clair)}
 .blank-in.incorrect{border-color:var(--rouge);background:var(--rouge-clair)}
 .consist-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 14px;max-width:380px;margin:8px 0}
+.app-box{background:#fff;border:1.5px solid var(--bleu-clair);border-left:4px solid var(--bleu);border-radius:10px;padding:14px 16px;margin:16px 0}
+.app-box h5{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:.86rem;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.fcr-line{display:block;margin-top:3px}
+.fcr-line:first-child{margin-top:0}
+.dnd-game{display:flex;gap:24px;flex-wrap:wrap;margin:14px 0}
+.dnd-pool{display:flex;flex-direction:column;gap:10px;min-width:220px}
+.dnd-chip{background:#fff;border:2px solid var(--bleu);border-radius:8px;padding:10px 14px;font-family:'DM Mono',monospace;font-weight:600;font-size:.88rem;color:var(--bleu);cursor:grab;text-align:center;transition:all .15s;user-select:none}
+.dnd-chip.selected{background:var(--bleu-clair);box-shadow:0 0 0 3px var(--bleu-moyen)}
+.dnd-chip.dragging{opacity:.4}
+.dnd-chip.placed-correct{cursor:default;background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.dnd-targets{display:flex;flex-direction:column;gap:10px;flex:1;min-width:220px}
+.dnd-target{border:2px dashed var(--gris-bord);border-radius:8px;padding:10px 14px;font-size:.84rem;font-weight:700;color:var(--texte-leger);min-height:44px;display:flex;align-items:center;justify-content:center;text-align:center;transition:all .15s}
+.dnd-target.shake{animation:dndShake .4s;border-color:var(--rouge);background:var(--rouge-clair)}
+.dnd-target.filled{border-style:solid;border-color:var(--vert);background:var(--vert-clair);display:block}
+@keyframes dndShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* === Escape Game — thème sous-marin === */
+.eg-briefing{background:linear-gradient(135deg,#E8F1F8,#DCEAF5);border:2px solid var(--bleu-moyen);border-radius:14px;padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden}
+.eg-briefing h4{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:1.05rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.eg-briefing p{font-size:.88rem;line-height:1.65;color:var(--texte)}
+.eg-progress{display:flex;gap:6px;margin:16px 0}
+.eg-progress-step{flex:1;height:8px;border-radius:5px;background:var(--gris-bord);transition:background .3s}
+.eg-progress-step.done{background:var(--vert)}
+.eg-puzzle{position:relative;background:#fff;border:2px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px;transition:border-color .3s}
+.eg-puzzle.solved{border-color:var(--vert)}
+.eg-puzzle h5{font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;color:var(--bleu);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.eg-digit{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--bleu);color:#fff;font-family:'DM Mono',monospace;font-weight:700;font-size:.78rem}
+.eg-lock-overlay{position:absolute;inset:0;background:rgba(245,247,250,.93);backdrop-filter:blur(1px);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--texte-leger);font-weight:700;font-size:.85rem;text-align:center;padding:20px}
+.eg-code-found{display:inline-block;margin-top:10px;padding:6px 14px;background:var(--vert-clair);border:1.5px solid var(--vert);border-radius:7px;color:var(--vert);font-family:'DM Mono',monospace;font-weight:700;font-size:.85rem}
+.eg-final{background:var(--gris-fond);border:2px dashed var(--bleu-moyen);border-radius:12px;padding:18px 20px;text-align:center}
+.eg-final input{padding:10px 14px;border:2px solid var(--gris-bord);border-radius:8px;font-family:'DM Mono',monospace;font-size:1.1rem;letter-spacing:.3em;text-align:center;width:140px;margin:10px 0}
+.eg-success{display:none;background:var(--vert-clair);border:2px solid var(--vert);border-radius:12px;padding:22px;text-align:center;margin-top:14px}
+.eg-success.show{display:block;animation:fadeIn .4s}
+.eg-success h4{color:var(--vert);font-family:'Outfit',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:8px}
+
+.exo-btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.exo-btn-secondary{background:#fff;color:var(--bleu);border:1.5px solid var(--bleu-moyen);padding:7px 14px;border-radius:7px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s}
+.exo-btn-secondary:hover{background:var(--bleu-clair)}
+.exo-fb.correction{display:block;background:var(--bleu-clair);border:1.5px solid var(--bleu-moyen);color:var(--texte);border-radius:8px;padding:10px 14px;margin-top:8px;font-size:.85rem;line-height:1.6}
 </style>
 <body>
 
@@ -498,6 +537,18 @@ table.macromicro td.macro-cell{font-weight:600}
       <div class="remarque-box"><strong>À retenir :</strong> la pression d'un fluide n'est pas due au poids des entités qui le constituent, mais aux chocs incessants de ces entités (atomes, ions ou molécules) contre les parois qui le contiennent.</div>
     </div>
 
+    <div class="app-box">
+      <h5>🔹 Application directe</h5>
+      <div class="exo-enonce" style="margin-bottom:8px;">On refroidit un gaz : l'agitation de ses entités diminue. Quelle grandeur macroscopique diminue également ?</div>
+      <div class="qcm-opts" id="app1qcm" data-answer="1" data-fb="app1fb" data-explain="L'agitation des entités est le comportement microscopique associé à la température : si l'agitation diminue, la température diminue.">
+        <button class="qcm-opt" onclick="selectQCM(this,0)">La masse volumique</button>
+        <button class="qcm-opt" onclick="selectQCM(this,1)">La température</button>
+        <button class="qcm-opt" onclick="selectQCM(this,2)">Le volume</button>
+      </div>
+      <button class="exo-btn-secondary" onclick="resetQCM(document.getElementById('app1qcm'),'app1fb')">↺ Recommencer</button>
+      <div class="exo-fb" id="app1fb" style="display:none;"></div>
+    </div>
+
     <div class="section-title"><span class="icon">🖐️</span>II. Force pressante</div>
     <p style="font-size:.86rem;color:var(--texte-leger);font-style:italic;margin-bottom:12px;">Objectif : exploiter la relation F = P.S pour déterminer la force pressante exercée par un fluide sur une surface plane S soumise à la pression P.</p>
 
@@ -542,6 +593,18 @@ table.macromicro td.macro-cell{font-weight:600}
       <p style="font-size:.87rem;line-height:1.6;"><strong>Observation :</strong> la feuille de papier reste collée sur le verre et se courbe légèrement vers l'intérieur.</p>
       <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁 Pourquoi ?</button>
       <div class="reveal-body">La pression atmosphérique exerce, de bas en haut, une force pressante sur la feuille de papier. Cette force pressante est supérieure au poids de l'eau contenue dans le verre : la feuille reste donc plaquée contre le verre et empêche l'eau de couler. C'est le même principe qui explique pourquoi la canette se déforme lorsqu'on en aspire l'air (vidéo débat p220) : en réduisant la pression à l'intérieur, on déséquilibre les forces pressantes de part et d'autre de la paroi de la canette, qui se fait écraser par la pression atmosphérique extérieure.</div>
+    </div>
+
+    <div class="app-box">
+      <h5>🔹 Application directe</h5>
+      <div class="exo-enonce" style="margin-bottom:8px;">Une vitre d'aquarium de surface S = 0,50 m² est soumise à une pression P = 1,2×10⁵ Pa. Calculer la force pressante F exercée sur la vitre (en N).</div>
+      <input type="text" class="blank-in" id="app2in" placeholder="F = ... N" style="width:150px;">
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('app2in',60000,0.02,'app2fb',FCR('F = P×S','F = 1,2×10⁵ × 0,50','F = 6,0×10⁴ N'),'Ce n\'est pas ça. Utilise F = P×S.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('app2fb',FCR('F = P×S','F = 1,2×10⁵ × 0,50','F = 6,0×10⁴ N'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('app2in','app2fb')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="app2fb"></div>
     </div>
 
     <div class="card" style="background:var(--gris-fond);border-style:dashed;">
@@ -599,11 +662,12 @@ table.macromicro td.macro-cell{font-weight:600}
 
       <div class="qi-box">
         <div class="qi-q">1. Diminue progressivement le volume occupé par le gaz. Que deviennent la distance entre les entités et la fréquence de leurs chocs contre les parois ?</div>
-        <div class="qcm-opts" data-answer="0" data-fb="pccl1fb" data-explain="Les entités se rapprochent les unes des autres, et les chocs contre les parois deviennent plus fréquents. C'est ce qui explique, à l'échelle microscopique, l'augmentation de la pression lorsqu'on comprime un gaz.">
+        <div class="qcm-opts" id="pccl1qcm" data-answer="0" data-fb="pccl1fb" data-explain="Les entités se rapprochent les unes des autres, et les chocs contre les parois deviennent plus fréquents. C'est ce qui explique, à l'échelle microscopique, l'augmentation de la pression lorsqu'on comprime un gaz.">
           <button class="qcm-opt" onclick="selectQCM(this,0)">Distance ↓ et chocs plus fréquents</button>
           <button class="qcm-opt" onclick="selectQCM(this,1)">Distance ↑ et chocs plus rares</button>
           <button class="qcm-opt" onclick="selectQCM(this,2)">Aucun changement</button>
         </div>
+        <button class="exo-btn-secondary" onclick="resetQCM(document.getElementById('pccl1qcm'),'pccl1fb')">↺ Recommencer</button>
         <div class="exo-fb" id="pccl1fb" style="display:none;"></div>
       </div>
       <div class="qi-box">
@@ -614,17 +678,33 @@ table.macromicro td.macro-cell{font-weight:600}
           <input type="text" class="blank-in" id="pcclP2" placeholder="P₂">
           <input type="text" class="blank-in" id="pcclV2" placeholder="V₂">
         </div>
-        <button class="exo-btn" onclick="checkConsistency('pcclP1','pcclV1','pcclP2','pcclV2','pcclfb','P×V','La loi de Mariotte est vérifiée : le produit P×V est bien resté constant.','Le produit P×V n\\'est pas resté constant : relis bien les deux couples de valeurs sur l\\'animation (même température !) et resaisis-les.')">✓ Vérifier la constance de P×V</button>
+        <div class="exo-btn-row">
+          <button class="exo-btn" onclick="checkConsistency('pcclP1','pcclV1','pcclP2','pcclV2','pcclfb','P×V','La loi de Mariotte est vérifiée : le produit P×V est bien resté constant.','Le produit P×V n\'est pas resté constant : relis bien les deux couples de valeurs sur l\'animation (même température !) et resaisis-les.')">✓ Vérifier la constance de P×V</button>
+          <button class="exo-btn-secondary" onclick="resetExoMulti('pcclfb',['pcclP1','pcclV1','pcclP2','pcclV2'])">↺ Recommencer</button>
+        </div>
         <div class="exo-fb" id="pcclfb"></div>
       </div>
       <div class="qi-box">
         <div class="qi-q">3. D'après l'animation, la relation P×V = constante reste-t-elle valable si l'on modifie la température du gaz ?</div>
-        <div class="qcm-opts" data-answer="1" data-fb="pccl3fb" data-explain="La loi de Mariotte n'est valable qu'à température constante. Si la température varie, le produit P×V varie également (le gaz est alors plus agité, ce qui modifie la pression indépendamment du volume).">
+        <div class="qcm-opts" id="pccl3qcm" data-answer="1" data-fb="pccl3fb" data-explain="La loi de Mariotte n'est valable qu'à température constante. Si la température varie, le produit P×V varie également (le gaz est alors plus agité, ce qui modifie la pression indépendamment du volume).">
           <button class="qcm-opt" onclick="selectQCM(this,0)">Oui, toujours</button>
           <button class="qcm-opt" onclick="selectQCM(this,1)">Non</button>
         </div>
+        <button class="exo-btn-secondary" onclick="resetQCM(document.getElementById('pccl3qcm'),'pccl3fb')">↺ Recommencer</button>
         <div class="exo-fb" id="pccl3fb" style="display:none;"></div>
       </div>
+    </div>
+
+    <div class="app-box">
+      <h5>🔹 Application directe</h5>
+      <div class="exo-enonce" style="margin-bottom:8px;">Un volume V₁ = 3,0 L de gaz à la pression P₁ = 1,0×10⁵ Pa est comprimé, à température constante, jusqu'à un volume V₂ = 1,0 L. Calculer la pression P₂ (en Pa, ×10⁵).</div>
+      <input type="text" class="blank-in" id="app3in" placeholder="P₂ = ... ×10⁵ Pa" style="width:170px;">
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('app3in',3.0,0.02,'app3fb',FCR('P₂ = P₁V₁/V₂','P₂ = 1,0×10⁵×3,0 / 1,0','P₂ = 3,0×10⁵ Pa'),'Ce n\'est pas ça. Utilise P₁V₁ = P₂V₂.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('app3fb',FCR('P₂ = P₁V₁/V₂','P₂ = 1,0×10⁵×3,0 / 1,0','P₂ = 3,0×10⁵ Pa'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('app3in','app3fb')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="app3fb"></div>
     </div>
 
     <div class="card" style="background:var(--gris-fond);border-style:dashed;">
@@ -682,13 +762,21 @@ table.macromicro td.macro-cell{font-weight:600}
       <div class="qi-box">
         <div class="qi-q">1. Place le point B à la surface (profondeur = 0 m). Relève la valeur de P₂ affichée (en Pa).</div>
         <input type="text" class="blank-in" id="stat1in" placeholder="P₂ = ... Pa" style="width:160px;">
-        <button class="exo-btn" onclick="checkNum('stat1in',100000,0.01,'stat1fb','P₂ = P₁ = P<sub>atm</sub> = 1,0×10⁵ Pa. C\\'est cohérent : lorsque B est à la même altitude que A (z₂ = z₁), la formule donne P₂ − P₁ = ρg×0 = 0, donc P₂ = P₁.','Vérifie que le curseur est bien ramené à « Surface » avant de relever la valeur.')">✓ Vérifier</button>
+        <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('stat1in',100000,0.01,'stat1fb',FCR('P₂ − P₁ = ρg(z₁ − z₂)','z₂ = z₁ donc P₂ − P₁ = ρg×0','P₂ = P₁ = P<sub>atm</sub> = 1,0×10⁵ Pa'),'Vérifie que le curseur est bien ramené à « Surface » avant de relever la valeur.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('stat1fb',FCR('P₂ − P₁ = ρg(z₁ − z₂)','z₂ = z₁ donc P₂ − P₁ = ρg×0','P₂ = P₁ = P<sub>atm</sub> = 1,0×10⁵ Pa'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('stat1in','stat1fb')">↺ Recommencer</button>
+      </div>
         <div class="exo-fb" id="stat1fb"></div>
       </div>
       <div class="qi-box">
         <div class="qi-q">2. Place le point B à 5,0 m de profondeur. Relève la valeur de P₂ affichée (en Pa).</div>
         <input type="text" class="blank-in" id="stat2in" placeholder="P₂ = ... Pa" style="width:160px;">
-        <button class="exo-btn" onclick="checkNum('stat2in',149000,0.015,'stat2fb','P₂ = P<sub>atm</sub> + ρg×5,0 = 1,0×10⁵ + 1,00×10³×9,8×5,0 = <strong>1,49×10⁵ Pa</strong>, ce qui correspond à la valeur affichée par le simulateur.','Repositionne le curseur exactement sur 5,0 m avant de relever P₂.')">✓ Vérifier</button>
+        <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('stat2in',149000,0.015,'stat2fb',FCR('P₂ = P<sub>atm</sub> + ρg×h','P₂ = 1,0×10⁵ + 1,00×10³×9,8×5,0','P₂ ≈ 1,49×10⁵ Pa (conforme au simulateur)'),'Repositionne le curseur exactement sur 5,0 m avant de relever P₂.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('stat2fb',FCR('P₂ = P<sub>atm</sub> + ρg×h','P₂ = 1,0×10⁵ + 1,00×10³×9,8×5,0','P₂ ≈ 1,49×10⁵ Pa (conforme au simulateur)'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('stat2in','stat2fb')">↺ Recommencer</button>
+      </div>
         <div class="exo-fb" id="stat2fb"></div>
       </div>
       <div class="qi-box">
@@ -697,9 +785,25 @@ table.macromicro td.macro-cell{font-weight:600}
           <input type="text" class="blank-in" id="stat3a" placeholder="ΔP (0→5 m)">
           <input type="text" class="blank-in" id="stat3b" placeholder="ΔP (5→10 m)">
         </div>
-        <button class="exo-btn" onclick="checkEqual('stat3a','stat3b','stat3fb',0.05,'Les deux augmentations de pression sont bien égales (≈ 4,9×10⁴ Pa) : dans la relation P₂ − P₁ = ρg(z₁ − z₂), le produit ρg est constant, donc la pression augmente <strong>proportionnellement</strong> à la profondeur, quel que soit le point de départ.','Les deux valeurs devraient être égales (aux erreurs de lecture près) : relis bien ΔP à chaque tranche de 5 m sur le simulateur.')">✓ Comparer</button>
+        <div class="exo-btn-row">
+          <button class="exo-btn" onclick="checkEqual('stat3a','stat3b','stat3fb',0.05,'Les deux augmentations de pression sont bien égales (≈ 4,9×10⁴ Pa) : dans la relation P₂ − P₁ = ρg(z₁ − z₂), le produit ρg est constant, donc la pression augmente <strong>proportionnellement</strong> à la profondeur, quel que soit le point de départ.','Les deux valeurs devraient être égales (aux erreurs de lecture près) : relis bien ΔP à chaque tranche de 5 m sur le simulateur.')">✓ Comparer</button>
+          <button class="exo-btn-secondary" onclick="showCorrection('stat3fb',FCR('ΔP = ρg × 5,0 (constant sur chaque tranche)','ΔP = 1,00×10³×9,8×5,0','ΔP ≈ 4,9×10⁴ Pa dans les deux cas'))">👁 Correction</button>
+          <button class="exo-btn-secondary" onclick="resetExoMulti('stat3fb',['stat3a','stat3b'])">↺ Recommencer</button>
+        </div>
         <div class="exo-fb" id="stat3fb"></div>
       </div>
+    </div>
+
+    <div class="app-box">
+      <h5>🔹 Application directe</h5>
+      <div class="exo-enonce" style="margin-bottom:8px;">Calculer la pression à 3,0 m de profondeur dans une piscine remplie d'eau (ρ = 1,00×10³ kg·m⁻³, g = 9,8 N·kg⁻¹, P<sub>atm</sub> = 1,0×10⁵ Pa). Donner le résultat en Pa (×10⁵).</div>
+      <input type="text" class="blank-in" id="app4in" placeholder="P = ... ×10⁵ Pa" style="width:170px;">
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('app4in',1.294,0.02,'app4fb',FCR('P = P<sub>atm</sub> + ρgh','P = 1,0×10⁵ + 1,00×10³×9,8×3,0','P ≈ 1,29×10⁵ Pa'),'Ce n\'est pas ça. Utilise P = P_atm + ρgh.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('app4fb',FCR('P = P<sub>atm</sub> + ρgh','P = 1,0×10⁵ + 1,00×10³×9,8×3,0','P ≈ 1,29×10⁵ Pa'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('app4in','app4fb')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="app4fb"></div>
     </div>
 
     <div class="card" style="background:var(--gris-fond);border-style:dashed;">
@@ -715,7 +819,7 @@ table.macromicro td.macro-cell{font-weight:600}
     <div class="intro-box">Cette simulation compare le comportement microscopique de particules de gaz « lourdes » et « légères » enfermées dans une enceinte, à différentes températures. Observe attentivement l'agitation des particules, la fréquence de leurs chocs contre les parois (jauge de pression) et leur proximité, pour compléter le tableau macro/micro du cours.</div>
 
     <div class="video-wrap">
-      <video controls preload="metadata" poster="">
+      <video controls preload="metadata">
         <source src="media/animation_p222.mp4" type="video/mp4">
         Ton navigateur ne peut pas lire cette vidéo.
       </video>
@@ -723,20 +827,22 @@ table.macromicro td.macro-cell{font-weight:600}
 
     <div class="qi-box">
       <div class="qi-q">1. Lorsqu'on chauffe l'enceinte (voir le thermomètre), comment évolue la vitesse moyenne des particules affichée à l'écran ?</div>
-      <div class="qcm-opts" data-answer="1" data-fb="v1fb" data-explain="Les particules « lourdes » passent d'environ 413 m/s à 495 m/s lorsque la température s'élève de 255 K à 441 K : plus la température est élevée, plus l'agitation des entités est grande.">
+      <div class="qcm-opts" id="v1qcm" data-answer="1" data-fb="v1fb" data-explain="Les particules « lourdes » passent d'environ 413 m/s à 495 m/s lorsque la température s'élève de 255 K à 441 K : plus la température est élevée, plus l'agitation des entités est grande.">
         <button class="qcm-opt" onclick="selectQCM(this,0)">Elle diminue</button>
         <button class="qcm-opt" onclick="selectQCM(this,1)">Elle augmente</button>
         <button class="qcm-opt" onclick="selectQCM(this,2)">Elle reste constante</button>
       </div>
+      <button class="exo-btn-secondary" onclick="resetQCM(document.getElementById('v1qcm'),'v1fb')">↺ Recommencer</button>
       <div class="exo-fb" id="v1fb" style="display:none;"></div>
     </div>
     <div class="qi-box">
       <div class="qi-q">2. Quel est l'effet de cette agitation accrue sur la pression indiquée par le manomètre ?</div>
-      <div class="qcm-opts" data-answer="0" data-fb="v2fb" data-explain="La pression passe d'environ 0,29 atm à 1,07 atm dans la simulation : les particules, plus agitées, entrent en collision plus fréquemment et plus violemment avec les parois de l'enceinte, ce qui augmente la pression mesurée.">
+      <div class="qcm-opts" id="v2qcm" data-answer="0" data-fb="v2fb" data-explain="La pression passe d'environ 0,29 atm à 1,07 atm dans la simulation : les particules, plus agitées, entrent en collision plus fréquemment et plus violemment avec les parois de l'enceinte, ce qui augmente la pression mesurée.">
         <button class="qcm-opt" onclick="selectQCM(this,0)">Elle augmente</button>
         <button class="qcm-opt" onclick="selectQCM(this,1)">Elle diminue</button>
         <button class="qcm-opt" onclick="selectQCM(this,2)">Elle reste constante</button>
       </div>
+      <button class="exo-btn-secondary" onclick="resetQCM(document.getElementById('v2qcm'),'v2fb')">↺ Recommencer</button>
       <div class="exo-fb" id="v2fb" style="display:none;"></div>
     </div>
     <div class="qi-box">
@@ -746,7 +852,11 @@ table.macromicro td.macro-cell{font-weight:600}
         <div>Pression ↔ <input type="text" class="blank-in" id="v3b" placeholder="mot"></div>
         <div>Masse volumique ↔ <input type="text" class="blank-in" id="v3c" placeholder="mot"></div>
       </div>
-      <button class="exo-btn" onclick="checkVideoBlanks()">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkVideoBlanks()">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('v3fb','Température ↔ <strong>agitation</strong> • Pression ↔ <strong>chocs</strong> • Masse volumique ↔ <strong>proximité</strong> des entités.')">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExoMulti('v3fb',['v3a','v3b','v3c'])">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="v3fb"></div>
     </div>
 
@@ -821,7 +931,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <div class="qnum">Question 2</div>
       <div class="qtext">Calculer la pression subie par l'apnéiste à 20 m de profondeur (en Pa).</div>
       <input type="text" class="blank-in" id="apnee2in" placeholder="P(20) = ... Pa" style="width:170px;">
-      <button class="exo-btn" onclick="checkNum('apnee2in',302000,0.02,'apnee2fb','P(20) = 1,0×10⁵ + 1,03×10³ × 9,8 × 20 ≈ 1,0×10⁵ + 2,02×10⁵ ≈ <strong>3,0×10⁵ Pa</strong>, soit environ 3 fois la pression atmosphérique.','Utilise P(z) = P_atm + ρgz avec z = 20 m.')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('apnee2in',302000,0.02,'apnee2fb',FCR('P(z) = P<sub>atm</sub> + ρgz','P(20) = 1,0×10⁵ + 1,03×10³×9,8×20','P(20) ≈ 3,0×10⁵ Pa (≈ 3 fois P<sub>atm</sub>)'),'Utilise P(z) = P_atm + ρgz avec z = 20 m.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('apnee2fb',FCR('P(z) = P<sub>atm</sub> + ρgz','P(20) = 1,0×10⁵ + 1,03×10³×9,8×20','P(20) ≈ 3,0×10⁵ Pa (≈ 3 fois P<sub>atm</sub>)'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('apnee2in','apnee2fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="apnee2fb"></div>
     </div>
 
@@ -829,7 +943,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <div class="qnum">Question 3</div>
       <div class="qtext">Le volume d'air contenu dans les poumons de l'apnéiste en surface est V₀ = 6,0 L. En supposant la température du corps constante, estimer le volume occupé par cet air à 20 m de profondeur (en L).</div>
       <input type="text" class="blank-in" id="apnee3in" placeholder="V(20) = ... L" style="width:170px;">
-      <button class="exo-btn" onclick="checkNum('apnee3in',1.99,0.03,'apnee3fb','La température étant constante, la loi de Mariotte s\\'applique : P<sub>atm</sub> × V₀ = P(20) × V(20), d\\'où V(20) = P<sub>atm</sub>×V₀ / P(20) = (1,0×10⁵ × 6,0) / 3,0×10⁵ ≈ <strong>2,0 L</strong>. Le volume d\\'air dans les poumons est environ divisé par 3 à 20 m de profondeur — un phénomène à prendre en compte pour la sécurité en apnée.','Utilise la loi de Mariotte : P_atm×V₀ = P(20)×V(20), avec P(20) ≈ 3,0×10⁵ Pa trouvé à la question 2.')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('apnee3in',1.99,0.03,'apnee3fb',FCR('P<sub>atm</sub>×V₀ = P(20)×V(20)','V(20) = (1,0×10⁵×6,0) / 3,0×10⁵','V(20) ≈ 2,0 L — le volume est divisé par 3, d\'où le risque en remontée rapide'),'Utilise la loi de Mariotte : P_atm×V₀ = P(20)×V(20), avec P(20) ≈ 3,0×10⁵ Pa trouvé à la question 2.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('apnee3fb',FCR('P<sub>atm</sub>×V₀ = P(20)×V(20)','V(20) = (1,0×10⁵×6,0) / 3,0×10⁵','V(20) ≈ 2,0 L — le volume est divisé par 3, d\'où le risque en remontée rapide'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('apnee3in','apnee3fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="apnee3fb"></div>
     </div>
 
@@ -845,6 +963,7 @@ table.macromicro td.macro-cell{font-weight:600}
     <button class="sub-tab-btn" onclick="switchSubTab('exercices',1)">🔵 Intermédiaire</button>
     <button class="sub-tab-btn" onclick="switchSubTab('exercices',2)">🔴 Difficile</button>
     <button class="sub-tab-btn" onclick="switchSubTab('exercices',3)">🧭 Applications</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('exercices',4)">🚢 Escape Game</button>
   </nav>
 
   <div class="sub-tab-content active" id="exercices-sub-0">
@@ -853,7 +972,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <h5><span class="diff-badge d1">FACILE</span>Calculer une masse volumique</h5>
       <div class="exo-enonce">Une éprouvette graduée contient un volume V = 50 mL d'huile de masse m = 46 g. Calculer la masse volumique ρ de cette huile (en kg·m⁻³).</div>
       <input type="text" id="ex11in" placeholder="ρ = ... kg·m⁻³" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:170px;">
-      <button class="exo-btn" onclick="checkNum('ex11in',920,0.02,'ex11fb','ρ = m/V. En unités du système international : m = 46 g = 46×10⁻³ kg et V = 50 mL = 50×10⁻⁶ m³. Donc ρ = 46×10⁻³ / 50×10⁻⁶ = <strong>920 kg·m⁻³</strong>. Cette valeur est bien inférieure à celle de l\\'eau (1,00×10³ kg·m⁻³) : c\\'est cohérent, l\\'huile flotte sur l\\'eau ✓','Ce n\\'est pas ça. Utilise ρ = m/V, en convertissant m en kg et V en m³ (1 mL = 1×10⁻⁶ m³).')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex11in',920,0.02,'ex11fb',FCR('ρ = m/V','ρ = 46×10⁻³ / 50×10⁻⁶ (m en kg, V en m³)','ρ = 920 kg·m⁻³ (< eau : cohérent, l\'huile flotte)'),'Ce n\'est pas ça. Utilise ρ = m/V, en convertissant m en kg et V en m³ (1 mL = 1×10⁻⁶ m³).')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex11fb',FCR('ρ = m/V','ρ = 46×10⁻³ / 50×10⁻⁶ (m en kg, V en m³)','ρ = 920 kg·m⁻³ (< eau : cohérent, l\'huile flotte)'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex11in','ex11fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="ex11fb"></div>
     </div>
 
@@ -861,7 +984,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <h5><span class="diff-badge d1">FACILE</span>p229 n°13 — Volume occupé par un gaz</h5>
       <div class="exo-enonce">Un ballon de baudruche contient un volume V₁ = 2,0 L d'air à la pression P₁ = 1,2×10⁵ Pa. On le laisse se dilater, à température constante, jusqu'à ce que la pression atteigne P₂ = 1,0×10⁵ Pa. Calculer le volume V₂ (en L).</div>
       <input type="text" id="ex1in" placeholder="V₂ = ... L" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
-      <button class="exo-btn" onclick="checkNum('ex1in',2.4,0.02,'ex1fb','V₂ = P₁V₁/P₂ = 1,2×10⁵×2,0 / 1,0×10⁵ = <strong>2,4 L</strong> ✓','Ce n\\'est pas ça. Utilise P₁V₁ = P₂V₂ (loi de Mariotte).')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex1in',2.4,0.02,'ex1fb',FCR('P₁V₁ = P₂V₂','V₂ = 1,2×10⁵×2,0 / 1,0×10⁵','V₂ = 2,4 L'),'Ce n\'est pas ça. Utilise P₁V₁ = P₂V₂ (loi de Mariotte).')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex1fb',FCR('P₁V₁ = P₂V₂','V₂ = 1,2×10⁵×2,0 / 1,0×10⁵','V₂ = 2,4 L'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex1in','ex1fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="ex1fb"></div>
     </div>
 
@@ -869,8 +996,24 @@ table.macromicro td.macro-cell{font-weight:600}
       <h5><span class="diff-badge d1">FACILE</span>p229 n°12 — Pression dans un liquide</h5>
       <div class="exo-enonce">Calculer la pression au fond d'une piscine de profondeur h = 2,5 m remplie d'eau (ρ = 1,00×10³ kg·m⁻³, g = 9,8 N·kg⁻¹), sachant que la pression atmosphérique en surface vaut P<sub>atm</sub> = 1,0×10⁵ Pa. Donner le résultat en Pa (×10⁵).</div>
       <input type="text" id="ex2in" placeholder="P = ... ×10⁵ Pa" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:170px;">
-      <button class="exo-btn" onclick="checkNum('ex2in',1.245,0.02,'ex2fb','P = P<sub>atm</sub> + ρgh = 1,0×10⁵ + 1,00×10³×9,8×2,5 ≈ <strong>1,25×10⁵ Pa</strong> ✓','Ce n\\'est pas ça. Utilise P = P_atm + ρgh.')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex2in',1.245,0.02,'ex2fb',FCR('P = P<sub>atm</sub> + ρgh','P = 1,0×10⁵ + 1,00×10³×9,8×2,5','P ≈ 1,25×10⁵ Pa'),'Ce n\'est pas ça. Utilise P = P_atm + ρgh.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex2fb',FCR('P = P<sub>atm</sub> + ρgh','P = 1,0×10⁵ + 1,00×10³×9,8×2,5','P ≈ 1,25×10⁵ Pa'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex2in','ex2fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="ex2fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d1">FACILE</span>Utiliser la loi de Mariotte</h5>
+      <div class="exo-enonce">Une seringue bouchée contient un volume V₁ = 20 mL d'air à la pression P₁ = 1,0×10⁵ Pa. On tire le piston, à température constante, jusqu'à un volume V₂ = 30 mL. Calculer la pression P₂ (en Pa, ×10⁴).</div>
+      <input type="text" id="ex12in" placeholder="P₂ = ... ×10⁴ Pa" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:170px;">
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex12in',6.7,0.03,'ex12fb',FCR('P₁V₁ = P₂V₂','P₂ = 1,0×10⁵×20 / 30','P₂ ≈ 6,7×10⁴ Pa'),'Ce n\'est pas ça. Utilise P₁V₁ = P₂V₂.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex12fb',FCR('P₁V₁ = P₂V₂','P₂ = 1,0×10⁵×20 / 30','P₂ ≈ 6,7×10⁴ Pa'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex12in','ex12fb')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="ex12fb"></div>
     </div>
 
   </div><!-- /exercices-sub-0 -->
@@ -881,7 +1024,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <h5><span class="diff-badge d2">INTERMÉDIAIRE</span>p231 n°29 — Calculer une force pressante</h5>
       <div class="exo-enonce">Le hublot d'un sous-marin a une surface S = 0,20 m² et subit une pression P = 4,0×10⁵ Pa. Calculer la force pressante F exercée sur le hublot (en N, notation scientifique ×10⁴).</div>
       <input type="text" id="ex3in" placeholder="F = ... ×10⁴ N" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:170px;">
-      <button class="exo-btn" onclick="checkNum('ex3in',8.0,0.02,'ex3fb','F = P×S = 4,0×10⁵×0,20 = <strong>8,0×10⁴ N</strong> ✓','Ce n\\'est pas ça. Utilise F = P×S.')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex3in',8.0,0.02,'ex3fb',FCR('F = P×S','F = 4,0×10⁵×0,20','F = 8,0×10⁴ N'),'Ce n\'est pas ça. Utilise F = P×S.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex3fb',FCR('F = P×S','F = 4,0×10⁵×0,20','F = 8,0×10⁴ N'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex3in','ex3fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="ex3fb"></div>
     </div>
 
@@ -889,7 +1036,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <h5><span class="diff-badge d2">INTERMÉDIAIRE</span>p231 n°30 — Estimer les risques en apnée</h5>
       <div class="exo-enonce">Une apnéiste descend à 30 m de profondeur dans l'eau de mer (ρ = 1,025×10³ kg·m⁻³, g = 9,8 N·kg⁻¹, P<sub>atm</sub> = 1,0×10⁵ Pa). Calculer la pression qu'elle subit (en Pa, ×10⁵).</div>
       <input type="text" id="ex4in" placeholder="P = ... ×10⁵ Pa" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:170px;">
-      <button class="exo-btn" onclick="checkNum('ex4in',4.01,0.02,'ex4fb','P = P<sub>atm</sub> + ρgh = 1,0×10⁵ + 1,025×10³×9,8×30 ≈ <strong>4,0×10⁵ Pa</strong>, soit environ 4 fois la pression atmosphérique ✓','Ce n\\'est pas ça. Utilise P = P_atm + ρgh.')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex4in',4.01,0.02,'ex4fb',FCR('P = P<sub>atm</sub> + ρgh','P = 1,0×10⁵ + 1,025×10³×9,8×30','P ≈ 4,0×10⁵ Pa (≈ 4 fois P<sub>atm</sub>)'),'Ce n\'est pas ça. Utilise P = P_atm + ρgh.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex4fb',FCR('P = P<sub>atm</sub> + ρgh','P = 1,0×10⁵ + 1,025×10³×9,8×30','P ≈ 4,0×10⁵ Pa (≈ 4 fois P<sub>atm</sub>)'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex4in','ex4fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="ex4fb"></div>
     </div>
 
@@ -897,8 +1048,24 @@ table.macromicro td.macro-cell{font-weight:600}
       <h5><span class="diff-badge d2">INTERMÉDIAIRE</span>p230 n°22 — Déterminer la hauteur d'un château d'eau</h5>
       <div class="exo-enonce">Pour alimenter correctement un immeuble, la pression de l'eau au sol doit atteindre P = 3,0×10⁵ Pa. La surface libre de l'eau dans le château est à la pression atmosphérique P<sub>atm</sub> = 1,0×10⁵ Pa. Calculer la hauteur h d'eau nécessaire (ρ = 1,00×10³ kg·m⁻³, g = 9,8 N·kg⁻¹), en m.</div>
       <input type="text" id="ex5in" placeholder="h = ... m" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
-      <button class="exo-btn" onclick="checkNum('ex5in',20.4,0.03,'ex5fb','h = (P − P<sub>atm</sub>)/(ρg) = (3,0×10⁵ − 1,0×10⁵)/(1,00×10³×9,8) ≈ <strong>20 m</strong> ✓','Ce n\\'est pas ça. Isole h dans P = P_atm + ρgh.')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex5in',20.4,0.03,'ex5fb',FCR('h = (P − P<sub>atm</sub>)/(ρg)','h = (3,0×10⁵ − 1,0×10⁵)/(1,00×10³×9,8)','h ≈ 20 m'),'Ce n\'est pas ça. Isole h dans P = P_atm + ρgh.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex5fb',FCR('h = (P − P<sub>atm</sub>)/(ρg)','h = (3,0×10⁵ − 1,0×10⁵)/(1,00×10³×9,8)','h ≈ 20 m'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex5in','ex5fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="ex5fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d2">INTERMÉDIAIRE</span>Hublot circulaire de sous-marin</h5>
+      <div class="exo-enonce">Un hublot circulaire de rayon r = 15 cm est soumis à une pression P = 3,0×10⁵ Pa. Calculer d'abord la surface S du hublot (S = πr², en m²), puis la force pressante F qu'il subit (en N).</div>
+      <input type="text" id="ex13in" placeholder="F = ... N" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:150px;">
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex13in',21200,0.03,'ex13fb',FCR('S = πr² puis F = P×S','S = π×0,15² ≈ 7,07×10⁻² m² ; F = 3,0×10⁵ × 7,07×10⁻²','F ≈ 2,1×10⁴ N'),'Ce n\'est pas ça. N\'oublie pas de convertir r en mètres avant de calculer S = πr², puis F = P×S.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex13fb',FCR('S = πr² puis F = P×S','S = π×0,15² ≈ 7,07×10⁻² m² ; F = 3,0×10⁵ × 7,07×10⁻²','F ≈ 2,1×10⁴ N'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex13in','ex13fb')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="ex13fb"></div>
     </div>
 
   </div><!-- /exercices-sub-1 -->
@@ -909,7 +1076,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <h5><span class="diff-badge d4">DIFFICILE</span>p233 n°38 — Conditionner l'hélium</h5>
       <div class="exo-enonce">Un ballon souple contient un volume V₁ = 15 L d'hélium à la pression P₁ = 1,0×10⁵ Pa. On comprime ce gaz, à température constante, pour le stocker dans une bouteille de volume V₂ = 2,0 L. Calculer la pression P₂ dans la bouteille (en Pa, ×10⁵).</div>
       <input type="text" id="ex6in" placeholder="P₂ = ... ×10⁵ Pa" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:170px;">
-      <button class="exo-btn" onclick="checkNum('ex6in',7.5,0.02,'ex6fb','P₂ = P₁V₁/V₂ = 1,0×10⁵×15 / 2,0 = <strong>7,5×10⁵ Pa</strong> ✓','Ce n\\'est pas ça. Utilise P₁V₁ = P₂V₂.')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex6in',7.5,0.02,'ex6fb',FCR('P₁V₁ = P₂V₂','P₂ = 1,0×10⁵×15 / 2,0','P₂ = 7,5×10⁵ Pa'),'Ce n\'est pas ça. Utilise P₁V₁ = P₂V₂.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex6fb',FCR('P₁V₁ = P₂V₂','P₂ = 1,0×10⁵×15 / 2,0','P₂ = 7,5×10⁵ Pa'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex6in','ex6fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="ex6fb"></div>
     </div>
 
@@ -917,7 +1088,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <h5><span class="diff-badge d4">DIFFICILE</span>p234 n°43 — Bouchon de champagne</h5>
       <div class="exo-enonce">La pression à l'intérieur d'une bouteille de champagne vaut P = 6,0×10⁵ Pa et s'exerce sur le bouchon, de surface S = 4,9 cm². Calculer la force pressante F exercée sur le bouchon (en N).</div>
       <input type="text" id="ex7in" placeholder="F = ... N" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
-      <button class="exo-btn" onclick="checkNum('ex7in',294,0.03,'ex7fb','S = 4,9 cm² = 4,9×10⁻⁴ m². F = P×S = 6,0×10⁵ × 4,9×10⁻⁴ ≈ <strong>2,9×10² N</strong> (soit près de 30 kg !) ✓','Ce n\\'est pas ça. Attention à convertir S en m² avant de calculer F = P×S.')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex7in',294,0.03,'ex7fb',FCR('F = P×S (S convertie en m²)','F = 6,0×10⁵ × 4,9×10⁻⁴','F ≈ 2,9×10² N (soit ≈ 30 kg !)'),'Ce n\'est pas ça. Attention à convertir S en m² avant de calculer F = P×S.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex7fb',FCR('F = P×S (S convertie en m²)','F = 6,0×10⁵ × 4,9×10⁻⁴','F ≈ 2,9×10² N (soit ≈ 30 kg !)'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex7in','ex7fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="ex7fb"></div>
     </div>
 
@@ -925,8 +1100,24 @@ table.macromicro td.macro-cell{font-weight:600}
       <h5><span class="diff-badge d4">DIFFICILE</span>p232 n°36 — Construire un château d'eau surélevé</h5>
       <div class="exo-enonce">On souhaite qu'un robinet situé au rez-de-chaussée reçoive une pression P = 2,5×10⁵ Pa (P<sub>atm</sub> = 1,0×10⁵ Pa, ρ<sub>eau</sub> = 1,00×10³ kg·m⁻³, g = 9,8 N·kg⁻¹). Calculer la hauteur d'eau nécessaire au-dessus du robinet (en m).</div>
       <input type="text" id="ex8in" placeholder="h = ... m" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
-      <button class="exo-btn" onclick="checkNum('ex8in',15.3,0.04,'ex8fb','h = (P − P<sub>atm</sub>)/(ρg) = (2,5×10⁵ − 1,0×10⁵)/(1,00×10³×9,8) ≈ <strong>15 m</strong> ✓','Ce n\\'est pas ça. Isole h dans P = P_atm + ρgh.')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex8in',15.3,0.04,'ex8fb',FCR('h = (P − P<sub>atm</sub>)/(ρg)','h = (2,5×10⁵ − 1,0×10⁵)/(1,00×10³×9,8)','h ≈ 15 m'),'Ce n\'est pas ça. Isole h dans P = P_atm + ρgh.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex8fb',FCR('h = (P − P<sub>atm</sub>)/(ρg)','h = (2,5×10⁵ − 1,0×10⁵)/(1,00×10³×9,8)','h ≈ 15 m'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex8in','ex8fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="ex8fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d4">DIFFICILE</span>À quelle profondeur la pression double-t-elle ?</h5>
+      <div class="exo-enonce">Un plongeur descend dans l'eau de mer (ρ = 1,025×10³ kg·m⁻³, g = 9,8 N·kg⁻¹, P<sub>atm</sub> = 1,0×10⁵ Pa). À quelle profondeur z la pression qu'il subit est-elle égale au double de la pression atmosphérique ? (en m)</div>
+      <input type="text" id="ex14in" placeholder="z = ... m" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex14in',9.95,0.04,'ex14fb',FCR('P = 2P<sub>atm</sub> = P<sub>atm</sub> + ρgz, donc z = P<sub>atm</sub>/(ρg)','z = 1,0×10⁵ / (1,025×10³×9,8)','z ≈ 10,0 m'),'Ce n\'est pas ça. Pose P = 2×P_atm dans P = P_atm + ρgz, puis isole z.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex14fb',FCR('P = 2P<sub>atm</sub> = P<sub>atm</sub> + ρgz, donc z = P<sub>atm</sub>/(ρg)','z = 1,0×10⁵ / (1,025×10³×9,8)','z ≈ 10,0 m'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex14in','ex14fb')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="ex14fb"></div>
     </div>
 
   </div><!-- /exercices-sub-2 -->
@@ -951,7 +1142,11 @@ table.macromicro td.macro-cell{font-weight:600}
         <input type="text" id="ex9ina" placeholder="P₁ = ... ×10⁵ Pa" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:150px;">
         <input type="text" id="ex9inb" placeholder="V₂ = ... L" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
       </div>
-      <button class="exo-btn" onclick="checkEx9()">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkEx9()">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex9fb',FCR('P₁ = P<sub>atm</sub> + ρgh puis V₂ = P₁V₁/P<sub>atm</sub>','P₁ = 1,0×10⁵ + 1,00×10³×9,8×10 ≈ 1,98×10⁵ Pa ; V₂ = 1,98×10⁵×6,0 / 1,0×10⁵','P₁ ≈ 1,98×10⁵ Pa et V₂ ≈ 12 L'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExoMulti('ex9fb',['ex9ina','ex9inb'])">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="ex9fb"></div>
     </div>
 
@@ -959,11 +1154,98 @@ table.macromicro td.macro-cell{font-weight:600}
       <h5><span class="diff-badge d5">APPLICATION — Résolution de problème</span>p238 n°54 — Le profondimètre</h5>
       <div class="exo-enonce">Un profondimètre de plongée indique une pression P = 2,5×10⁵ Pa. Déterminer la profondeur z à laquelle se trouve le plongeur (eau de mer ρ = 1,025×10³ kg·m⁻³, g = 9,8 N·kg⁻¹, P<sub>atm</sub> = 1,0×10⁵ Pa), en m. <span style="color:var(--texte-leger);font-style:italic;">Utilise la fiche méthode de résolution de problème p432 (onglet Méthode &amp; TD).</span></div>
       <input type="text" id="ex10in" placeholder="z = ... m" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
-      <button class="exo-btn" onclick="checkNum('ex10in',14.9,0.04,'ex10fb','z = (P − P<sub>atm</sub>)/(ρg) = (2,5×10⁵ − 1,0×10⁵)/(1,025×10³×9,8) ≈ <strong>15 m</strong> ✓','Ce n\\'est pas ça. Isole z dans P = P_atm + ρgz.')">✓ Vérifier</button>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex10in',14.9,0.04,'ex10fb',FCR('z = (P − P<sub>atm</sub>)/(ρg)','z = (2,5×10⁵ − 1,0×10⁵)/(1,025×10³×9,8)','z ≈ 15 m'),'Ce n\'est pas ça. Isole z dans P = P_atm + ρgz.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex10fb',FCR('z = (P − P<sub>atm</sub>)/(ρg)','z = (2,5×10⁵ − 1,0×10⁵)/(1,025×10³×9,8)','z ≈ 15 m'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex10in','ex10fb')">↺ Recommencer</button>
+      </div>
       <div class="exo-fb" id="ex10fb"></div>
     </div>
 
+    <div class="exo-box">
+      <h5><span class="diff-badge d5">APPLICATION — Résolution de problème</span>Profondeur maximale admissible</h5>
+      <div class="exo-enonce">La pression maximale que peut supporter l'organisme d'un plongeur en apnée est estimée à P<sub>max</sub> = 5,0×10⁵ Pa. Déterminer la profondeur maximale z<sub>max</sub> qu'il peut atteindre sans danger (eau de mer ρ = 1,025×10³ kg·m⁻³, g = 9,8 N·kg⁻¹, P<sub>atm</sub> = 1,0×10⁵ Pa), en m.</div>
+      <input type="text" id="ex15in" placeholder="z_max = ... m" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:150px;">
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkNum('ex15in',39.8,0.04,'ex15fb',FCR('z<sub>max</sub> = (P<sub>max</sub> − P<sub>atm</sub>)/(ρg)','z<sub>max</sub> = (5,0×10⁵ − 1,0×10⁵)/(1,025×10³×9,8)','z<sub>max</sub> ≈ 40 m'),'Ce n\'est pas ça. Isole z_max dans P_max = P_atm + ρgz_max.')">✓ Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showCorrection('ex15fb',FCR('z<sub>max</sub> = (P<sub>max</sub> − P<sub>atm</sub>)/(ρg)','z<sub>max</sub> = (5,0×10⁵ − 1,0×10⁵)/(1,025×10³×9,8)','z<sub>max</sub> ≈ 40 m'))">👁 Correction</button>
+        <button class="exo-btn-secondary" onclick="resetExo('ex15in','ex15fb')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="ex15fb"></div>
+    </div>
+
   </div><!-- /exercices-sub-3 -->
+
+  <div class="sub-tab-content" id="exercices-sub-4">
+
+    <div class="eg-briefing">
+      <h4>🚢 Alerte — Sous-marin Nautilus-05</h4>
+      <p><strong>40 m de profondeur, 06h12.</strong> Une avarie a coupé les systèmes automatiques du Nautilus-05. Pour reprogrammer le sas de secours et faire remonter le sous-marin à la surface, l'équipage doit résoudre 4 énigmes de physique. Chaque énigme résolue révèle un chiffre du code à 4 chiffres du sas. Bonne chance, chef de bord !</p>
+      <button class="exo-btn-secondary" style="background:#fff;margin-top:10px;" onclick="egResetGame()">↺ Recommencer le jeu</button>
+    </div>
+
+    <div class="eg-progress">
+      <div class="eg-progress-step" id="egStep1"></div>
+      <div class="eg-progress-step" id="egStep2"></div>
+      <div class="eg-progress-step" id="egStep3"></div>
+      <div class="eg-progress-step" id="egStep4"></div>
+    </div>
+
+    <!-- Énigme 1 : masse volumique -->
+    <div class="eg-puzzle" id="egPuzzle1">
+      <h5>🧪 Énigme 1 — Compartiment ballast <span class="eg-digit">1</span></h5>
+      <div class="exo-enonce">Le réservoir de ballast de secours contient un liquide inconnu : un volume V = 200 mL a une masse m = 250 g. Calcule sa masse volumique ρ (en kg·m⁻³). <span style="color:var(--texte-leger);font-style:italic;">Le premier chiffre de ρ est le 1ᵉʳ chiffre du code.</span></div>
+      <input type="text" class="blank-in" id="egIn1" placeholder="ρ = ... kg·m⁻³" style="width:170px;">
+      <button class="exo-btn" onclick="egCheck(1,'egIn1',1250,0.02,FCR('ρ = m/V','ρ = 250×10⁻³ / 200×10⁻⁶','ρ = 1250 kg·m⁻³'),'1')">✓ Résoudre</button>
+      <div class="exo-fb" id="egFb1"></div>
+    </div>
+
+    <!-- Énigme 2 : force pressante -->
+    <div class="eg-puzzle" id="egPuzzle2">
+      <div class="eg-lock-overlay" id="egLock2">🔒 Résous l'énigme 1 pour déverrouiller</div>
+      <h5>🖐️ Énigme 2 — Brèche de coque <span class="eg-digit">2</span></h5>
+      <div class="exo-enonce">Une brèche de surface S = 0,020 m² est colmatée par un panneau de secours soumis à une pression P = 4,0×10⁵ Pa. Calcule la force pressante F qu'il subit (en kN). <span style="color:var(--texte-leger);font-style:italic;">Ce nombre est le 2ᵉ chiffre du code.</span></div>
+      <input type="text" class="blank-in" id="egIn2" placeholder="F = ... kN" style="width:150px;">
+      <button class="exo-btn" onclick="egCheck(2,'egIn2',8.0,0.02,FCR('F = P×S','F = 4,0×10⁵ × 0,020 = 8,0×10³ N','F = 8,0 kN'),'8')">✓ Résoudre</button>
+      <div class="exo-fb" id="egFb2"></div>
+    </div>
+
+    <!-- Énigme 3 : loi de Mariotte -->
+    <div class="eg-puzzle" id="egPuzzle3">
+      <div class="eg-lock-overlay" id="egLock3">🔒 Résous l'énigme 2 pour déverrouiller</div>
+      <h5>💨 Énigme 3 — Poche d'air de secours <span class="eg-digit">3</span></h5>
+      <div class="exo-enonce">Une poche d'air de secours de volume V₁ = 4,0 L à la pression P₁ = 1,0×10⁵ Pa est comprimée, à température constante, jusqu'à V₂ = 2,0 L. Calcule la nouvelle pression P₂ (en ×10⁵ Pa). <span style="color:var(--texte-leger);font-style:italic;">Ce nombre est le 3ᵉ chiffre du code.</span></div>
+      <input type="text" class="blank-in" id="egIn3" placeholder="P₂ = ... ×10⁵ Pa" style="width:170px;">
+      <button class="exo-btn" onclick="egCheck(3,'egIn3',2.0,0.02,FCR('P₁V₁ = P₂V₂','P₂ = 1,0×10⁵ × 4,0 / 2,0','P₂ = 2,0×10⁵ Pa'),'2')">✓ Résoudre</button>
+      <div class="exo-fb" id="egFb3"></div>
+    </div>
+
+    <!-- Énigme 4 : statique des fluides -->
+    <div class="eg-puzzle" id="egPuzzle4">
+      <div class="eg-lock-overlay" id="egLock4">🔒 Résous l'énigme 3 pour déverrouiller</div>
+      <h5>🌊 Énigme 4 — Pression à la coque <span class="eg-digit">4</span></h5>
+      <div class="exo-enonce">Le Nautilus-05 est à 40 m de profondeur, dans l'eau de mer (ρ = 1,025×10³ kg·m⁻³, g = 9,8 N·kg⁻¹, P<sub>atm</sub> = 1,0×10⁵ Pa). Calcule la pression P subie par la coque, arrondie à l'entier (en ×10⁵ Pa). <span style="color:var(--texte-leger);font-style:italic;">Ce nombre est le 4ᵉ et dernier chiffre du code.</span></div>
+      <input type="text" class="blank-in" id="egIn4" placeholder="P = ... ×10⁵ Pa" style="width:170px;">
+      <button class="exo-btn" onclick="egCheck(4,'egIn4',5,0.05,FCR('P = P<sub>atm</sub> + ρgz','P = 1,0×10⁵ + 1,025×10³×9,8×40','P ≈ 5×10⁵ Pa'),'5')">✓ Résoudre</button>
+      <div class="exo-fb" id="egFb4"></div>
+    </div>
+
+    <!-- Sas final -->
+    <div class="eg-final" id="egFinal">
+      <h5 style="font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);">🔐 Sas de secours</h5>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin:6px 0 4px;">Reconstitue le code à 4 chiffres à partir des énigmes résolues, puis ouvre le sas.</p>
+      <input type="text" id="egCodeIn" maxlength="4" placeholder="••••">
+      <br>
+      <button class="exo-btn" id="egOpenBtn" onclick="egOpenHatch()" disabled>🔓 Ouvrir le sas de secours</button>
+      <div class="exo-fb" id="egFinalFb"></div>
+
+      <div class="eg-success" id="egSuccess">
+        <h4>🎉 Sas ouvert — Remontée en cours !</h4>
+        <p style="font-size:.88rem;line-height:1.6;">Bravo, chef de bord ! Le code <strong id="egCodeRecap">1825</strong> a permis de reprogrammer le sas de secours. Le Nautilus-05 amorce sa remontée vers la surface. Mission réussie grâce à la masse volumique, la force pressante, la loi de Mariotte et la loi fondamentale de la statique des fluides !</p>
+      </div>
+    </div>
+
+  </div><!-- /exercices-sub-4 -->
 
 </div><!-- /tab-exercices -->
 
@@ -1017,6 +1299,26 @@ table.macromicro td.macro-cell{font-weight:600}
     <div class="card">
       <div class="card-title"><span class="icon" style="background:var(--gris-fond);color:var(--texte-leger);">📚</span>Exercices du manuel</div>
       <p style="font-size:.85rem;">En autonomie : tous les exercices corrigés du chapitre dans le manuel.<br>En classe : p229 n°12-13, p230 n°22, p231 n°29-30, p232 n°36, p233 n°38, p234 n°43-44, p238 n°54 (résolution de problème, fiche méthode p432).</p>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--bleu);">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair);color:var(--bleu);">🧩</span>Jeu — Associe chaque formule à sa loi</div>
+      <p style="font-size:.85rem;margin-bottom:10px;">Glisse chaque formule (ou touche-la puis touche la bonne case) vers la loi qui lui correspond.</p>
+      <div class="dnd-game">
+        <div class="dnd-pool" id="dndPool">
+          <div class="dnd-chip" draggable="true" data-match="fp" ondragstart="dndDragStart(event)" ondragend="dndDragEnd(event)" onclick="dndChipClick(this)">F = P × S</div>
+          <div class="dnd-chip" draggable="true" data-match="mar" ondragstart="dndDragStart(event)" ondragend="dndDragEnd(event)" onclick="dndChipClick(this)">P × V = constante</div>
+          <div class="dnd-chip" draggable="true" data-match="stat" ondragstart="dndDragStart(event)" ondragend="dndDragEnd(event)" onclick="dndChipClick(this)">P₂ − P₁ = ρg(z₁ − z₂)</div>
+          <div class="dnd-chip" draggable="true" data-match="rho" ondragstart="dndDragStart(event)" ondragend="dndDragEnd(event)" onclick="dndChipClick(this)">ρ = m / V</div>
+        </div>
+        <div class="dnd-targets" id="dndTargets">
+          <div class="dnd-target" data-match="rho" data-label="Masse volumique" ondragover="dndOver(event)" ondrop="dndDrop(event)" onclick="dndTargetClick(this)">Masse volumique</div>
+          <div class="dnd-target" data-match="fp" data-label="Force pressante" ondragover="dndOver(event)" ondrop="dndDrop(event)" onclick="dndTargetClick(this)">Force pressante</div>
+          <div class="dnd-target" data-match="mar" data-label="Loi de Mariotte" ondragover="dndOver(event)" ondrop="dndDrop(event)" onclick="dndTargetClick(this)">Loi de Mariotte</div>
+          <div class="dnd-target" data-match="stat" data-label="Loi fondamentale de la statique des fluides" ondragover="dndOver(event)" ondrop="dndDrop(event)" onclick="dndTargetClick(this)">Loi fondamentale de la statique des fluides</div>
+        </div>
+      </div>
+      <button class="exo-btn-secondary" onclick="resetDnd()">↺ Recommencer le jeu</button>
     </div>
 
   </div><!-- /bilan-sub-0 -->
@@ -1167,6 +1469,172 @@ function checkVideoBlanks(){
   }
 }
 
+
+/* === Escape Game — sous-marin === */
+var egSolved = [false,false,false,false];
+var egDigits = ['','','',''];
+
+function egCheck(num, inputId, correct, tol, fcrMsg, digit){
+  var raw = document.getElementById(inputId).value.replace(',','.').trim();
+  var v = parseFloat(raw);
+  var fb = document.getElementById('egFb'+num);
+  if(isNaN(v)){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de saisir une valeur numérique.';
+    return;
+  }
+  if(Math.abs(v-correct)/Math.abs(correct) < tol){
+    fb.className = 'exo-fb ok';
+    fb.innerHTML = '✓ ' + fcrMsg + '<div class="eg-code-found">🔑 Chiffre du code : ' + digit + '</div>';
+    egSolved[num-1] = true;
+    egDigits[num-1] = digit;
+    document.getElementById('egPuzzle'+num).classList.add('solved');
+    document.getElementById('egStep'+num).classList.add('done');
+    if(num < 4){
+      var nextLock = document.getElementById('egLock'+(num+1));
+      if(nextLock) nextLock.style.display = 'none';
+    }
+    egCheckAllSolved();
+  } else {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = '✗ Ce n\'est pas ça, réessaie.';
+  }
+}
+
+function egCheckAllSolved(){
+  if(egSolved.every(function(s){ return s; })){
+    document.getElementById('egOpenBtn').disabled = false;
+  }
+}
+
+function egOpenHatch(){
+  var code = document.getElementById('egCodeIn').value.trim();
+  var correctCode = egDigits.join('');
+  var fb = document.getElementById('egFinalFb');
+  if(code === correctCode){
+    document.getElementById('egCodeRecap').textContent = correctCode;
+    document.getElementById('egSuccess').classList.add('show');
+    fb.className = 'exo-fb ok';
+    fb.innerHTML = '✓ Code correct !';
+  } else {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = '✗ Code incorrect. Vérifie les 4 chiffres trouvés dans les énigmes ci-dessus.';
+  }
+}
+function egResetGame(){
+  egSolved = [false,false,false,false];
+  egDigits = ['','','',''];
+  for(var i=1; i<=4; i++){
+    document.getElementById('egIn'+i).value = '';
+    var fb = document.getElementById('egFb'+i);
+    fb.className = 'exo-fb'; fb.innerHTML = '';
+    document.getElementById('egPuzzle'+i).classList.remove('solved');
+    document.getElementById('egStep'+i).classList.remove('done');
+    if(i>1){ document.getElementById('egLock'+i).style.display = 'flex'; }
+  }
+  document.getElementById('egCodeIn').value = '';
+  document.getElementById('egOpenBtn').disabled = true;
+  document.getElementById('egFinalFb').className = 'exo-fb'; document.getElementById('egFinalFb').innerHTML = '';
+  document.getElementById('egSuccess').classList.remove('show');
+}
+
+/* === Jeu glisser-déposer : associer chaque formule à sa loi === */
+var dndSelected = null;
+
+function dndDragStart(e){
+  e.dataTransfer.setData('text/plain', e.target.getAttribute('data-match'));
+  e.target.classList.add('dragging');
+}
+function dndDragEnd(e){
+  e.target.classList.remove('dragging');
+}
+function dndOver(e){
+  e.preventDefault();
+}
+function dndDrop(e){
+  e.preventDefault();
+  var match = e.dataTransfer.getData('text/plain');
+  var chip = document.querySelector('.dnd-chip.dragging');
+  dndTryPlace(chip, e.currentTarget, match);
+}
+function dndChipClick(chip){
+  if(chip.classList.contains('placed-correct')) return;
+  document.querySelectorAll('.dnd-chip').forEach(function(c){ c.classList.remove('selected'); });
+  chip.classList.add('selected');
+  dndSelected = chip;
+}
+function dndTargetClick(target){
+  if(!dndSelected) return;
+  dndTryPlace(dndSelected, target, dndSelected.getAttribute('data-match'));
+  dndSelected = null;
+}
+function dndTryPlace(chip, target, match){
+  if(!chip) return;
+  if(target.getAttribute('data-match') === match){
+    target.innerHTML = '';
+    target.appendChild(chip);
+    chip.classList.remove('selected','dragging');
+    chip.classList.add('placed-correct');
+    chip.setAttribute('draggable','false');
+    target.classList.add('filled');
+  } else {
+    target.classList.add('shake');
+    setTimeout(function(){ target.classList.remove('shake'); }, 400);
+  }
+}
+function resetDnd(){
+  var pool = document.getElementById('dndPool');
+  document.querySelectorAll('#dndTargets .dnd-target').forEach(function(target){
+    var chip = target.querySelector('.dnd-chip');
+    if(chip){
+      chip.classList.remove('placed-correct','selected','dragging');
+      chip.setAttribute('draggable','true');
+      pool.appendChild(chip);
+    }
+    target.classList.remove('filled','shake');
+    target.innerHTML = target.getAttribute('data-label');
+  });
+  dndSelected = null;
+}
+
+
+/* === Afficher la correction à tout moment / Recommencer un exercice === */
+function showCorrection(fbId, correctionHTML){
+  var fb = document.getElementById(fbId);
+  fb.className = 'exo-fb correction';
+  fb.innerHTML = '💡 ' + correctionHTML;
+}
+function resetExo(inputId, fbId){
+  var el = document.getElementById(inputId);
+  if(el){
+    el.value = '';
+    el.classList.remove('correct','incorrect');
+  }
+  var fb = document.getElementById(fbId);
+  if(fb){
+    fb.className = 'exo-fb';
+    fb.innerHTML = '';
+  }
+}
+function resetExoMulti(fbId, inputIds){
+  inputIds.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el){ el.value=''; el.classList.remove('correct','incorrect'); }
+  });
+  var fb = document.getElementById(fbId);
+  if(fb){ fb.className='exo-fb'; fb.innerHTML=''; }
+}
+function resetQCM(group, fbId){
+  group.querySelectorAll('.qcm-opt').forEach(function(b){ b.classList.remove('correct','incorrect'); });
+  if(fbId){
+    var fb = document.getElementById(fbId);
+    if(fb){ fb.style.display='none'; fb.innerHTML=''; }
+  }
+}
+
+function FCR(f,c,r){
+  return '<span class="fcr-line"><strong>Formule :</strong> '+f+'</span><span class="fcr-line"><strong>Calcul :</strong> '+c+'</span><span class="fcr-line"><strong>Résultat :</strong> '+r+'</span>';
+}
 
 function selectQCM(btn, idx){
   var group = btn.parentElement;
