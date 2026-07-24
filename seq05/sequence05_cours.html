@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Séquence 05 – Description d'un fluide au repos – Première Spé PC</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --bleu:#2D5F8A; --bleu-clair:#E8F1F8; --bleu-moyen:#5B8FB9;
+  --orange:#E8783A; --orange-clair:#FDF0E8;
+  --vert:#3A8A6E; --vert-clair:#E8F5F0;
+  --gris-fond:#F5F7FA; --gris-bord:#DDE3EC;
+  --texte:#1A2A3A; --texte-leger:#5A6B7A; --blanc:#FFFFFF;
+  --rouge:#C0392B; --rouge-clair:#FDEDEC;
+  --violet:#7B4FA6; --violet-clair:#F3EDF9;
+}
+body{font-family:'Nunito',sans-serif;background:#F0F4F8;padding:14px;color:var(--texte)}
+h1{font-size:1.35rem;font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);line-height:1.2;text-align:left}
+
+/* HEADER */
+.header{background:var(--blanc);border:1px solid #E3E8EE;border-bottom:3px solid var(--bleu);border-radius:14px;padding:18px 24px 14px;max-width:1300px;margin:0 auto 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(45,95,138,0.10)}
+.header-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.header-left{display:flex;flex-direction:column;align-items:flex-start;gap:7px;flex-shrink:0;margin-top:2px}
+.header-badge{background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:20px;white-space:nowrap}
+button.cap-toggle{background:var(--bleu);color:#fff;border:none;padding:5px 12px;border-radius:999px;font-family:'Nunito',sans-serif;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap}
+button.cap-toggle:hover{background:#1e4466}
+.cap-panel{display:none;margin:0 0 14px;background:#fff;border:1px solid #B8D4EC;border-radius:12px;padding:16px 20px;text-align:left;font-size:.88rem;color:var(--texte)}
+.cap-panel.open{display:block}
+.cap-panel p{line-height:1.6;margin-bottom:6px}
+.header-titles{flex:1;min-width:180px}
+.header-titles h1{font-size:1.35rem}
+.header-titles p{font-size:.82rem;color:var(--texte-leger);margin-top:2px}
+.header-titles p span{color:var(--orange);font-weight:700}
+.hicon-wrap{flex-shrink:0;width:80px;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(45,95,138,.18);background:#fff}
+.hicon-wrap svg{display:block;width:100%;height:auto}
+.hicon-scene{opacity:0;animation:hiconFade 6s ease-in-out infinite}
+.hicon-a{animation-delay:0s}
+.hicon-b{animation-delay:3s}
+@keyframes hiconFade{0%{opacity:1}42%{opacity:1}50%{opacity:0}92%{opacity:0}100%{opacity:1}}
+
+/* ONGLETS */
+.tabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;flex-wrap:wrap}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:8px;padding:10px 18px 12px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;color:var(--texte-leger);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;position:relative;bottom:-3px}
+.tab:hover{color:var(--orange)}
+.tab.on{color:var(--orange);border-bottom-color:var(--orange);background:var(--orange-clair);border-radius:6px 6px 0 0}
+.panel{display:none;background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:0 0 12px 12px;padding:20px}
+.panel.on{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.main{max-width:1300px;margin:0 auto;padding:28px 20px 60px}
+
+/* Sous-onglets */
+.sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:nowrap;overflow-x:auto}
+.sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:#b8cfe0;color:var(--bleu);font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all .2s;white-space:nowrap}
+.sub-tab-btn:hover{background:var(--bleu);color:#fff}
+.sub-tab-btn.active{background:#1e4466;color:#fff}
+.sub-tab-content{display:none}
+.sub-tab-content.active{display:block;animation:fadeIn .2s ease}
+
+/* Sections / cartes */
+.section-title{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:var(--bleu);margin:24px 0 14px;display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:2px solid var(--bleu-clair)}
+.section-title:first-child{margin-top:0}
+.section-title .icon{font-size:1.2rem}
+.intro-box{background:#FFFBF7;border-left:4px solid var(--orange);border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:20px;font-size:.9rem;line-height:1.6;color:var(--texte);font-style:italic}
+.card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.card-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;color:var(--bleu);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card-title .icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.card ul{padding-left:1.2rem;margin:8px 0}
+.card li{margin-bottom:5px;line-height:1.55;font-size:.88rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.grid-2{grid-template-columns:1fr}}
+.formula{background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:14px 18px;text-align:center;font-family:'DM Mono',monospace;font-weight:700;color:var(--bleu);margin:14px 0;font-size:1.05rem}
+.formula .legend{font-size:.78rem;font-weight:500;color:var(--texte-leger);margin-top:8px;text-align:left}
+.exemple-box{background:var(--vert-clair);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.exemple-box strong{color:var(--vert)}
+
+/* Curseur de l'animation redox */
+.redox-slider-wrap{display:flex;align-items:center;gap:12px;max-width:420px;margin:0 auto 4px;}
+.redox-slider-label{font-family:'DM Mono',monospace;font-weight:700;font-size:.8rem;color:var(--texte-leger);white-space:nowrap}
+.redox-slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:4px;background:linear-gradient(90deg,#2D5F8A,#7B4FA6);outline:none;cursor:pointer}
+.redox-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#E8783A;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer}
+.redox-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#E8783A;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;border:none}
+.remarque-box{background:var(--violet-clair);border-left:4px solid var(--violet);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.remarque-box strong{color:var(--violet)}
+.attention-box{background:var(--rouge-clair);border-left:4px solid var(--rouge);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.attention-box strong{color:var(--rouge)}
+.accord-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 16px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;color:var(--texte);transition:background .2s;margin:10px 0}
+.accord-btn:hover{background:var(--bleu-clair)}
+.accord-body{display:none;padding:14px;background:var(--blanc);border:1.5px solid var(--gris-bord);border-top:none;border-radius:0 0 8px 8px;font-size:.88rem;line-height:1.7;margin-top:-10px;margin-bottom:10px}
+.accord-body.open{display:block;animation:fadeIn .2s}
+.bilan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:560px){.bilan-grid{grid-template-columns:1fr}}
+.bilan-card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px}
+.bilan-card h4{font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:700;color:var(--bleu);margin-bottom:8px;padding-bottom:8px;border-bottom:1.5px solid var(--gris-bord)}
+.ke-list{list-style:none;padding:0}
+.ke-list li{padding:6px 10px 6px 28px;position:relative;font-size:.84rem;border-bottom:1px solid var(--gris-bord);line-height:1.5}
+.ke-list li:last-child{border-bottom:none}
+.ke-list li::before{content:"✓";position:absolute;left:8px;color:var(--vert);font-weight:800;font-size:.9rem}
+.res-list{list-style:none;padding:0;margin:10px 0}
+.res-list a{display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--bleu);text-decoration:none;padding:8px 12px;border:1px solid var(--gris-bord);border-radius:8px;transition:background .15s}
+.res-list a:hover{background:var(--bleu-clair)}
+
+/* Méthode - étapes numérotées */
+.methode-list{list-style:none;padding:0;counter-reset:step}
+.methode-list li{counter-increment:step;position:relative;padding:12px 16px 12px 52px;margin-bottom:10px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;font-size:.88rem;line-height:1.6}
+.methode-list li::before{content:counter(step);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+
+/* Tableau couples */
+table.couples{width:100%;border-collapse:collapse;font-size:.85rem;margin:14px 0}
+table.couples th{background:var(--bleu-clair);color:var(--bleu);font-weight:700;padding:8px;text-align:left;border:1px solid var(--gris-bord)}
+table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:middle;font-family:'DM Mono',monospace}
+
+/* Activité expérimentale - photos */
+.activite-photo-row{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0;justify-content:center}
+.activite-photo{text-align:center;flex:1;min-width:180px;max-width:260px}
+.activite-photo img{width:100%;height:auto;border-radius:10px;border:2px solid var(--gris-bord);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.activite-photo span{display:block;font-size:.76rem;color:var(--texte-leger);margin-top:6px;font-style:italic}
+.activite-q{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.activite-q .qnum{font-family:'Outfit',sans-serif;font-weight:800;color:var(--orange);font-size:.8rem;letter-spacing:.04em;margin-bottom:6px}
+.activite-q .qtext{font-size:.9rem;line-height:1.6;margin-bottom:10px}
+.btn-reveal{background:var(--orange);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer}
+.btn-reveal:hover{background:#c8602a}
+.reveal-body{display:none;margin-top:10px;padding:12px 14px;background:#fff;border:1.5px solid var(--vert);border-radius:8px;font-size:.86rem;line-height:1.6}
+.reveal-body.open{display:block;animation:fadeIn .2s}
+.reveal-body strong{color:var(--vert)}
+
+/* Drag & drop - jeu d'association */
+.dnd-wrap{display:flex;gap:24px;flex-wrap:wrap;margin:16px 0}
+.dnd-col{flex:1;min-width:240px}
+.dnd-col h5{font-family:'Outfit',sans-serif;font-size:.88rem;color:var(--bleu);margin-bottom:10px}
+.dnd-tile{background:var(--orange-clair);border:2px solid var(--orange);border-radius:8px;padding:9px 12px;margin-bottom:8px;font-family:'DM Mono',monospace;font-size:.82rem;cursor:grab;user-select:none;transition:transform .12s, box-shadow .12s}
+.dnd-tile:active{cursor:grabbing}
+.dnd-tile.dragging{opacity:.4}
+.dnd-slot{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px dashed var(--gris-bord);border-radius:8px;padding:9px 12px;margin-bottom:8px;min-height:44px}
+.dnd-slot .couple-label{font-family:'DM Mono',monospace;font-weight:700;color:var(--bleu);flex-shrink:0;min-width:78px}
+.dnd-slot .drop-target{flex:1;min-height:30px;border-radius:6px;display:flex;align-items:center}
+.dnd-slot.over{border-color:var(--bleu);background:var(--bleu-clair)}
+.dnd-slot.correct{border-style:solid;border-color:var(--vert);background:var(--vert-clair)}
+.dnd-slot.incorrect{border-style:solid;border-color:var(--rouge);background:var(--rouge-clair)}
+.dnd-btn{background:var(--bleu);color:#fff;border:none;padding:9px 18px;border-radius:7px;font-weight:700;font-size:.85rem;cursor:pointer;margin-top:8px;margin-right:8px}
+.dnd-btn:hover{background:#1e4466}
+.dnd-btn.reset{background:var(--texte-leger)}
+.dnd-btn.reset:hover{background:#3d4b58}
+.dnd-feedback{margin-top:12px;padding:10px 14px;border-radius:8px;font-size:.85rem;display:none}
+.dnd-feedback.show{display:block}
+.dnd-feedback.ok{background:var(--vert-clair);border-left:4px solid var(--vert);color:#1a5a3a}
+.dnd-feedback.partial{background:#FFF8E6;border-left:4px solid #cc8800;color:#5a3a00}
+
+/* Construction guidée de demi-équations */
+.halfeq-block{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:16px 18px;margin-bottom:18px}
+.halfeq-title{font-family:'Outfit',sans-serif;font-size:.9rem;color:var(--bleu);margin-bottom:10px}
+.halfeq-row{background:#fff;border:1px solid var(--gris-bord);border-radius:8px;padding:14px 16px;font-family:'DM Mono',monospace;font-size:.92rem;line-height:2.1;margin-bottom:12px}
+.dnd-blank{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:28px;padding:0 4px;border:2px dashed var(--gris-bord);border-radius:6px;background:var(--gris-fond);vertical-align:middle;margin:0 2px}
+.dnd-blank.over{border-color:var(--bleu);background:var(--bleu-clair)}
+.dnd-blank.correct{border-style:solid;border-color:var(--vert);background:var(--vert-clair)}
+.dnd-blank.incorrect{border-style:solid;border-color:var(--rouge);background:var(--rouge-clair)}
+.dnd-bank{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.dnd-num{background:var(--orange-clair);border:2px solid var(--orange);border-radius:7px;padding:6px 14px;font-family:'DM Mono',monospace;font-weight:700;font-size:.9rem;cursor:grab;user-select:none;color:var(--texte)}
+.dnd-num:active{cursor:grabbing}
+.dnd-num.dragging{opacity:.4}
+
+/* Réordonner la méthode */
+.reorder-list{list-style:none;padding:0;margin:14px 0}
+.reorder-item{background:var(--vert-exo,#F0FAF6);border:2px solid var(--gris-bord);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:.85rem;cursor:grab;user-select:none;display:flex;align-items:center;gap:10px}
+.reorder-item .handle{color:var(--texte-leger);font-size:1rem}
+.reorder-item.dragging{opacity:.4}
+.reorder-item.correct{border-color:var(--vert);background:var(--vert-clair)}
+.reorder-item.incorrect{border-color:var(--rouge);background:var(--rouge-clair)}
+
+/* Exercices */
+.exo-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+.exo-box h5{font-family:'Outfit',sans-serif;color:var(--orange);font-size:.92rem;margin-bottom:8px}
+.exo-enonce{background:#fff;border-radius:8px;padding:12px 16px;font-size:.88rem;line-height:1.6;margin-bottom:12px;border:1px solid var(--gris-bord)}
+.exo-eq{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-family:'DM Mono',monospace;font-size:.92rem;margin:10px 0;background:#fff;border-radius:8px;padding:10px 12px;border:1px solid var(--gris-bord)}
+.exo-eq select{padding:5px 8px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;font-size:.88rem;background:#fff}
+.exo-btn{background:var(--bleu);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;margin-top:6px}
+.exo-btn:hover{background:#1e4466}
+.exo-fb{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.85rem;line-height:1.6;display:none}
+.exo-fb.ok{display:block;background:var(--vert-clair);border-left:4px solid var(--vert);color:#1a5a3a}
+.exo-fb.ko{display:block;background:var(--rouge-clair);border-left:4px solid var(--rouge);color:#7a2418}
+
+/* Activité drag&drop tactile - Oxydants/Réducteurs (comme fichier Terminale) */
+.activite-card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.drag-pool{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:var(--gris-fond);border:1.5px dashed var(--gris-bord);border-radius:10px;min-height:48px;margin-bottom:14px}
+.drag-zones{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+@media(max-width:500px){.drag-zones{grid-template-columns:1fr}}
+.drop-zone{min-height:60px;border:2px dashed var(--gris-bord);border-radius:10px;padding:10px 12px;background:var(--blanc);display:flex;flex-wrap:wrap;gap:7px;align-items:flex-start;transition:border-color .15s, background .15s}
+.drop-zone.drag-over{border-color:var(--bleu);background:var(--bleu-clair);border-style:solid}
+.drop-zone.drop-ok{border-color:var(--vert);background:var(--vert-clair);border-style:solid}
+.drop-zone.drop-ko{border-color:var(--rouge);background:var(--rouge-clair);border-style:solid}
+.drop-zone-label{display:block;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;color:var(--texte-leger);margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase}
+.drop-zone-placeholder{color:var(--texte-leger);font-size:.78rem;font-weight:400;font-style:italic}
+.drag-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:20px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;cursor:grab;user-select:none;border:2px solid transparent;transition:opacity .15s, transform .1s;touch-action:none}
+.drag-badge:active{cursor:grabbing;transform:scale(1.08);opacity:.85}
+.dq-feedback{font-size:.8rem;margin-top:6px;padding-left:2px;min-height:16px}
+.dq-feedback.wrong{color:var(--rouge)}
+
+/* Glossaire */
+.gloss-search{width:100%;padding:10px 14px;border:1.5px solid var(--gris-bord);border-radius:20px;font-family:'Nunito',sans-serif;font-size:.88rem;margin-bottom:16px}
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+@media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 16px}
+.gloss-item dt{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:.9rem;margin-bottom:4px}
+.gloss-item dd{font-size:.84rem;color:var(--texte);line-height:1.55}
+
+/* Badges de difficulté */
+.diff-badge{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:800;letter-spacing:.03em;padding:3px 10px;border-radius:20px;margin-right:8px;vertical-align:middle}
+.diff-badge.d1{background:var(--vert-clair);color:var(--vert)}
+.diff-badge.d2{background:var(--bleu-clair);color:var(--bleu)}
+.diff-badge.d3{background:var(--orange-clair);color:var(--orange)}
+.diff-badge.d4{background:var(--rouge-clair);color:var(--rouge)}
+.diff-badge.d5{background:var(--violet-clair);color:var(--violet)}
+
+/* Escape Game */
+.escape-wrap{background:#0a0a0f;border-radius:14px;padding:20px;margin:14px 0;box-shadow:inset 0 0 60px rgba(0,0,0,.8)}
+.escape-story{color:#cfd6e6;font-size:.86rem;line-height:1.7;background:rgba(255,255,255,.04);border-left:4px solid var(--orange);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:16px}
+.escape-steps-nav{display:flex;justify-content:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.escape-step-badge{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:.76rem;font-weight:800;background:rgba(255,255,255,.06);color:#8a93a8;border:1.5px solid rgba(255,255,255,.12)}
+.escape-step-badge.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+.escape-step-badge.done{background:rgba(91,224,138,.18);color:#5be08a;border-color:rgba(91,224,138,.4)}
+.escape-stage{display:none;margin-bottom:16px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.12)}
+.escape-stage.on{display:block;animation:fadeIn .25s ease}
+.escape-locked{text-align:center;color:#6a7386;font-size:.84rem;padding:18px;background:rgba(255,255,255,.03);border-radius:10px;border:1.5px dashed rgba(255,255,255,.15)}
+.escape-ctrl{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:14px}
+.escape-btn{border:none;border-radius:10px;padding:10px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;color:#fff;transition:transform .15s ease, box-shadow .15s ease;box-shadow:0 3px 0 rgba(0,0,0,.35)}
+.escape-btn:hover{transform:translateY(-2px)}
+.escape-btn:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(0,0,0,.35)}
+.escape-btn.a{background:#7a6bd8}
+.escape-btn.b{background:#2050d8}
+.escape-btn.c{background:#1fa550}
+.escape-log{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;margin-bottom:14px;min-height:28px;font-size:.82rem;color:#dfe4f0;line-height:1.7}
+.escape-log b{color:#ffd76b}
+.escape-guess{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border-radius:10px;padding:12px;margin-bottom:12px}
+.escape-guess select{padding:8px 12px;border-radius:7px;border:none;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem}
+.escape-guess button, .escape-validate-btn{border:none;border-radius:8px;padding:9px 18px;font-weight:800;font-size:.84rem;background:var(--orange);color:#fff;cursor:pointer}
+.escape-guess button:hover, .escape-validate-btn:hover{background:#c8602a}
+.escape-eq{color:#dfe4f0;font-family:'DM Mono',monospace;font-size:.9rem;text-align:center;line-height:2.2;margin-bottom:12px}
+.escape-eq select{padding:4px 6px;border-radius:6px;border:none;font-family:'DM Mono',monospace;font-size:.86rem}
+.esc-eq-slot{display:inline-block;min-width:20px;padding:0 4px;color:#ffd76b;font-weight:700;border-bottom:2px solid rgba(255,215,107,.5)}
+.escape-result{text-align:center;font-size:.9rem;font-weight:700;min-height:24px;margin-bottom:10px}
+.escape-result.win{color:#5be08a}
+.escape-result.lose{color:#ff8a8a}
+.escape-comp-grid{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.escape-comp-btn{padding:10px 16px;border-radius:10px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#dfe4f0;font-family:'DM Mono',monospace;font-size:.84rem;cursor:pointer;transition:transform .15s,border-color .15s}
+.escape-comp-btn:hover{transform:scale(1.04);border-color:rgba(255,255,255,.4)}
+.escape-comp-btn.sel{border-color:#fff}
+.escape-comp-btn.ok{border-color:#5be08a;background:rgba(91,224,138,.15)}
+.escape-comp-btn.ko{border-color:#ff8a8a;background:rgba(255,138,138,.15)}
+.escape-reset{display:block;margin:14px auto 0;background:transparent;border:1.5px solid rgba(255,255,255,.25);color:#cfd6e6;border-radius:20px;padding:6px 16px;font-size:.78rem;font-weight:700;cursor:pointer}
+.escape-reset:hover{background:rgba(255,255,255,.08)}
+.escape-score{text-align:center;color:#8a93a8;font-size:.76rem;margin-top:8px}
+.escape-victory{display:none;text-align:center;background:linear-gradient(135deg,#1a3a2a,#0f2a1c);border:2px solid #5be08a;border-radius:12px;padding:20px;margin-top:14px;animation:fadeIn .4s ease}
+.escape-victory.show{display:block}
+.escape-victory h3{color:#5be08a;font-family:'Outfit',sans-serif;font-size:1.1rem;margin-bottom:6px}
+.escape-victory p{color:#cfd6e6;font-size:.86rem}
+
+/* Chambre réactionnelle */
+.esc-chamber-wrap{display:flex;justify-content:center;margin-bottom:16px}
+.esc-chamber{width:170px;height:auto;filter:drop-shadow(0 0 12px rgba(0,0,0,.5))}
+#escStrip{transition:height 1s ease, y 1s ease, opacity 1s ease}
+#escLiquid{transition:fill 1.2s ease, opacity 1.2s ease}
+#escDeposit{transition:opacity .8s ease}
+#escBubbles{transition:opacity .6s ease}
+
+/* Clavier numérique digicode */
+.esc-keypad-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
+.esc-code-display{display:flex;gap:8px}
+.esc-digit{width:34px;height:42px;border-radius:8px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.2);color:#ffd76b;font-family:'DM Mono',monospace;font-weight:700;font-size:1.2rem;display:flex;align-items:center;justify-content:center}
+.esc-digit.filled{border-color:#ffd76b;background:rgba(255,215,107,.12)}
+.esc-keypad{display:grid;grid-template-columns:repeat(3,44px);gap:8px}
+.esc-key{width:44px;height:44px;border-radius:8px;border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#dfe4f0;font-family:'DM Mono',monospace;font-weight:700;font-size:1rem;cursor:pointer;transition:background .15s, transform .1s}
+.esc-key:hover{background:rgba(255,255,255,.14)}
+.esc-key:active{transform:scale(.94)}
+
+/* Porte du coffre */
+.esc-vault{position:relative;width:100%;max-width:220px;height:90px;margin:0 auto 16px;overflow:hidden;border-radius:10px;background:#050508;border:2px solid #22222e}
+.esc-vault-door{position:absolute;top:0;width:50%;height:100%;background:linear-gradient(135deg,#3a4150,#1c2028);transition:transform 1s ease;display:flex;align-items:center;border:1px solid #050508}
+.esc-vault-left{left:0;justify-content:flex-end;border-radius:10px 0 0 10px}
+.esc-vault-right{right:0;justify-content:flex-start;border-radius:0 10px 10px 0}
+.esc-vault-door::after{content:'';width:8px;height:26px;background:#0e0e14;border-radius:3px;margin:0 10px}
+.esc-vault.open .esc-vault-left{transform:translateX(-100%)}
+.esc-vault.open .esc-vault-right{transform:translateX(100%)}
+.esc-vault-treasure{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.8rem;opacity:0;transition:opacity .6s ease .5s}
+.esc-vault.open .esc-vault-treasure{opacity:1}
+
+.footer-note{max-width:1300px;margin:0 auto;padding:0 20px 30px;font-size:.76rem;color:var(--texte-leger);text-align:center}
+
+@media(max-width:600px){
+  body{padding:6px}
+  .header{padding:12px 16px 10px}
+  .header-titles h1{font-size:1.05rem}
+  .hicon-wrap{width:60px}
+  .tab{padding:8px 12px 10px;font-size:.8rem}
+  .panel{padding:12px}
+  .main{padding:0 0 30px}
+  .bilan-grid,.grid-2{grid-template-columns:1fr}
+  .dnd-wrap{flex-direction:column}
+  .activite-photo-row{flex-direction:column;align-items:center}
+}
+
+/* === Ajouts Séquence 05 — Fluide au repos === */
+.video-wrap{max-width:520px;margin:0 auto 14px;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.15);background:#000}
+.video-wrap video{display:block;width:100%;height:auto}
+table.macromicro{width:100%;border-collapse:collapse;font-size:.86rem;margin:14px 0}
+table.macromicro th{background:var(--bleu-clair);color:var(--bleu);font-weight:700;padding:9px 10px;text-align:left;border:1px solid var(--gris-bord)}
+table.macromicro td{padding:9px 10px;border:1px solid var(--gris-bord);vertical-align:top;line-height:1.5}
+table.macromicro td.macro-cell{font-weight:600}
+.micro-blank{background:var(--gris-fond);border:1.5px dashed var(--gris-bord);border-radius:8px;padding:8px 10px;min-height:20px}
+.micro-blank.revealed{background:var(--vert-clair);border:1.5px solid var(--vert);border-style:solid}
+.btn-reveal.small{padding:5px 11px;font-size:.74rem}
+.sim-readout{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin:10px 0 4px;}
+.sim-readout .val{text-align:center;font-family:'DM Mono',monospace;}
+.sim-readout .val .num{display:block;font-size:1.15rem;font-weight:700;color:var(--bleu)}
+.sim-readout .val .lbl{font-size:.72rem;color:var(--texte-leger)}
+.qi-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 16px;margin:10px 0}
+.qi-box .qi-q{font-size:.87rem;line-height:1.6;margin-bottom:8px;font-weight:600}
+.qcm-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.qcm-opt{background:#fff;border:1.5px solid var(--gris-bord);border-radius:7px;padding:7px 13px;font-size:.82rem;font-weight:600;font-family:'Nunito',sans-serif;color:var(--texte);cursor:pointer;transition:all .15s}
+.qcm-opt:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.qcm-opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.qcm-opt.incorrect{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+.blank-in{padding:6px 9px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;font-size:.82rem;width:130px}
+.blank-in.correct{border-color:var(--vert);background:var(--vert-clair)}
+.blank-in.incorrect{border-color:var(--rouge);background:var(--rouge-clair)}
+.consist-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 14px;max-width:380px;margin:8px 0}
+</style>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <div class="header-badge">1<sup>ère</sup> Spé – Séq. 05</div>
+      <button class="cap-toggle" onclick="document.getElementById('capPanel').classList.toggle('open')">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Description d'un fluide au repos</h1>
+      <p>Thème : <span>Mouvements et interactions</span></p>
+    </div>
+    <div class="hicon-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+        <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+        <!-- enceinte fixe -->
+        <rect x="15" y="25" width="111" height="75" rx="4" fill="none" stroke="#5B8FB9" stroke-width="2"/>
+        <!-- gaz (largeur variable = volume) -->
+        <rect x="18" y="28" width="100" height="69" fill="#DCEAF5">
+          <animate attributeName="width" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="100.0;80.7;49.3;46.0;44.5;44.0;44.5;46.0;49.3;80.7;100.0"/>
+        </rect>
+        <!-- particules : plus resserrées et plus agitées quand le volume diminue -->
+        <circle r="3.2" fill="#2D5F8A">
+          <animate attributeName="cx" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="35.8;32.9;28.2;29.6;25.6;29.3;25.6;29.6;28.2;32.9;35.8"/>
+          <animate attributeName="cy" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="62.0;62.0;62.0;62.4;61.6;62.4;61.6;62.4;62.0;62.0;62.0"/>
+        </circle>
+        <circle r="3" fill="#5B8FB9">
+          <animate attributeName="cx" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="54.2;47.4;36.5;37.2;32.9;36.5;32.9;37.2;36.5;47.4;54.2"/>
+          <animate attributeName="cy" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="62.0;62.0;62.0;62.9;61.1;62.9;61.1;62.9;62.0;62.0;62.0"/>
+        </circle>
+        <circle r="3.4" fill="#2D5F8A">
+          <animate attributeName="cx" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="72.6;62.0;44.7;44.8;40.2;43.7;40.2;44.8;44.7;62.0;72.6"/>
+          <animate attributeName="cy" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="62.0;62.0;62.0;63.2;60.8;63.2;60.8;63.2;62.0;62.0;62.0"/>
+        </circle>
+        <circle r="3" fill="#5B8FB9">
+          <animate attributeName="cx" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="88.2;74.3;51.7;51.3;46.4;49.8;46.4;51.3;51.7;74.3;88.2"/>
+          <animate attributeName="cy" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="62.0;62.0;62.0;62.8;61.2;62.8;61.2;62.8;62.0;62.0;62.0"/>
+        </circle>
+        <circle r="3.2" fill="#2D5F8A">
+          <animate attributeName="cx" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="103.0;86.0;58.3;57.4;52.2;55.6;52.2;57.4;58.3;86.0;103.0"/>
+          <animate attributeName="cy" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="62.0;62.0;62.0;62.3;61.7;62.3;61.7;62.3;62.0;62.0;62.0"/>
+        </circle>
+        <!-- piston mobile -->
+        <rect y="22" width="8" height="81" fill="#2D5F8A" rx="1">
+          <animate attributeName="x" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="118.0;98.7;67.3;64.0;62.5;62.0;62.5;64.0;67.3;98.7;118.0"/>
+        </rect>
+        <text x="70" y="18" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="9" fill="#2D5F8A">Volume comprimé</text>
+        <!-- manomètre : la pression augmente quand le volume diminue -->
+        <circle cx="168" cy="55" r="24" fill="#fff" stroke="#2D5F8A" stroke-width="3"/>
+        <text x="168" y="52" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="8" fill="#2D5F8A">P</text>
+        <line x1="168" y1="55" x2="168" y2="37" stroke="#E8783A" stroke-width="2.5" stroke-linecap="round">
+          <animateTransform attributeName="transform" type="rotate" dur="5s" repeatCount="indefinite"
+            keyTimes="0;0.2;0.4;0.44;0.47;0.5;0.53;0.56;0.6;0.8;1.0"
+            values="-32.0 168 55;-6.5 168 55;35.0 168 55;39.4 168 55;41.3 168 55;42.0 168 55;41.3 168 55;39.4 168 55;35.0 168 55;-6.5 168 55;-32.0 168 55"/>
+        </line>
+        <text x="168" y="105" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="8" fill="#5A6B7A">Pression</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="cap-panel" id="capPanel">
+    <p><strong>Expliquer qualitativement</strong> le lien entre les grandeurs macroscopiques de description d'un fluide et le comportement microscopique des entités qui le constituent.</p>
+    <p><strong>Utiliser la loi de Mariotte.</strong></p>
+    <p><strong>Exploiter la relation</strong> F = P.S pour déterminer la force pressante exercée par un fluide sur une surface plane S soumise à la pression P.</p>
+    <p><strong>Dans le cas d'un fluide incompressible au repos</strong>, utiliser la relation fournie exprimant la loi fondamentale de la statique des fluides : P₂−P₁ = ρg(z₁−z₂). Tester la loi fondamentale de la statique des fluides.</p>
+  </div>
+
+  <nav class="tabs">
+    <div class="tab on" onclick="showTab('cours')">📘 Cours</div>
+    <div class="tab" onclick="showTab('methode')">🧪 Méthode &amp; TD</div>
+    <div class="tab" onclick="showTab('exercices')">✏️ Exercices</div>
+    <div class="tab" onclick="showTab('bilan')">✓ Bilan &amp; Ressources</div>
+  </nav>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════ TAB 1 — COURS ══════════════════ -->
+<div class="panel on" id="tab-cours">
+
+  <nav class="sub-tabs-nav" id="sub-nav-cours">
+    <button class="sub-tab-btn active" onclick="switchSubTab('cours',0)">📘 Cours</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('cours',1)">🧪 Activité — vidéo &amp; expérience maison</button>
+  </nav>
+
+  <div class="sub-tab-content active" id="cours-sub-0">
+
+    <div class="intro-box">
+      Vidéo débat p220 : pourquoi la canette se déforme-t-elle si on aspire l'air qu'elle contient ? Pour comprendre ce phénomène, il faut décrire ce qu'est un fluide, comment il exerce des forces sur les parois qui le contiennent, et comment sa pression évolue avec la profondeur.
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--texte-leger);background:var(--gris-fond);">
+      <div class="card-title"><span class="icon" style="background:#fff;color:var(--texte-leger);">🔁</span>Notions abordées en Seconde</div>
+      <p style="font-size:.85rem;line-height:1.6;">Référentiel, vecteur position, vecteur vitesse, variation du vecteur vitesse, exemples de forces, principe d'inertie. Charge électrique élémentaire.</p>
+    </div>
+
+    <div class="section-title"><span class="icon">💧</span>I. Grandeurs de description d'un fluide</div>
+    <p style="font-size:.86rem;color:var(--texte-leger);font-style:italic;margin-bottom:12px;">Objectif : expliquer qualitativement le lien entre les grandeurs macroscopiques de description d'un fluide et le comportement microscopique des entités qui le constituent.</p>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair);color:var(--bleu);">📖</span>a. Qu'est-ce qu'un fluide ?</div>
+      <p style="font-size:.88rem;line-height:1.65;">Un <strong>fluide</strong> est un milieu qui n'a pas de forme propre. Il regroupe :</p>
+      <ul>
+        <li>les <strong>liquides</strong>, quasiment <strong>incompressibles</strong> (on ne peut pas modifier leur volume) ;</li>
+        <li>les <strong>gaz</strong>, <strong>compressibles</strong> et <strong>expansibles</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair);color:var(--orange);">🔬</span>b. Description macroscopique et microscopique</div>
+      <p style="font-size:.88rem;line-height:1.65;">À l'échelle <strong>macroscopique</strong>, un fluide est décrit à l'aide de trois grandeurs physiques : la <strong>masse volumique</strong>, la <strong>température</strong> et la <strong>pression</strong>. Ces grandeurs rendent compte du comportement microscopique des constituants du fluide qui, même au repos, sont en <strong>mouvement incessant et désordonné</strong> (agitation thermique).</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair);color:var(--vert);">🔗</span>c. Lien macroscopique / microscopique — à compléter</div>
+      <p style="font-size:.86rem;margin-bottom:10px;">D'après l'activité vidéo (onglet « Activité »), complète le lien entre chaque grandeur macroscopique et le comportement microscopique associé. Clique sur « Afficher » pour vérifier ta réponse.</p>
+      <table class="macromicro">
+        <tr><th>Échelle macroscopique</th><th>Échelle microscopique</th></tr>
+        <tr>
+          <td class="macro-cell">Le fluide n'a pas de mouvement d'ensemble.</td>
+          <td>Les entités du fluide sont en <strong>mouvement incessant et désordonné</strong> (agitation thermique).</td>
+        </tr>
+        <tr>
+          <td class="macro-cell">Température <em>T</em> (en °C), mesurée avec un thermomètre.</td>
+          <td>
+            <button class="btn-reveal small" onclick="this.nextElementSibling.classList.toggle('open')">👁 Afficher</button>
+            <div class="reveal-body"><strong>Agitation</strong> des entités. Plus il y a d'agitation, plus la température est élevée.</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="macro-cell">Pression <em>P</em> (en Pa), mesurée avec un manomètre.</td>
+          <td>
+            <button class="btn-reveal small" onclick="this.nextElementSibling.classList.toggle('open')">👁 Afficher</button>
+            <div class="reveal-body"><strong>Chocs</strong> des entités contre les parois. Plus il y a de chocs, plus la pression est élevée.</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="macro-cell">Masse volumique ρ = m/V (en kg·m⁻³), plus élevée pour un liquide que pour un gaz.</td>
+          <td>
+            <button class="btn-reveal small" onclick="this.nextElementSibling.classList.toggle('open')">👁 Afficher</button>
+            <div class="reveal-body"><strong>Proximité</strong> des entités. Elles sont plus proches les unes des autres dans un liquide que dans un gaz.</div>
+          </td>
+        </tr>
+      </table>
+      <div class="remarque-box"><strong>À retenir :</strong> la pression d'un fluide n'est pas due au poids des entités qui le constituent, mais aux chocs incessants de ces entités (atomes, ions ou molécules) contre les parois qui le contiennent.</div>
+    </div>
+
+    <div class="section-title"><span class="icon">🖐️</span>II. Force pressante</div>
+    <p style="font-size:.86rem;color:var(--texte-leger);font-style:italic;margin-bottom:12px;">Objectif : exploiter la relation F = P.S pour déterminer la force pressante exercée par un fluide sur une surface plane S soumise à la pression P.</p>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair);color:var(--bleu);">📖</span>Définition</div>
+      <p style="font-size:.88rem;line-height:1.65;">Un fluide au repos exerce sur toute paroi en contact avec lui des actions mécaniques modélisées par une <strong>force pressante</strong>, perpendiculaire à la paroi et dirigée du fluide vers la paroi.</p>
+      <div class="formula">
+        F = P × S
+        <div class="legend">F : valeur de la force pressante (en N) &nbsp;•&nbsp; P : pression du fluide (en Pa) &nbsp;•&nbsp; S : aire de la surface plane en contact avec le fluide (en m²)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair);color:var(--orange);">🧪</span>Simulateur — Force pressante sur une paroi</div>
+      <p style="font-size:.86rem;margin-bottom:6px;">Fais varier la pression du fluide (surface fixée à S = 1,8 m², comme la peau d'un plongeur) et observe l'effet sur la paroi mobile et sur la valeur de F.</p>
+      <svg viewBox="0 0 380 150" style="max-width:420px;width:100%;height:auto;display:block;margin:0 auto 6px;" id="fpSvg">
+        <rect width="380" height="150" rx="10" fill="#F5F7FA" stroke="#DDE3EC"/>
+        <rect x="30" y="30" width="180" height="90" fill="#DCEAF5" stroke="#5B8FB9" stroke-width="2"/>
+        <text x="120" y="24" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="10" fill="#2D5F8A">Fluide (pression P)</text>
+        <!-- flèches de force -->
+        <g id="fpArrows"></g>
+        <!-- paroi mobile -->
+        <rect x="210" y="26" width="10" height="98" fill="#5A6B7A" id="fpWall"/>
+        <text x="270" y="80" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="10" fill="#5A6B7A">paroi</text>
+      </svg>
+      <div class="redox-slider-wrap">
+        <span class="redox-slider-label">P faible</span>
+        <input type="range" min="100000" max="3000000" step="50000" value="500000" id="fpSlider" class="redox-slider" oninput="fpUpdate(this.value)">
+        <span class="redox-slider-label">P élevée</span>
+      </div>
+      <div class="sim-readout">
+        <div class="val"><span class="num" id="fpPval">5,0×10⁵ Pa</span><span class="lbl">Pression P</span></div>
+        <div class="val"><span class="num">1,8 m²</span><span class="lbl">Surface S</span></div>
+        <div class="val"><span class="num" id="fpFval">9,0×10⁵ N</span><span class="lbl">Force pressante F = P×S</span></div>
+      </div>
+      <div class="exemple-box"><strong>Exemple :</strong> à une profondeur donnée, un plongeur peut subir une pression P = 2,0×10⁵ Pa sur une surface de peau S = 1,8 m². La force pressante résultante vaut F = P×S = 2,0×10⁵ × 1,8 ≈ 3,6×10⁵ N — d'où l'importance de la combinaison de plongée pour répartir cette pression sur tout le corps !</div>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--orange);">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair);color:var(--orange);">🏠</span>Expérience à faire chez soi</div>
+      <p style="font-size:.87rem;line-height:1.6;margin-bottom:8px;">Remplis à ras bord un verre avec de l'eau. Dépose une petite feuille de papier (¼ de feuille A4 par exemple) sur le verre. Maintiens-la avec la main puis retourne rapidement le verre.</p>
+      <p style="font-size:.87rem;line-height:1.6;"><strong>Observation :</strong> la feuille de papier reste collée sur le verre et se courbe légèrement vers l'intérieur.</p>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁 Pourquoi ?</button>
+      <div class="reveal-body">La pression atmosphérique exerce, de bas en haut, une force pressante sur la feuille de papier. Cette force pressante est supérieure au poids de l'eau contenue dans le verre : la feuille reste donc plaquée contre le verre et empêche l'eau de couler. C'est le même principe qui explique pourquoi la canette se déforme lorsqu'on en aspire l'air (vidéo débat p220) : en réduisant la pression à l'intérieur, on déséquilibre les forces pressantes de part et d'autre de la paroi de la canette, qui se fait écraser par la pression atmosphérique extérieure.</div>
+    </div>
+
+    <div class="card" style="background:var(--gris-fond);border-style:dashed;">
+      <div class="card-title"><span class="icon" style="background:#fff;color:var(--texte-leger);">📚</span>Pour s'entraîner</div>
+      <p style="font-size:.85rem;">TD : Plongée en apnée p224 (voir onglet <strong>Méthode &amp; TD</strong>) • Exercices p231 n°29 (calculer une force pressante) et p234 n°43 (bouchon de champagne) — voir onglet <strong>Exercices</strong>.</p>
+    </div>
+
+    <div class="section-title"><span class="icon">💨</span>III. Loi de Mariotte</div>
+    <p style="font-size:.86rem;color:var(--texte-leger);font-style:italic;margin-bottom:12px;">Objectif : utiliser la loi de Mariotte.</p>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair);color:var(--bleu);">📖</span>Énoncé</div>
+      <p style="font-size:.88rem;line-height:1.65;">Pour une <strong>quantité de gaz donnée</strong>, maintenue à <strong>température constante</strong>, le produit de la pression P par le volume V occupé par ce gaz est <strong>constant</strong> :</p>
+      <div class="formula">
+        P × V = constante &nbsp;&nbsp;(à T constante)
+        <div class="legend">P : pression du gaz (en Pa) &nbsp;•&nbsp; V : volume occupé par le gaz (en m³)</div>
+      </div>
+      <p style="font-size:.86rem;line-height:1.6;">Autrement dit, si l'on note (P₁,V₁) et (P₂,V₂) l'état d'un gaz à deux instants différents (même température, même quantité de matière) :</p>
+      <div class="formula" style="border-color:#B8D4EC;background:#E8F1F8;">P₁ × V₁ = P₂ × V₂</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair);color:var(--orange);">🧪</span>Simulateur — Seringue et loi de Mariotte</div>
+      <p style="font-size:.86rem;margin-bottom:6px;">Fais varier le volume occupé par le gaz en déplaçant le piston de la seringue (température constante) et observe l'évolution de la pression et du produit P×V.</p>
+      <svg viewBox="0 0 380 140" style="max-width:420px;width:100%;height:auto;display:block;margin:0 auto 6px;" id="mariotteSvg">
+        <rect width="380" height="140" rx="10" fill="#F5F7FA" stroke="#DDE3EC"/>
+        <!-- corps de la seringue -->
+        <rect x="60" y="35" width="260" height="60" fill="none" stroke="#5A6B7A" stroke-width="2.5" rx="4"/>
+        <rect x="20" y="50" width="40" height="30" fill="#5A6B7A" rx="3"/>
+        <!-- gaz -->
+        <rect x="62" y="37" width="150" height="56" fill="#DCEAF5" id="mGas"/>
+        <!-- particules -->
+        <g id="mParticles"></g>
+        <!-- piston -->
+        <rect x="212" y="30" width="8" height="70" fill="#2D5F8A" id="mPiston"/>
+        <rect x="205" y="24" width="22" height="10" fill="#2D5F8A"/>
+        <text x="120" y="25" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="10" fill="#2D5F8A">Gaz</text>
+      </svg>
+      <div class="redox-slider-wrap">
+        <span class="redox-slider-label">V petit</span>
+        <input type="range" min="2" max="10" step="0.5" value="5" id="mSlider" class="redox-slider" oninput="mUpdate(this.value)">
+        <span class="redox-slider-label">V grand</span>
+      </div>
+      <div class="sim-readout">
+        <div class="val"><span class="num" id="mVval">5,0 L</span><span class="lbl">Volume V</span></div>
+        <div class="val"><span class="num" id="mPval">1,00×10⁵ Pa</span><span class="lbl">Pression P</span></div>
+        <div class="val"><span class="num" id="mPVval">5,0×10⁵</span><span class="lbl">Produit P×V (constant ✓)</span></div>
+      </div>
+      <div class="remarque-box"><strong>Constat :</strong> quel que soit le volume choisi, le produit P×V reste constant : lorsque le volume diminue, la pression augmente dans les mêmes proportions (et inversement). C'est la loi de Mariotte.</div>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--violet);">
+      <div class="card-title"><span class="icon" style="background:var(--violet-clair);color:var(--violet);">🧭</span>Activité — Utiliser l'animation PCCL</div>
+      <p style="font-size:.86rem;line-height:1.6;margin-bottom:10px;">Ouvre l'application interactive <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/loi_mariotte_comportement_gaz_pression_chocs_microscopique_macroscopique_volume_flash.htm" target="_blank" rel="noopener" style="color:var(--violet);font-weight:700;">PCCL — Loi de Mariotte</a> (nouvel onglet), puis réponds aux questions suivantes en manipulant le volume du gaz.</p>
+
+      <div class="qi-box">
+        <div class="qi-q">1. Diminue progressivement le volume occupé par le gaz. Que deviennent la distance entre les entités et la fréquence de leurs chocs contre les parois ?</div>
+        <div class="qcm-opts" data-answer="0" data-fb="pccl1fb" data-explain="Les entités se rapprochent les unes des autres, et les chocs contre les parois deviennent plus fréquents. C'est ce qui explique, à l'échelle microscopique, l'augmentation de la pression lorsqu'on comprime un gaz.">
+          <button class="qcm-opt" onclick="selectQCM(this,0)">Distance ↓ et chocs plus fréquents</button>
+          <button class="qcm-opt" onclick="selectQCM(this,1)">Distance ↑ et chocs plus rares</button>
+          <button class="qcm-opt" onclick="selectQCM(this,2)">Aucun changement</button>
+        </div>
+        <div class="exo-fb" id="pccl1fb" style="display:none;"></div>
+      </div>
+      <div class="qi-box">
+        <div class="qi-q">2. Relève sur l'animation deux couples (P₁,V₁) et (P₂,V₂) pour un même gaz à température constante, et saisis-les ci-dessous pour vérifier la loi de Mariotte.</div>
+        <div class="consist-grid">
+          <input type="text" class="blank-in" id="pcclP1" placeholder="P₁">
+          <input type="text" class="blank-in" id="pcclV1" placeholder="V₁">
+          <input type="text" class="blank-in" id="pcclP2" placeholder="P₂">
+          <input type="text" class="blank-in" id="pcclV2" placeholder="V₂">
+        </div>
+        <button class="exo-btn" onclick="checkConsistency('pcclP1','pcclV1','pcclP2','pcclV2','pcclfb','P×V','La loi de Mariotte est vérifiée : le produit P×V est bien resté constant.','Le produit P×V n\\'est pas resté constant : relis bien les deux couples de valeurs sur l\\'animation (même température !) et resaisis-les.')">✓ Vérifier la constance de P×V</button>
+        <div class="exo-fb" id="pcclfb"></div>
+      </div>
+      <div class="qi-box">
+        <div class="qi-q">3. D'après l'animation, la relation P×V = constante reste-t-elle valable si l'on modifie la température du gaz ?</div>
+        <div class="qcm-opts" data-answer="1" data-fb="pccl3fb" data-explain="La loi de Mariotte n'est valable qu'à température constante. Si la température varie, le produit P×V varie également (le gaz est alors plus agité, ce qui modifie la pression indépendamment du volume).">
+          <button class="qcm-opt" onclick="selectQCM(this,0)">Oui, toujours</button>
+          <button class="qcm-opt" onclick="selectQCM(this,1)">Non</button>
+        </div>
+        <div class="exo-fb" id="pccl3fb" style="display:none;"></div>
+      </div>
+    </div>
+
+    <div class="card" style="background:var(--gris-fond);border-style:dashed;">
+      <div class="card-title"><span class="icon" style="background:#fff;color:var(--texte-leger);">📚</span>Pour s'entraîner</div>
+      <p style="font-size:.85rem;">Vidéo expliquant la loi (onglet <strong>Bilan &amp; Ressources</strong>) • Exercices p229 n°13 (volume occupé par un gaz), p231 n°30 (risques en apnée), p233 n°38 (conditionner l'hélium) — voir onglet <strong>Exercices</strong>.</p>
+    </div>
+
+    <div class="section-title"><span class="icon">🌊</span>IV. Loi fondamentale de la statique des fluides</div>
+    <p style="font-size:.86rem;color:var(--texte-leger);font-style:italic;margin-bottom:12px;">Objectif : dans le cas d'un fluide incompressible au repos, utiliser la relation fournie exprimant la loi fondamentale de la statique des fluides.</p>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair);color:var(--bleu);">📖</span>Énoncé</div>
+      <p style="font-size:.88rem;line-height:1.65;">Dans un fluide incompressible au repos, pour deux points 1 et 2 situés aux altitudes z₁ et z₂ (axe orienté vers le haut) :</p>
+      <div class="formula">
+        P₂ − P₁ = ρ g (z₁ − z₂)
+        <div class="legend">P₁, P₂ : pressions aux points 1 et 2 (en Pa) &nbsp;•&nbsp; ρ : masse volumique du fluide (en kg·m⁻³) &nbsp;•&nbsp; g : intensité de la pesanteur (en N·kg⁻¹) &nbsp;•&nbsp; z₁, z₂ : altitudes des points 1 et 2 (en m)</div>
+      </div>
+      <div class="remarque-box"><strong>Conséquence :</strong> si le point 2 est plus profond que le point 1 (z₂ &lt; z₁), alors P₂ &gt; P₁ : <strong>la pression augmente avec la profondeur</strong>.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair);color:var(--orange);">🧪</span>Simulateur — Pression dans une colonne d'eau</div>
+      <p style="font-size:.86rem;margin-bottom:6px;">Déplace le point B en profondeur dans la colonne d'eau (ρ = 1,00×10³ kg·m⁻³, g = 9,8 N·kg⁻¹) et observe l'évolution de la pression, le point A restant fixé à la surface (P₁ = P<sub>atm</sub> = 1,0×10⁵ Pa).</p>
+      <svg viewBox="0 0 300 220" style="max-width:280px;width:100%;height:auto;display:block;margin:0 auto 6px;" id="statSvg">
+        <rect width="300" height="220" rx="10" fill="#F5F7FA" stroke="#DDE3EC"/>
+        <rect x="90" y="20" width="120" height="180" fill="#DCEAF5" stroke="#5B8FB9" stroke-width="2"/>
+        <text x="150" y="14" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="10" fill="#2D5F8A">Eau au repos</text>
+        <!-- point A fixe en surface -->
+        <circle cx="150" cy="28" r="5" fill="#3A8A6E"/>
+        <text x="165" y="32" font-family="Outfit" font-weight="800" font-size="11" fill="#3A8A6E">A</text>
+        <!-- point B mobile -->
+        <circle cx="150" cy="120" r="5" fill="#C0392B" id="statB"/>
+        <text x="165" y="124" font-family="Outfit" font-weight="800" font-size="11" fill="#C0392B" id="statBLabel">B</text>
+        <!-- règle de profondeur -->
+        <line x1="220" y1="20" x2="220" y2="200" stroke="#5A6B7A" stroke-width="1"/>
+        <text x="235" y="110" text-anchor="middle" font-family="Nunito" font-size="8" fill="#5A6B7A" transform="rotate(90 235 110)">profondeur (m)</text>
+      </svg>
+      <div class="redox-slider-wrap">
+        <span class="redox-slider-label">Surface</span>
+        <input type="range" min="0" max="10" step="0.5" value="1.8" id="statSlider" class="redox-slider" oninput="statUpdate(this.value)">
+        <span class="redox-slider-label">Fond</span>
+      </div>
+      <div class="sim-readout">
+        <div class="val"><span class="num" id="statZval">1,8 m</span><span class="lbl">Profondeur de B</span></div>
+        <div class="val"><span class="num" id="statPBval">1,18×10⁵ Pa</span><span class="lbl">Pression P₂ en B</span></div>
+        <div class="val"><span class="num" id="statDPval">1,8×10⁴ Pa</span><span class="lbl">ΔP = P₂ − P₁</span></div>
+      </div>
+      <div class="exemple-box"><strong>Vérification :</strong> P₂ = P₁ + ρg×(profondeur de B) = 1,0×10⁵ + 1,00×10³×9,8×1,8 ≈ 1,18×10⁵ Pa. On retrouve bien la valeur affichée : la loi fondamentale de la statique des fluides est testée expérimentalement.</div>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--violet);">
+      <div class="card-title"><span class="icon" style="background:var(--violet-clair);color:var(--violet);">🧭</span>Activité — Tester la loi avec le simulateur</div>
+      <p style="font-size:.86rem;line-height:1.6;margin-bottom:10px;">À l'aide du simulateur ci-dessus, réponds aux questions suivantes.</p>
+
+      <div class="qi-box">
+        <div class="qi-q">1. Place le point B à la surface (profondeur = 0 m). Relève la valeur de P₂ affichée (en Pa).</div>
+        <input type="text" class="blank-in" id="stat1in" placeholder="P₂ = ... Pa" style="width:160px;">
+        <button class="exo-btn" onclick="checkNum('stat1in',100000,0.01,'stat1fb','P₂ = P₁ = P<sub>atm</sub> = 1,0×10⁵ Pa. C\\'est cohérent : lorsque B est à la même altitude que A (z₂ = z₁), la formule donne P₂ − P₁ = ρg×0 = 0, donc P₂ = P₁.','Vérifie que le curseur est bien ramené à « Surface » avant de relever la valeur.')">✓ Vérifier</button>
+        <div class="exo-fb" id="stat1fb"></div>
+      </div>
+      <div class="qi-box">
+        <div class="qi-q">2. Place le point B à 5,0 m de profondeur. Relève la valeur de P₂ affichée (en Pa).</div>
+        <input type="text" class="blank-in" id="stat2in" placeholder="P₂ = ... Pa" style="width:160px;">
+        <button class="exo-btn" onclick="checkNum('stat2in',149000,0.015,'stat2fb','P₂ = P<sub>atm</sub> + ρg×5,0 = 1,0×10⁵ + 1,00×10³×9,8×5,0 = <strong>1,49×10⁵ Pa</strong>, ce qui correspond à la valeur affichée par le simulateur.','Repositionne le curseur exactement sur 5,0 m avant de relever P₂.')">✓ Vérifier</button>
+        <div class="exo-fb" id="stat2fb"></div>
+      </div>
+      <div class="qi-box">
+        <div class="qi-q">3. Relève ΔP entre 0 et 5 m, puis entre 5 et 10 m, et saisis les deux valeurs : le simulateur va vérifier si elles sont égales.</div>
+        <div class="consist-grid" style="grid-template-columns:1fr 1fr;max-width:320px;">
+          <input type="text" class="blank-in" id="stat3a" placeholder="ΔP (0→5 m)">
+          <input type="text" class="blank-in" id="stat3b" placeholder="ΔP (5→10 m)">
+        </div>
+        <button class="exo-btn" onclick="checkEqual('stat3a','stat3b','stat3fb',0.05,'Les deux augmentations de pression sont bien égales (≈ 4,9×10⁴ Pa) : dans la relation P₂ − P₁ = ρg(z₁ − z₂), le produit ρg est constant, donc la pression augmente <strong>proportionnellement</strong> à la profondeur, quel que soit le point de départ.','Les deux valeurs devraient être égales (aux erreurs de lecture près) : relis bien ΔP à chaque tranche de 5 m sur le simulateur.')">✓ Comparer</button>
+        <div class="exo-fb" id="stat3fb"></div>
+      </div>
+    </div>
+
+    <div class="card" style="background:var(--gris-fond);border-style:dashed;">
+      <div class="card-title"><span class="icon" style="background:#fff;color:var(--texte-leger);">📚</span>Pour s'entraîner</div>
+      <p style="font-size:.85rem;">Exercices p229 n°12 (pression dans un liquide), p230 n°22 (hauteur d'un château d'eau), p232 n°36 (construire un château d'eau surélevé), p234 n°44 (surpression pulmonaire — utiliser aussi la loi de Mariotte pour la question b), p238 n°54 (profondimètre, résolution de problème fiche méthode p432) — voir onglet <strong>Exercices</strong>.</p>
+    </div>
+
+  </div><!-- /cours-sub-0 -->
+
+  <div class="sub-tab-content" id="cours-sub-1">
+
+    <div class="section-title"><span class="icon">🎬</span>Activité vidéo — Description des fluides au repos (TD p222)</div>
+    <div class="intro-box">Cette simulation compare le comportement microscopique de particules de gaz « lourdes » et « légères » enfermées dans une enceinte, à différentes températures. Observe attentivement l'agitation des particules, la fréquence de leurs chocs contre les parois (jauge de pression) et leur proximité, pour compléter le tableau macro/micro du cours.</div>
+
+    <div class="video-wrap">
+      <video controls preload="metadata" poster="">
+        <source src="media/animation_p222.mp4" type="video/mp4">
+        Ton navigateur ne peut pas lire cette vidéo.
+      </video>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">1. Lorsqu'on chauffe l'enceinte (voir le thermomètre), comment évolue la vitesse moyenne des particules affichée à l'écran ?</div>
+      <div class="qcm-opts" data-answer="1" data-fb="v1fb" data-explain="Les particules « lourdes » passent d'environ 413 m/s à 495 m/s lorsque la température s'élève de 255 K à 441 K : plus la température est élevée, plus l'agitation des entités est grande.">
+        <button class="qcm-opt" onclick="selectQCM(this,0)">Elle diminue</button>
+        <button class="qcm-opt" onclick="selectQCM(this,1)">Elle augmente</button>
+        <button class="qcm-opt" onclick="selectQCM(this,2)">Elle reste constante</button>
+      </div>
+      <div class="exo-fb" id="v1fb" style="display:none;"></div>
+    </div>
+    <div class="qi-box">
+      <div class="qi-q">2. Quel est l'effet de cette agitation accrue sur la pression indiquée par le manomètre ?</div>
+      <div class="qcm-opts" data-answer="0" data-fb="v2fb" data-explain="La pression passe d'environ 0,29 atm à 1,07 atm dans la simulation : les particules, plus agitées, entrent en collision plus fréquemment et plus violemment avec les parois de l'enceinte, ce qui augmente la pression mesurée.">
+        <button class="qcm-opt" onclick="selectQCM(this,0)">Elle augmente</button>
+        <button class="qcm-opt" onclick="selectQCM(this,1)">Elle diminue</button>
+        <button class="qcm-opt" onclick="selectQCM(this,2)">Elle reste constante</button>
+      </div>
+      <div class="exo-fb" id="v2fb" style="display:none;"></div>
+    </div>
+    <div class="qi-box">
+      <div class="qi-q">3. D'après ce que tu as observé, complète les 3 mots manquants du lien macro/micro (un mot par case) :</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px;">
+        <div>Température ↔ <input type="text" class="blank-in" id="v3a" placeholder="mot"></div>
+        <div>Pression ↔ <input type="text" class="blank-in" id="v3b" placeholder="mot"></div>
+        <div>Masse volumique ↔ <input type="text" class="blank-in" id="v3c" placeholder="mot"></div>
+      </div>
+      <button class="exo-btn" onclick="checkVideoBlanks()">✓ Vérifier</button>
+      <div class="exo-fb" id="v3fb"></div>
+    </div>
+
+    <div class="section-title"><span class="icon">🏠</span>Expérience maison — La feuille de papier collée au verre</div>
+    <div class="activite-q">
+      <div class="qnum">Protocole</div>
+      <div class="qtext">Remplis à ras bord un verre avec de l'eau. Dépose une petite feuille de papier (¼ de feuille A4) sur le verre. Maintiens-la avec la main puis retourne rapidement le verre.</div>
+      <div class="qnum">Observation</div>
+      <div class="qtext">La feuille de papier reste collée sur le verre et se courbe légèrement vers l'intérieur du verre.</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁 Afficher l'explication</button>
+      <div class="reveal-body">La pression atmosphérique exerce sur la feuille de papier, de bas en haut, une force pressante F = P<sub>atm</sub> × S. Cette force pressante compense (et dépasse légèrement) le poids de l'eau contenue dans le verre : la feuille reste donc plaquée contre le verre. Cette expérience illustre, comme l'ampoule à décanter évoquée en introduction, que <strong>la pression atmosphérique exerce des forces pressantes bien réelles</strong>, souvent insoupçonnées car elles s'exercent dans toutes les directions et s'équilibrent habituellement.</div>
+    </div>
+
+  </div><!-- /cours-sub-1 -->
+
+</div><!-- /tab-cours -->
+
+<!-- ══════════════════ TAB 2 — MÉTHODE & TD ══════════════════ -->
+<div class="panel" id="tab-methode">
+
+  <nav class="sub-tabs-nav" id="sub-nav-methode">
+    <button class="sub-tab-btn active" onclick="switchSubTab('methode',0)">📋 Fiche méthode</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('methode',1)">🤿 TD — Plongée en apnée</button>
+  </nav>
+
+  <div class="sub-tab-content active" id="methode-sub-0">
+
+    <div class="section-title"><span class="icon">🖐️</span>Méthode — Calculer une force pressante</div>
+    <ol class="methode-list">
+      <li>Identifier la <strong>pression P</strong> du fluide au niveau de la surface étudiée (en Pa ; convertir si besoin les bars, atm ou hPa en Pa).</li>
+      <li>Identifier l'<strong>aire S</strong> de la surface plane en contact avec le fluide (en m² ; convertir si besoin les cm² en m² en divisant par 10⁴).</li>
+      <li>Appliquer la relation <strong>F = P × S</strong> pour obtenir F en newtons (N).</li>
+      <li>Vérifier l'ordre de grandeur du résultat et l'exprimer avec le bon nombre de chiffres significatifs.</li>
+    </ol>
+
+    <div class="section-title"><span class="icon">💨</span>Méthode — Utiliser la loi de Mariotte</div>
+    <ol class="methode-list">
+      <li>Vérifier que la <strong>température est constante</strong> entre les deux états étudiés (condition indispensable pour appliquer la loi de Mariotte).</li>
+      <li>Repérer l'état initial (P₁, V₁) et l'état final (P₂, V₂) du gaz, en veillant à utiliser des <strong>unités cohérentes</strong> pour le volume (m³ ou L, mais les mêmes des deux côtés).</li>
+      <li>Écrire la relation <strong>P₁ × V₁ = P₂ × V₂</strong>.</li>
+      <li>Isoler l'inconnue recherchée et calculer sa valeur.</li>
+    </ol>
+
+    <div class="section-title"><span class="icon">🌊</span>Méthode — Utiliser la loi fondamentale de la statique des fluides</div>
+    <ol class="methode-list">
+      <li>Choisir un <strong>axe vertical orienté vers le haut</strong> et repérer les altitudes z₁ et z₂ des deux points étudiés.</li>
+      <li>Identifier la pression connue (souvent P<sub>atm</sub> = 1,0×10⁵ Pa à la surface libre d'un liquide).</li>
+      <li>Écrire la relation <strong>P₂ − P₁ = ρg(z₁ − z₂)</strong> en faisant attention au sens des indices 1 et 2.</li>
+      <li>Isoler l'inconnue recherchée (pression, altitude, ou profondeur) et vérifier la cohérence du signe : la pression doit augmenter avec la profondeur.</li>
+    </ol>
+
+    <div class="card" style="border-left:4px solid var(--violet);">
+      <div class="card-title"><span class="icon" style="background:var(--violet-clair);color:var(--violet);">🧭</span>Résolution de problème — le profondimètre (ex. p238 n°54)</div>
+      <p style="font-size:.87rem;line-height:1.6;">Pour un exercice de résolution de problème (comme le calcul de la profondeur maximale atteignable par un plongeur à partir de la pression maximale supportée par son organisme), utilise la <strong>fiche méthode de résolution de problème p432</strong> du manuel : identifier les données, la ou les relations utiles (ici la loi fondamentale de la statique des fluides), construire une démarche en plusieurs étapes, puis vérifier l'ordre de grandeur du résultat obtenu.</p>
+    </div>
+
+  </div><!-- /methode-sub-0 -->
+
+  <div class="sub-tab-content" id="methode-sub-1">
+
+    <div class="section-title"><span class="icon">🤿</span>TD — Plongée en apnée (p224)</div>
+    <div class="intro-box">Un apnéiste descend verticalement dans l'eau de mer (ρ = 1,03×10³ kg·m⁻³, g = 9,8 N·kg⁻¹). En surface, la pression vaut P<sub>atm</sub> = 1,0×10⁵ Pa.</div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 1</div>
+      <div class="qtext">Exprimer la pression P(z) subie par l'apnéiste à la profondeur z (z &gt; 0) en fonction de P<sub>atm</sub>, ρ, g et z.</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁 Afficher la correction</button>
+      <div class="reveal-body">En notant 1 le point en surface (altitude z₁ = 0, pression P<sub>atm</sub>) et 2 le point à la profondeur z (altitude z₂ = −z), la loi fondamentale de la statique des fluides donne : P₂ − P₁ = ρg(z₁ − z₂) = ρg(0 − (−z)) = ρgz. D'où <strong>P(z) = P<sub>atm</sub> + ρgz</strong>.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 2</div>
+      <div class="qtext">Calculer la pression subie par l'apnéiste à 20 m de profondeur (en Pa).</div>
+      <input type="text" class="blank-in" id="apnee2in" placeholder="P(20) = ... Pa" style="width:170px;">
+      <button class="exo-btn" onclick="checkNum('apnee2in',302000,0.02,'apnee2fb','P(20) = 1,0×10⁵ + 1,03×10³ × 9,8 × 20 ≈ 1,0×10⁵ + 2,02×10⁵ ≈ <strong>3,0×10⁵ Pa</strong>, soit environ 3 fois la pression atmosphérique.','Utilise P(z) = P_atm + ρgz avec z = 20 m.')">✓ Vérifier</button>
+      <div class="exo-fb" id="apnee2fb"></div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 3</div>
+      <div class="qtext">Le volume d'air contenu dans les poumons de l'apnéiste en surface est V₀ = 6,0 L. En supposant la température du corps constante, estimer le volume occupé par cet air à 20 m de profondeur (en L).</div>
+      <input type="text" class="blank-in" id="apnee3in" placeholder="V(20) = ... L" style="width:170px;">
+      <button class="exo-btn" onclick="checkNum('apnee3in',1.99,0.03,'apnee3fb','La température étant constante, la loi de Mariotte s\\'applique : P<sub>atm</sub> × V₀ = P(20) × V(20), d\\'où V(20) = P<sub>atm</sub>×V₀ / P(20) = (1,0×10⁵ × 6,0) / 3,0×10⁵ ≈ <strong>2,0 L</strong>. Le volume d\\'air dans les poumons est environ divisé par 3 à 20 m de profondeur — un phénomène à prendre en compte pour la sécurité en apnée.','Utilise la loi de Mariotte : P_atm×V₀ = P(20)×V(20), avec P(20) ≈ 3,0×10⁵ Pa trouvé à la question 2.')">✓ Vérifier</button>
+      <div class="exo-fb" id="apnee3fb"></div>
+    </div>
+
+  </div><!-- /methode-sub-1 -->
+
+</div><!-- /tab-methode -->
+
+<!-- ══════════════════ TAB 3 — EXERCICES ══════════════════ -->
+<div class="panel" id="tab-exercices">
+
+  <nav class="sub-tabs-nav" id="sub-nav-exercices">
+    <button class="sub-tab-btn active" onclick="switchSubTab('exercices',0)">🟢 Facile</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('exercices',1)">🔵 Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('exercices',2)">🔴 Difficile</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('exercices',3)">🧭 Applications</button>
+  </nav>
+
+  <div class="sub-tab-content active" id="exercices-sub-0">
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d1">FACILE</span>Calculer une masse volumique</h5>
+      <div class="exo-enonce">Une éprouvette graduée contient un volume V = 50 mL d'huile de masse m = 46 g. Calculer la masse volumique ρ de cette huile (en kg·m⁻³).</div>
+      <input type="text" id="ex11in" placeholder="ρ = ... kg·m⁻³" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:170px;">
+      <button class="exo-btn" onclick="checkNum('ex11in',920,0.02,'ex11fb','ρ = m/V. En unités du système international : m = 46 g = 46×10⁻³ kg et V = 50 mL = 50×10⁻⁶ m³. Donc ρ = 46×10⁻³ / 50×10⁻⁶ = <strong>920 kg·m⁻³</strong>. Cette valeur est bien inférieure à celle de l\\'eau (1,00×10³ kg·m⁻³) : c\\'est cohérent, l\\'huile flotte sur l\\'eau ✓','Ce n\\'est pas ça. Utilise ρ = m/V, en convertissant m en kg et V en m³ (1 mL = 1×10⁻⁶ m³).')">✓ Vérifier</button>
+      <div class="exo-fb" id="ex11fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d1">FACILE</span>p229 n°13 — Volume occupé par un gaz</h5>
+      <div class="exo-enonce">Un ballon de baudruche contient un volume V₁ = 2,0 L d'air à la pression P₁ = 1,2×10⁵ Pa. On le laisse se dilater, à température constante, jusqu'à ce que la pression atteigne P₂ = 1,0×10⁵ Pa. Calculer le volume V₂ (en L).</div>
+      <input type="text" id="ex1in" placeholder="V₂ = ... L" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
+      <button class="exo-btn" onclick="checkNum('ex1in',2.4,0.02,'ex1fb','V₂ = P₁V₁/P₂ = 1,2×10⁵×2,0 / 1,0×10⁵ = <strong>2,4 L</strong> ✓','Ce n\\'est pas ça. Utilise P₁V₁ = P₂V₂ (loi de Mariotte).')">✓ Vérifier</button>
+      <div class="exo-fb" id="ex1fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d1">FACILE</span>p229 n°12 — Pression dans un liquide</h5>
+      <div class="exo-enonce">Calculer la pression au fond d'une piscine de profondeur h = 2,5 m remplie d'eau (ρ = 1,00×10³ kg·m⁻³, g = 9,8 N·kg⁻¹), sachant que la pression atmosphérique en surface vaut P<sub>atm</sub> = 1,0×10⁵ Pa. Donner le résultat en Pa (×10⁵).</div>
+      <input type="text" id="ex2in" placeholder="P = ... ×10⁵ Pa" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:170px;">
+      <button class="exo-btn" onclick="checkNum('ex2in',1.245,0.02,'ex2fb','P = P<sub>atm</sub> + ρgh = 1,0×10⁵ + 1,00×10³×9,8×2,5 ≈ <strong>1,25×10⁵ Pa</strong> ✓','Ce n\\'est pas ça. Utilise P = P_atm + ρgh.')">✓ Vérifier</button>
+      <div class="exo-fb" id="ex2fb"></div>
+    </div>
+
+  </div><!-- /exercices-sub-0 -->
+
+  <div class="sub-tab-content" id="exercices-sub-1">
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d2">INTERMÉDIAIRE</span>p231 n°29 — Calculer une force pressante</h5>
+      <div class="exo-enonce">Le hublot d'un sous-marin a une surface S = 0,20 m² et subit une pression P = 4,0×10⁵ Pa. Calculer la force pressante F exercée sur le hublot (en N, notation scientifique ×10⁴).</div>
+      <input type="text" id="ex3in" placeholder="F = ... ×10⁴ N" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:170px;">
+      <button class="exo-btn" onclick="checkNum('ex3in',8.0,0.02,'ex3fb','F = P×S = 4,0×10⁵×0,20 = <strong>8,0×10⁴ N</strong> ✓','Ce n\\'est pas ça. Utilise F = P×S.')">✓ Vérifier</button>
+      <div class="exo-fb" id="ex3fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d2">INTERMÉDIAIRE</span>p231 n°30 — Estimer les risques en apnée</h5>
+      <div class="exo-enonce">Une apnéiste descend à 30 m de profondeur dans l'eau de mer (ρ = 1,025×10³ kg·m⁻³, g = 9,8 N·kg⁻¹, P<sub>atm</sub> = 1,0×10⁵ Pa). Calculer la pression qu'elle subit (en Pa, ×10⁵).</div>
+      <input type="text" id="ex4in" placeholder="P = ... ×10⁵ Pa" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:170px;">
+      <button class="exo-btn" onclick="checkNum('ex4in',4.01,0.02,'ex4fb','P = P<sub>atm</sub> + ρgh = 1,0×10⁵ + 1,025×10³×9,8×30 ≈ <strong>4,0×10⁵ Pa</strong>, soit environ 4 fois la pression atmosphérique ✓','Ce n\\'est pas ça. Utilise P = P_atm + ρgh.')">✓ Vérifier</button>
+      <div class="exo-fb" id="ex4fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d2">INTERMÉDIAIRE</span>p230 n°22 — Déterminer la hauteur d'un château d'eau</h5>
+      <div class="exo-enonce">Pour alimenter correctement un immeuble, la pression de l'eau au sol doit atteindre P = 3,0×10⁵ Pa. La surface libre de l'eau dans le château est à la pression atmosphérique P<sub>atm</sub> = 1,0×10⁵ Pa. Calculer la hauteur h d'eau nécessaire (ρ = 1,00×10³ kg·m⁻³, g = 9,8 N·kg⁻¹), en m.</div>
+      <input type="text" id="ex5in" placeholder="h = ... m" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
+      <button class="exo-btn" onclick="checkNum('ex5in',20.4,0.03,'ex5fb','h = (P − P<sub>atm</sub>)/(ρg) = (3,0×10⁵ − 1,0×10⁵)/(1,00×10³×9,8) ≈ <strong>20 m</strong> ✓','Ce n\\'est pas ça. Isole h dans P = P_atm + ρgh.')">✓ Vérifier</button>
+      <div class="exo-fb" id="ex5fb"></div>
+    </div>
+
+  </div><!-- /exercices-sub-1 -->
+
+  <div class="sub-tab-content" id="exercices-sub-2">
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d4">DIFFICILE</span>p233 n°38 — Conditionner l'hélium</h5>
+      <div class="exo-enonce">Un ballon souple contient un volume V₁ = 15 L d'hélium à la pression P₁ = 1,0×10⁵ Pa. On comprime ce gaz, à température constante, pour le stocker dans une bouteille de volume V₂ = 2,0 L. Calculer la pression P₂ dans la bouteille (en Pa, ×10⁵).</div>
+      <input type="text" id="ex6in" placeholder="P₂ = ... ×10⁵ Pa" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:170px;">
+      <button class="exo-btn" onclick="checkNum('ex6in',7.5,0.02,'ex6fb','P₂ = P₁V₁/V₂ = 1,0×10⁵×15 / 2,0 = <strong>7,5×10⁵ Pa</strong> ✓','Ce n\\'est pas ça. Utilise P₁V₁ = P₂V₂.')">✓ Vérifier</button>
+      <div class="exo-fb" id="ex6fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d4">DIFFICILE</span>p234 n°43 — Bouchon de champagne</h5>
+      <div class="exo-enonce">La pression à l'intérieur d'une bouteille de champagne vaut P = 6,0×10⁵ Pa et s'exerce sur le bouchon, de surface S = 4,9 cm². Calculer la force pressante F exercée sur le bouchon (en N).</div>
+      <input type="text" id="ex7in" placeholder="F = ... N" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
+      <button class="exo-btn" onclick="checkNum('ex7in',294,0.03,'ex7fb','S = 4,9 cm² = 4,9×10⁻⁴ m². F = P×S = 6,0×10⁵ × 4,9×10⁻⁴ ≈ <strong>2,9×10² N</strong> (soit près de 30 kg !) ✓','Ce n\\'est pas ça. Attention à convertir S en m² avant de calculer F = P×S.')">✓ Vérifier</button>
+      <div class="exo-fb" id="ex7fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d4">DIFFICILE</span>p232 n°36 — Construire un château d'eau surélevé</h5>
+      <div class="exo-enonce">On souhaite qu'un robinet situé au rez-de-chaussée reçoive une pression P = 2,5×10⁵ Pa (P<sub>atm</sub> = 1,0×10⁵ Pa, ρ<sub>eau</sub> = 1,00×10³ kg·m⁻³, g = 9,8 N·kg⁻¹). Calculer la hauteur d'eau nécessaire au-dessus du robinet (en m).</div>
+      <input type="text" id="ex8in" placeholder="h = ... m" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
+      <button class="exo-btn" onclick="checkNum('ex8in',15.3,0.04,'ex8fb','h = (P − P<sub>atm</sub>)/(ρg) = (2,5×10⁵ − 1,0×10⁵)/(1,00×10³×9,8) ≈ <strong>15 m</strong> ✓','Ce n\\'est pas ça. Isole h dans P = P_atm + ρgh.')">✓ Vérifier</button>
+      <div class="exo-fb" id="ex8fb"></div>
+    </div>
+
+  </div><!-- /exercices-sub-2 -->
+
+  <div class="sub-tab-content" id="exercices-sub-3">
+
+    <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/loi_mariotte_comportement_gaz_pression_chocs_microscopique_macroscopique_volume_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;display:block;margin-bottom:16px;">
+      <div class="bilan-card" style="cursor:pointer;border-left:4px solid var(--orange);">
+        <h4 style="color:var(--orange);">🧪 Application interactive PCCL — Loi de Mariotte</h4>
+        <p style="font-size:0.84rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Simulation en ligne : pression, chocs, échelles microscopique/macroscopique, volume. Questions guidées dans le <strong>Cours, partie III</strong>.</p>
+      </div>
+    </a>
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d5">APPLICATION</span>p234 n°44 — Surpression pulmonaire</h5>
+      <div class="exo-enonce">
+        Un plongeur remonte rapidement de 10 m de profondeur vers la surface en bloquant sa respiration. Le volume d'air dans ses poumons à 10 m est V₁ = 6,0 L. (ρ<sub>eau de mer</sub> = 1,00×10³ kg·m⁻³, g = 9,8 N·kg⁻¹, P<sub>atm</sub> = 1,0×10⁵ Pa)<br><br>
+        <strong>a.</strong> Calculer la pression P₁ subie à 10 m de profondeur (en Pa, ×10⁵).<br>
+        <strong>b.</strong> En utilisant la loi de Mariotte (température corporelle constante), calculer le volume V₂ occupé par cet air en surface (en L).
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
+        <input type="text" id="ex9ina" placeholder="P₁ = ... ×10⁵ Pa" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:150px;">
+        <input type="text" id="ex9inb" placeholder="V₂ = ... L" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
+      </div>
+      <button class="exo-btn" onclick="checkEx9()">✓ Vérifier</button>
+      <div class="exo-fb" id="ex9fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5><span class="diff-badge d5">APPLICATION — Résolution de problème</span>p238 n°54 — Le profondimètre</h5>
+      <div class="exo-enonce">Un profondimètre de plongée indique une pression P = 2,5×10⁵ Pa. Déterminer la profondeur z à laquelle se trouve le plongeur (eau de mer ρ = 1,025×10³ kg·m⁻³, g = 9,8 N·kg⁻¹, P<sub>atm</sub> = 1,0×10⁵ Pa), en m. <span style="color:var(--texte-leger);font-style:italic;">Utilise la fiche méthode de résolution de problème p432 (onglet Méthode &amp; TD).</span></div>
+      <input type="text" id="ex10in" placeholder="z = ... m" style="padding:7px 10px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;width:140px;">
+      <button class="exo-btn" onclick="checkNum('ex10in',14.9,0.04,'ex10fb','z = (P − P<sub>atm</sub>)/(ρg) = (2,5×10⁵ − 1,0×10⁵)/(1,025×10³×9,8) ≈ <strong>15 m</strong> ✓','Ce n\\'est pas ça. Isole z dans P = P_atm + ρgz.')">✓ Vérifier</button>
+      <div class="exo-fb" id="ex10fb"></div>
+    </div>
+
+  </div><!-- /exercices-sub-3 -->
+
+</div><!-- /tab-exercices -->
+
+<!-- ══════════════════ TAB 4 — BILAN & RESSOURCES ══════════════════ -->
+<div class="panel" id="tab-bilan">
+
+  <nav class="sub-tabs-nav" id="sub-nav-bilan">
+    <button class="sub-tab-btn active" onclick="switchSubTab('bilan',0)">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('bilan',1)">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('bilan',2)">🔗 Ressources</button>
+  </nav>
+
+  <div class="sub-tab-content active" id="bilan-sub-0">
+
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>💧 Grandeurs macro/micro</h4>
+        <ul class="ke-list">
+          <li>Fluide = liquide (incompressible) ou gaz (compressible, expansible)</li>
+          <li>Température ↔ agitation des entités</li>
+          <li>Pression ↔ chocs des entités contre les parois</li>
+          <li>Masse volumique ↔ proximité des entités</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>🖐️ Force pressante</h4>
+        <ul class="ke-list">
+          <li>Perpendiculaire à la paroi, dirigée du fluide vers la paroi</li>
+          <li>F = P × S</li>
+          <li>F en N, P en Pa, S en m²</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>💨 Loi de Mariotte</h4>
+        <ul class="ke-list">
+          <li>Valable à température constante</li>
+          <li>P × V = constante</li>
+          <li>P₁V₁ = P₂V₂</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>🌊 Statique des fluides</h4>
+        <ul class="ke-list">
+          <li>P₂ − P₁ = ρg(z₁ − z₂)</li>
+          <li>La pression augmente avec la profondeur</li>
+          <li>Axe z orienté vers le haut</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--gris-fond);color:var(--texte-leger);">📚</span>Exercices du manuel</div>
+      <p style="font-size:.85rem;">En autonomie : tous les exercices corrigés du chapitre dans le manuel.<br>En classe : p229 n°12-13, p230 n°22, p231 n°29-30, p232 n°36, p233 n°38, p234 n°43-44, p238 n°54 (résolution de problème, fiche méthode p432).</p>
+    </div>
+
+  </div><!-- /bilan-sub-0 -->
+
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span>Glossaire</div>
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="fluide"><dt>Fluide</dt><dd>Milieu qui n'a pas de forme propre : regroupe les liquides et les gaz.</dd></div>
+      <div class="gloss-item" data-term="incompressible liquide"><dt>Incompressible</dt><dd>Se dit d'un fluide (typiquement un liquide) dont on ne peut pas modifier le volume.</dd></div>
+      <div class="gloss-item" data-term="compressible expansible gaz"><dt>Compressible, expansible</dt><dd>Se dit d'un gaz, dont on peut diminuer (compressible) ou augmenter (expansible) le volume occupé.</dd></div>
+      <div class="gloss-item" data-term="pression manometre"><dt>Pression</dt><dd>Grandeur macroscopique (en Pa) traduisant à l'échelle microscopique les chocs des entités du fluide contre les parois ; se mesure avec un manomètre.</dd></div>
+      <div class="gloss-item" data-term="masse volumique rho"><dt>Masse volumique</dt><dd>Grandeur ρ = m/V (en kg·m⁻³) traduisant à l'échelle microscopique la proximité des entités du fluide.</dd></div>
+      <div class="gloss-item" data-term="temperature agitation"><dt>Température</dt><dd>Grandeur macroscopique (en °C ou K) traduisant à l'échelle microscopique l'agitation des entités du fluide.</dd></div>
+      <div class="gloss-item" data-term="force pressante"><dt>Force pressante</dt><dd>Action mécanique exercée par un fluide au repos sur une paroi en contact avec lui, perpendiculaire à la paroi et dirigée du fluide vers la paroi ; sa valeur vaut F = P×S.</dd></div>
+      <div class="gloss-item" data-term="loi de mariotte"><dt>Loi de Mariotte</dt><dd>Pour une quantité de gaz donnée à température constante, le produit P×V de la pression par le volume est constant.</dd></div>
+      <div class="gloss-item" data-term="loi statique des fluides fondamentale"><dt>Loi fondamentale de la statique des fluides</dt><dd>Relation entre pression et altitude dans un fluide incompressible au repos : P₂ − P₁ = ρg(z₁ − z₂).</dd></div>
+      <div class="gloss-item" data-term="pression atmospherique atm"><dt>Pression atmosphérique</dt><dd>Pression exercée par l'atmosphère terrestre au niveau du sol ; vaut environ P<sub>atm</sub> = 1,0×10⁵ Pa.</dd></div>
+      <div class="gloss-item" data-term="altitude z axe"><dt>Altitude z</dt><dd>Coordonnée verticale d'un point, mesurée le long d'un axe conventionnellement orienté vers le haut.</dd></div>
+    </dl>
+  </div><!-- /bilan-sub-1 -->
+
+  <div class="sub-tab-content" id="bilan-sub-2">
+
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://youtu.be/r35wo5chyVU" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">▶ Vidéo bilan de cours (1/2)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Description d'un fluide au repos</p>
+        </div>
+      </a>
+
+      <a href="https://youtu.be/OR01GyVa910" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">▶ Vidéo bilan de cours (2/2)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Description d'un fluide au repos</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence05/id106081063#item809282277" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">▶ Loi de Mariotte (Paul Olivier)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Vidéo explicative, 4 min 37.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence05/id106081063#item809282255" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--orange);" onmouseover="this.style.boxShadow='0 4px 16px rgba(232,120,58,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--orange);">▶ Loi de Mariotte (PCCL)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Vidéo explicative, 4 min 29.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title"><span class="icon">🔬</span> Simulations &amp; applications</div>
+    <div style="margin-bottom:16px;">
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/loi_mariotte_comportement_gaz_pression_chocs_microscopique_macroscopique_volume_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--orange);" onmouseover="this.style.boxShadow='0 4px 16px rgba(232,120,58,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--orange);">🧪 Application PCCL — Loi de Mariotte</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Simulation interactive : pression, chocs, échelles microscopique/macroscopique, volume.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title"><span class="icon">📝</span> QCM</div>
+    <div style="margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/pc-1_qcm_chap_10/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">📝 QCM Hatier — Chapitre 10</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">QCM interactif en ligne, description d'un fluide au repos.</p>
+        </div>
+      </a>
+
+    </div>
+
+  </div><!-- /bilan-sub-2 -->
+
+</div><!-- /tab-bilan -->
+
+</div><!-- /.main -->
+
+<div class="footer-note">Séquence 5 — Description d'un fluide au repos — Première Spécialité Physique-Chimie — Mme Poirault-Gauvin</div>
+
+<script>
+/* === Onglets principaux === */
+function showTab(id){
+  var ids=['cours','methode','exercices','bilan'];
+  document.querySelectorAll('.tabs > .tab').forEach(function(t,i){ t.classList.toggle('on', ids[i]===id); });
+  document.querySelectorAll('.main > .panel').forEach(function(p){ p.classList.remove('on'); });
+  document.getElementById('tab-'+id).classList.add('on');
+}
+
+/* === Sous-onglets === */
+function switchSubTab(group, idx){
+  var btns = document.querySelectorAll('#sub-nav-'+group+' .sub-tab-btn');
+  var contents = document.querySelectorAll('[id^="'+group+'-sub-"]');
+  btns.forEach(function(b,i){ b.classList.toggle('active', i===idx); });
+  contents.forEach(function(c,i){ c.classList.toggle('active', i===idx); });
+}
+
+/* === Glossaire === */
+function glossFilter(){
+  var q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(function(item){
+    var term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
+/* === Vérification d'égalité entre deux valeurs saisies (tolérance relative) === */
+function checkEqual(id1, id2, fbId, tol, msgOk, msgKo){
+  var a = parseFloat(document.getElementById(id1).value.replace(',','.'));
+  var b = parseFloat(document.getElementById(id2).value.replace(',','.'));
+  var fb = document.getElementById(fbId);
+  if(isNaN(a) || isNaN(b)){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de renseigner les deux valeurs.';
+    return;
+  }
+  var ecart = Math.abs(a-b) / Math.max(Math.abs(a),Math.abs(b));
+  fb.className = ecart < tol ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = ecart < tol ? ('✓ ' + msgOk) : ('✗ ' + msgKo);
+}
+
+
+function checkVideoBlanks(){
+  var a = document.getElementById('v3a'), b = document.getElementById('v3b'), c = document.getElementById('v3c');
+  var okA = normWord(a.value) === 'agitation';
+  var okB = ['chocs','choc'].indexOf(normWord(b.value)) !== -1;
+  var okC = ['proximite','proximites'].indexOf(normWord(c.value)) !== -1;
+  [[a,okA],[b,okB],[c,okC]].forEach(function(pair){
+    pair[0].classList.remove('correct','incorrect');
+    pair[0].classList.add(pair[1] ? 'correct' : 'incorrect');
+  });
+  var fb = document.getElementById('v3fb');
+  if(okA && okB && okC){
+    fb.className = 'exo-fb ok';
+    fb.innerHTML = '✓ Bravo : température ↔ <strong>agitation</strong>, pression ↔ <strong>chocs</strong>, masse volumique ↔ <strong>proximité</strong> des entités.';
+  } else {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = '✗ Revois la vidéo et le tableau du cours (partie I.c) pour les cases encore en rouge.';
+  }
+}
+
+
+function selectQCM(btn, idx){
+  var group = btn.parentElement;
+  var answer = parseInt(group.getAttribute('data-answer'));
+  var opts = group.querySelectorAll('.qcm-opt');
+  opts.forEach(function(b){ b.classList.remove('correct','incorrect'); });
+  if(idx === answer){
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('incorrect');
+    opts[answer].classList.add('correct');
+  }
+  var fb = document.getElementById(group.getAttribute('data-fb'));
+  if(fb){
+    fb.className = (idx === answer) ? 'exo-fb ok' : 'exo-fb ko';
+    fb.innerHTML = (idx === answer ? '✓ ' : '✗ ') + group.getAttribute('data-explain');
+    fb.style.display = 'block';
+  }
+}
+
+/* === Vérification d'un mot-clé (insensible à la casse et aux accents) === */
+function normWord(s){
+  return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+function checkWord(inputId, keywords, fbId, msgOk, msgKo){
+  var el = document.getElementById(inputId);
+  var v = normWord(el.value);
+  var ok = keywords.some(function(k){ return v === normWord(k); });
+  var fb = document.getElementById(fbId);
+  if(ok){
+    el.classList.remove('incorrect'); el.classList.add('correct');
+    if(fb){ fb.className='exo-fb ok'; fb.innerHTML='✓ ' + msgOk; }
+  } else {
+    el.classList.remove('correct'); el.classList.add('incorrect');
+    if(fb){ fb.className='exo-fb ko'; fb.innerHTML='✗ ' + msgKo; }
+  }
+}
+
+/* === Vérification de cohérence entre deux produits (ex : test expérimental P1V1 = P2V2) === */
+function checkConsistency(id1, id2, id3, id4, fbId, label, msgOk, msgKo){
+  var a = parseFloat(document.getElementById(id1).value.replace(',','.'));
+  var b = parseFloat(document.getElementById(id2).value.replace(',','.'));
+  var c = parseFloat(document.getElementById(id3).value.replace(',','.'));
+  var d = parseFloat(document.getElementById(id4).value.replace(',','.'));
+  var fb = document.getElementById(fbId);
+  if([a,b,c,d].some(isNaN)){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de renseigner les 4 valeurs relevées sur l\'animation.';
+    return;
+  }
+  var p1 = a*b, p2 = c*d;
+  var ecart = Math.abs(p1-p2) / Math.max(p1,p2);
+  fb.className = ecart < 0.08 ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = (ecart < 0.08 ? '✓ ' : '✗ ') + label + ' = ' + p1.toFixed(3) + ' et ' + label + ' = ' + p2.toFixed(3) + ' — écart relatif ' + (ecart*100).toFixed(1) + '%. ' + (ecart < 0.08 ? msgOk : msgKo);
+}
+
+
+function checkNum(inputId, correct, tol, fbId, msgOk, msgKo){
+  var raw = document.getElementById(inputId).value.replace(',', '.').trim();
+  var v = parseFloat(raw);
+  var fb = document.getElementById(fbId);
+  if(isNaN(v)){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de saisir une valeur numérique avant de vérifier.';
+    return;
+  }
+  if(Math.abs(v - correct) / Math.abs(correct) < tol){
+    fb.className = 'exo-fb ok';
+    fb.innerHTML = '✓ ' + msgOk;
+  } else {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = '✗ ' + msgKo;
+  }
+}
+
+/* === Exercice p234 n°44 (deux réponses a et b) === */
+function checkEx9(){
+  var va = parseFloat(document.getElementById('ex9ina').value.replace(',', '.'));
+  var vb = parseFloat(document.getElementById('ex9inb').value.replace(',', '.'));
+  var fb = document.getElementById('ex9fb');
+  var okA = !isNaN(va) && Math.abs(va - 1.98) / 1.98 < 0.03;
+  var okB = !isNaN(vb) && Math.abs(vb - 11.88) / 11.88 < 0.05;
+  if(okA && okB){
+    fb.className = 'exo-fb ok';
+    fb.innerHTML = '✓ a. P₁ = P<sub>atm</sub> + ρgh = 1,0×10⁵ + 1,00×10³×9,8×10 ≈ 1,98×10⁵ Pa.<br>✓ b. V₂ = P₁V₁/P<sub>atm</sub> = 1,98×10⁵×6,0 / 1,0×10⁵ ≈ <strong>12 L</strong> : le volume d\'air double presque, d\'où le risque de surpression pulmonaire si le plongeur bloque sa respiration en remontant — il doit expirer progressivement !';
+  } else {
+    fb.className = 'exo-fb ko';
+    var detail = '';
+    if(!okA) detail += 'La pression P₁ à 10 m n\'est pas correcte (utilise P = P_atm + ρgh). ';
+    if(!okB) detail += 'Le volume V₂ n\'est pas correct (utilise P₁V₁ = P_atm×V₂).';
+    fb.innerHTML = '✗ ' + detail;
+  }
+}
+
+/* === Simulateur force pressante === */
+function fpUpdate(val){
+  var P = parseFloat(val);
+  var S = 1.8;
+  var F = P * S;
+  document.getElementById('fpPval').textContent = (P/1e5).toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}) + '×10⁵ Pa';
+  document.getElementById('fpFval').textContent = (F/1e5).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '×10⁵ N';
+  // déplacement de la paroi (plus la pression est forte, plus elle recule) + flèches
+  var wallX = 210 + Math.min(60, (P-100000)/3000000*60);
+  document.getElementById('fpWall').setAttribute('x', wallX);
+  var arrowsGroup = document.getElementById('fpArrows');
+  var n = 3;
+  var arrowLen = 15 + Math.min(35, (P-100000)/3000000*35);
+  var html = '';
+  for(var i=0;i<n;i++){
+    var y = 45 + i*30;
+    var x2 = 90 + arrowLen;
+    html += '<line x1="90" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="#E8783A" stroke-width="2.5" marker-end="url(#fpArrowHead)"/>';
+  }
+  arrowsGroup.innerHTML = '<defs><marker id="fpArrowHead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#E8783A"/></marker></defs>' + html;
+}
+fpUpdate(500000);
+
+/* === Simulateur loi de Mariotte (seringue) === */
+function mUpdate(val){
+  var V = parseFloat(val);
+  var k = 500000; // P0=1.0e5 Pa à V0=5L -> k = P*V = 5.0e5 (Pa.L)
+  var P = k / V;
+  document.getElementById('mVval').textContent = V.toLocaleString('fr-FR',{minimumFractionDigits:1}) + ' L';
+  document.getElementById('mPval').textContent = (P/1e5).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '×10⁵ Pa';
+  document.getElementById('mPVval').textContent = (P*V/1e5).toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}) + '×10⁵';
+  // taille visuelle du gaz proportionnelle à V (2 à 10 L -> largeur 20 à 240 px)
+  var w = 20 + (V-2)/(10-2)*240;
+  w = Math.min(w, 258);
+  document.getElementById('mGas').setAttribute('width', w);
+  document.getElementById('mPiston').setAttribute('x', 62 + w - 8);
+  // particules réparties dans le volume de gaz
+  var pgroup = document.getElementById('mParticles');
+  var nb = 10;
+  var html = '';
+  for(var i=0;i<nb;i++){
+    var px = 68 + Math.random()*Math.max(1,(w-10));
+    var py = 42 + Math.random()*48;
+    html += '<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="3" fill="#2D5F8A"/>';
+  }
+  pgroup.innerHTML = html;
+}
+mUpdate(5);
+
+/* === Simulateur statique des fluides === */
+function statUpdate(val){
+  var z = parseFloat(val); // profondeur de B en m
+  var rho = 1000, g = 9.8, Patm = 1.0e5;
+  var PB = Patm + rho*g*z;
+  var dP = PB - Patm;
+  document.getElementById('statZval').textContent = z.toLocaleString('fr-FR',{minimumFractionDigits:1}) + ' m';
+  document.getElementById('statPBval').textContent = (PB/1e5).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '×10⁵ Pa';
+  document.getElementById('statDPval').textContent = dP.toLocaleString('fr-FR',{maximumFractionDigits:0}) + ' Pa';
+  // position verticale du point B (surface y=28, fond y=195, pour z de 0 à 10)
+  var y = 28 + (z/10)*167;
+  document.getElementById('statB').setAttribute('cy', y);
+  document.getElementById('statBLabel').setAttribute('y', y+4);
+}
+statUpdate(1.8);
+</script>
+
+</body>
+</html>
