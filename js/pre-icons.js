@@ -256,13 +256,44 @@ function iconSeq05(suffix) {
     </svg>`;
 }
 
+function iconSeq06(suffix) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+      <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+      <rect x="20" y="14" width="160" height="9" rx="4.5" fill="#fff" stroke="#B8D4EC" stroke-width="1.5"/>
+      <rect x="21" y="15" height="7" rx="3.5" fill="#3A8A6E">
+        <animate attributeName="width" dur="6s" repeatCount="indefinite" keyTimes="0;0.42;0.5;0.9;1" values="0;120;120;120;0"/>
+      </rect>
+      <text x="100" y="10" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="7" fill="#5A6B7A">avancement x</text>
+      <rect x="86" y="34" width="9" height="34" fill="#fff" stroke="#5B8FB9" stroke-width="1.5"/>
+      <rect x="87.2" y="35" width="6.6" height="26" fill="#E8783A"/>
+      <polygon points="86,68 95,68 90.5,76" fill="#5B8FB9"/>
+      <circle cx="90.5" cy="82" r="2.6" fill="#E8783A">
+        <animate attributeName="cy" values="80;104;80" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.65;0.66;1" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <defs>
+        <clipPath id="hiconFlaskClip-${suffix}">
+          <path d="M85,90 L95,90 L95,102 L120,119 Q124,123 119,123 L61,123 Q56,123 60,119 L85,102 Z"/>
+        </clipPath>
+      </defs>
+      <path d="M85,90 L95,90 L95,102 L120,119 Q124,123 119,123 L61,123 Q56,123 60,119 L85,102 Z" fill="none" stroke="#5B8FB9" stroke-width="2.2"/>
+      <g clip-path="url(#hiconFlaskClip-${suffix})">
+        <rect x="50" y="104" width="80" height="21" fill="#E8783A">
+          <animate attributeName="fill" dur="6s" repeatCount="indefinite" keyTimes="0;0.42;0.5;0.9;1" values="#E8783A;#E8783A;#F5F7FA;#F5F7FA;#E8783A"/>
+        </rect>
+      </g>
+    </svg>`;
+}
+
 const PRE_ICONS = {
   'seq00': iconSeq00,
   'seq01': iconLumiereCouleurs,
   'seq02': iconModelesOndulatoireParticulaire,
   'seq03': iconSeq03,
   'seq04': iconSeq04,
-  'seq05': iconSeq05
+  'seq05': iconSeq05,
+  'seq06': iconSeq06
 };
 
 function getIconPre(name, suffix) {
