@@ -1,0 +1,2508 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Séquence 07 – Interactions fondamentales et champs – Première Spé PC</title>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --bleu:#2D5F8A; --bleu-clair:#E8F1F8; --bleu-moyen:#5B8FB9;
+  --orange:#E8783A; --orange-clair:#FDF0E8;
+  --vert:#3A8A6E; --vert-clair:#E8F5F0;
+  --gris-fond:#F5F7FA; --gris-bord:#DDE3EC;
+  --texte:#1A2A3A; --texte-leger:#5A6B7A; --blanc:#FFFFFF;
+  --rouge:#C0392B; --rouge-clair:#FDEDEC;
+  --violet:#7B4FA6; --violet-clair:#F3EDF9;
+}
+body{font-family:'Nunito',sans-serif;background:#F0F4F8;padding:14px;color:var(--texte)}
+h1{font-size:1.35rem;font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);line-height:1.2;text-align:left}
+
+/* HEADER */
+.header{background:var(--blanc);border:1px solid #E3E8EE;border-bottom:3px solid var(--bleu);border-radius:14px;padding:18px 24px 14px;max-width:1300px;margin:0 auto 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(45,95,138,0.10)}
+.header-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.header-left{display:flex;flex-direction:column;align-items:flex-start;gap:7px;flex-shrink:0;margin-top:2px}
+.header-badge{background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:20px;white-space:nowrap}
+button.cap-toggle{background:var(--bleu);color:#fff;border:none;padding:5px 12px;border-radius:999px;font-family:'Nunito',sans-serif;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap}
+button.cap-toggle:hover{background:#1e4466}
+.cap-panel{display:none;margin:0 0 14px;background:#fff;border:1px solid #B8D4EC;border-radius:12px;padding:16px 20px;text-align:left;font-size:.88rem;color:var(--texte)}
+.cap-panel.open{display:block}
+.cap-panel p{line-height:1.6;margin-bottom:6px}
+.header-titles{flex:1;min-width:180px}
+.header-titles h1{font-size:1.35rem}
+.header-titles p{font-size:.82rem;color:var(--texte-leger);margin-top:2px}
+.header-titles p span{color:var(--orange);font-weight:700}
+.hicon-wrap{flex-shrink:0;width:80px;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(45,95,138,.18);background:#fff}
+.hicon-wrap svg{display:block;width:100%;height:auto}
+.hicon-scene{opacity:0;animation:hiconFade 6s ease-in-out infinite}
+.hicon-a{animation-delay:0s}
+.hicon-b{animation-delay:3s}
+@keyframes hiconFade{0%{opacity:1}42%{opacity:1}50%{opacity:0}92%{opacity:0}100%{opacity:1}}
+
+/* ONGLETS */
+.tabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;flex-wrap:wrap}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:8px;padding:10px 18px 12px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;color:var(--texte-leger);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;position:relative;bottom:-3px}
+.tab:hover{color:var(--orange)}
+.tab.on{color:var(--orange);border-bottom-color:var(--orange);background:var(--orange-clair);border-radius:6px 6px 0 0}
+.panel{display:none;background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:0 0 12px 12px;padding:20px}
+.panel.on{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.main{max-width:1300px;margin:0 auto;padding:28px 20px 60px}
+
+/* Sous-onglets */
+.sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:nowrap;overflow-x:auto}
+.sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:#b8cfe0;color:var(--bleu);font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all .2s;white-space:nowrap}
+.sub-tab-btn:hover{background:var(--bleu);color:#fff}
+.sub-tab-btn.active{background:#1e4466;color:#fff}
+.mag-scene-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:#b8cfe0;color:var(--bleu);font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all .2s;white-space:nowrap}
+.mag-scene-btn:hover{background:var(--bleu);color:#fff}
+.mag-scene-btn.active{background:#1e4466;color:#fff}
+@media(max-width:640px){.mag-scene{grid-template-columns:1fr!important}}
+.sub-tab-content{display:none}
+.sub-tab-content.active{display:block;animation:fadeIn .2s ease}
+
+/* Sections / cartes */
+.section-title{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:var(--bleu);margin:24px 0 14px;display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:2px solid var(--bleu-clair)}
+.section-title:first-child{margin-top:0}
+.section-title .icon{font-size:1.2rem}
+.intro-box{background:#FFFBF7;border-left:4px solid var(--orange);border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:20px;font-size:.9rem;line-height:1.6;color:var(--texte);font-style:italic}
+.card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.card-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;color:var(--bleu);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card-title .icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.card ul{padding-left:1.2rem;margin:8px 0}
+.card li{margin-bottom:5px;line-height:1.55;font-size:.88rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.grid-2{grid-template-columns:1fr}}
+.formula{background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:14px 18px;text-align:center;font-family:'DM Mono',monospace;font-weight:700;color:var(--bleu);margin:14px 0;font-size:1.05rem}
+.formula .legend{font-size:.78rem;font-weight:500;color:var(--texte-leger);margin-top:8px;text-align:left}
+.exemple-box{background:var(--vert-clair);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.exemple-box strong{color:var(--vert)}
+
+/* Curseur de l'animation redox */
+.redox-slider-wrap{display:flex;align-items:center;gap:12px;max-width:420px;margin:0 auto 4px;}
+.redox-slider-label{font-family:'DM Mono',monospace;font-weight:700;font-size:.8rem;color:var(--texte-leger);white-space:nowrap}
+.redox-slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:4px;background:linear-gradient(90deg,#2D5F8A,#7B4FA6);outline:none;cursor:pointer}
+.redox-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#E8783A;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer}
+.redox-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#E8783A;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;border:none}
+.remarque-box{background:var(--violet-clair);border-left:4px solid var(--violet);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.remarque-box strong{color:var(--violet)}
+.attention-box{background:var(--rouge-clair);border-left:4px solid var(--rouge);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.attention-box strong{color:var(--rouge)}
+.accord-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 16px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;color:var(--texte);transition:background .2s;margin:10px 0}
+.accord-btn:hover{background:var(--bleu-clair)}
+.accord-body{display:none;padding:14px;background:var(--blanc);border:1.5px solid var(--gris-bord);border-top:none;border-radius:0 0 8px 8px;font-size:.88rem;line-height:1.7;margin-top:-10px;margin-bottom:10px}
+.accord-body.open{display:block;animation:fadeIn .2s}
+.bilan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:560px){.bilan-grid{grid-template-columns:1fr}}
+.bilan-card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px}
+.bilan-card h4{font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:700;color:var(--bleu);margin-bottom:8px;padding-bottom:8px;border-bottom:1.5px solid var(--gris-bord)}
+.ke-list{list-style:none;padding:0}
+.ke-list li{padding:6px 10px 6px 28px;position:relative;font-size:.84rem;border-bottom:1px solid var(--gris-bord);line-height:1.5}
+.ke-list li:last-child{border-bottom:none}
+.ke-list li::before{content:"✓";position:absolute;left:8px;color:var(--vert);font-weight:800;font-size:.9rem}
+.res-list{list-style:none;padding:0;margin:10px 0}
+.res-list a{display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--bleu);text-decoration:none;padding:8px 12px;border:1px solid var(--gris-bord);border-radius:8px;transition:background .15s}
+.res-list a:hover{background:var(--bleu-clair)}
+
+/* Méthode - étapes numérotées */
+.methode-list{list-style:none;padding:0;counter-reset:step}
+.methode-list li{counter-increment:step;position:relative;padding:12px 16px 12px 52px;margin-bottom:10px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;font-size:.88rem;line-height:1.6}
+.methode-list li::before{content:counter(step);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+
+/* Tableau couples */
+table.couples{width:100%;border-collapse:collapse;font-size:.85rem;margin:14px 0}
+table.couples th{background:var(--bleu-clair);color:var(--bleu);font-weight:700;padding:8px;text-align:left;border:1px solid var(--gris-bord)}
+table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:middle;font-family:'DM Mono',monospace}
+
+/* Activité expérimentale - photos */
+.activite-photo-row{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0;justify-content:center}
+.activite-photo{text-align:center;flex:1;min-width:180px;max-width:260px}
+.activite-photo img{width:100%;height:auto;border-radius:10px;border:2px solid var(--gris-bord);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.activite-photo span{display:block;font-size:.76rem;color:var(--texte-leger);margin-top:6px;font-style:italic}
+.activite-q{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.activite-q .qnum{font-family:'Outfit',sans-serif;font-weight:800;color:var(--orange);font-size:.8rem;letter-spacing:.04em;margin-bottom:6px}
+.activite-q .qtext{font-size:.9rem;line-height:1.6;margin-bottom:10px}
+.btn-reveal{background:var(--orange);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer}
+.btn-reveal:hover{background:#c8602a}
+.reveal-body{display:none;margin-top:10px;padding:12px 14px;background:#fff;border:1.5px solid var(--vert);border-radius:8px;font-size:.86rem;line-height:1.6}
+.reveal-body.open{display:block;animation:fadeIn .2s}
+.reveal-body strong{color:var(--vert)}
+
+/* Drag & drop - jeu d'association */
+.dnd-wrap{display:flex;gap:24px;flex-wrap:wrap;margin:16px 0}
+.dnd-col{flex:1;min-width:240px}
+.dnd-col h5{font-family:'Outfit',sans-serif;font-size:.88rem;color:var(--bleu);margin-bottom:10px}
+.dnd-tile{background:var(--orange-clair);border:2px solid var(--orange);border-radius:8px;padding:9px 12px;margin-bottom:8px;font-family:'DM Mono',monospace;font-size:.82rem;cursor:grab;user-select:none;transition:transform .12s, box-shadow .12s}
+.dnd-tile:active{cursor:grabbing}
+.dnd-tile.dragging{opacity:.4}
+.dnd-slot{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px dashed var(--gris-bord);border-radius:8px;padding:9px 12px;margin-bottom:8px;min-height:44px}
+.dnd-slot .couple-label{font-family:'DM Mono',monospace;font-weight:700;color:var(--bleu);flex-shrink:0;min-width:78px}
+.dnd-slot .drop-target{flex:1;min-height:30px;border-radius:6px;display:flex;align-items:center}
+.dnd-slot.over{border-color:var(--bleu);background:var(--bleu-clair)}
+.dnd-slot.correct{border-style:solid;border-color:var(--vert);background:var(--vert-clair)}
+.dnd-slot.incorrect{border-style:solid;border-color:var(--rouge);background:var(--rouge-clair)}
+.dnd-btn{background:var(--bleu);color:#fff;border:none;padding:9px 18px;border-radius:7px;font-weight:700;font-size:.85rem;cursor:pointer;margin-top:8px;margin-right:8px}
+.dnd-btn:hover{background:#1e4466}
+.dnd-btn.reset{background:var(--texte-leger)}
+.dnd-btn.reset:hover{background:#3d4b58}
+.dnd-feedback{margin-top:12px;padding:10px 14px;border-radius:8px;font-size:.85rem;display:none}
+.dnd-feedback.show{display:block}
+.dnd-feedback.ok{background:var(--vert-clair);border-left:4px solid var(--vert);color:#1a5a3a}
+.dnd-feedback.partial{background:#FFF8E6;border-left:4px solid #cc8800;color:#5a3a00}
+
+/* Construction guidée de demi-équations */
+.halfeq-block{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:16px 18px;margin-bottom:18px}
+.halfeq-title{font-family:'Outfit',sans-serif;font-size:.9rem;color:var(--bleu);margin-bottom:10px}
+.halfeq-row{background:#fff;border:1px solid var(--gris-bord);border-radius:8px;padding:14px 16px;font-family:'DM Mono',monospace;font-size:.92rem;line-height:2.1;margin-bottom:12px}
+.dnd-blank{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:28px;padding:0 4px;border:2px dashed var(--gris-bord);border-radius:6px;background:var(--gris-fond);vertical-align:middle;margin:0 2px}
+.dnd-blank.over{border-color:var(--bleu);background:var(--bleu-clair)}
+.dnd-blank.correct{border-style:solid;border-color:var(--vert);background:var(--vert-clair)}
+.dnd-blank.incorrect{border-style:solid;border-color:var(--rouge);background:var(--rouge-clair)}
+.dnd-bank{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.dnd-num{background:var(--orange-clair);border:2px solid var(--orange);border-radius:7px;padding:6px 14px;font-family:'DM Mono',monospace;font-weight:700;font-size:.9rem;cursor:grab;user-select:none;color:var(--texte)}
+.dnd-num:active{cursor:grabbing}
+.dnd-num.dragging{opacity:.4}
+
+/* Réordonner la méthode */
+.reorder-list{list-style:none;padding:0;margin:14px 0}
+.reorder-item{background:var(--vert-exo,#F0FAF6);border:2px solid var(--gris-bord);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:.85rem;cursor:grab;user-select:none;display:flex;align-items:center;gap:10px}
+.reorder-item .handle{color:var(--texte-leger);font-size:1rem}
+.reorder-item.dragging{opacity:.4}
+.reorder-item.correct{border-color:var(--vert);background:var(--vert-clair)}
+.reorder-item.incorrect{border-color:var(--rouge);background:var(--rouge-clair)}
+
+/* Exercices */
+.exo-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+.exo-box h5{font-family:'Outfit',sans-serif;color:var(--orange);font-size:.92rem;margin-bottom:8px}
+.exo-enonce{background:#fff;border-radius:8px;padding:12px 16px;font-size:.88rem;line-height:1.6;margin-bottom:12px;border:1px solid var(--gris-bord)}
+.exo-eq{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-family:'DM Mono',monospace;font-size:.92rem;margin:10px 0;background:#fff;border-radius:8px;padding:10px 12px;border:1px solid var(--gris-bord)}
+.exo-eq select{padding:5px 8px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;font-size:.88rem;background:#fff}
+.exo-btn{background:var(--bleu);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;margin-top:6px}
+.exo-btn:hover{background:#1e4466}
+.exo-fb{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.85rem;line-height:1.6;display:none}
+.exo-fb.ok{display:block;background:var(--vert-clair);border-left:4px solid var(--vert);color:#1a5a3a}
+.exo-fb.ko{display:block;background:var(--rouge-clair);border-left:4px solid var(--rouge);color:#7a2418}
+
+/* Activité drag&drop tactile - Oxydants/Réducteurs (comme fichier Terminale) */
+.activite-card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.drag-pool{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:var(--gris-fond);border:1.5px dashed var(--gris-bord);border-radius:10px;min-height:48px;margin-bottom:14px}
+.drag-zones{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+@media(max-width:500px){.drag-zones{grid-template-columns:1fr}}
+.drop-zone{min-height:60px;border:2px dashed var(--gris-bord);border-radius:10px;padding:10px 12px;background:var(--blanc);display:flex;flex-wrap:wrap;gap:7px;align-items:flex-start;transition:border-color .15s, background .15s}
+.drop-zone.drag-over{border-color:var(--bleu);background:var(--bleu-clair);border-style:solid}
+.drop-zone.drop-ok{border-color:var(--vert);background:var(--vert-clair);border-style:solid}
+.drop-zone.drop-ko{border-color:var(--rouge);background:var(--rouge-clair);border-style:solid}
+.drop-zone-label{display:block;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;color:var(--texte-leger);margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase}
+.drop-zone-placeholder{color:var(--texte-leger);font-size:.78rem;font-weight:400;font-style:italic}
+.drag-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:20px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;cursor:grab;user-select:none;border:2px solid transparent;transition:opacity .15s, transform .1s;touch-action:none}
+.drag-badge:active{cursor:grabbing;transform:scale(1.08);opacity:.85}
+.dq-feedback{font-size:.8rem;margin-top:6px;padding-left:2px;min-height:16px}
+.dq-feedback.wrong{color:var(--rouge)}
+
+/* Glossaire */
+.gloss-search{width:100%;padding:10px 14px;border:1.5px solid var(--gris-bord);border-radius:20px;font-family:'Nunito',sans-serif;font-size:.88rem;margin-bottom:16px}
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+@media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 16px}
+.gloss-item dt{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:.9rem;margin-bottom:4px}
+.gloss-item dd{font-size:.84rem;color:var(--texte);line-height:1.55}
+
+/* Badges de difficulté */
+.diff-badge{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:800;letter-spacing:.03em;padding:3px 10px;border-radius:20px;margin-right:8px;vertical-align:middle}
+.diff-badge.d1{background:var(--vert-clair);color:var(--vert)}
+.diff-badge.d2{background:var(--bleu-clair);color:var(--bleu)}
+.diff-badge.d3{background:var(--orange-clair);color:var(--orange)}
+.diff-badge.d4{background:var(--rouge-clair);color:var(--rouge)}
+.diff-badge.d5{background:var(--violet-clair);color:var(--violet)}
+
+/* Escape Game */
+.escape-wrap{background:#0a0a0f;border-radius:14px;padding:20px;margin:14px 0;box-shadow:inset 0 0 60px rgba(0,0,0,.8)}
+.escape-story{color:#cfd6e6;font-size:.86rem;line-height:1.7;background:rgba(255,255,255,.04);border-left:4px solid var(--orange);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:16px}
+.escape-steps-nav{display:flex;justify-content:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.escape-step-badge{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:.76rem;font-weight:800;background:rgba(255,255,255,.06);color:#8a93a8;border:1.5px solid rgba(255,255,255,.12)}
+.escape-step-badge.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+.escape-step-badge.done{background:rgba(91,224,138,.18);color:#5be08a;border-color:rgba(91,224,138,.4)}
+.escape-stage{display:none;margin-bottom:16px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.12)}
+.escape-stage.on{display:block;animation:fadeIn .25s ease}
+.escape-locked{text-align:center;color:#6a7386;font-size:.84rem;padding:18px;background:rgba(255,255,255,.03);border-radius:10px;border:1.5px dashed rgba(255,255,255,.15)}
+.escape-ctrl{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:14px}
+.escape-btn{border:none;border-radius:10px;padding:10px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;color:#fff;transition:transform .15s ease, box-shadow .15s ease;box-shadow:0 3px 0 rgba(0,0,0,.35)}
+.escape-btn:hover{transform:translateY(-2px)}
+.escape-btn:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(0,0,0,.35)}
+.escape-btn.a{background:#7a6bd8}
+.escape-btn.b{background:#2050d8}
+.escape-btn.c{background:#1fa550}
+.escape-log{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;margin-bottom:14px;min-height:28px;font-size:.82rem;color:#dfe4f0;line-height:1.7}
+.escape-log b{color:#ffd76b}
+.escape-guess{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border-radius:10px;padding:12px;margin-bottom:12px}
+.escape-guess select{padding:8px 12px;border-radius:7px;border:none;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem}
+.escape-guess button, .escape-validate-btn{border:none;border-radius:8px;padding:9px 18px;font-weight:800;font-size:.84rem;background:var(--orange);color:#fff;cursor:pointer}
+.escape-guess button:hover, .escape-validate-btn:hover{background:#c8602a}
+.escape-eq{color:#dfe4f0;font-family:'DM Mono',monospace;font-size:.9rem;text-align:center;line-height:2.2;margin-bottom:12px}
+.escape-eq select{padding:4px 6px;border-radius:6px;border:none;font-family:'DM Mono',monospace;font-size:.86rem}
+.esc-eq-slot{display:inline-block;min-width:20px;padding:0 4px;color:#ffd76b;font-weight:700;border-bottom:2px solid rgba(255,215,107,.5)}
+.escape-result{text-align:center;font-size:.9rem;font-weight:700;min-height:24px;margin-bottom:10px}
+.escape-result.win{color:#5be08a}
+.escape-result.lose{color:#ff8a8a}
+.escape-comp-grid{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.escape-comp-btn{padding:10px 16px;border-radius:10px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#dfe4f0;font-family:'DM Mono',monospace;font-size:.84rem;cursor:pointer;transition:transform .15s,border-color .15s}
+.escape-comp-btn:hover{transform:scale(1.04);border-color:rgba(255,255,255,.4)}
+.escape-comp-btn.sel{border-color:#fff}
+.escape-comp-btn.ok{border-color:#5be08a;background:rgba(91,224,138,.15)}
+.escape-comp-btn.ko{border-color:#ff8a8a;background:rgba(255,138,138,.15)}
+.escape-reset{display:block;margin:14px auto 0;background:transparent;border:1.5px solid rgba(255,255,255,.25);color:#cfd6e6;border-radius:20px;padding:6px 16px;font-size:.78rem;font-weight:700;cursor:pointer}
+.escape-reset:hover{background:rgba(255,255,255,.08)}
+.escape-score{text-align:center;color:#8a93a8;font-size:.76rem;margin-top:8px}
+.escape-victory{display:none;text-align:center;background:linear-gradient(135deg,#1a3a2a,#0f2a1c);border:2px solid #5be08a;border-radius:12px;padding:20px;margin-top:14px;animation:fadeIn .4s ease}
+.escape-victory.show{display:block}
+.escape-victory h3{color:#5be08a;font-family:'Outfit',sans-serif;font-size:1.1rem;margin-bottom:6px}
+.escape-victory p{color:#cfd6e6;font-size:.86rem}
+
+/* Chambre réactionnelle */
+.esc-chamber-wrap{display:flex;justify-content:center;margin-bottom:16px}
+.esc-chamber{width:170px;height:auto;filter:drop-shadow(0 0 12px rgba(0,0,0,.5))}
+#escStrip{transition:height 1s ease, y 1s ease, opacity 1s ease}
+#escLiquid{transition:fill 1.2s ease, opacity 1.2s ease}
+#escDeposit{transition:opacity .8s ease}
+#escBubbles{transition:opacity .6s ease}
+
+/* Clavier numérique digicode */
+.esc-keypad-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
+.esc-code-display{display:flex;gap:8px}
+.esc-digit{width:34px;height:42px;border-radius:8px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.2);color:#ffd76b;font-family:'DM Mono',monospace;font-weight:700;font-size:1.2rem;display:flex;align-items:center;justify-content:center}
+.esc-digit.filled{border-color:#ffd76b;background:rgba(255,215,107,.12)}
+.esc-keypad{display:grid;grid-template-columns:repeat(3,44px);gap:8px}
+.esc-key{width:44px;height:44px;border-radius:8px;border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#dfe4f0;font-family:'DM Mono',monospace;font-weight:700;font-size:1rem;cursor:pointer;transition:background .15s, transform .1s}
+.esc-key:hover{background:rgba(255,255,255,.14)}
+.esc-key:active{transform:scale(.94)}
+
+/* Porte du coffre */
+.esc-vault{position:relative;width:100%;max-width:220px;height:90px;margin:0 auto 16px;overflow:hidden;border-radius:10px;background:#050508;border:2px solid #22222e}
+.esc-vault-door{position:absolute;top:0;width:50%;height:100%;background:linear-gradient(135deg,#3a4150,#1c2028);transition:transform 1s ease;display:flex;align-items:center;border:1px solid #050508}
+.esc-vault-left{left:0;justify-content:flex-end;border-radius:10px 0 0 10px}
+.esc-vault-right{right:0;justify-content:flex-start;border-radius:0 10px 10px 0}
+.esc-vault-door::after{content:'';width:8px;height:26px;background:#0e0e14;border-radius:3px;margin:0 10px}
+.esc-vault.open .esc-vault-left{transform:translateX(-100%)}
+.esc-vault.open .esc-vault-right{transform:translateX(100%)}
+.esc-vault-treasure{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.8rem;opacity:0;transition:opacity .6s ease .5s}
+.esc-vault.open .esc-vault-treasure{opacity:1}
+
+.footer-note{max-width:1300px;margin:0 auto;padding:0 20px 30px;font-size:.76rem;color:var(--texte-leger);text-align:center}
+
+@media(max-width:600px){
+  body{padding:6px}
+  .header{padding:12px 16px 10px}
+  .header-titles h1{font-size:1.05rem}
+  .hicon-wrap{width:60px}
+  .tab{padding:8px 12px 10px;font-size:.8rem}
+  .panel{padding:12px}
+  .main{padding:0 0 30px}
+  .bilan-grid,.grid-2{grid-template-columns:1fr}
+  .dnd-wrap{flex-direction:column}
+  .activite-photo-row{flex-direction:column;align-items:center}
+}
+
+/* === Ajouts Séquence 05 — Fluide au repos === */
+.video-wrap{max-width:520px;margin:0 auto 14px;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.15);background:var(--gris-fond)}
+.video-wrap video{display:block;width:100%;height:auto}
+table.macromicro{width:100%;border-collapse:collapse;font-size:.86rem;margin:14px 0}
+table.macromicro th{background:var(--bleu-clair);color:var(--bleu);font-weight:700;padding:9px 10px;text-align:left;border:1px solid var(--gris-bord)}
+table.macromicro td{padding:9px 10px;border:1px solid var(--gris-bord);vertical-align:top;line-height:1.5}
+table.macromicro td.macro-cell{font-weight:600}
+.micro-blank{background:var(--gris-fond);border:1.5px dashed var(--gris-bord);border-radius:8px;padding:8px 10px;min-height:20px}
+.micro-blank.revealed{background:var(--vert-clair);border:1.5px solid var(--vert);border-style:solid}
+.btn-reveal.small{padding:5px 11px;font-size:.74rem}
+.sim-readout{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin:10px 0 4px;}
+.sim-readout .val{text-align:center;font-family:'DM Mono',monospace;}
+.sim-readout .val .num{display:block;font-size:1.15rem;font-weight:700;color:var(--bleu)}
+.sim-readout .val .lbl{font-size:.72rem;color:var(--texte-leger)}
+.qi-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 16px;margin:10px 0}
+.qi-box .qi-q{font-size:.87rem;line-height:1.6;margin-bottom:8px;font-weight:600}
+.qcm-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.qcm-opt{background:#fff;border:1.5px solid var(--gris-bord);border-radius:7px;padding:7px 13px;font-size:.82rem;font-weight:600;font-family:'Nunito',sans-serif;color:var(--texte);cursor:pointer;transition:all .15s}
+.qcm-opt:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.qcm-opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.qcm-opt.incorrect{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+.blank-in{padding:6px 9px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;font-size:.82rem;width:130px}
+.blank-in.correct{border-color:var(--vert);background:var(--vert-clair)}
+.blank-in.incorrect{border-color:var(--rouge);background:var(--rouge-clair)}
+.consist-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 14px;max-width:380px;margin:8px 0}
+.app-box{background:#fff;border:1.5px solid var(--bleu-clair);border-left:4px solid var(--bleu);border-radius:10px;padding:14px 16px;margin:16px 0}
+.app-box h5{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:.86rem;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.fcr-line{display:block;margin-top:3px}
+.fcr-line:first-child{margin-top:0}
+.dnd-game{display:flex;gap:24px;flex-wrap:wrap;margin:14px 0}
+.dnd-pool{display:flex;flex-direction:column;gap:10px;min-width:220px}
+.dnd-chip{background:#fff;border:2px solid var(--bleu);border-radius:8px;padding:10px 14px;font-family:'DM Mono',monospace;font-weight:600;font-size:.88rem;color:var(--bleu);cursor:grab;text-align:center;transition:all .15s;user-select:none}
+.dnd-chip.selected{background:var(--bleu-clair);box-shadow:0 0 0 3px var(--bleu-moyen)}
+.dnd-chip.dragging{opacity:.4}
+.dnd-chip.placed-correct{cursor:default;background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.dnd-targets{display:flex;flex-direction:column;gap:10px;flex:1;min-width:220px}
+.dnd-target{border:2px dashed var(--gris-bord);border-radius:8px;padding:10px 14px;font-size:.84rem;font-weight:700;color:var(--texte-leger);min-height:44px;display:flex;align-items:center;justify-content:center;text-align:center;transition:all .15s}
+.dnd-target.shake{animation:dndShake .4s;border-color:var(--rouge);background:var(--rouge-clair)}
+.dnd-target.filled{border-style:solid;border-color:var(--vert);background:var(--vert-clair);display:block}
+@keyframes dndShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* === Escape Game — thème sous-marin === */
+.eg-briefing{background:linear-gradient(135deg,#E8F1F8,#DCEAF5);border:2px solid var(--bleu-moyen);border-radius:14px;padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden}
+.eg-briefing h4{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:1.05rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.eg-briefing p{font-size:.88rem;line-height:1.65;color:var(--texte)}
+.eg-progress{display:flex;gap:6px;margin:16px 0}
+.eg-progress-step{flex:1;height:8px;border-radius:5px;background:var(--gris-bord);transition:background .3s}
+.eg-progress-step.done{background:var(--vert)}
+.eg-puzzle{position:relative;background:#fff;border:2px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px;transition:border-color .3s}
+.eg-puzzle.solved{border-color:var(--vert)}
+.eg-puzzle h5{font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;color:var(--bleu);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.eg-digit{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--bleu);color:#fff;font-family:'DM Mono',monospace;font-weight:700;font-size:.78rem}
+.eg-lock-overlay{position:absolute;inset:0;background:rgba(245,247,250,.93);backdrop-filter:blur(1px);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--texte-leger);font-weight:700;font-size:.85rem;text-align:center;padding:20px}
+.eg-code-found{display:inline-block;margin-top:10px;padding:6px 14px;background:var(--vert-clair);border:1.5px solid var(--vert);border-radius:7px;color:var(--vert);font-family:'DM Mono',monospace;font-weight:700;font-size:.85rem}
+.eg-final{background:var(--gris-fond);border:2px dashed var(--bleu-moyen);border-radius:12px;padding:18px 20px;text-align:center}
+.eg-final input{padding:10px 14px;border:2px solid var(--gris-bord);border-radius:8px;font-family:'DM Mono',monospace;font-size:1.1rem;letter-spacing:.3em;text-align:center;width:140px;margin:10px 0}
+.eg-success{display:none;background:var(--vert-clair);border:2px solid var(--vert);border-radius:12px;padding:22px;text-align:center;margin-top:14px}
+.eg-success.show{display:block;animation:fadeIn .4s}
+.eg-success h4{color:var(--vert);font-family:'Outfit',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:8px}
+
+.exo-btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.exo-btn-secondary{background:#fff;color:var(--bleu);border:1.5px solid var(--bleu-moyen);padding:7px 14px;border-radius:7px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s}
+.exo-btn-secondary:hover{background:var(--bleu-clair)}
+.exo-fb.correction{display:block;background:var(--bleu-clair);border:1.5px solid var(--bleu-moyen);color:var(--texte);border-radius:8px;padding:10px 14px;margin-top:8px;font-size:.85rem;line-height:1.6}
+.fcr-step{margin-top:14px;padding-top:12px;border-top:1px dashed var(--gris-bord)}
+.fcr-step:first-of-type{border-top:none;padding-top:0}
+.fcr-label{display:block;font-family:'Outfit',sans-serif;font-weight:800;font-size:.8rem;color:var(--orange);margin-bottom:8px;letter-spacing:.02em}
+
+/* === Notation vectorielle (flèche au-dessus de la lettre) === */
+.vec{position:relative;display:inline-block;padding-top:.62em}
+.vec::before{content:"";position:absolute;top:.05em;left:6%;width:88%;height:0;border-top:.11em solid currentColor}
+.vec::after{content:"";position:absolute;top:-.02em;right:2%;width:0;height:0;border-left:.32em solid currentColor;border-top:.22em solid transparent;border-bottom:.22em solid transparent}
+.formula .vec{padding-top:.7em}
+
+/* === iframe simulateur externe === */
+.sim-frame-wrap{border:2px solid var(--gris-bord);border-radius:12px;overflow:hidden;margin:14px 0;background:#fff}
+.sim-frame-wrap iframe{width:100%;height:520px;border:none;display:block}
+.sim-frame-caption{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--gris-fond);font-size:.78rem;color:var(--texte-leger)}
+.sim-frame-caption a{color:var(--bleu);font-weight:700;text-decoration:none}
+
+/* === Simulateur champ (canvas) === */
+.champ-sim{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin:14px 0}
+.champ-sim-layout{display:flex;gap:20px;flex-wrap:wrap}
+.champ-sim-canvas-wrap{flex:1;min-width:280px;text-align:center}
+.champ-sim-canvas-wrap canvas{background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;max-width:100%;touch-action:none}
+.champ-sim-controls{flex:1;min-width:240px;display:flex;flex-direction:column;gap:14px}
+.charge-ctrl{background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 14px}
+.charge-ctrl h5{font-family:'Outfit',sans-serif;font-size:.84rem;font-weight:800;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.charge-ctrl.q1 h5{color:var(--rouge)}
+.charge-ctrl.q2 h5{color:var(--bleu)}
+.charge-ctrl label{display:block;font-size:.76rem;color:var(--texte-leger);margin:6px 0 3px}
+.charge-ctrl input[type=range]{width:100%}
+.charge-ctrl .signe-row{display:flex;gap:8px;margin-top:4px}
+.charge-ctrl .signe-btn{flex:1;padding:6px;border-radius:7px;border:1.5px solid var(--gris-bord);background:#fff;font-weight:700;cursor:pointer;font-size:.82rem}
+.charge-ctrl .signe-btn.on.pos{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+.charge-ctrl .signe-btn.on.neg{background:var(--bleu-clair);border-color:var(--bleu);color:var(--bleu)}
+.charge-ctrl .toggle-q2{font-size:.78rem;font-weight:700;cursor:pointer;color:var(--bleu)}
+.champ-sim-readout{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--texte-leger);text-align:center;margin-top:6px}
+
+/* === Code Python === */
+.code-block{background:#f5f7f9;color:#1e2a38;border:1.5px solid var(--gris-bord);border-radius:10px;padding:14px 16px;margin:12px 0;font-family:'DM Mono',monospace;font-size:.78rem;line-height:1.65;overflow-x:auto;white-space:pre}
+.code-block .tocomplete{background:rgba(232,120,58,.18);border-left:3px solid var(--orange);display:block;padding:1px 6px;margin:1px 0}
+.pykw{color:#1a5fb4;font-weight:700}
+.pycmt{color:#2f8a52}
+.pystr{color:#c8602a}
+.pynum{color:#7B4FA6}
+.py-editor-wrap{position:relative;background:#f5f7f9;border-radius:10px;border:2px solid var(--gris-bord);min-height:360px;overflow:hidden}
+.py-editor-wrap:focus-within{border-color:var(--bleu)}
+.py-editor-highlight{position:absolute;top:0;left:0;right:0;bottom:0;margin:0;padding:14px 16px;font-family:'DM Mono',monospace;font-size:.76rem;line-height:1.6;white-space:pre;overflow:auto;pointer-events:none;color:#1e2a38;box-sizing:border-box}
+.py-editor{position:relative;width:100%;height:100%;min-height:360px;background:transparent;color:transparent;caret-color:#1e2a38;padding:14px 16px;font-family:'DM Mono',monospace;font-size:.76rem;line-height:1.6;border:none;resize:vertical;box-sizing:border-box;white-space:pre;z-index:1}
+.py-editor:focus{outline:none}
+.py-output img{display:block;margin:12px auto 0}
+.py-btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+/* === Tableau bilan (analogie gravitation/électrostatique) === */
+table.bilan-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:14px 0}
+table.bilan-table th{background:var(--bleu-clair);color:var(--bleu);font-weight:800;padding:9px 10px;border:1px solid var(--gris-bord);font-family:'Outfit',sans-serif}
+table.bilan-table td{padding:9px 10px;border:1px solid var(--gris-bord);vertical-align:middle;font-size:.82rem}
+table.bilan-table td.row-label{background:var(--gris-fond);font-weight:700;color:var(--texte-leger);font-size:.76rem}
+table.bilan-table td.formule{font-family:'DM Mono',monospace;text-align:center}
+
+/* === grille 3 colonnes (électrisation) === */
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:800px){.grid-3{grid-template-columns:1fr}}
+</style>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <div class="header-badge">1<sup>ère</sup> Spé – Séq. 07</div>
+      <button class="cap-toggle" onclick="document.getElementById('capPanel').classList.toggle('open')">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Interactions fondamentales et introduction à la notion de champs</h1>
+      <p>Thème : <span>Mouvements et interactions</span></p>
+    </div>
+    <div class="hicon-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+        <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+        <g class="hicon-scene hicon-a">
+          <circle cx="100" cy="65" r="5" fill="#C0392B"/>
+          <text x="100" y="52" text-anchor="middle" font-size="9" font-family="Outfit,sans-serif" font-weight="800" fill="#C0392B">q &gt; 0</text>
+          <g stroke="#5B8FB9" stroke-width="1.3" fill="none" opacity=".85">
+            <path d="M100,65 L100,20" marker-end="url(#ar1)"/>
+            <path d="M100,65 L100,110" marker-end="url(#ar1)"/>
+            <path d="M100,65 L145,65" marker-end="url(#ar1)"/>
+            <path d="M100,65 L55,65" marker-end="url(#ar1)"/>
+            <path d="M100,65 L132,33" marker-end="url(#ar1)"/>
+            <path d="M100,65 L68,33" marker-end="url(#ar1)"/>
+            <path d="M100,65 L132,97" marker-end="url(#ar1)"/>
+            <path d="M100,65 L68,97" marker-end="url(#ar1)"/>
+          </g>
+        </g>
+        <g class="hicon-scene hicon-b">
+          <circle cx="70" cy="65" r="6" fill="#2D5F8A"/>
+          <circle cx="130" cy="65" r="6" fill="#2D5F8A"/>
+          <line x1="76" y1="65" x2="124" y2="65" stroke="#E8783A" stroke-width="2"/>
+          <path d="M76,58 L92,58" stroke="#E8783A" stroke-width="2" marker-end="url(#ar2)"/>
+          <path d="M124,72 L108,72" stroke="#E8783A" stroke-width="2" marker-end="url(#ar2)"/>
+          <text x="100" y="30" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="700" fill="#2D5F8A">Interaction gravitationnelle</text>
+        </g>
+        <defs>
+          <marker id="ar1" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#5B8FB9"/></marker>
+          <marker id="ar2" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#E8783A"/></marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <div class="cap-panel" id="capPanel">
+    <p><strong>Capacités exigibles :</strong></p>
+    <p>— Interpréter des expériences mettant en jeu l'interaction électrostatique.</p>
+    <p>— Utiliser la loi de Coulomb.</p>
+    <p>— Citer les analogies entre la loi de Coulomb et la loi d'interaction gravitationnelle.</p>
+    <p>— Utiliser les expressions vectorielles : de la force de gravitation et du champ de gravitation ; de la force électrostatique et du champ électrostatique.</p>
+    <p>— Caractériser localement une ligne de champ électrostatique ou de champ de gravitation.</p>
+    <p>— Illustrer l'interaction électrostatique.</p>
+    <p>— Cartographier un champ électrostatique.</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab on" onclick="showTab(this,'cours')">📘 Cours</div>
+    <div class="tab" onclick="showTab(this,'activites')">🧪 Activités</div>
+    <div class="tab" onclick="showTab(this,'exercices')">✏️ Exercices</div>
+    <div class="tab" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</div>
+  </div>
+</div>
+
+<div class="main">
+<!-- ══════════════════ TAB 1 — COURS ══════════════════ -->
+<div class="panel on" id="tab-cours">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-interactions')">① Interactions fondamentales</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-champs')">② Les champs</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-bilanschema')">③ Schéma bilan</button>
+  </div>
+
+  <!-- ---------- SOUS-ONGLET : INTERACTIONS FONDAMENTALES ---------- -->
+  <div class="sub-tab-content active" id="sub-interactions">
+
+    <div class="intro-box">Activité 1 : « Thalès, un précurseur » — Activité 2 : « Deux interactions fondamentales ». Lecture d'un extrait de <em>La matière</em> d'Étienne Klein ; vidéo « À quoi sont dus les éclairs ? »</div>
+
+    <div class="section-title"><span class="icon">🪐</span>1. L'interaction gravitationnelle</div>
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">ℹ️</span>Définition</div>
+      <p style="font-size:.9rem;line-height:1.7">La gravitation est une <strong>interaction fondamentale attractive</strong> qui peut agir à très grande distance (échelle <strong>astronomique</strong>). Elle agit sur <strong>tous les corps possédant une masse</strong> et explique la <strong>cohésion du système solaire, des galaxies, et la chute des corps</strong>.</p>
+      <p style="font-size:.9rem;line-height:1.7;margin-top:8px">Deux corps sphériques de masse m<sub>1</sub> et m<sub>2</sub> sont soumis réciproquement à une interaction gravitationnelle F. L'interaction gravitationnelle a une portée <strong>infinie</strong>. Elle est <strong>toujours attractive</strong>.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">📐</span>Loi de gravitation universelle</div>
+      <div style="text-align:center;margin:10px 0">
+        <img src="loiinteractiong.jpg" alt="Loi d'interaction gravitationnelle : forces F(A/B) et F(B/A)" style="max-width:600px;width:100%;border-radius:10px;border:1.5px solid var(--gris-bord)">
+      </div>
+      <div class="attention-box"><strong>⚠️ Attention aux flèches :</strong> les deux forces <span class="vec">F</span><sub>A/B</sub> et <span class="vec">F</span><sub>B/A</sub> ont même direction, même norme, sens opposés (3<sup>e</sup> loi de Newton) — elles sont toujours dirigées <em>l'une vers l'autre</em> (attraction).</div>
+    </div>
+
+    <div class="exo-box" id="appG1-box">
+      <h5>📝 Application directe — Force gravitationnelle</h5>
+      <div class="exo-enonce">Deux masses m<sub>A</sub> = 60 kg et m<sub>B</sub> = 70 kg sont séparées d'une distance d = 1,0 m. Calculer la norme de la force gravitationnelle entre elles (G = 6,67×10⁻¹¹ N·m²·kg⁻²).</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('appG1',this,false)">F = G×(m<sub>A</sub>+m<sub>B</sub>)/d</div>
+          <div class="qcm-opt" onclick="fcrFormule('appG1',this,true)">F = G×(m<sub>A</sub>×m<sub>B</sub>)/d²</div>
+          <div class="qcm-opt" onclick="fcrFormule('appG1',this,false)">F = G×(m<sub>A</sub>×m<sub>B</sub>)/d</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="appG1-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="appG1-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre/nombre²)" style="width:100%;max-width:320px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('appG1',2.8e-7,0.08)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="appG1-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="appG1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="appG1-result" class="blank-in" placeholder="en N"> N
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('appG1',2.8e-7,0.05,'F ≈ 2,8×10⁻⁷ N — extrêmement faible : voilà pourquoi la gravitation n\'est perceptible qu\'à l\'échelle astronomique !')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="appG1-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('appG1','F = G×(m_A×m_B)/d²','F = 6,67×10⁻¹¹×60×70 / 1,0²','F ≈ 2,8×10⁻⁷ N — extrêmement faible : voilà pourquoi la gravitation n\'est perceptible qu\'à l\'échelle astronomique !')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('appG1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="appG1-correction"></div>
+    </div>
+
+    <div class="section-title"><span class="icon">⚡</span>2. L'interaction électrostatique</div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair)">🔋</span>Trois modes d'électrisation</div>
+      <div class="grid-3">
+        <div class="exemple-box">
+          <strong>Par frottement</strong><br>Lorsqu'on frotte un matériau isolant, celui-ci peut gagner ou perdre des <strong>électrons</strong> (ex. règle en plastique frottée sur un tissu).
+        </div>
+        <div class="remarque-box">
+          <strong>Par influence</strong><br>Un corps chargé est approché <em>sans contact</em> d'un autre corps. Ce dernier, tout en restant électriquement neutre, a ses charges réparties <strong>de façon non uniforme à sa surface</strong>.
+        </div>
+        <div class="exemple-box" style="background:var(--vert-clair);border-left-color:var(--vert)">
+          <strong>Par contact</strong><br>Des <strong>électrons</strong> sont transférés par contact direct d'un corps chargé à un autre.
+        </div>
+      </div>
+      <div class="remarque-box" style="margin-top:12px"><strong>Influence électrostatique :</strong> un objet chargé engendre à distance un déplacement de charges à la surface d'un conducteur proche. Ce phénomène <strong>ne modifie pas la charge totale</strong> d'un système isolé électriquement ; il modifie uniquement la <strong>répartition des charges</strong> à sa surface.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair)">🧪</span>Simulation interactive — Électrisation d'un objet (influence puis contact)</div>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:10px">Un tube en PVC a été électrisé négativement par frottement. <strong>Fais glisser le tube</strong> (souris ou doigt) vers le pendule métallique pour observer l'influence, puis jusqu'au contact.</p>
+      <div style="text-align:center">
+        <svg id="elecSvg" viewBox="0 0 380 300" style="max-width:420px;width:100%;background:#FAFBFC;border:1.5px solid var(--gris-bord);border-radius:10px;touch-action:none">
+          <!-- support -->
+          <rect x="245" y="210" width="70" height="14" rx="2" fill="#C9A27A"/>
+          <rect x="270" y="30" width="10" height="180" fill="#C9A27A"/>
+          <rect x="270" y="30" width="55" height="10" fill="#C9A27A"/>
+          <!-- fil + boule -->
+          <g id="elecPendulum">
+            <line id="elecString" x1="320" y1="40" x2="320" y2="120" stroke="#8a8f98" stroke-width="1.5"/>
+            <circle id="elecBall" cx="320" cy="130" r="20" fill="#E7E9EC" stroke="#9AA2AC" stroke-width="1.5"/>
+            <g id="elecChargesNear" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="#C0392B" text-anchor="middle"></g>
+            <g id="elecChargesFar" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="#2D5F8A" text-anchor="middle"></g>
+          </g>
+          <!-- tube tenu par la main (schématique), glissable -->
+          <g id="elecTube" style="cursor:grab">
+            <rect x="-6" y="80" width="112" height="34" fill="transparent"/>
+            <rect x="10" y="90" width="90" height="14" rx="6" fill="#E9D9A0" stroke="#C7AE6A" transform="rotate(-14 10 97)"/>
+            <g id="elecTubeMarks" stroke="#C0392B" stroke-width="2"></g>
+          </g>
+          <text id="elecCaptionL1" x="190" y="255" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12.5" fill="var(--texte)"></text>
+          <text id="elecCaptionL2" x="190" y="273" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12.5" fill="var(--texte)"></text>
+        </svg>
+      </div>
+      <div class="exo-btn-row" style="justify-content:center;margin-top:10px">
+        <button class="dnd-btn" onclick="elecPreset(0)">a. Écarté</button>
+        <button class="dnd-btn" onclick="elecPreset(1)">b. Approché (influence)</button>
+        <button class="dnd-btn" onclick="elecPreset(2)">c. Contact</button>
+        <button class="dnd-btn reset" onclick="elecPreset(0)">↺ Réinitialiser</button>
+      </div>
+    </div>
+
+    <div class="exo-box" id="appElec1-box">
+      <h5>📝 Application directe — Électrisation</h5>
+      <div class="exo-enonce">Une boule métallique neutre porte N = 3,0×10¹² charges élémentaires positives et le même nombre de charges élémentaires négatives. Après un contact avec un tube chargé, elle perd n = 5,0×10¹⁰ électrons. Calculer la charge électrique finale de la boule (e = 1,60×10⁻¹⁹ C).</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('appElec1',this,true)">q = n×e</div>
+          <div class="qcm-opt" onclick="fcrFormule('appElec1',this,false)">q = n/e</div>
+          <div class="qcm-opt" onclick="fcrFormule('appElec1',this,false)">q = n+e</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="appElec1-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="appElec1-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre/nombre²)" style="width:100%;max-width:320px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('appElec1',8.0e-9,0.08)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="appElec1-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="appElec1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="appElec1-result" class="blank-in" placeholder="en C"> C
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('appElec1',8.0e-9,0.05,'q ≈ 8,0×10⁻⁹ C = 8,0 nC (perte d\'électrons ⇒ charge positive)')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="appElec1-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('appElec1','q = n×e (perte d\'électrons ⇒ charge positive)','q = 5,0×10¹⁰ × 1,60×10⁻¹⁹','q ≈ 8,0×10⁻⁹ C = 8,0 nC')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('appElec1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="appElec1-correction"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair)">📐</span>Loi de Coulomb</div>
+      <p style="font-size:.88rem;line-height:1.6">L'interaction électrostatique est à l'échelle <strong>microscopique à macroscopique</strong>. Elle a une portée <strong>infinie</strong> ; elle peut être <strong>attractive</strong> ou <strong>répulsive</strong>.</p>
+      <div style="text-align:center;margin-top:12px">
+        <img src="loicoulomb.jpg" alt="Loi de Coulomb : cas de charges de signes opposés (attraction) et de même signe (répulsion)" style="max-width:600px;width:100%;border-radius:10px;border:1.5px solid var(--gris-bord)">
+      </div>
+    </div>
+
+    <div class="exo-box" id="appC1-box">
+      <h5>📝 Application directe — Loi de Coulomb</h5>
+      <div class="exo-enonce">Deux charges ponctuelles q<sub>A</sub> = +4,0 µC et q<sub>B</sub> = +1,0 µC sont séparées d'une distance d = 20 cm. Calculer la norme de la force électrostatique entre elles (k = 9,0×10⁹ N·m²·C⁻²).</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('appC1',this,false)">F = k×(q<sub>A</sub>×q<sub>B</sub>)/d</div>
+          <div class="qcm-opt" onclick="fcrFormule('appC1',this,true)">F = k×(q<sub>A</sub>×q<sub>B</sub>)/d²</div>
+          <div class="qcm-opt" onclick="fcrFormule('appC1',this,false)">F = k×(q<sub>A</sub>+q<sub>B</sub>)/d²</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="appC1-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="appC1-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre/nombre²)" style="width:100%;max-width:340px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('appC1',0.9,0.08)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="appC1-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="appC1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="appC1-result" class="blank-in" placeholder="en N"> N
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('appC1',0.9,0.05,'F = 0,90 N (répulsive, charges de même signe)')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="appC1-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('appC1','F = k×(q_A×q_B)/d²','F = 9,0×10⁹×4,0×10⁻⁶×1,0×10⁻⁶ / 0,20²','F = 0,90 N (répulsive, charges de même signe)')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('appC1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="appC1-correction"></div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">💡 Flash : q<sub>A</sub> et q<sub>B</sub> sont de signes opposés. La force électrostatique entre elles est :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Répulsive</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Attractive</div>
+      </div>
+    </div>
+
+  </div>
+  <!-- ---------- SOUS-ONGLET : LES CHAMPS ---------- -->
+  <div class="sub-tab-content" id="sub-champs">
+
+    <div class="intro-box">Activité 3 : « Force et champ »</div>
+
+    <div class="section-title"><span class="icon">🗺️</span>Qu'est-ce qu'un champ ?</div>
+    <div class="card">
+      <p style="font-size:.9rem;line-height:1.7">On parle du <strong>champ</strong> d'une grandeur physique si cette dernière est définie <strong>en chaque point d'un espace donné</strong>. Cet espace peut être schématisé par une ligne, un plan ou un volume.</p>
+      <div class="grid-2" style="margin-top:10px">
+        <div class="exemple-box"><strong>Champ scalaire</strong> : décrit uniquement par sa valeur (ex. champ de température, de pression en météorologie — isobares).</div>
+        <div class="exemple-box" style="background:var(--bleu-clair);border-left-color:var(--bleu)"><strong>Champ vectoriel</strong> : défini par une direction, un sens et une norme en chaque point (ex. champ des vitesses, champ de gravitation, champ électrostatique).</div>
+      </div>
+      <div class="remarque-box" style="margin-top:10px"><strong>Cartographier</strong> un champ consiste à donner une représentation de ce champ en plusieurs points de l'espace, à l'aide de <strong>lignes de champ</strong> : elles sont tangentes en chaque point aux vecteurs champ associés, et orientées par une flèche dans le sens du champ.</div>
+      <div class="remarque-box"><strong>Champ uniforme :</strong> un champ est uniforme lorsque la grandeur qui le caractérise (norme et sens) reste constante en tout point de l'espace considéré.</div>
+      <div class="remarque-box" style="margin-top:10px">
+        <strong>Exemple concret de champ scalaire — les cartes météo :</strong> les <strong>isobares</strong> (lignes noires numérotées en hPa, ex. 1015, 1020…) relient tous les points de <strong>même pression</strong>, exactement comme une carte d'altitude relie les points de même hauteur. Là où les isobares sont très <strong>resserrées</strong> (ex. autour d'une dépression profonde « D »), la pression varie très vite dans l'espace ; là où elles sont <strong>espacées</strong>, la pression varie lentement. On retrouve la même idée que pour les lignes de champ, mais ici la grandeur représentée (la pression) est un <strong>scalaire</strong> — il n'y a pas de vecteur ni de flèche, juste une valeur en chaque point.
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:10px">
+          <img src="exemple1carto.jpg" alt="Carte météo avec isobares (champ scalaire de pression)" style="max-width:280px;width:100%;border-radius:8px;border:1.5px solid var(--gris-bord)">
+          <img src="exemple2carto.jpg" alt="Carte météo avec isobares (champ scalaire de pression)" style="max-width:280px;width:100%;border-radius:8px;border:1.5px solid var(--gris-bord)">
+        </div>
+      </div>
+      <div class="remarque-box" style="margin-top:10px">
+        <strong>Exemple concret de champ vectoriel — la carte des vents :</strong> à chaque point de la carte, une <strong>flèche</strong> indique la <strong>direction et le sens</strong> du vent : c'est un vecteur, pas une simple valeur. La <strong>couleur (échelle de Beaufort)</strong> indique en plus la <strong>norme</strong> (la force du vent). C'est exactement ce que font les lignes de champ pour <span class="vec">g</span> ou <span class="vec">E</span> plus loin dans ce cours (voir les simulateurs de champ électrostatique et les schémas des aimants) : une direction, un sens, et une intensité en chaque point de l'espace.
+        <div style="text-align:center;margin-top:10px">
+          <img src="exemple3carto.jpg" alt="Carte des vents avec flèches de direction et échelle de Beaufort (champ vectoriel)" style="max-width:280px;width:100%;border-radius:8px;border:1.5px solid var(--gris-bord)">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--violet-clair)">🔑</span>Légende d'une ligne de champ</div>
+      <p style="font-size:.85rem;line-height:1.7">Une ligne de champ n'existe jamais seule : un objet source (ici des <strong>aimants</strong>, pour l'exemple) est entouré d'une <strong>famille de lignes de champ</strong>. Choisis une situation ci-dessous pour voir comment ces lignes se comportent.</p>
+
+      <div class="exo-btn-row" style="justify-content:center;margin:10px 0">
+        <button class="mag-scene-btn active" onclick="showMagScene(this,0)">① Un aimant seul</button>
+        <button class="mag-scene-btn" onclick="showMagScene(this,1)">② Attraction</button>
+        <button class="mag-scene-btn" onclick="showMagScene(this,2)">③ Répulsion</button>
+      </div>
+
+      <!-- ===== SCÈNE 1 : UN AIMANT SEUL ===== -->
+      <div class="mag-scene" id="magScene0" style="display:grid;grid-template-columns:1.1fr 1fr;gap:16px;align-items:center">
+        <img src="aimant-seul.jpg" alt="Lignes de champ d'une barre aimantée seule" style="max-width:220px;width:100%;border-radius:10px;border:1.5px solid var(--gris-bord)">
+        <div style="font-size:.84rem;line-height:1.8">
+          <p>Les lignes de champ sortent toujours du pôle <strong>N</strong> et rentrent toujours dans le pôle <strong>S</strong>, à l'extérieur de l'aimant : elles forment des boucles fermées.</p>
+          <ul style="padding-left:1.1rem;margin-top:6px">
+            <li><strong>Près des pôles</strong> : lignes rapprochées ⇒ champ intense</li>
+            <li><strong>Loin de l'aimant</strong> : lignes espacées ⇒ champ plus faible</li>
+            <li>Les flèches déjà présentes sur les lignes représentent le champ <span class="vec">E</span>, tangent à la ligne en chaque point</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== SCÈNE 2 : ATTRACTION ===== -->
+      <div class="mag-scene" id="magScene1" style="display:none;grid-template-columns:1.1fr 1fr;gap:16px;align-items:center">
+        <img src="aimants-attraction.jpg" alt="Lignes de champ de deux aimants aux pôles opposés qui s'attirent" style="max-width:280px;width:100%;border-radius:10px;border:1.5px solid var(--gris-bord)">
+        <div style="font-size:.84rem;line-height:1.8">
+          <p>Le pôle <strong>N</strong> du premier aimant fait face au pôle <strong>S</strong> du second (pôles opposés).</p>
+          <ul style="padding-left:1.1rem;margin-top:6px">
+            <li>Entre les deux aimants, les lignes <strong>se rejoignent</strong> directement d'un pôle à l'autre</li>
+            <li>Chaque aimant garde aussi ses propres boucles, tout autour</li>
+            <li>Les flèches sur les lignes représentent le champ <span class="vec">E</span>, toujours orienté de N vers S</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== SCÈNE 3 : RÉPULSION ===== -->
+      <div class="mag-scene" id="magScene2" style="display:none;grid-template-columns:1.1fr 1fr;gap:16px;align-items:center">
+        <img src="aimants-repulsion.jpg" alt="Lignes de champ de deux aimants aux pôles identiques qui se repoussent" style="max-width:300px;width:100%;border-radius:10px;border:1.5px solid var(--gris-bord)">
+        <div style="font-size:.84rem;line-height:1.8">
+          <p>Les deux pôles en vis-à-vis sont de <strong>même nature</strong> (ici N face à N).</p>
+          <ul style="padding-left:1.1rem;margin-top:6px">
+            <li>Les lignes de champ <strong>ne se rejoignent jamais</strong> entre les deux aimants : chacune reste sur son propre aimant</li>
+            <li>Les deux champs restent <strong>indépendants</strong>, sans jamais se connecter</li>
+            <li>Les flèches sur les lignes représentent le champ <span class="vec">E</span>, tangent à chaque ligne</li>
+          </ul>
+        </div>
+      </div>
+
+      <ul style="font-size:.84rem;line-height:1.9;padding-left:1.1rem;margin-top:14px;border-top:1px dashed var(--gris-bord);padding-top:10px">
+        <li><strong>Direction</strong> : celle de la ligne, à l'endroit précis considéré (« tangente » = qui suit exactement la courbe en ce point)</li>
+        <li><strong>Sens</strong> : indiqué par la flèche, toujours du pôle <strong>N</strong> vers le pôle <strong>S</strong></li>
+        <li><strong>Norme (intensité)</strong> : lignes rapprochées ⇒ champ intense ; lignes espacées ⇒ champ plus faible</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--violet-clair)">📊</span>Caractéristiques du champ de gravitation et du champ électrostatique</div>
+      <div style="text-align:center">
+        <img src="champs.jpg" alt="Caractéristiques du champ de gravitation et du champ électrostatique : G = F/m et E = F/q, champs radiaux" style="max-width:100%;border-radius:10px;border:1.5px solid var(--gris-bord)">
+      </div>
+    </div>
+
+    <div class="section-title"><span class="icon">🌍</span>Champ de gravitation</div>
+    <div class="card">
+      <p style="font-size:.88rem;line-height:1.7">Un objet massique exerce autour de lui une action mécanique d'attraction gravitationnelle sur tout autre objet massique : il en résulte un <strong>champ de gravitation</strong>, champ vectoriel <strong>centripète</strong> (dirigé vers le corps source).</p>
+      <h5 style="font-family:'Outfit',sans-serif;color:var(--bleu);font-size:.85rem;margin-bottom:6px">a. Champ de pesanteur (grande échelle)</h5>
+      <p style="font-size:.85rem;line-height:1.6">Le champ de pesanteur, noté <span class="vec">g</span>, règne autour de la Terre ou d'une planète.</p>
+      <ul style="font-size:.84rem;padding-left:1.1rem;margin-top:6px">
+        <li>Direction : radiale (vers le centre de la Terre)</li>
+        <li>Sens : centripète</li>
+        <li>Intensité : g dépend du lieu (altitude, latitude…)</li>
+      </ul>
+      <h5 style="font-family:'Outfit',sans-serif;color:var(--bleu);font-size:.85rem;margin:14px 0 6px">b. Champ de pesanteur local (petit espace, au voisinage du sol)</h5>
+      <p style="font-size:.85rem;line-height:1.6">Sur une échelle restreinte (salle, laboratoire), les lignes de champ deviennent <strong>parallèles</strong> : le champ de pesanteur local est considéré <strong>uniforme</strong> — même direction (verticale), même sens (vers le bas), même norme g ≈ 9,8 N·kg⁻¹. La force qui en résulte sur un corps de masse m<sub>B</sub> est son poids.</p>
+      <div class="formula"><span class="vec">F</span><sub>g</sub> = m<sub>B</sub> · <span class="vec">g</span> <div class="legend">C'est le poids du corps de masse m<sub>B</sub></div></div>
+    </div>
+
+    <div class="exo-box" id="appPes1-box">
+      <h5>📝 Application directe — Champ de pesanteur</h5>
+      <div class="exo-enonce">Un objet de masse m = 2,5 kg est posé sur le sol, où g = 9,8 N·kg⁻¹. Calculer la norme de son poids.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('appPes1',this,true)">F<sub>g</sub> = m×g</div>
+          <div class="qcm-opt" onclick="fcrFormule('appPes1',this,false)">F<sub>g</sub> = m/g</div>
+          <div class="qcm-opt" onclick="fcrFormule('appPes1',this,false)">F<sub>g</sub> = m+g</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="appPes1-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="appPes1-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre/nombre²)" style="width:100%;max-width:260px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('appPes1',24.5,0.05)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="appPes1-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="appPes1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="appPes1-result" class="blank-in" placeholder="en N"> N
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('appPes1',24.5,0.03,'F_g ≈ 24,5 N')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="appPes1-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('appPes1','F_g = m×g','F_g = 2,5×9,8','F_g ≈ 24,5 N')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('appPes1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="appPes1-correction"></div>
+    </div>
+
+    <div class="section-title"><span class="icon">⚡</span>Champ électrostatique</div>
+    <div class="card">
+      <p style="font-size:.88rem;line-height:1.7">Un champ électrostatique, noté <span class="vec">E</span>, est un champ vectoriel. Il est dirigé selon la force <span class="vec">F</span> qui modélise l'action mécanique s'exerçant sur une charge q (voir schéma ci-dessus).</p>
+      <div class="formula"><span class="vec">E</span> = <span class="vec">F</span> / q <div class="legend">E en N·C⁻¹ (= V·m⁻¹) · F en N · q en C</div></div>
+      <div class="attention-box"><strong>⚠️ Sens de <span class="vec">E</span> :</strong> si q &gt; 0, <span class="vec">F</span> et <span class="vec">E</span> ont le même sens ; si q &lt; 0, ils sont de sens opposés.</div>
+      <div class="grid-2" style="margin-top:10px">
+        <div class="exemple-box" style="background:var(--rouge-clair);border-left-color:var(--rouge)"><strong>Charge positive</strong> : lignes de champ <em>fuyantes</em> (le champ « part » de la charge, voir schéma ci-dessus).</div>
+        <div class="exemple-box" style="background:var(--bleu-clair);border-left-color:var(--bleu)"><strong>Charge négative</strong> : lignes de champ <em>pointantes</em> (le champ « converge » vers la charge).</div>
+      </div>
+    </div>
+
+    <div class="champ-sim">
+      <div class="card-title" style="margin-bottom:10px"><span class="icon" style="background:var(--rouge-clair)">🧮</span>Simulateur — champ créé par une charge ponctuelle</div>
+      <p style="font-size:.82rem;color:var(--texte-leger);margin-bottom:8px">La charge source (au centre) crée un champ <span class="vec">E</span> <strong>en tout point de l'espace</strong> : les 8 lignes radiales le représentent. Une charge test, placée en M, y subit une force <span class="vec">F</span>.</p>
+      <div class="champ-sim-layout">
+        <div class="champ-sim-canvas-wrap">
+          <svg id="ptSvg" viewBox="0 0 260 200" style="max-width:280px;width:100%;background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px">
+            <g id="ptFieldLines"></g>
+            <circle id="ptCharge" cx="130" cy="100" r="12" fill="#C0392B"/>
+            <text id="ptChargeLabel" x="130" y="105" text-anchor="middle" font-weight="800" font-size="13" fill="#fff">+</text>
+            <text x="130" y="128" text-anchor="middle" font-size="9" fill="var(--texte-leger)">charge source q<tspan baseline-shift="sub" font-size="7">A</tspan></text>
+
+            <circle id="ptM" cx="205" cy="100" r="8" fill="#5A6B7A"/>
+            <text id="ptTestLabel" x="205" y="104" text-anchor="middle" font-weight="800" font-size="10" fill="#fff">+</text>
+            <text id="ptMLabel" x="205" y="122" text-anchor="middle" font-size="9" fill="#5A6B7A">M (charge test q)</text>
+
+            <line id="ptArrow" x1="205" y1="80" x2="235" y2="80" stroke="#5B8FB9" stroke-width="2.4" marker-end="url(#ptArrowHead)"/>
+            <g id="ptELabelGroup">
+              <line x1="-9" y1="0" x2="9" y2="0" stroke="#5B8FB9" stroke-width="1.6" marker-end="url(#ptEVecArrow)"/>
+              <text x="0" y="13" text-anchor="middle" font-size="10" fill="#5B8FB9" font-weight="700" font-style="italic">E</text>
+            </g>
+
+            <line id="ptForceArrow" x1="205" y1="150" x2="235" y2="150" stroke="#3A8A6E" stroke-width="2.4" marker-end="url(#ptForceArrowHead)"/>
+            <g id="ptFLabelGroup">
+              <line x1="-9" y1="0" x2="9" y2="0" stroke="#3A8A6E" stroke-width="1.6" marker-end="url(#ptFVecArrow)"/>
+              <text x="0" y="13" text-anchor="middle" font-size="10" fill="#3A8A6E" font-weight="700" font-style="italic">F</text>
+            </g>
+          </svg>
+          <svg width="0" height="0"><defs>
+            <marker id="ptArrowHead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5B8FB9"/></marker>
+            <marker id="ptForceArrowHead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3A8A6E"/></marker>
+            <marker id="ptEVecArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#5B8FB9"/></marker>
+            <marker id="ptFVecArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#3A8A6E"/></marker>
+          </defs></svg>
+          <div class="champ-sim-readout" id="ptReadout"></div>
+        </div>
+        <div class="champ-sim-controls">
+          <div class="charge-ctrl q1">
+            <h5>Charge source <span class="toggle-q2" onclick="togglePtSign()">↺ inverser</span></h5>
+            <label>Distance r (M) = <span id="ptRval">10</span> cm</label>
+            <input type="range" id="ptR" min="4" max="20" step="1" value="10" oninput="renderPtSim()">
+          </div>
+          <div class="charge-ctrl q2">
+            <h5>Charge test en M <span class="toggle-q2" onclick="toggleTestSign()">↺ inverser</span></h5>
+            <p style="font-size:.76rem;color:var(--texte-leger)">Regarde comment <span class="vec">F</span> change de sens selon le signe de la charge test, par rapport à <span class="vec">E</span>.</p>
+          </div>
+          <div class="remarque-box" id="ptExplain" style="font-size:.8rem"></div>
+        </div>
+      </div>
+      <div class="formula"><span class="vec">E</span> = k × (q<sub>A</sub> / r²) · <span class="vec">u</span><sub>AM</sub>
+        <div class="legend">Norme : E = k×|q<sub>A</sub>|/r² · <span class="vec">u</span><sub>AM</sub> : vecteur de norme 1, de direction (AM), orienté de A vers M · Force sur la charge test : <span class="vec">F</span> = q × <span class="vec">E</span></div>
+        <div class="legend">Les lignes radiales existent partout autour de la charge source : elles « fuient » si q<sub>A</sub> &gt; 0, elles « pointent » vers elle si q<sub>A</sub> &lt; 0. La force <span class="vec">F</span> sur la charge test est dans le <strong>même sens</strong> que <span class="vec">E</span> si q &gt; 0, dans le <strong>sens opposé</strong> si q &lt; 0.</div>
+      </div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">💡 Flash : pourquoi la charge test en M subit-elle une force <span class="vec">F</span> ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Parce qu'elle est placée dans le champ électrostatique <span class="vec">E</span> créé par la charge source</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Parce qu'elle est en mouvement</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Parce qu'elle touche la charge source</div>
+      </div>
+    </div>
+
+    <div class="exo-box" id="appE1-box">
+      <h5>📝 Application directe — Champ et force électrostatique</h5>
+      <div class="exo-enonce">Une charge ponctuelle q = 4,0 µC est placée dans un champ électrostatique uniforme de norme E = 2,5×10³ N·C⁻¹. Calculer la norme de la force électrostatique qu'elle subit.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('appE1',this,true)">F = q×E</div>
+          <div class="qcm-opt" onclick="fcrFormule('appE1',this,false)">F = q/E</div>
+          <div class="qcm-opt" onclick="fcrFormule('appE1',this,false)">F = E/q</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="appE1-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="appE1-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre/nombre²)" style="width:100%;max-width:280px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('appE1',0.01,0.08)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="appE1-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="appE1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="appE1-result" class="blank-in" placeholder="en N"> N
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('appE1',0.01,0.05,'F = 1,0×10⁻² N')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="appE1-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('appE1','F = q×E','F = 4,0×10⁻⁶ × 2,5×10³','F = 1,0×10⁻² N')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('appE1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="appE1-correction"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair)">🔌</span>Champ électrostatique dans un condensateur plan</div>
+      <ul style="font-size:.86rem;padding-left:1.1rem;line-height:1.9">
+        <li><strong>Direction :</strong> perpendiculaire aux armatures</li>
+        <li><strong>Sens :</strong> de l'armature + vers l'armature −</li>
+        <li><strong>Champ uniforme</strong> entre les armatures</li>
+      </ul>
+
+      <div class="champ-sim" style="margin-top:12px">
+        <div class="champ-sim-layout">
+          <div class="champ-sim-canvas-wrap">
+            <svg id="condSvg" viewBox="0 0 260 160" style="max-width:280px;width:100%;background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px">
+              <rect id="condPlateNeg" x="30" y="10" width="8" height="140" fill="#2D5F8A"/>
+              <rect id="condPlatePos" x="222" y="10" width="8" height="140" fill="#C0392B"/>
+              <g id="condChargesNeg" fill="#2D5F8A" font-size="10" font-weight="800" text-anchor="middle"></g>
+              <g id="condChargesPos" fill="#C0392B" font-size="10" font-weight="800" text-anchor="middle"></g>
+              <g id="condArrows"></g>
+              <g id="condElabel">
+                <line x1="118" y1="18" x2="142" y2="18" stroke="#5B8FB9" stroke-width="2" marker-end="url(#condEArrow)"/>
+                <text x="128" y="32" text-anchor="middle" font-size="11" fill="#5B8FB9" font-weight="700" font-style="italic">E</text>
+              </g>
+              <defs><marker id="condEArrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5B8FB9"/></marker></defs>
+            </svg>
+            <div class="champ-sim-readout" id="condReadout"></div>
+          </div>
+          <div class="champ-sim-controls">
+            <div class="charge-ctrl">
+              <h5>Réglages</h5>
+              <label>Tension U = <span id="condUval">100</span> V</label>
+              <input type="range" id="condU" min="0" max="300" step="10" value="100" oninput="renderCondSim()">
+              <label>Distance d = <span id="condDval">5,0</span> mm</label>
+              <input type="range" id="condD" min="2" max="20" step="1" value="5" oninput="renderCondSim()">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula">E = U / d <div class="legend">U : tension entre les armatures (en V) · d : distance entre les armatures (en m) · E en V·m⁻¹ (= N·C⁻¹) — plus U augmente ou d diminue, plus <span class="vec">E</span> est intense (flèches plus nombreuses et plus épaisses)</div></div>
+    </div>
+
+    <div class="exo-box" id="appCond1-box">
+      <h5>📝 Application directe — Condensateur plan</h5>
+      <div class="exo-enonce">Les armatures d'un condensateur plan, distantes de d = 3,0 mm, sont soumises à une tension U = 12 V. Calculer la norme du champ électrostatique entre les armatures.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('appCond1',this,true)">E = U/d</div>
+          <div class="qcm-opt" onclick="fcrFormule('appCond1',this,false)">E = U×d</div>
+          <div class="qcm-opt" onclick="fcrFormule('appCond1',this,false)">E = d/U</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="appCond1-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="appCond1-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre/nombre²)" style="width:100%;max-width:240px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('appCond1',4000,0.05)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="appCond1-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="appCond1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="appCond1-result" class="blank-in" placeholder="en V/m"> V·m⁻¹
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('appCond1',4000,0.03,'E = 4,0×10³ V·m⁻¹')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="appCond1-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('appCond1','E = U/d','E = 12 / 3,0×10⁻³','E = 4,0×10³ V·m⁻¹')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('appCond1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="appCond1-correction"></div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">💡 Flash : dans un condensateur plan, le champ électrostatique est dirigé...</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">De l'armature + vers l'armature −</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">De l'armature − vers l'armature +</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- SOUS-ONGLET : SCHÉMA BILAN ---------- -->
+  <div class="sub-tab-content" id="sub-bilanschema">
+    <div class="section-title"><span class="icon">🗂️</span>Schéma bilan — Interactions fondamentales et notion de champs</div>
+    <div style="text-align:center">
+      <img src="schemabilan.jpg" alt="Schéma bilan sur les interactions fondamentales et introduction à la notion de champs" style="max-width:100%;border-radius:10px;border:1.5px solid var(--gris-bord)">
+    </div>
+    <div class="remarque-box">Dans les deux cas, la grandeur de champ (<span class="vec">G</span> ou <span class="vec">E</span>) ne dépend que du <strong>corps source</strong> (m<sub>A</sub> ou q<sub>A</sub>) et de la distance d — elle existe même en l'absence du corps B « témoin ».</div>
+  </div>
+
+</div>
+<!-- fin tab-cours -->
+<!-- ══════════════════ TAB 2 — ACTIVITÉS ══════════════════ -->
+<div class="panel" id="tab-activites">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-pccl')">🔁 Analogie Coulomb/gravitation</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-phet')">🧲 Simulateur PhET</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-python')">🐍 Activité Python</button>
+  </div>
+
+  <!-- ---------- SOUS-ONGLET : ANALOGIE COULOMB / GRAVITATION (PCCL) ---------- -->
+  <div class="sub-tab-content active" id="sub-pccl">
+    <div class="intro-box">Animation « Analogies entre loi de Coulomb et loi d'interaction gravitationnelle » — PCCL. <strong>Objectif :</strong> citer les analogies entre la loi de Coulomb et la loi d'interaction gravitationnelle, et comprendre le principe des lois en carré inverse.</div>
+
+    <div class="sim-frame-caption" style="border:1.5px solid var(--gris-bord);border-radius:12px;padding:14px 18px;margin-bottom:16px">
+      <span>🔁 Animation PCCL — Analogie Coulomb / gravitation</span>
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/force_interaction_champ_electrostatique_gravitationnelle_lignes_1e_reviser_bac_flash.htm" target="_blank" rel="noopener">Ouvrir l'animation ↗</a>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--violet-clair)">🧭</span>Manipulation guidée</div>
+
+      <div class="activite-q">
+        <div class="qnum">ÉTAPE 1</div>
+        <div class="qtext">Ouvre l'animation ci-dessus. Repère les deux expressions affichées (force de Coulomb et force de gravitation). En dehors du nom des grandeurs, quels éléments sont communs aux deux formules ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Une constante multiplicative, un produit de deux grandeurs, et le carré de la distance au dénominateur</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Seule la distance d apparaît, sans autre grandeur</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Les deux formules utilisent exactement la même constante</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body"><strong>Observation :</strong> les deux formules ont la même structure : une constante multiplicative (G ou k), un produit de deux grandeurs (masses ou charges) au numérateur, et le carré de la distance d au dénominateur.</div>
+      </div>
+
+      <div class="activite-q">
+        <div class="qnum">ÉTAPE 2</div>
+        <div class="qtext">L'animation présente ces deux lois comme des « lois en carré inverse ». Que signifie cette expression ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">La force est proportionnelle au carré de la distance</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">La force est inversement proportionnelle au carré de la distance</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">La force ne dépend pas de la distance</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body"><strong>Observation :</strong> la force est inversement proportionnelle au carré de la distance : si d double, la force est divisée par 2² = 4 ; si d triple, elle est divisée par 3² = 9.</div>
+      </div>
+
+      <div class="activite-q">
+        <div class="qnum">ÉTAPE 3</div>
+        <div class="qtext">D'après l'animation, cite une différence essentielle entre les deux interactions (sens de la force possible).</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Les deux interactions sont toujours attractives</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">La gravitation est toujours attractive, l'électrostatique peut être attractive ou répulsive</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Les deux interactions peuvent être attractives ou répulsives</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body"><strong>Observation :</strong> l'interaction gravitationnelle est toujours attractive, alors que l'interaction électrostatique peut être attractive ou répulsive, selon le signe des charges.</div>
+      </div>
+
+      <div class="activite-q">
+        <div class="qnum">ÉTAPE 4</div>
+        <div class="qtext">En réutilisant la loi en carré inverse : si la distance entre deux charges électriques triple (elle est multipliée par 3), par quel facteur la force électrostatique entre elles est-elle multipliée ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Multipliée par 3</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Multipliée par 1/3</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Multipliée par 1/9 (divisée par 9)</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body"><strong>Observation :</strong> F ∝ 1/d² donc si d devient 3d, F devient F/3² = F/9. La force est multipliée par 1/9 ≈ 0,111, autrement dit elle est divisée par 9.</div>
+      </div>
+
+      <div class="activite-q">
+        <div class="qnum">ÉTAPE 5</div>
+        <div class="qtext">L'animation évoque aussi les lignes de champ. Rappelle comment on caractérise une ligne de champ en un point précis.</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Direction = tangente à la ligne, sens = flèche portée sur la ligne, norme = densité des lignes</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Une ligne de champ n'a ni direction ni sens, seulement une norme</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">La couleur de la ligne indique sa direction</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body"><strong>Observation :</strong> sa <strong>direction</strong> est la tangente à la ligne en ce point ; son <strong>sens</strong> est indiqué par la flèche portée sur la ligne ; la <strong>densité</strong> des lignes (leur espacement) traduit l'intensité (la norme) du champ.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- SOUS-ONGLET : PHET ---------- -->
+  <div class="sub-tab-content" id="sub-phet">
+    <div class="intro-box">Simulateur PhET « Charges et champs ». <strong>Objectif :</strong> interpréter des expériences mettant en jeu l'interaction électrostatique et observer un champ électrostatique cartographié en temps réel.</div>
+
+    <div class="sim-frame-wrap">
+      <iframe src="https://phet.colorado.edu/sims/html/charges-and-fields/latest/charges-and-fields_all.html?locale=fr" allowfullscreen loading="lazy" title="Simulateur PhET Charges et champs"></iframe>
+      <div class="sim-frame-caption">
+        <span>Simulateur PhET — Université du Colorado</span>
+        <a href="https://phet.colorado.edu/sims/html/charges-and-fields/latest/charges-and-fields_all.html?locale=fr" target="_blank" rel="noopener">Ouvrir en plein écran ↗</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">🧭</span>Manipulation guidée</div>
+
+      <div class="activite-q">
+        <div class="qnum">ÉTAPE 1</div>
+        <div class="qtext">Glisse-dépose une charge <strong>positive (+)</strong> seule au centre de l'écran. Coche la case « Champ électrique » (E-field). Observe le sens des flèches jaunes autour de la charge.</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Les flèches s'éloignent de la charge (champ divergent)</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Les flèches pointent vers la charge (champ convergent)</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body"><strong>Observation :</strong> les flèches pointent en s'éloignant de la charge (elles « fuient » la charge) : le champ créé par une charge positive est <em>divergent</em>.</div>
+      </div>
+
+      <div class="activite-q">
+        <div class="qnum">ÉTAPE 2</div>
+        <div class="qtext">Remplace-la par une charge <strong>négative (−)</strong>. Que deviennent les flèches ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Elles restent divergentes, comme pour une charge positive</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Elles deviennent convergentes, dirigées vers la charge</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body"><strong>Observation :</strong> les flèches pointent désormais <em>vers</em> la charge : le champ créé par une charge négative est <em>convergent</em>.</div>
+      </div>
+
+      <div class="activite-q">
+        <div class="qnum">ÉTAPE 3</div>
+        <div class="qtext">Place une charge positive et une charge négative proches l'une de l'autre. Active « Équipotentielles » (Equipotentials). Que remarques-tu sur la direction des lignes de champ par rapport aux équipotentielles ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Les lignes de champ sont perpendiculaires aux équipotentielles</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Les lignes de champ sont parallèles aux équipotentielles</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Il n'y a aucun lien entre les deux</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body"><strong>Observation :</strong> les lignes de champ sont toujours <em>perpendiculaires</em> aux équipotentielles, et vont de la charge + vers la charge −.</div>
+      </div>
+
+      <div class="activite-q">
+        <div class="qnum">ÉTAPE 4</div>
+        <div class="qtext">Place le petit capteur de champ électrique (« Sensor ») à différentes distances d'une charge unique. Comment évolue la longueur (norme) de la flèche indiquée quand tu t'éloignes ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Elle diminue rapidement (en 1/d²)</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Elle augmente avec la distance</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Elle reste constante, quelle que soit la distance</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body"><strong>Observation :</strong> la norme du champ E diminue rapidement avec la distance (en 1/d²), conformément à E = k×|q|/d².</div>
+      </div>
+    </div>
+  </div>
+  <!-- ---------- SOUS-ONGLET : ACTIVITÉ PYTHON ---------- -->
+  <div class="sub-tab-content" id="sub-python">
+    <div class="intro-box"><strong>Activité Python — Cartographie d'un champ électrostatique.</strong> Objectif : cartographier un champ électrostatique créé par une ou deux particules chargées, à l'aide d'un programme Python (bibliothèque <code>matplotlib</code>). Fichiers Python fournis : script à compléter + fiche d'accompagnement (<a href="https://hatier-clic.fr/pc1200" target="_blank" rel="noopener">hatier-clic.fr/pc1200</a>).</div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair)">1️⃣</span>Doc.1 — Champ créé par une particule seule</div>
+      <p style="font-size:.86rem;line-height:1.6">Le programme Python ci-dessous produit une carte représentant, en différents points d'un plan, les <strong>directions et sens</strong> du champ électrostatique créé par une particule chargée (la norme n'est pas représentée : tous les vecteurs sont normalisés à la même longueur).</p>
+
+      <div class="code-block" id="pyStaticCode">### Création de cartes de champ électrostatique
+### créé par une ou deux particules chargées
+### (Seules la direction et le sens sont affichés)
+
+import numpy as np
+import matplotlib.pylab as plt
+
+### Constantes du problème
+xmin,ymin,xmax,ymax=-2,-2,2.125,2.125   # Taille de la zone en m
+h=0.25                                  # Pas de la zone en m
+K=8.99E9                                # Constante de Coulomb en USI
+e=1.60E-19                              # Charge élémentaire en C
+
+### Coordonnées (x,y) des points de calcul
+XX=np.arange(xmin,xmax,h)
+YY=np.arange(ymin,ymax,h)
+x,y=np.meshgrid(XX,YY)
+
+### Particule 1
+q1=-e   # Charge électrique
+x1=-1   # Abscisse en m
+y1=0    # Ordonnée en m
+
+### Distance entre particule 1 et point (x,y)
+r1=((x-x1)**2+(y-y1)**2)**0.5
+
+### Coordonnée radiale champ E1
+E1=K*q1/r1**2
+
+### Coordonnées vecteur unitaire 1
+ux1=(x-x1)/r1
+uy1=(y-y1)/r1
+
+### Coordonnées cartésiennes champ E1
+Ex1=E1*ux1
+Ey1=E1*uy1
+
+### Coordonnées du champ E (somme si 2 particules)
+Ex=Ex1 ; Ey=Ey1
+
+### Norme puis normalisation (flèches de taille identique)
+E=(Ex**2+Ey**2)**0.5
+Ex=Ex/E ; Ey=Ey/E
+
+### Tracé des vecteurs normalisés
+plt.quiver(x,y,Ex,Ey)
+plt.plot([x1],[y1],"r.",label="Particule(s)")
+plt.legend(loc='upper right')
+plt.xlabel("x (m)") ; plt.ylabel("y (m)")
+plt.title("Directions et sens du champ électrostatique")
+plt.show()</div>
+
+      <div class="activite-q">
+        <div class="qnum">QUESTION 1.a</div>
+        <div class="qtext">Sur la carte du Doc.1, les flèches convergent vers la particule. Déterminer le signe de la charge électrique de la particule créant ce champ.</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Positive</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Négative</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body">Les vecteurs champ électrostatique sont dirigés vers la particule. Or l'expression vectorielle du champ créé à une distance r par une particule de charge q placée à l'origine est <span class="vec">E</span> = k(q/r²)·<span class="vec">u</span>, avec <span class="vec">u</span> dirigé de la particule vers le point M. Pour que <span class="vec">E</span> soit dirigé selon −<span class="vec">u</span>, il faut que <strong>q soit négative</strong>.</div>
+      </div>
+
+      <div class="activite-q">
+        <div class="qnum">QUESTION 1.b</div>
+        <div class="qtext">Cette carte ne tient pas compte de la norme du champ. Proposer une explication pratique à ce choix.</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">La norme du champ électrostatique n'a pas de sens physique</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Il faudrait des flèches beaucoup trop petites ou trop grandes selon la distance, illisibles sur la carte</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Python ne sait pas calculer la norme d'un vecteur</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body">Si l'on tenait compte de la norme, il faudrait représenter, à la même échelle, une flèche <strong>cent fois plus petite</strong> pour un point dix fois plus éloigné (E ∝ 1/d²) : autant dire qu'on ne verrait presque plus rien sur la carte.</div>
+      </div>
+
+      <div class="activite-q">
+        <div class="qnum">QUESTION 1.c</div>
+        <div class="qtext">Une autre particule, de charge électrique <strong>positive</strong>, est placée dans ce champ en un point quelconque. En utilisant le Doc.1, caractériser la direction et le sens de la force électrostatique qu'elle subit.</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Même direction et même sens que <span class="vec">E</span> : la particule est attirée vers la source</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Même direction mais sens opposé à <span class="vec">E</span> : la particule est repoussée</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Direction perpendiculaire à <span class="vec">E</span></div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body">La force subie est <span class="vec">F</span> = q'·<span class="vec">E</span> avec q' &gt; 0 : <span class="vec">F</span> a donc <strong>la même direction et le même sens</strong> que <span class="vec">E</span>. Direction : la droite passant par la particule étudiée et la particule source. Sens : de la particule source vers la particule étudiée.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair)">2️⃣</span>Doc.3 — Champ créé par deux particules</div>
+      <p style="font-size:.86rem;line-height:1.6">Une particule de charge q<sub>1</sub> crée seule, en un point M, le champ <span class="vec">E</span><sub>1</sub>(M). Une particule de charge q<sub>2</sub> crée seule, en ce même point, le champ <span class="vec">E</span><sub>2</sub>(M). Si les deux particules sont présentes ensemble, elles créent en M un champ total tel que :</p>
+      <div class="formula"><span class="vec">E</span><sub>tot</sub>(M) = <span class="vec">E</span><sub>1</sub>(M) + <span class="vec">E</span><sub>2</sub>(M)</div>
+
+    <div class="champ-sim">
+      <div class="card-title" style="margin-bottom:10px"><span class="icon" style="background:var(--bleu-clair)">🧮</span>Simulateur rapide — prévisualise avant de coder</div>
+      <p style="font-size:.83rem;color:var(--texte-leger);margin-bottom:10px">Avant même d'écrire une ligne de code, règle la position et le signe des particules ci-dessous pour visualiser instantanément (sans attendre le chargement de Python) à quoi devrait ressembler ta carte de champ. Complète ensuite le script plus bas pour obtenir le <em>vrai</em> graphique avec <code>plt.quiver</code>, et compare les deux.</p>
+      <div class="champ-sim-layout">
+        <div class="champ-sim-canvas-wrap">
+          <canvas id="champCanvas" width="320" height="320"></canvas>
+          <div class="champ-sim-readout" id="champReadout"></div>
+        </div>
+        <div class="champ-sim-controls">
+          <div class="charge-ctrl q1">
+            <h5>Particule 1</h5>
+            <label>Abscisse x₁ = <span id="champX1val">−1,0</span> m</label>
+            <input type="range" id="champX1" min="-2" max="2" step="0.25" value="-1" oninput="renderChampSim()">
+            <label>Ordonnée y₁ = <span id="champY1val">0,0</span> m</label>
+            <input type="range" id="champY1" min="-2" max="2" step="0.25" value="0" oninput="renderChampSim()">
+            <div class="signe-row">
+              <div class="signe-btn on neg" id="champSign1neg" onclick="setSign(1,-1)">q₁ &lt; 0</div>
+              <div class="signe-btn" id="champSign1pos" onclick="setSign(1,1)">q₁ &gt; 0</div>
+            </div>
+          </div>
+          <div class="charge-ctrl q2">
+            <h5>Particule 2 <span class="toggle-q2" id="champQ2Toggle" onclick="toggleQ2()">➕ activer</span></h5>
+            <div id="champQ2Ctrls" style="display:none">
+              <label>Abscisse x₂ = <span id="champX2val">1,0</span> m</label>
+              <input type="range" id="champX2" min="-2" max="2" step="0.25" value="1" oninput="renderChampSim()">
+              <label>Ordonnée y₂ = <span id="champY2val">0,0</span> m</label>
+              <input type="range" id="champY2" min="-2" max="2" step="0.25" value="0" oninput="renderChampSim()">
+              <div class="signe-row">
+                <div class="signe-btn" id="champSign2neg" onclick="setSign(2,-1)">q₂ &lt; 0</div>
+                <div class="signe-btn on pos" id="champSign2pos" onclick="setSign(2,1)">q₂ &gt; 0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div class="activite-q">
+        <div class="qnum">QUESTION 2.a</div>
+        <div class="qtext">Complète le code ci-dessous (remplace chaque <code>___</code>) pour ajouter une particule 2 de charge q<sub>2</sub> = +e, positionnée en (x<sub>2</sub> = 1 m ; y<sub>2</sub> = 0 m), en t'aidant du bloc « Particule 1 » déjà écrit juste au-dessus dans l'éditeur. Puis clique sur <strong>▶ Exécuter</strong> pour obtenir le vrai graphique.</div>
+      </div>
+
+      <div class="py-editor-wrap">
+        <pre class="py-editor-highlight" id="pyHighlight" aria-hidden="true"></pre>
+        <textarea id="pyCodeEditor" class="py-editor" spellcheck="false" oninput="pySyncHighlight()" onscroll="pySyncScroll()"></textarea>
+      </div>
+
+      <div class="py-btn-row">
+        <button class="exo-btn" onclick="pyRunCode()">▶ Exécuter</button>
+        <button class="exo-btn-secondary" onclick="pyReset()">↺ Recommencer</button>
+        <button class="btn-reveal" onclick="pyShowCorrection()">🔎 Correction</button>
+      </div>
+
+      <div class="exo-fb" id="pyStatus"></div>
+      <div class="py-output" id="pyOutput"></div>
+
+      <div id="pyExploitBox" style="display:none;margin-top:16px;border-top:1px dashed var(--gris-bord);padding-top:14px">
+        <div class="activite-q">
+          <div class="qnum">QUESTION 2.b</div>
+          <div class="qtext">À l'aide de la carte que tu viens de générer, caractériser la direction et le sens de la force électrostatique que subirait une particule de charge positive placée en M(0 m ; 0 m).</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmCheck(this,true)">Dirigée vers la gauche (vers q₁)</div>
+            <div class="qcm-opt" onclick="qcmCheck(this,false)">Dirigée vers la droite (vers q₂)</div>
+            <div class="qcm-opt" onclick="qcmCheck(this,false)">Nulle en ce point</div>
+          </div>
+          <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+          <div class="reveal-body">En ce point, sur la carte, le champ est dirigé vers la gauche (vers q<sub>1</sub>, négative, qui « attire » les lignes). Comme la charge testée est positive, la force subie est elle aussi dirigée vers la gauche (même sens que <span class="vec">E</span>).</div>
+        </div>
+
+        <div class="activite-q">
+          <div class="qnum">QUESTION 2.c</div>
+          <div class="qtext">Même question au point N(0 m ; 1 m).</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmCheck(this,true)">Le même raisonnement s'applique : on lit le sens de <span class="vec">E</span> sur la carte en N, et <span class="vec">F</span> lui est colinéaire, de même sens</div>
+            <div class="qcm-opt" onclick="qcmCheck(this,false)">Le raisonnement change complètement en N, car ce point est plus éloigné</div>
+          </div>
+          <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+          <div class="reveal-body">Le raisonnement est le même qu'en M : on lit le sens du champ <span class="vec">E</span> tracé sur ta carte au point N, et la force sur une charge positive lui est colinéaire, de même sens.</div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>
+<!-- fin tab-activites -->
+<!-- ══════════════════ TAB 3 — EXERCICES ══════════════════ -->
+<div class="panel" id="tab-exercices">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-facile')">🟢 Facile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-inter')">🟠 Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-difficile')">🔴 Difficile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-escape')">🔐 Escape game</button>
+  </div>
+
+  <!-- ---------- FACILE ---------- -->
+  <div class="sub-tab-content active" id="sub-facile">
+    <div class="intro-box">Applications directes d'une seule formule. Méthode <strong>Formule → Calcul → Résultat</strong>.</div>
+
+    <div class="exo-box">
+      <h5>Exercice 1 — Force de Coulomb</h5>
+      <div class="exo-enonce">Deux charges ponctuelles q<sub>A</sub> = +2,0 µC et q<sub>B</sub> = −3,0 µC sont séparées d'une distance d = 0,50 m. Calculer la norme de la force électrostatique qui s'exerce entre elles (k = 9,0×10⁹ N·m²·C⁻²).</div>
+      <label style="font-size:.82rem">Résultat F = </label>
+      <input type="text" id="exF1" class="blank-in" placeholder="en N"> N
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exF1',0.216,0.05,'exF1fb','F = k×|q_A×q_B|/d²','F = 9,0×10⁹×2,0×10⁻⁶×3,0×10⁻⁶ / 0,50²','F ≈ 0,216 N (attractive, car charges de signes opposés)')">Vérifier</button></div>
+      <div class="exo-fb" id="exF1fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 2 — Champ créé par une charge</h5>
+      <div class="exo-enonce">Une particule de charge q = 5,0 nC crée un champ électrostatique. Calculer la norme du champ E à une distance d = 10 cm de cette charge.</div>
+      <label style="font-size:.82rem">Résultat E = </label>
+      <input type="text" id="exF2" class="blank-in" placeholder="en N/C"> N·C⁻¹
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exF2',4500,0.05,'exF2fb','E = k×|q|/d²','E = 9,0×10⁹×5,0×10⁻⁹ / (0,10)²','E ≈ 4,5×10³ N·C⁻¹')">Vérifier</button></div>
+      <div class="exo-fb" id="exF2fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 3 — Force gravitationnelle</h5>
+      <div class="exo-enonce">Deux masses m<sub>A</sub> = 100 kg et m<sub>B</sub> = 50 kg sont séparées d'une distance d = 2,0 m. Calculer la norme de la force gravitationnelle entre elles (G = 6,67×10⁻¹¹ N·m²·kg⁻²).</div>
+      <label style="font-size:.82rem">Résultat F = </label>
+      <input type="text" id="exF3" class="blank-in" placeholder="en N"> N
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exF3',8.34e-8,0.05,'exF3fb','F = G×(m_A×m_B)/d²','F = 6,67×10⁻¹¹×100×50 / 2,0²','F ≈ 8,3×10⁻⁸ N')">Vérifier</button></div>
+      <div class="exo-fb" id="exF3fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Exercice 4 — Analogie Coulomb / gravitation</h5>
+      <div class="exo-enonce">Clique sur une grandeur <strong>gravitationnelle</strong> à gauche, puis sur son équivalent <strong>électrostatique</strong> à droite, pour former les 4 bonnes paires.</div>
+      <div id="pcclMatchGame" style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin:12px 0">
+        <div id="pcclLeftCol" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div id="pcclRightCol" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <div class="exo-fb" id="pcclMatchFb"></div>
+    </div>
+  </div>
+
+  <!-- ---------- INTERMÉDIAIRE ---------- -->
+  <div class="sub-tab-content" id="sub-inter">
+    <div class="intro-box">Il faut parfois réarranger la formule avant de calculer.</div>
+
+    <div class="exo-box">
+      <h5>Exercice 1 — Condensateur plan</h5>
+      <div class="exo-enonce">Un condensateur plan est soumis à une tension U = 200 V entre ses armatures distantes de d = 4,0 mm. Calculer la norme du champ électrostatique entre les armatures.</div>
+      <label style="font-size:.82rem">Résultat E = </label>
+      <input type="text" id="exI1" class="blank-in" placeholder="en V/m"> V·m⁻¹
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exI1',50000,0.03,'exI1fb','E = U/d','E = 200 / 4,0×10⁻³','E = 5,0×10⁴ V·m⁻¹')">Vérifier</button></div>
+      <div class="exo-fb" id="exI1fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 2 — Force subie dans un champ</h5>
+      <div class="exo-enonce">Une charge ponctuelle q = 2,0 µC est placée dans un champ électrostatique uniforme de norme E = 1,0×10³ N·C⁻¹. Calculer la norme de la force électrostatique qu'elle subit.</div>
+      <label style="font-size:.82rem">Résultat F = </label>
+      <input type="text" id="exI2" class="blank-in" placeholder="en N"> N
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exI2',0.002,0.05,'exI2fb','F = q×E','F = 2,0×10⁻⁶ × 1,0×10³','F = 2,0×10⁻³ N')">Vérifier</button></div>
+      <div class="exo-fb" id="exI2fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 3 — Retrouver la tension</h5>
+      <div class="exo-enonce">Le champ électrostatique entre les armatures d'un condensateur plan, distantes de d = 2,0 mm, a pour norme E = 2,0×10⁴ V·m⁻¹. Calculer la tension U entre les armatures.</div>
+      <label style="font-size:.82rem">Résultat U = </label>
+      <input type="text" id="exI3" class="blank-in" placeholder="en V"> V
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exI3',40,0.03,'exI3fb','E = U/d  ⟹  U = E×d','U = 2,0×10⁴ × 2,0×10⁻³','U = 40 V')">Vérifier</button></div>
+      <div class="exo-fb" id="exI3fb"></div>
+    </div>
+  </div>
+
+  <!-- ---------- DIFFICILE ---------- -->
+  <div class="sub-tab-content" id="sub-difficile">
+    <div class="intro-box">Raisonnement multi-étapes ou vectoriel.</div>
+
+    <div class="exo-box">
+      <h5>Exercice 1 — Raisonnement vectoriel complet</h5>
+      <div class="exo-enonce">Deux charges identiques q = +1,0 µC sont séparées d'une distance d = 2,0 cm.<br>a. Calculer la norme de la force que chacune exerce sur l'autre.<br>b. Caractériser la direction, le sens de cette force pour chacune des charges.</div>
+      <label style="font-size:.82rem">a. Résultat F = </label>
+      <input type="text" id="exD1" class="blank-in" placeholder="en N"> N
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD1',22.5,0.03,'exD1fb','F = k×q²/d²','F = 9,0×10⁹×(1,0×10⁻⁶)² / (2,0×10⁻²)²','F = 22,5 N')">Vérifier a.</button></div>
+      <div class="exo-fb" id="exD1fb"></div>
+      <div class="qi-box" style="margin-top:12px"><div class="qi-q">b. Les deux charges étant de même signe, la force est :</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Répulsive, dirigée selon la droite qui joint les deux charges</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Attractive, perpendiculaire à la droite qui les joint</div>
+        </div>
+      </div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 2 — Champ de gravitation en orbite</h5>
+      <div class="exo-enonce">La Station Spatiale Internationale orbite à h = 400 km d'altitude. Calculer le champ de gravitation g à cette altitude (M<sub>Terre</sub> = 5,97×10²⁴ kg, R<sub>Terre</sub> = 6 371 km, G = 6,67×10⁻¹¹ N·m²·kg⁻²). <em>Indication : la distance à prendre en compte est d = R<sub>Terre</sub> + h, comptée depuis le centre de la Terre.</em></div>
+      <label style="font-size:.82rem">Résultat g = </label>
+      <input type="text" id="exD2" class="blank-in" placeholder="en N/kg"> N·kg⁻¹
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD2',8.7,0.03,'exD2fb','g = G×M/d² avec d = R+h','d = 6 371 + 400 = 6 771 km = 6,771×10⁶ m ; g = 6,67×10⁻¹¹×5,97×10²⁴ / (6,771×10⁶)²','g ≈ 8,7 N·kg⁻¹ (un peu moins que sur Terre, mais loin d\'être nul !)')">Vérifier</button></div>
+      <div class="exo-fb" id="exD2fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 3 — Champ résultant de deux charges</h5>
+      <div class="exo-enonce">Une charge q<sub>1</sub> = +2,0 µC est placée en x = 0, et une charge q<sub>2</sub> = −2,0 µC est placée en x = 10 cm, sur un même axe. Calculer la norme du champ électrostatique résultant au point M, situé sur cet axe en x = 15 cm. <em>Indication : calcule d'abord E<sub>1</sub> et E<sub>2</sub> séparément (avec leurs distances à M), identifie leurs sens sur l'axe, puis combine-les.</em></div>
+      <label style="font-size:.82rem">Résultat E = </label>
+      <input type="text" id="exD3" class="blank-in" placeholder="en N/C"> N·C⁻¹
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD3',6.4e6,0.05,'exD3fb','E₁ = k×q₁/r₁² (r₁=15 cm) ; E₂ = k×|q₂|/r₂² (r₂=5 cm) ; E = |E₁ − E₂| (E₁ et E₂ de sens opposés sur l\'axe)','E₁ = 9,0×10⁹×2,0×10⁻⁶/0,15² = 8,0×10⁵ N·C⁻¹ ; E₂ = 9,0×10⁹×2,0×10⁻⁶/0,05² = 7,2×10⁶ N·C⁻¹','E = |8,0×10⁵ − 7,2×10⁶| ≈ 6,4×10⁶ N·C⁻¹ (le champ résultant est dominé par q₂, plus proche de M)')">Vérifier</button></div>
+      <div class="exo-fb" id="exD3fb"></div>
+    </div>
+  </div>
+
+  <div class="sub-tab-content" id="sub-escape">
+    <div class="eg-briefing">
+      <h4>🔬 Le laboratoire de Coulomb</h4>
+      <p>Le vieux laboratoire d'électrostatique est fermé par un digicode à 3 chiffres. Résous les trois énigmes dans l'ordre pour récupérer chaque chiffre du code, et libère les instruments de mesure avant la fin du cours !</p>
+    </div>
+
+    <div class="eg-progress">
+      <div class="eg-progress-step" id="egStep1"></div>
+      <div class="eg-progress-step" id="egStep2"></div>
+      <div class="eg-progress-step" id="egStep3"></div>
+    </div>
+
+    <!-- STATION 1 -->
+    <div class="eg-puzzle" id="egPuzzle1">
+      <h5><span class="eg-digit">1</span>Station 1 — La bonne formule</h5>
+      <p style="font-size:.86rem;line-height:1.6;margin-bottom:10px">Quelle est l'expression vectorielle correcte de la force électrostatique exercée par A (charge q<sub>A</sub>) sur B (charge q<sub>B</sub>), séparées de la distance d ?</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="egCheck(1,this,false)"><span class="vec">F</span> = k×(q<sub>A</sub>+q<sub>B</sub>)/d · <span class="vec">u</span></div>
+        <div class="qcm-opt" onclick="egCheck(1,this,true)"><span class="vec">F</span> = k×(q<sub>A</sub>×q<sub>B</sub>)/d² · <span class="vec">u</span></div>
+        <div class="qcm-opt" onclick="egCheck(1,this,false)"><span class="vec">F</span> = k×(q<sub>A</sub>×q<sub>B</sub>)/d · <span class="vec">u</span></div>
+      </div>
+      <div class="eg-code-found" id="egFound1" style="display:none">Chiffre trouvé : <strong>4</strong></div>
+    </div>
+
+    <!-- STATION 2 -->
+    <div class="eg-puzzle" id="egPuzzle2">
+      <h5><span class="eg-digit">2</span>Station 2 — Attraction ou répulsion ?</h5>
+      <div class="eg-lock-overlay" id="egLock2">🔒 Résous d'abord la station 1</div>
+      <p style="font-size:.86rem;line-height:1.6;margin-bottom:10px">Deux ions de même charge q = +1,0 µC sont séparés de d = 3,0 cm. La force qu'ils exercent l'un sur l'autre est-elle attractive ou répulsive, et quelle est sa direction ?</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="egCheck(2,this,false)">Attractive, perpendiculaire à la droite qui les joint</div>
+        <div class="qcm-opt" onclick="egCheck(2,this,true)">Répulsive, selon la droite qui les joint</div>
+      </div>
+      <div class="eg-code-found" id="egFound2" style="display:none">Chiffre trouvé : <strong>1</strong></div>
+    </div>
+
+    <!-- STATION 3 -->
+    <div class="eg-puzzle" id="egPuzzle3">
+      <h5><span class="eg-digit">3</span>Station 3 — Lire une carte de champ</h5>
+      <div class="eg-lock-overlay" id="egLock3">🔒 Résous d'abord la station 2</div>
+      <p style="font-size:.86rem;line-height:1.6;margin-bottom:10px">Sur une carte de champ, les lignes convergent toutes vers une particule centrale. Le signe de la charge de cette particule est :</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="egCheck(3,this,false)">Positif</div>
+        <div class="qcm-opt" onclick="egCheck(3,this,true)">Négatif</div>
+      </div>
+      <div class="eg-code-found" id="egFound3" style="display:none">Chiffre trouvé : <strong>8</strong></div>
+    </div>
+
+    <!-- CODE FINAL -->
+    <div class="eg-final">
+      <p style="font-weight:700;color:var(--bleu)">🔐 Digicode du laboratoire</p>
+      <p style="font-size:.82rem;color:var(--texte-leger);margin-top:4px">Assemble les 3 chiffres trouvés, dans l'ordre des stations.</p>
+      <input type="text" id="egCodeInput" maxlength="3" placeholder="•••">
+      <br>
+      <button class="exo-btn" onclick="egCheckFinal()">Déverrouiller</button>
+      <div class="exo-fb" id="egFinalFb"></div>
+    </div>
+
+    <div class="eg-success" id="egSuccess">
+      <h4>🎉 Laboratoire déverrouillé !</h4>
+      <p>Bravo, tu as retrouvé les trois chiffres en raisonnant sur la loi de Coulomb et les cartes de champ. Les instruments sont sauvés !</p>
+    </div>
+  </div>
+
+</div>
+<!-- fin tab-exercices -->
+<!-- ══════════════════ TAB 4 — BILAN & RESSOURCES ══════════════════ -->
+<div class="panel" id="tab-bilan">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
+
+  <div class="sub-tab-content active" id="bilan-sub-0">
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Interactions fondamentales</h4>
+        <ul class="ke-list">
+          <li>Gravitation : interaction toujours attractive, portée infinie, agit sur toute masse</li>
+          <li>Électrostatique : attractive ou répulsive, portée infinie, agit sur toute charge</li>
+          <li>3 modes d'électrisation : frottement, influence, contact</li>
+          <li>L'influence ne change pas la charge totale d'un système isolé, seulement sa répartition</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Lois de force</h4>
+        <ul class="ke-list">
+          <li><span class="vec">F</span><sub>A/B</sub> = −<span class="vec">F</span><sub>B/A</sub> = −G×(m<sub>A</sub>m<sub>B</sub>/d²)·<span class="vec">u</span><sub>AB</sub></li>
+          <li><span class="vec">F</span><sub>A/B</sub> = −<span class="vec">F</span><sub>B/A</sub> = k×(q<sub>A</sub>q<sub>B</sub>/d²)·<span class="vec">u</span><sub>AB</sub></li>
+          <li>G = 6,67×10⁻¹¹ N·m²·kg⁻² ; k = 9,0×10⁹ N·m²·C⁻²</li>
+          <li>Deux forces réciproques : même direction, même norme, sens opposés</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Notion de champ</h4>
+        <ul class="ke-list">
+          <li>Champ = grandeur définie en chaque point d'un espace</li>
+          <li>Scalaire (valeur seule) ou vectoriel (direction, sens, norme)</li>
+          <li>Lignes de champ : tangentes au vecteur champ, orientées dans son sens</li>
+          <li>Champ uniforme : mêmes caractéristiques en tout point</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Champs de gravitation et électrostatique</h4>
+        <ul class="ke-list">
+          <li><span class="vec">g</span> : vertical, vers le centre de la Terre, uniforme localement</li>
+          <li><span class="vec">E</span> = <span class="vec">F</span>/q ; fuyant si q&gt;0, pointant si q&lt;0</li>
+          <li>Condensateur plan : <span class="vec">E</span> uniforme, perpendiculaire aux armatures, + vers −, E = U/d</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- /bilan-sub-0 -->
+
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span>Glossaire</div>
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="interaction gravitationnelle"><dt>Interaction gravitationnelle</dt><dd>Interaction fondamentale attractive, de portée infinie, qui s'exerce entre deux corps possédant une masse.</dd></div>
+      <div class="gloss-item" data-term="interaction electrostatique"><dt>Interaction électrostatique</dt><dd>Interaction fondamentale attractive ou répulsive, de portée infinie, qui s'exerce entre deux corps chargés électriquement.</dd></div>
+      <div class="gloss-item" data-term="loi de coulomb"><dt>Loi de Coulomb</dt><dd>Modélise la force électrostatique entre deux charges ponctuelles : F = k×(q<sub>A</sub>×q<sub>B</sub>)/d².</dd></div>
+      <div class="gloss-item" data-term="constante de coulomb k"><dt>Constante de Coulomb (k)</dt><dd>Constante de la loi de Coulomb, k = 9,0×10⁹ N·m²·C⁻² dans le vide et dans l'air.</dd></div>
+      <div class="gloss-item" data-term="constante de gravitation g"><dt>Constante de gravitation (G)</dt><dd>Constante de la loi de gravitation universelle, G = 6,67×10⁻¹¹ N·m²·kg⁻².</dd></div>
+      <div class="gloss-item" data-term="electrisation par frottement"><dt>Électrisation par frottement</dt><dd>Un matériau isolant frotté peut gagner ou perdre des électrons et devenir chargé.</dd></div>
+      <div class="gloss-item" data-term="electrisation par influence"><dt>Électrisation par influence</dt><dd>Un corps chargé approché sans contact provoque une répartition non uniforme des charges à la surface d'un autre corps, resté neutre.</dd></div>
+      <div class="gloss-item" data-term="electrisation par contact"><dt>Électrisation par contact</dt><dd>Des électrons sont transférés par contact direct entre un corps chargé et un autre corps.</dd></div>
+      <div class="gloss-item" data-term="charge elementaire e"><dt>Charge élémentaire (e)</dt><dd>Plus petite charge électrique existante, e = 1,60×10⁻¹⁹ C ; toute charge est un multiple de e.</dd></div>
+      <div class="gloss-item" data-term="champ"><dt>Champ</dt><dd>Grandeur physique définie en chaque point d'un espace ; peut être scalaire ou vectoriel.</dd></div>
+      <div class="gloss-item" data-term="champ scalaire"><dt>Champ scalaire</dt><dd>Champ décrit uniquement par sa valeur en chaque point (ex. champ de température, de pression).</dd></div>
+      <div class="gloss-item" data-term="champ vectoriel"><dt>Champ vectoriel</dt><dd>Champ décrit en chaque point par une direction, un sens et une norme (ex. champ de gravitation, champ électrostatique).</dd></div>
+      <div class="gloss-item" data-term="cartographier"><dt>Cartographier</dt><dd>Donner une représentation d'un champ en plusieurs points de l'espace, par exemple à l'aide de lignes de champ.</dd></div>
+      <div class="gloss-item" data-term="ligne de champ"><dt>Ligne de champ</dt><dd>Courbe tangente en chaque point au vecteur champ, orientée par une flèche dans son sens.</dd></div>
+      <div class="gloss-item" data-term="champ uniforme"><dt>Champ uniforme</dt><dd>Champ dont la norme et le sens sont identiques en tout point de l'espace considéré.</dd></div>
+      <div class="gloss-item" data-term="champ de pesanteur g"><dt>Champ de pesanteur (g)</dt><dd>Champ de gravitation au voisinage d'une planète ; localement uniforme, vertical, dirigé vers le bas.</dd></div>
+      <div class="gloss-item" data-term="champ electrostatique e"><dt>Champ électrostatique (E)</dt><dd>Champ vectoriel créé par une charge, tel que E = F/q ; fuyant si la charge source est positive, pointant si elle est négative.</dd></div>
+      <div class="gloss-item" data-term="condensateur plan"><dt>Condensateur plan</dt><dd>Système de deux armatures parallèles entre lesquelles règne un champ électrostatique uniforme, E = U/d.</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <div class="sub-tab-content" id="bilan-sub-2">
+
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence07/id106100277#item809380724" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Champs électrostatique et gravitationnel</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 52</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence07/id106100277#item809380742" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Loi de Coulomb et charge électrique</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Paul Olivier · 6 min 12</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence07/id106100277#item809380751" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Force et champ électrostatique ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">PCCL · 3 min 24</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence07/id106100277#item809380775" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Gravitation universelle, attraction universelle, force d'interaction gravitationnelle, pesanteur</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">6 min 20</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence07/id106100277#item809380788" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Schéma bilan : interactions et champs</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier · 3 min 06</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title"><span class="icon">🔬</span> Simulations &amp; applications</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://phet.colorado.edu/sims/html/charges-and-fields/latest/charges-and-fields_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🧲 Simulateur PhET — Charges et champs</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Simulation interactive : place des charges, observe le champ électrostatique et les équipotentielles.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/force_interaction_champ_electrostatique_gravitationnelle_lignes_1e_reviser_bac_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔁 PCCL — Analogie Coulomb / gravitation</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Animation de révision « bac flash » sur les lois en carré inverse.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title"><span class="icon">🐍</span> Activité Python</div>
+    <div style="margin-bottom:16px;">
+
+      <a href="https://hatier-clic.fr/pc1200" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🐍 Fichiers Python — Cartographie d'un champ</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Script à compléter et fiche d'accompagnement (Hatier).</p>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+  <!-- /bilan-sub-2 -->
+
+</div>
+<!-- fin tab-bilan -->
+
+</div>
+<!-- fin .main -->
+<script>
+/* ===== Navigation onglets principaux ===== */
+function showTab(el,id){
+  document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.main > .panel').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('tab-'+id).classList.add('on');
+}
+
+/* ===== Navigation sous-onglets (scoped au panneau parent) ===== */
+function showSub(btn,id){
+  var panel = btn.closest('.panel');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b=>b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+/* ===== Glossaire recherchable ===== */
+function glossFilter(){
+  var q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(function(item){
+    var term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
+/* ===== QCM cliquable simple ===== */
+function qcmCheck(el,isCorrect){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(o=>o.classList.remove('correct','incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+}
+
+/* ===== Formule / Calcul / Résultat ===== */
+function FCR(f,c,r){
+  return '<span class="fcr-line"><strong>Formule :</strong> '+f+'</span>'
+       + '<span class="fcr-line"><strong>Calcul :</strong> '+c+'</span>'
+       + '<span class="fcr-line"><strong>Résultat :</strong> '+r+'</span>';
+}
+function checkFCR(inputId, correct, tol, fbId, formule, calc, resultat){
+  var raw = document.getElementById(inputId).value.replace(',', '.').trim();
+  var v = parseFloat(raw);
+  var fb = document.getElementById(fbId);
+  if(isNaN(v)){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de saisir une valeur numérique avant de vérifier.';
+    return;
+  }
+  var ok = Math.abs(v-correct)/Math.abs(correct) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = (ok ? '✓ Correct ! ' : '✗ Pas tout à fait, regarde la correction : ') + FCR(formule, calc, resultat);
+}
+
+/* ===== Applications en 3 étapes : Formule (QCM) → Calcul (expression) → Résultat ===== */
+function safeEvalExpr(str){
+  if(!str) return null;
+  var s = str.replace(/,/g,'.').replace(/×/g,'*').replace(/·/g,'*').replace(/÷/g,'/')
+             .replace(/²/g,'**2').replace(/³/g,'**3').replace(/\s+/g,'');
+  if(!s || !/^[0-9.eE+\-*/().]+$/.test(s)) return null;
+  try{
+    var v = Function('"use strict";return ('+s+')')();
+    if(typeof v !== 'number' || isNaN(v) || !isFinite(v)) return null;
+    return v;
+  } catch(e){ return null; }
+}
+function fcrFormule(id, el, isCorrect){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(function(o){ o.classList.remove('correct','incorrect'); });
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  if(isCorrect){
+    var step = document.getElementById(id+'-calc-step');
+    if(step) step.style.display = 'block';
+  }
+}
+function fcrCalc(id, expected, tol){
+  var raw = document.getElementById(id+'-calc').value;
+  var val = safeEvalExpr(raw);
+  var fb = document.getElementById(id+'-calc-fb');
+  if(val === null){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Écris un calcul numérique valide (chiffres et ×  /  ²  uniquement).';
+    return;
+  }
+  var ok = Math.abs(val-expected)/Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = ok ? '✓ Calcul correct !' : '✗ Vérifie les valeurs que tu as substituées dans la formule.';
+  if(ok){
+    var step = document.getElementById(id+'-result-step');
+    if(step) step.style.display = 'block';
+  }
+}
+function fcrResult(id, expected, tol, resultText){
+  var raw = document.getElementById(id+'-result').value.replace(',', '.').trim();
+  var v = parseFloat(raw);
+  var fb = document.getElementById(id+'-result-fb');
+  if(isNaN(v)){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de saisir une valeur numérique.';
+    return;
+  }
+  var ok = Math.abs(v-expected)/Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = (ok ? '✓ ' : '✗ ') + resultText;
+}
+function fcrCorrection(id, formule, calc, resultat){
+  var fb = document.getElementById(id+'-correction');
+  if(!fb) return;
+  fb.className = 'exo-fb correction';
+  fb.innerHTML = FCR(formule, calc, resultat);
+}
+function fcrReset(id){
+  var box = document.getElementById(id+'-box');
+  if(box){
+    box.querySelectorAll('.qcm-opt').forEach(function(o){ o.classList.remove('correct','incorrect'); });
+  }
+  var calcIn = document.getElementById(id+'-calc');
+  var resIn = document.getElementById(id+'-result');
+  if(calcIn) calcIn.value = '';
+  if(resIn) resIn.value = '';
+  ['calc-fb','result-fb','correction'].forEach(function(suffix){
+    var el = document.getElementById(id+'-'+suffix);
+    if(el){ el.className = 'exo-fb'; el.innerHTML = ''; }
+  });
+}
+
+/* ===== Escape game ===== */
+var egSolved = [false,false,false];
+var egDigits = ['4','1','8'];
+function egCheck(station, el, isCorrect){
+  var puzzle = document.getElementById('egPuzzle'+station);
+  puzzle.querySelectorAll('.qcm-opt').forEach(o=>o.classList.remove('correct','incorrect'));
+  if(isCorrect){
+    el.classList.add('correct');
+    egSolved[station-1] = true;
+    document.getElementById('egFound'+station).style.display = 'inline-block';
+    document.getElementById('egStep'+station).classList.add('done');
+    puzzle.classList.add('solved');
+    if(station < 3){
+      var nextLock = document.getElementById('egLock'+(station+1));
+      if(nextLock) nextLock.style.display = 'none';
+    }
+  } else {
+    el.classList.add('incorrect');
+  }
+}
+function egCheckFinal(){
+  var val = document.getElementById('egCodeInput').value.trim();
+  var fb = document.getElementById('egFinalFb');
+  if(!(egSolved[0] && egSolved[1] && egSolved[2])){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Résous d\'abord les 3 stations pour connaître les 3 chiffres.';
+    return;
+  }
+  var code = egDigits.join('');
+  if(val === code){
+    fb.className = 'exo-fb ok';
+    fb.innerHTML = '✓ Code correct, le digicode s\'ouvre !';
+    document.getElementById('egSuccess').classList.add('show');
+  } else {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = '✗ Code incorrect, réessaie.';
+  }
+}
+
+/* ===== Simulateur de champ (canvas) ===== */
+var champState = { sign1:-1, sign2:1, q2on:false };
+
+function setSign(n, s){
+  if(n===1){
+    document.getElementById('champSign1neg').classList.toggle('on', s===-1);
+    document.getElementById('champSign1pos').classList.toggle('on', s===1);
+    champState.sign1 = s;
+  } else {
+    document.getElementById('champSign2neg').classList.toggle('on', s===-1);
+    document.getElementById('champSign2pos').classList.toggle('on', s===1);
+    champState.sign2 = s;
+  }
+  renderChampSim();
+}
+function toggleQ2(){
+  champState.q2on = !champState.q2on;
+  document.getElementById('champQ2Ctrls').style.display = champState.q2on ? 'block' : 'none';
+  document.getElementById('champQ2Toggle').textContent = champState.q2on ? '➖ désactiver' : '➕ activer';
+  renderChampSim();
+}
+
+function drawArrow(ctx,x0,y0,x1,y1){
+  ctx.beginPath();
+  ctx.moveTo(x0,y0);
+  ctx.lineTo(x1,y1);
+  ctx.lineWidth = 1.1;
+  ctx.stroke();
+  var angle = Math.atan2(y1-y0, x1-x0);
+  var head = 3.4;
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x1-head*Math.cos(angle-0.4), y1-head*Math.sin(angle-0.4));
+  ctx.lineTo(x1-head*Math.cos(angle+0.4), y1-head*Math.sin(angle+0.4));
+  ctx.closePath();
+  ctx.fill();
+}
+function drawCharge(ctx,p,sign){
+  ctx.beginPath();
+  ctx.arc(p[0],p[1],7,0,2*Math.PI);
+  ctx.fillStyle = sign>0 ? '#C0392B' : '#2D5F8A';
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 10px Nunito, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(sign>0 ? '+' : '−', p[0], p[1]+0.5);
+}
+
+function renderChampSim(){
+  var canvas = document.getElementById('champCanvas');
+  if(!canvas) return;
+  var x1 = parseFloat(document.getElementById('champX1').value);
+  var y1 = parseFloat(document.getElementById('champY1').value);
+  document.getElementById('champX1val').textContent = x1.toFixed(2).replace('.',',');
+  document.getElementById('champY1val').textContent = y1.toFixed(2).replace('.',',');
+  var x2=0, y2=0;
+  if(champState.q2on){
+    x2 = parseFloat(document.getElementById('champX2').value);
+    y2 = parseFloat(document.getElementById('champY2').value);
+    document.getElementById('champX2val').textContent = x2.toFixed(2).replace('.',',');
+    document.getElementById('champY2val').textContent = y2.toFixed(2).replace('.',',');
+  }
+
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  var range = 2.2;
+  function toPx(x,y){ return [ (x+range)/(2*range)*W, H-(y+range)/(2*range)*H ]; }
+
+  var step = 0.4;
+  for(var gx=-2; gx<=2.001; gx+=step){
+    for(var gy=-2; gy<=2.001; gy+=step){
+      var dx1=gx-x1, dy1=gy-y1;
+      var r1 = Math.sqrt(dx1*dx1+dy1*dy1);
+      if(r1 < 0.12) continue;
+      var Ex = champState.sign1*dx1/(r1*r1*r1);
+      var Ey = champState.sign1*dy1/(r1*r1*r1);
+      if(champState.q2on){
+        var dx2=gx-x2, dy2=gy-y2;
+        var r2 = Math.sqrt(dx2*dx2+dy2*dy2);
+        if(r2 < 0.12) continue;
+        Ex += champState.sign2*dx2/(r2*r2*r2);
+        Ey += champState.sign2*dy2/(r2*r2*r2);
+      }
+      var norm = Math.sqrt(Ex*Ex+Ey*Ey);
+      if(norm < 1e-9) continue;
+      Ex/=norm; Ey/=norm;
+      var p0 = toPx(gx,gy);
+      var arrowLen = 12;
+      var p1 = [p0[0]+Ex*arrowLen, p0[1]-Ey*arrowLen];
+      ctx.strokeStyle = '#5B8FB9';
+      ctx.fillStyle = '#5B8FB9';
+      drawArrow(ctx, p0[0], p0[1], p1[0], p1[1]);
+    }
+  }
+
+  drawCharge(ctx, toPx(x1,y1), champState.sign1);
+  if(champState.q2on) drawCharge(ctx, toPx(x2,y2), champState.sign2);
+
+  document.getElementById('champReadout').textContent =
+    'q₁ ' + (champState.sign1>0 ? '> 0' : '< 0') +
+    (champState.q2on ? ' · q₂ ' + (champState.sign2>0 ? '> 0' : '< 0') : ' · particule 2 désactivée');
+}
+
+/* ===== Simulation interactive : électrisation par influence puis contact (glisser-déposer) ===== */
+var elecState = { dx: 0, contacted: false };
+var elecDrag = { active: false, startClientX: 0, startDx: 0 };
+var ELEC_MAX_DX = 160;
+var ELEC_CONTACT_DX = 148;
+
+function elecWrapLines(text, maxLen){
+  var words = text.split(' ');
+  var lines = [], cur = '';
+  for(var i=0;i<words.length;i++){
+    var test = cur ? cur+' '+words[i] : words[i];
+    if(test.length > maxLen && cur){ lines.push(cur); cur = words[i]; }
+    else { cur = test; }
+  }
+  if(cur) lines.push(cur);
+  return lines;
+}
+
+function elecRender(){
+  var ball = document.getElementById('elecBall');
+  if(!ball) return;
+  var str = document.getElementById('elecString');
+  var tube = document.getElementById('elecTube');
+  var near = document.getElementById('elecChargesNear');
+  var far = document.getElementById('elecChargesFar');
+  var marks = document.getElementById('elecTubeMarks');
+  var cap1 = document.getElementById('elecCaptionL1');
+  var cap2 = document.getElementById('elecCaptionL2');
+
+  marks.innerHTML = '<text x="28" y="82" font-size="12">−</text><text x="45" y="70" font-size="12">−</text><text x="62" y="58" font-size="12">−</text>';
+
+  var dx = elecState.dx;
+  var influence = Math.max(0, Math.min(1, dx / ELEC_CONTACT_DX));
+  var ballX, ballY, nearHTML='', farHTML='', capText;
+
+  if(!elecState.contacted){
+    ballX = 320 - influence*52;
+    ballY = 130 - influence*7;
+    var nearOffset = 3 + influence*10;
+    nearHTML = '<text x="'+(ballX-nearOffset)+'" y="'+(ballY-4)+'">+</text><text x="'+(ballX-nearOffset)+'" y="'+(ballY+13)+'">+</text>';
+    farHTML  = '<text x="'+(ballX+nearOffset)+'" y="'+(ballY-4)+'">−</text><text x="'+(ballX+nearOffset)+'" y="'+(ballY+13)+'">−</text>';
+    if(influence < 0.08){
+      capText = 'a. Tube électrisé négativement, tenu à distance : la boule métallique reste neutre, au repos.';
+    } else {
+      capText = 'b. Par influence : les charges de la boule se séparent — sans contact, elle est attirée.';
+    }
+  } else {
+    var repel = Math.max(0.35, dx / ELEC_MAX_DX);
+    ballX = 320 + repel*40;
+    ballY = 130 - repel*5;
+    farHTML = '<text x="'+(ballX-11)+'" y="'+(ballY-6)+'">−</text><text x="'+(ballX+6)+'" y="'+(ballY-6)+'">−</text><text x="'+(ballX-11)+'" y="'+(ballY+13)+'">−</text><text x="'+(ballX+6)+'" y="'+(ballY+13)+'">−</text>';
+    capText = 'c. Après contact, des électrons transférés chargent la boule négativement : elle est repoussée.';
+  }
+
+  ball.setAttribute('cx', ballX);
+  ball.setAttribute('cy', ballY);
+  str.setAttribute('x2', ballX);
+  str.setAttribute('y2', ballY-20);
+  tube.setAttribute('transform', 'translate('+dx+',0)');
+  near.innerHTML = nearHTML;
+  far.innerHTML = farHTML;
+
+  var lines = elecWrapLines(capText, 62);
+  cap1.textContent = lines[0] || '';
+  cap2.textContent = lines[1] || '';
+}
+
+function elecPreset(n){
+  if(n===0){ elecState.dx = 0; elecState.contacted = false; }
+  else if(n===1){ elecState.dx = ELEC_CONTACT_DX - 5; elecState.contacted = false; }
+  else { elecState.dx = ELEC_MAX_DX; elecState.contacted = true; }
+  elecRender();
+}
+
+function elecSvgPoint(evt, svg){
+  var pt = svg.createSVGPoint();
+  pt.x = evt.clientX; pt.y = evt.clientY;
+  var ctm = svg.getScreenCTM();
+  if(!ctm) return {x:0,y:0};
+  return pt.matrixTransform(ctm.inverse());
+}
+function elecPointerDown(evt){
+  evt.preventDefault();
+  var svg = document.getElementById('elecSvg');
+  var p = elecSvgPoint(evt, svg);
+  elecDrag.active = true;
+  elecDrag.startClientX = p.x;
+  elecDrag.startDx = elecState.dx;
+  document.addEventListener('pointermove', elecPointerMove);
+  document.addEventListener('pointerup', elecPointerUp);
+}
+function elecPointerMove(evt){
+  if(!elecDrag.active) return;
+  var svg = document.getElementById('elecSvg');
+  var p = elecSvgPoint(evt, svg);
+  var delta = p.x - elecDrag.startClientX;
+  var newDx = elecDrag.startDx + delta;
+  newDx = Math.max(0, Math.min(ELEC_MAX_DX, newDx));
+  elecState.dx = newDx;
+  if(newDx >= ELEC_CONTACT_DX) elecState.contacted = true;
+  elecRender();
+}
+function elecPointerUp(){
+  elecDrag.active = false;
+  document.removeEventListener('pointermove', elecPointerMove);
+  document.removeEventListener('pointerup', elecPointerUp);
+}
+
+/* ===== Simulateur : champ dans un condensateur plan ===== */
+function renderCondSim(){
+  var Uel = document.getElementById('condU');
+  if(!Uel) return;
+  var U = parseFloat(Uel.value);
+  var dmm = parseFloat(document.getElementById('condD').value);
+  document.getElementById('condUval').textContent = U;
+  document.getElementById('condDval').textContent = dmm.toFixed(1).replace('.', ',');
+  var d = dmm / 1000;
+  var E = d > 0 ? U / d : 0;
+  var maxE = 300 / 0.002; // valeurs extrêmes des curseurs
+  var norm = Math.min(1, E / maxE);
+
+  /* --- Écartement des armatures : reflète VRAIMENT d --- */
+  var dmin = 2, dmax = 20;
+  var gapPx = 30 + (dmm - dmin) / (dmax - dmin) * 170;
+  var center = 130, half = gapPx / 2, thick = 8;
+  var negX = center - half - thick;
+  var posX = center + half;
+  var negInner = negX + thick;
+  var posInner = posX;
+  document.getElementById('condPlateNeg').setAttribute('x', negX);
+  document.getElementById('condPlatePos').setAttribute('x', posX);
+
+  /* --- Nombre de charges sur les armatures : reflète VRAIMENT U --- */
+  var normU = U / 300;
+  var nCharges = Math.round(3 + normU * 6);
+  var ys = [];
+  for(var i = 0; i < nCharges; i++){ ys.push(18 + i * (124 / (nCharges - 1 || 1))); }
+  var negHtml = '', posHtml = '';
+  ys.forEach(function(y){
+    negHtml += '<text x="' + (negX - 6) + '" y="' + (y + 3) + '">−</text>';
+    posHtml += '<text x="' + (posX + 14) + '" y="' + (y + 3) + '">+</text>';
+  });
+  document.getElementById('condChargesNeg').innerHTML = negHtml;
+  document.getElementById('condChargesPos').innerHTML = posHtml;
+
+  /* --- Lignes de champ entre les armatures, intensité ∝ E --- */
+  var sw = 1.2 + norm * 3.3;
+  var opacity = 0.32 + norm * 0.68;
+  var nRows = 6 + Math.round(norm * 4);
+  var rows = [];
+  for(var i = 0; i < nRows; i++){ rows.push(18 + i * (124 / (nRows - 1))); }
+  var html = '<defs><marker id="condArrowHead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5B8FB9" opacity="' + opacity.toFixed(2) + '"/></marker></defs>';
+  rows.forEach(function(y){
+    html += '<line x1="' + (posInner - 2) + '" y1="' + y + '" x2="' + (negInner + 2) + '" y2="' + y + '" stroke="#5B8FB9" stroke-width="' + sw.toFixed(1) + '" opacity="' + opacity.toFixed(2) + '" marker-end="url(#condArrowHead)"/>';
+  });
+  document.getElementById('condArrows').innerHTML = html;
+
+  /* --- Label vectoriel E, recentré entre les armatures --- */
+  document.getElementById('condElabel').setAttribute('transform', 'translate(' + (center - 128) + ',0)');
+
+  document.getElementById('condReadout').textContent = 'E = U/d ≈ ' + Math.round(E).toLocaleString('fr-FR') + ' V·m⁻¹';
+}
+
+/* ===== Légende : scènes fixes (aimant seul / attraction / répulsion) ===== */
+function showMagScene(btn, idx){
+  var card = btn.closest('.card');
+  card.querySelectorAll('.mag-scene-btn').forEach(function(b){ b.classList.remove('active'); });
+  card.querySelectorAll('.mag-scene').forEach(function(s){ s.style.display = 'none'; });
+  btn.classList.add('active');
+  document.getElementById('magScene'+idx).style.display = 'grid';
+}
+
+/* ===== Simulateur : champ créé par une charge ponctuelle ===== */
+var ptSign = 1;
+var ptTestSign = 1;
+
+function togglePtSign(){
+  ptSign = -ptSign;
+  renderPtSim();
+}
+function toggleTestSign(){
+  ptTestSign = -ptTestSign;
+  renderPtSim();
+}
+
+function renderPtFieldLines(sign){
+  var cx = 130, cy = 100, Rmin = 18, Rlen = 46;
+  var angles = [0, 45, 90, 135, 180, 225, 270, 315];
+  var html = '<defs><marker id="ptFieldArrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#AEB9C4"/></marker></defs>';
+  angles.forEach(function(a){
+    var rad = a * Math.PI / 180;
+    var ix = cx + Rmin * Math.cos(rad), iy = cy + Rmin * Math.sin(rad);
+    var ox = cx + (Rmin + Rlen) * Math.cos(rad), oy = cy + (Rmin + Rlen) * Math.sin(rad);
+    var x1, y1, x2, y2;
+    if(sign > 0){ x1 = ix; y1 = iy; x2 = ox; y2 = oy; }
+    else { x1 = ox; y1 = oy; x2 = ix; y2 = iy; }
+    html += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#AEB9C4" stroke-width="1.6" marker-end="url(#ptFieldArrow)"/>';
+  });
+  document.getElementById('ptFieldLines').innerHTML = html;
+}
+
+function renderPtSim(){
+  var rEl = document.getElementById('ptR');
+  if(!rEl) return;
+  var rcm = parseFloat(rEl.value);
+  document.getElementById('ptRval').textContent = rcm;
+  var r = rcm / 100;
+  var qSource = 1.0e-9;   // charge source fixe, 1,0 nC (signe variable)
+  var qTest = 1.0e-6;     // charge test fixe, 1,0 µC (signe variable)
+  var k = 9.0e9;
+  var E = k * qSource / (r * r);
+  var F = qTest * E;
+
+  renderPtFieldLines(ptSign);
+
+  document.getElementById('ptCharge').setAttribute('fill', ptSign > 0 ? '#C0392B' : '#2D5F8A');
+  document.getElementById('ptChargeLabel').textContent = ptSign > 0 ? '+' : '−';
+
+  document.getElementById('ptM').setAttribute('fill', ptTestSign > 0 ? '#C0392B' : '#2D5F8A');
+  document.getElementById('ptTestLabel').textContent = ptTestSign > 0 ? '+' : '−';
+
+  // Position de M le long de l'axe est, à une distance représentative de r
+  var Rm = 25 + (rcm - 4) / (20 - 4) * 70;
+  var mx = 130 + Rm, my = 100;
+  document.getElementById('ptM').setAttribute('cx', mx);
+  document.getElementById('ptM').setAttribute('cy', my);
+  document.getElementById('ptTestLabel').setAttribute('x', mx);
+  document.getElementById('ptTestLabel').setAttribute('y', my + 4);
+  document.getElementById('ptMLabel').setAttribute('x', mx);
+
+  var dirE = ptSign > 0 ? 1 : -1;
+  var dirF = dirE * (ptTestSign > 0 ? 1 : -1);
+  var arrowLen = 30;
+
+  var eArrow = document.getElementById('ptArrow');
+  eArrow.setAttribute('x1', mx); eArrow.setAttribute('y1', 80);
+  eArrow.setAttribute('x2', mx + dirE * arrowLen); eArrow.setAttribute('y2', 80);
+  document.getElementById('ptELabelGroup').setAttribute('transform', 'translate(' + (mx + dirE * arrowLen / 2) + ',63)');
+
+  var fArrow = document.getElementById('ptForceArrow');
+  fArrow.setAttribute('x1', mx); fArrow.setAttribute('y1', 150);
+  fArrow.setAttribute('x2', mx + dirF * arrowLen); fArrow.setAttribute('y2', 150);
+  document.getElementById('ptFLabelGroup').setAttribute('transform', 'translate(' + (mx + dirF * arrowLen / 2) + ',133)');
+
+  var F_mN = F * 1000;
+  document.getElementById('ptReadout').textContent =
+    'E ≈ ' + Math.round(E).toLocaleString('fr-FR') + ' N·C⁻¹  ·  F = q×E ≈ ' + F_mN.toFixed(2).replace('.', ',') + ' mN (' + (dirF > 0 ? 'même sens que E' : 'sens opposé à E') + ')';
+
+  var explainEl = document.getElementById('ptExplain');
+  if(explainEl){
+    var explainText;
+    if(ptSign > 0 && ptTestSign > 0){
+      explainText = '<strong>Source + / test + :</strong> la charge source positive crée un champ E fuyant (dirigé vers M). La charge test, positive, subit une force F dans le même sens que E : elle est <strong>repoussée</strong>, loin de la source.';
+    } else if(ptSign > 0 && ptTestSign < 0){
+      explainText = '<strong>Source + / test − :</strong> le champ E fuit toujours la source (positive). Mais la charge test est négative : la force F est de sens opposé à E, donc dirigée vers la source. La charge test est <strong>attirée</strong>.';
+    } else if(ptSign < 0 && ptTestSign > 0){
+      explainText = '<strong>Source − / test + :</strong> la charge source négative crée un champ E pointant (dirigé vers la source). La charge test, positive, subit une force F dans le même sens que E : elle est donc <strong>attirée</strong> vers la source.';
+    } else {
+      explainText = '<strong>Source − / test − :</strong> le champ E pointe vers la source (négative). La charge test, elle aussi négative, subit une force F de sens opposé à E, donc dirigée vers l\'extérieur : elle est <strong>repoussée</strong>.';
+    }
+    explainEl.innerHTML = explainText;
+  }
+}
+
+/* ===== Exercice : jeu d'association Coulomb / gravitation ===== */
+var pcclPairs = [
+  { left: 'G — constante de gravitation', right: 'k — constante de Coulomb' },
+  { left: 'm — masse', right: 'q — charge électrique' },
+  { left: 'F<sub>g</sub> = G×(m<sub>A</sub>×m<sub>B</sub>)/d²', right: 'F<sub>e</sub> = k×(q<sub>A</sub>×q<sub>B</sub>)/d²' },
+  { left: 'Toujours attractive', right: 'Attractive ou répulsive' }
+];
+var pcclSelectedLeft = null;
+var pcclMatched = [];
+
+function pcclShuffle(arr){
+  var a = arr.slice();
+  for(var i=a.length-1;i>0;i--){
+    var j = Math.floor(Math.random()*(i+1));
+    var tmp=a[i]; a[i]=a[j]; a[j]=tmp;
+  }
+  return a;
+}
+
+function pcclInit(){
+  var leftCol = document.getElementById('pcclLeftCol');
+  var rightCol = document.getElementById('pcclRightCol');
+  if(!leftCol) return;
+  pcclSelectedLeft = null;
+  pcclMatched = [];
+  document.getElementById('pcclMatchFb').className = 'exo-fb';
+  document.getElementById('pcclMatchFb').innerHTML = '';
+
+  var leftHtml = '';
+  pcclPairs.forEach(function(p, i){
+    leftHtml += '<button class="qcm-opt pccl-item" data-side="left" data-idx="'+i+'" onclick="pcclClickLeft(this,'+i+')" style="text-align:left">'+p.left+'</button>';
+  });
+  leftCol.innerHTML = leftHtml;
+
+  var order = pcclShuffle(pcclPairs.map(function(p,i){ return i; }));
+  var rightHtml = '';
+  order.forEach(function(i){
+    rightHtml += '<button class="qcm-opt pccl-item" data-side="right" data-idx="'+i+'" onclick="pcclClickRight(this,'+i+')" style="text-align:left">'+pcclPairs[i].right+'</button>';
+  });
+  rightCol.innerHTML = rightHtml;
+}
+
+function pcclClickLeft(el, idx){
+  if(pcclMatched.indexOf(idx) !== -1) return;
+  document.querySelectorAll('#pcclLeftCol .pccl-item').forEach(function(b){ b.classList.remove('incorrect'); if(pcclMatched.indexOf(parseInt(b.getAttribute('data-idx')))===-1) b.style.outline=''; });
+  pcclSelectedLeft = idx;
+  el.style.outline = '2.5px solid var(--bleu)';
+}
+
+function pcclClickRight(el, idx){
+  if(pcclSelectedLeft === null || pcclMatched.indexOf(idx) !== -1) return;
+  var leftBtn = document.querySelector('#pcclLeftCol .pccl-item[data-idx="'+pcclSelectedLeft+'"]');
+  if(idx === pcclSelectedLeft){
+    leftBtn.classList.add('correct'); leftBtn.style.outline='';
+    el.classList.add('correct');
+    pcclMatched.push(idx);
+    pcclSelectedLeft = null;
+    if(pcclMatched.length === pcclPairs.length){
+      var fb = document.getElementById('pcclMatchFb');
+      fb.className = 'exo-fb ok';
+      fb.innerHTML = '✓ Bravo, les 4 paires sont correctes !';
+    }
+  } else {
+    el.classList.add('incorrect');
+    if(leftBtn) leftBtn.classList.add('incorrect');
+    setTimeout(function(){
+      el.classList.remove('incorrect');
+      if(leftBtn){ leftBtn.classList.remove('incorrect'); leftBtn.style.outline=''; }
+    }, 700);
+    pcclSelectedLeft = null;
+  }
+}
+
+/* ===== Activité Python interactive (exécution réelle via Pyodide) ===== */
+var PY_SKELETON = [
+'import numpy as np',
+'import matplotlib',
+"matplotlib.use('AGG')",
+'import matplotlib.pyplot as plt',
+'',
+'### Constantes du problème',
+'xmin,ymin,xmax,ymax=-2,-2,2.125,2.125   # Taille de la zone en m',
+'h=0.25                                  # Pas de la zone en m',
+'K=8.99E9                                # Constante de Coulomb en USI',
+'e=1.60E-19                              # Charge élémentaire en C',
+'',
+'### Coordonnées (x,y) des points de calcul',
+'XX=np.arange(xmin,xmax,h)',
+'YY=np.arange(ymin,ymax,h)',
+'x,y=np.meshgrid(XX,YY)',
+'',
+'### Particule 1',
+'q1=-e   # Charge électrique',
+'x1=-1   # Abscisse en m',
+'y1=0    # Ordonnée en m',
+'',
+'r1=((x-x1)**2+(y-y1)**2)**0.5',
+'E1=K*q1/r1**2',
+'ux1=(x-x1)/r1',
+'uy1=(y-y1)/r1',
+'Ex1=E1*ux1',
+'Ey1=E1*uy1',
+'',
+'### Particule 2 — À COMPLÉTER (remplace chaque ___)',
+'q2 = ___      # Charge électrique (en C)',
+'x2 = ___      # Abscisse en m',
+'y2 = ___      # Ordonnée en m',
+'',
+'r2 = ___',
+'E2 = ___',
+'ux2 = ___',
+'uy2 = ___',
+'Ex2 = ___',
+'Ey2 = ___',
+'',
+'### Coordonnées du champ total',
+'Ex = Ex1 + ___',
+'Ey = Ey1 + ___',
+'',
+'### Norme puis normalisation (flèches de taille identique)',
+'E=(Ex**2+Ey**2)**0.5',
+'Ex=Ex/E ; Ey=Ey/E',
+'',
+'### Tracé des vecteurs normalisés',
+'plt.figure(figsize=(5,5))',
+'plt.quiver(x,y,Ex,Ey)',
+'plt.plot([x1,x2],[y1,y2],"r.",label="Particules")',
+"plt.legend(loc='upper right')",
+'plt.xlabel("x (m)") ; plt.ylabel("y (m)")',
+'plt.title("Directions et sens du champ électrostatique")'
+].join('\n');
+
+var PY_CORRECTION = PY_SKELETON
+  .replace('q2 = ___      # Charge électrique (en C)', 'q2 = e        # Charge électrique (en C)')
+  .replace('x2 = ___      # Abscisse en m', 'x2 = 1        # Abscisse en m')
+  .replace('y2 = ___      # Ordonnée en m', 'y2 = 0        # Ordonnée en m')
+  .replace('r2 = ___', 'r2 = ((x-x2)**2+(y-y2)**2)**0.5')
+  .replace('E2 = ___', 'E2 = K*q2/r2**2')
+  .replace('ux2 = ___', 'ux2 = (x-x2)/r2')
+  .replace('uy2 = ___', 'uy2 = (y-y2)/r2')
+  .replace('Ex2 = ___', 'Ex2 = E2*ux2')
+  .replace('Ey2 = ___', 'Ey2 = E2*uy2')
+  .replace('Ex = Ex1 + ___', 'Ex = Ex1 + Ex2')
+  .replace('Ey = Ey1 + ___', 'Ey = Ey1 + Ey2');
+
+var pyodideReadyPromise = null;
+function getPyodideInstance(){
+  if(!pyodideReadyPromise){
+    pyodideReadyPromise = loadPyodide().then(function(pyodide){
+      return pyodide.loadPackage(['numpy','matplotlib']).then(function(){ return pyodide; });
+    });
+  }
+  return pyodideReadyPromise;
+}
+
+/* ===== Coloration syntaxique Python (légère, basée sur des expressions régulières) ===== */
+var PY_KEYWORDS = ['import','as','if','else','elif','for','while','def','return','in','and','or','not','True','False','None'];
+var PY_KW_REGEX = new RegExp('\\b(' + PY_KEYWORDS.join('|') + ')\\b', 'g');
+
+function pyHighlightCode(code){
+  var esc = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  var lines = esc.split('\n');
+  var out = lines.map(function(line){
+    var commentIdx = line.indexOf('#');
+    var codePart = commentIdx >= 0 ? line.slice(0, commentIdx) : line;
+    var commentPart = commentIdx >= 0 ? line.slice(commentIdx) : '';
+    codePart = codePart.replace(/("[^"]*"|'[^']*')/g, function(m){ return '<span class="pystr">' + m + '</span>'; });
+    codePart = codePart.replace(/\b(\d+\.?\d*(?:[eE][-+]?\d+)?)\b/g, '<span class="pynum">$1</span>');
+    codePart = codePart.replace(PY_KW_REGEX, '<span class="pykw">$1</span>');
+    var commentHtml = commentPart ? '<span class="pycmt">' + commentPart + '</span>' : '';
+    return codePart + commentHtml;
+  });
+  return out.join('\n');
+}
+
+function pySyncHighlight(){
+  var editor = document.getElementById('pyCodeEditor');
+  var hl = document.getElementById('pyHighlight');
+  if(!editor || !hl) return;
+  hl.innerHTML = pyHighlightCode(editor.value) + '\n';
+}
+function pySyncScroll(){
+  var editor = document.getElementById('pyCodeEditor');
+  var hl = document.getElementById('pyHighlight');
+  if(!editor || !hl) return;
+  hl.scrollTop = editor.scrollTop;
+  hl.scrollLeft = editor.scrollLeft;
+}
+
+function pyReset(){
+  document.getElementById('pyCodeEditor').value = PY_SKELETON;
+  pySyncHighlight();
+  document.getElementById('pyOutput').innerHTML = '';
+  var st = document.getElementById('pyStatus');
+  st.className = 'exo-fb'; st.innerHTML = '';
+  document.getElementById('pyExploitBox').style.display = 'none';
+}
+
+function pyShowCorrection(){
+  document.getElementById('pyCodeEditor').value = PY_CORRECTION;
+  pySyncHighlight();
+  pyRunCode();
+}
+
+function pyRunCode(){
+  var statusEl = document.getElementById('pyStatus');
+  var outputEl = document.getElementById('pyOutput');
+  var code = document.getElementById('pyCodeEditor').value;
+  statusEl.className = 'exo-fb ok';
+  statusEl.style.display = 'block';
+  statusEl.innerHTML = '⏳ Exécution en cours… (le tout premier lancement peut prendre quelques secondes, le temps de charger l\'environnement Python)';
+  outputEl.innerHTML = '';
+
+  getPyodideInstance().then(function(pyodide){
+    var wrapped = code + '\n\n' +
+      'import io, base64\n' +
+      '_buf = io.BytesIO()\n' +
+      "plt.savefig(_buf, format='png', dpi=110, bbox_inches='tight')\n" +
+      "plt.close('all')\n" +
+      '_buf.seek(0)\n' +
+      "base64.b64encode(_buf.read()).decode('utf-8')\n";
+    return pyodide.runPythonAsync(wrapped);
+  }).then(function(result){
+    outputEl.innerHTML = '<img src="data:image/png;base64,' + result + '" alt="Carte de champ obtenue par le programme">';
+    statusEl.className = 'exo-fb ok';
+    statusEl.innerHTML = '✓ Le programme s\'est exécuté sans erreur. Observe le graphique obtenu, puis réponds aux questions d\'exploitation ci-dessous.';
+    document.getElementById('pyExploitBox').style.display = 'block';
+  }).catch(function(err){
+    var msg = String(err && err.message ? err.message : err);
+    statusEl.className = 'exo-fb ko';
+    if(msg.indexOf('___') !== -1){
+      statusEl.innerHTML = '✗ Il reste au moins un <code>___</code> à remplacer par ta valeur ou ta formule dans le code.';
+    } else {
+      var lastLine = msg.trim().split('\n').pop();
+      statusEl.innerHTML = '✗ Erreur dans le code : <code>' + lastLine + '</code>. Vérifie ta syntaxe (parenthèses, indentation…).';
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  elecPreset(0);
+  var tubeEl = document.getElementById('elecTube');
+  if(tubeEl) tubeEl.addEventListener('pointerdown', elecPointerDown);
+  renderChampSim();
+  renderCondSim();
+  renderPtSim();
+  pcclInit();
+  var pyEditor = document.getElementById('pyCodeEditor');
+  if(pyEditor){
+    pyEditor.value = PY_SKELETON;
+    pySyncHighlight();
+  }
+  var staticCode = document.getElementById('pyStaticCode');
+  if(staticCode){
+    staticCode.innerHTML = pyHighlightCode(staticCode.textContent);
+  }
+});
+</script>
+</body>
+</html>
