@@ -286,6 +286,45 @@ function iconSeq06(suffix) {
     </svg>`;
 }
 
+function iconSeq07(suffix) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+      <style>
+        .hicon-scene-${suffix}{opacity:0;animation:hiconFade-${suffix} 6s ease-in-out infinite}
+        .hicon-a-${suffix}{animation-delay:0s}
+        .hicon-b-${suffix}{animation-delay:3s}
+        @keyframes hiconFade-${suffix}{0%{opacity:1}42%{opacity:1}50%{opacity:0}92%{opacity:0}100%{opacity:1}}
+      </style>
+      <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+      <g class="hicon-scene-${suffix} hicon-a-${suffix}">
+        <circle cx="100" cy="65" r="5" fill="#C0392B"/>
+        <text x="100" y="52" text-anchor="middle" font-size="9" font-family="Outfit,sans-serif" font-weight="800" fill="#C0392B">q &gt; 0</text>
+        <g stroke="#5B8FB9" stroke-width="1.3" fill="none" opacity=".85">
+          <path d="M100,65 L100,20" marker-end="url(#ar1-${suffix})"/>
+          <path d="M100,65 L100,110" marker-end="url(#ar1-${suffix})"/>
+          <path d="M100,65 L145,65" marker-end="url(#ar1-${suffix})"/>
+          <path d="M100,65 L55,65" marker-end="url(#ar1-${suffix})"/>
+          <path d="M100,65 L132,33" marker-end="url(#ar1-${suffix})"/>
+          <path d="M100,65 L68,33" marker-end="url(#ar1-${suffix})"/>
+          <path d="M100,65 L132,97" marker-end="url(#ar1-${suffix})"/>
+          <path d="M100,65 L68,97" marker-end="url(#ar1-${suffix})"/>
+        </g>
+      </g>
+      <g class="hicon-scene-${suffix} hicon-b-${suffix}">
+        <circle cx="70" cy="65" r="6" fill="#2D5F8A"/>
+        <circle cx="130" cy="65" r="6" fill="#2D5F8A"/>
+        <line x1="76" y1="65" x2="124" y2="65" stroke="#E8783A" stroke-width="2"/>
+        <path d="M76,58 L92,58" stroke="#E8783A" stroke-width="2" marker-end="url(#ar2-${suffix})"/>
+        <path d="M124,72 L108,72" stroke="#E8783A" stroke-width="2" marker-end="url(#ar2-${suffix})"/>
+        <text x="100" y="30" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="700" fill="#2D5F8A">Interaction gravitationnelle</text>
+      </g>
+      <defs>
+        <marker id="ar1-${suffix}" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#5B8FB9"/></marker>
+        <marker id="ar2-${suffix}" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#E8783A"/></marker>
+      </defs>
+    </svg>`;
+}
+
 const PRE_ICONS = {
   'seq00': iconSeq00,
   'seq01': iconLumiereCouleurs,
@@ -293,7 +332,8 @@ const PRE_ICONS = {
   'seq03': iconSeq03,
   'seq04': iconSeq04,
   'seq05': iconSeq05,
-  'seq06': iconSeq06
+  'seq06': iconSeq06,
+  'seq07': iconSeq07
 };
 
 function getIconPre(name, suffix) {
