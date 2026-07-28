@@ -325,6 +325,44 @@ function iconSeq07(suffix) {
     </svg>`;
 }
 
+function iconSeq08(suffix) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+      <style>
+        .hicon-scene-${suffix}{opacity:0;animation:hiconFade-${suffix} 6s ease-in-out infinite}
+        .hicon-a-${suffix}{animation-delay:0s}
+        .hicon-b-${suffix}{animation-delay:3s}
+        @keyframes hiconFade-${suffix}{0%{opacity:1}42%{opacity:1}50%{opacity:0}92%{opacity:0}100%{opacity:1}}
+      </style>
+      <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+      <g class="hicon-scene-${suffix} hicon-a-${suffix}">
+        <path d="M25,95 C55,90 65,55 95,50 C130,44 145,60 175,35" fill="none" stroke="#2D5F8A" stroke-width="1.6" stroke-dasharray="1 5" opacity=".7"/>
+        <circle cx="25" cy="95" r="3" fill="#1A2A3A"/>
+        <circle cx="70" cy="58" r="3" fill="#1A2A3A"/>
+        <circle cx="120" cy="45" r="3" fill="#1A2A3A"/>
+        <circle cx="175" cy="35" r="3" fill="#1A2A3A"/>
+        <path d="M25,95 L45,80" stroke="#C0392B" stroke-width="2" marker-end="url(#arh1-${suffix})"/>
+        <path d="M70,58 L95,48" stroke="#C0392B" stroke-width="2" marker-end="url(#arh1-${suffix})"/>
+        <path d="M120,45 L150,33" stroke="#C0392B" stroke-width="2" marker-end="url(#arh1-${suffix})"/>
+        <text x="100" y="18" text-anchor="middle" font-size="9" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Chronophotographie</text>
+      </g>
+      <g class="hicon-scene-${suffix} hicon-b-${suffix}">
+        <text x="100" y="18" text-anchor="middle" font-size="9" font-family="Outfit,sans-serif" font-weight="800" fill="#E8783A">Construction de Δv</text>
+        <path d="M70,95 L120,60" stroke="#C0392B" stroke-width="2" marker-end="url(#arh2-${suffix})"/>
+        <path d="M120,60 L142,95" stroke="#C0392B" stroke-width="2" marker-end="url(#arh2-${suffix})"/>
+        <path d="M70,95 L142,95" stroke="#3A8A6E" stroke-width="2.4" marker-end="url(#arh3-${suffix})"/>
+        <text x="92" y="72" font-size="8" font-family="DM Mono,monospace" fill="#C0392B">v1</text>
+        <text x="128" y="82" font-size="8" font-family="DM Mono,monospace" fill="#C0392B">−v0</text>
+        <text x="95" y="112" font-size="8" font-family="DM Mono,monospace" fill="#3A8A6E">Δv</text>
+      </g>
+      <defs>
+        <marker id="arh1-${suffix}" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#C0392B"/></marker>
+        <marker id="arh2-${suffix}" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#C0392B"/></marker>
+        <marker id="arh3-${suffix}" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#3A8A6E"/></marker>
+      </defs>
+    </svg>`;
+}
+
 const PRE_ICONS = {
   'seq00': iconSeq00,
   'seq01': iconLumiereCouleurs,
@@ -333,7 +371,8 @@ const PRE_ICONS = {
   'seq04': iconSeq04,
   'seq05': iconSeq05,
   'seq06': iconSeq06,
-  'seq07': iconSeq07
+  'seq07': iconSeq07,
+  'seq08': iconSeq08
 };
 
 function getIconPre(name, suffix) {
