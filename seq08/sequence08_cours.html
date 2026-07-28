@@ -1,0 +1,2488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Séquence 08 – Mouvement d'un système – Première Spé PC</title>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --bleu:#2D5F8A; --bleu-clair:#E8F1F8; --bleu-moyen:#5B8FB9;
+  --orange:#E8783A; --orange-clair:#FDF0E8;
+  --vert:#3A8A6E; --vert-clair:#E8F5F0;
+  --gris-fond:#F5F7FA; --gris-bord:#DDE3EC;
+  --texte:#1A2A3A; --texte-leger:#5A6B7A; --blanc:#FFFFFF;
+  --rouge:#C0392B; --rouge-clair:#FDEDEC;
+  --violet:#7B4FA6; --violet-clair:#F3EDF9;
+}
+body{font-family:'Nunito',sans-serif;background:#F0F4F8;padding:14px;color:var(--texte)}
+h1{font-size:1.35rem;font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);line-height:1.2;text-align:left}
+
+/* HEADER */
+.header{background:var(--blanc);border:1px solid #E3E8EE;border-bottom:3px solid var(--bleu);border-radius:14px;padding:18px 24px 14px;max-width:1300px;margin:0 auto 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(45,95,138,0.10)}
+.header-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.header-left{display:flex;flex-direction:column;align-items:flex-start;gap:7px;flex-shrink:0;margin-top:2px}
+.header-badge{background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:20px;white-space:nowrap}
+button.cap-toggle{background:var(--bleu);color:#fff;border:none;padding:5px 12px;border-radius:999px;font-family:'Nunito',sans-serif;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap}
+button.cap-toggle:hover{background:#1e4466}
+.cap-panel{display:none;margin:0 0 14px;background:#fff;border:1px solid #B8D4EC;border-radius:12px;padding:16px 20px;text-align:left;font-size:.88rem;color:var(--texte)}
+.cap-panel.open{display:block}
+.cap-panel p{line-height:1.6;margin-bottom:6px}
+.header-titles{flex:1;min-width:180px}
+.header-titles h1{font-size:1.35rem}
+.header-titles p{font-size:.82rem;color:var(--texte-leger);margin-top:2px}
+.header-titles p span{color:var(--orange);font-weight:700}
+.hicon-wrap{flex-shrink:0;width:80px;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(45,95,138,.18);background:#fff}
+.hicon-wrap svg{display:block;width:100%;height:auto}
+.hicon-scene{opacity:0;animation:hiconFade 6s ease-in-out infinite}
+.hicon-a{animation-delay:0s}
+.hicon-b{animation-delay:3s}
+@keyframes hiconFade{0%{opacity:1}42%{opacity:1}50%{opacity:0}92%{opacity:0}100%{opacity:1}}
+
+/* ONGLETS */
+.tabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;flex-wrap:wrap}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:8px;padding:10px 18px 12px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;color:var(--texte-leger);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;position:relative;bottom:-3px}
+.tab:hover{color:var(--orange)}
+.tab.on{color:var(--orange);border-bottom-color:var(--orange);background:var(--orange-clair);border-radius:6px 6px 0 0}
+.panel{display:none;background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:0 0 12px 12px;padding:20px}
+.panel.on{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.main{max-width:1300px;margin:0 auto;padding:28px 20px 60px}
+
+/* Sous-onglets */
+.sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;overflow-x:auto}
+.sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:#b8cfe0;color:var(--bleu);font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all .2s;white-space:nowrap}
+.sub-tab-btn:hover{background:var(--bleu);color:#fff}
+.sub-tab-btn.active{background:#1e4466;color:#fff}
+.sub-tab-content{display:none}
+.sub-tab-content.active{display:block;animation:fadeIn .2s ease}
+
+/* Sections / cartes */
+.section-title{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:var(--bleu);margin:24px 0 14px;display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:2px solid var(--bleu-clair)}
+.section-title:first-child{margin-top:0}
+.section-title .icon{font-size:1.2rem}
+.intro-box{background:#FFFBF7;border-left:4px solid var(--orange);border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:20px;font-size:.9rem;line-height:1.6;color:var(--texte);font-style:italic}
+.card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.card-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;color:var(--bleu);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card-title .icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.card ul{padding-left:1.2rem;margin:8px 0}
+.card li{margin-bottom:5px;line-height:1.55;font-size:.88rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.grid-2{grid-template-columns:1fr}}
+.formula{background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:14px 18px;text-align:center;font-family:'DM Mono',monospace;font-weight:700;color:var(--bleu);margin:14px 0;font-size:1.05rem}
+.formula .legend{font-size:.78rem;font-weight:500;color:var(--texte-leger);margin-top:8px;text-align:left}
+.exemple-box{background:var(--vert-clair);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.exemple-box strong{color:var(--vert)}
+.remarque-box{background:var(--violet-clair);border-left:4px solid var(--violet);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.remarque-box strong{color:var(--violet)}
+.attention-box{background:var(--rouge-clair);border-left:4px solid var(--rouge);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.attention-box strong{color:var(--rouge)}
+.data-table-trampo{border-collapse:collapse;margin-top:6px;font-family:'DM Mono',monospace;font-size:.78rem}
+.data-table-trampo th,.data-table-trampo td{border:1px solid var(--gris-bord);padding:4px 7px;text-align:center;white-space:nowrap}
+.data-table-trampo th{background:var(--bleu-clair);color:var(--bleu);font-weight:700}
+.table-wrap{overflow-x:auto}
+details.full-table{margin-top:10px}
+details.full-table summary{cursor:pointer;font-weight:700;color:var(--bleu);font-size:.85rem;padding:6px 0}
+.video-row{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0}
+.video-box{flex:1;min-width:260px;max-width:420px}
+.video-box video{width:100%;border-radius:10px;border:2px solid var(--gris-bord);display:block}
+.video-box span{display:block;font-size:.78rem;color:var(--texte-leger);margin-top:6px;font-style:italic;text-align:center}
+.latispro-img{max-width:100%;border-radius:10px;border:2px solid var(--gris-bord);display:block;margin:0 auto}
+.graph-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.accord-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 16px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;color:var(--texte);transition:background .2s;margin:10px 0}
+.accord-btn:hover{background:var(--bleu-clair)}
+.accord-body{display:none;padding:14px;background:var(--blanc);border:1.5px solid var(--gris-bord);border-top:none;border-radius:0 0 8px 8px;font-size:.88rem;line-height:1.7;margin-top:-10px;margin-bottom:10px}
+.accord-body.open{display:block;animation:fadeIn .2s}
+.bilan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:560px){.bilan-grid{grid-template-columns:1fr}}
+.bilan-card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px}
+.bilan-card h4{font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:700;color:var(--bleu);margin-bottom:8px;padding-bottom:8px;border-bottom:1.5px solid var(--gris-bord)}
+.ke-list{list-style:none;padding:0}
+.ke-list li{padding:6px 10px 6px 28px;position:relative;font-size:.84rem;border-bottom:1px solid var(--gris-bord);line-height:1.5}
+.ke-list li:last-child{border-bottom:none}
+.ke-list li::before{content:"✓";position:absolute;left:8px;color:var(--vert);font-weight:800;font-size:.9rem}
+.res-list{list-style:none;padding:0;margin:10px 0}
+.res-list a{display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--bleu);text-decoration:none;padding:8px 12px;border:1px solid var(--gris-bord);border-radius:8px;transition:background .15s}
+.res-list a:hover{background:var(--bleu-clair)}
+
+/* Méthode - étapes numérotées */
+.methode-list{list-style:none;padding:0;counter-reset:step}
+.methode-list li{counter-increment:step;position:relative;padding:12px 16px 12px 52px;margin-bottom:10px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;font-size:.88rem;line-height:1.6}
+.methode-list li::before{content:counter(step);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+
+/* Activité expérimentale - photos */
+.activite-photo-row{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0;justify-content:center}
+.activite-photo{text-align:center;flex:1;min-width:180px;max-width:260px}
+.activite-photo img{width:100%;height:auto;border-radius:10px;border:2px solid var(--gris-bord);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.activite-photo span{display:block;font-size:.76rem;color:var(--texte-leger);margin-top:6px;font-style:italic}
+.activite-q{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:14px 16px;margin:14px 0}
+.qnum{font-family:'Outfit',sans-serif;font-weight:800;font-size:.78rem;color:var(--orange);letter-spacing:.04em;margin-bottom:6px}
+.qtext{font-size:.9rem;line-height:1.6;margin-bottom:10px}
+.btn-reveal{background:#fff;color:var(--bleu);border:1.5px solid var(--bleu-moyen);padding:6px 14px;border-radius:7px;font-weight:700;font-size:.78rem;cursor:pointer;font-family:'Nunito',sans-serif;margin-top:4px}
+.btn-reveal:hover{background:var(--bleu-clair)}
+.reveal-body{display:none;margin-top:10px;padding:12px 14px;background:#fff;border-left:4px solid var(--bleu-moyen);border-radius:0 8px 8px 0;font-size:.86rem;line-height:1.65}
+.reveal-body.open{display:block;animation:fadeIn .2s}
+
+/* Exercices / QCM / FCR */
+.exo-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+.exo-box h5{font-family:'Outfit',sans-serif;color:var(--orange);font-size:.92rem;margin-bottom:8px}
+.exo-enonce{background:#fff;border-radius:8px;padding:12px 16px;font-size:.88rem;line-height:1.6;margin-bottom:12px;border:1px solid var(--gris-bord)}
+.exo-eq{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-family:'DM Mono',monospace;font-size:.92rem;margin:10px 0;background:#fff;border-radius:8px;padding:10px 12px;border:1px solid var(--gris-bord)}
+.exo-btn{background:var(--bleu);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;margin-top:6px}
+.exo-btn:hover{background:#1e4466}
+.exo-fb{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.85rem;line-height:1.6;display:none}
+.exo-fb.ok{display:block;background:var(--vert-clair);border-left:4px solid var(--vert);color:#1a5a3a}
+.exo-fb.ko{display:block;background:var(--rouge-clair);border-left:4px solid var(--rouge);color:#7a2418}
+.exo-fb.correction{display:block;background:var(--bleu-clair);border:1.5px solid var(--bleu-moyen);color:var(--texte);border-radius:8px;padding:10px 14px;margin-top:8px;font-size:.85rem;line-height:1.6}
+.exo-btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.exo-btn-secondary{background:#fff;color:var(--bleu);border:1.5px solid var(--bleu-moyen);padding:7px 14px;border-radius:7px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s}
+.exo-btn-secondary:hover{background:var(--bleu-clair)}
+.blank-in{border:1.5px solid var(--gris-bord);border-radius:6px;padding:6px 9px;font-family:'DM Mono',monospace;font-size:.86rem;background:#fff}
+.qcm-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.qcm-opt{background:#fff;border:1.5px solid var(--gris-bord);border-radius:7px;padding:7px 13px;font-size:.82rem;font-weight:600;font-family:'Nunito',sans-serif;color:var(--texte);cursor:pointer;transition:all .15s}
+.qcm-opt:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.qcm-opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.qcm-opt.incorrect{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+.fcr-line{display:block;margin-top:3px}
+.fcr-line:first-child{margin-top:0}
+.fcr-step{margin-top:14px;padding-top:12px;border-top:1px dashed var(--gris-bord)}
+.fcr-step:first-of-type{border-top:none;padding-top:0}
+.fcr-label{display:block;font-family:'Outfit',sans-serif;font-weight:800;font-size:.8rem;color:var(--orange);margin-bottom:8px;letter-spacing:.02em}
+
+/* === Notation vectorielle (flèche dessinée en flux normal, pas en position absolue) === */
+.vec{display:inline-flex;flex-direction:column-reverse;align-items:center;line-height:1;vertical-align:text-bottom}
+.vec::after{content:"";display:block;width:var(--vec-w,.78em);height:.4em;margin-bottom:1px;background-color:currentColor;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cline x1='0' y1='6' x2='18' y2='6' stroke='black' stroke-width='2.6'/%3E%3Cpolygon points='14,0.5 24,6 14,11.5' fill='black'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cline x1='0' y1='6' x2='18' y2='6' stroke='black' stroke-width='2.6'/%3E%3Cpolygon points='14,0.5 24,6 14,11.5' fill='black'/%3E%3C/svg%3E")}
+
+/* === Simulations canvas génériques === */
+.sim-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin:14px 0}
+.sim-layout{display:flex;gap:20px;flex-wrap:wrap}
+.sim-canvas-wrap{flex:1;min-width:280px;text-align:center}
+.sim-canvas-wrap canvas{background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;max-width:100%;touch-action:none}
+.sim-controls{flex:1;min-width:230px;display:flex;flex-direction:column;gap:12px;justify-content:center}
+.sim-ctrl{background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 14px}
+.sim-ctrl label{display:block;font-size:.8rem;color:var(--texte-leger);margin:6px 0 3px;font-weight:600}
+.sim-ctrl input[type=range]{width:100%}
+.sim-readout{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--texte-leger);text-align:center;margin-top:6px}
+.sim-btn-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.sim-caselist{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
+
+/* === Code Python === */
+.code-block{background:#f5f7f9;color:#1e2a38;border:1.5px solid var(--gris-bord);border-radius:10px;padding:14px 16px;margin:12px 0;font-family:'DM Mono',monospace;font-size:.78rem;line-height:1.65;overflow-x:auto;white-space:pre}
+.pykw{color:#1a5fb4;font-weight:700}
+.pycmt{color:#2f8a52}
+.pystr{color:#c8602a}
+.pynum{color:#7B4FA6}
+.py-editor-wrap{position:relative;background:#f5f7f9;border-radius:10px;border:2px solid var(--gris-bord);min-height:340px;overflow:hidden}
+.py-editor-wrap:focus-within{border-color:var(--bleu)}
+.py-editor-highlight{position:absolute;top:0;left:0;right:0;bottom:0;margin:0;padding:14px 16px;font-family:'DM Mono',monospace;font-size:.76rem;line-height:1.6;white-space:pre;overflow:auto;pointer-events:none;color:#1e2a38;box-sizing:border-box}
+.py-editor{position:relative;width:100%;height:100%;min-height:340px;background:transparent;color:transparent;caret-color:#1e2a38;padding:14px 16px;font-family:'DM Mono',monospace;font-size:.76rem;line-height:1.6;border:none;resize:vertical;box-sizing:border-box;white-space:pre;z-index:1}
+.py-editor:focus{outline:none}
+.py-output img{display:block;margin:12px auto 0}
+.py-btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+/* === Escape game === */
+.escape-wrap{background:#0a0a0f;border-radius:14px;padding:20px;margin:14px 0;box-shadow:inset 0 0 60px rgba(0,0,0,.8)}
+.escape-story{color:#cfd6e6;font-size:.86rem;line-height:1.7;background:rgba(255,255,255,.04);border-left:4px solid var(--orange);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:16px}
+.escape-steps-nav{display:flex;justify-content:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.escape-step-badge{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:.76rem;font-weight:800;background:rgba(255,255,255,.06);color:#8a93a8;border:1.5px solid rgba(255,255,255,.12)}
+.escape-step-badge.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+.escape-step-badge.done{background:rgba(91,224,138,.18);color:#5be08a;border-color:rgba(91,224,138,.4)}
+.escape-stage{display:none;margin-bottom:16px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.12)}
+.escape-stage.on{display:block;animation:fadeIn .25s ease}
+.escape-locked{text-align:center;color:#6a7386;font-size:.84rem;padding:18px;background:rgba(255,255,255,.03);border-radius:10px;border:1.5px dashed rgba(255,255,255,.15)}
+.escape-log{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;margin-bottom:14px;min-height:28px;font-size:.82rem;color:#dfe4f0;line-height:1.7}
+.escape-log b{color:#ffd76b}
+.escape-guess{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border-radius:10px;padding:12px;margin-bottom:12px}
+.escape-guess select,.escape-guess input{padding:8px 12px;border-radius:7px;border:none;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem}
+.escape-guess button,.escape-validate-btn{border:none;border-radius:8px;padding:9px 18px;font-weight:800;font-size:.84rem;background:var(--orange);color:#fff;cursor:pointer}
+.escape-guess button:hover,.escape-validate-btn:hover{background:#c8602a}
+.escape-result{text-align:center;font-size:.9rem;font-weight:700;min-height:24px;margin-bottom:10px}
+.escape-result.win{color:#5be08a}
+.escape-result.lose{color:#ff8a8a}
+.escape-comp-grid{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.escape-comp-btn{padding:10px 16px;border-radius:10px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#dfe4f0;font-family:'DM Mono',monospace;font-size:.84rem;cursor:pointer;transition:transform .15s,border-color .15s}
+.escape-comp-btn:hover{transform:scale(1.04);border-color:rgba(255,255,255,.4)}
+.escape-comp-btn.sel{border-color:#fff}
+.escape-comp-btn.ok{border-color:#5be08a;background:rgba(91,224,138,.15)}
+.escape-comp-btn.ko{border-color:#ff8a8a;background:rgba(255,138,138,.15)}
+.escape-reset{display:block;margin:14px auto 0;background:transparent;border:1.5px solid rgba(255,255,255,.25);color:#cfd6e6;border-radius:20px;padding:6px 16px;font-size:.78rem;font-weight:700;cursor:pointer}
+.escape-reset:hover{background:rgba(255,255,255,.08)}
+.escape-victory{display:none;text-align:center;background:linear-gradient(135deg,#1a3a2a,#0f2a1c);border:2px solid #5be08a;border-radius:12px;padding:20px;margin-top:14px;animation:fadeIn .4s ease}
+.escape-victory.show{display:block}
+.escape-victory h3{color:#5be08a;font-family:'Outfit',sans-serif;font-size:1.1rem;margin-bottom:6px}
+.escape-victory p{color:#cfd6e6;font-size:.86rem}
+
+/* === Glossaire === */
+.gloss-search{width:100%;max-width:420px;padding:10px 14px;border:1.5px solid var(--gris-bord);border-radius:999px;font-family:'Nunito',sans-serif;font-size:.86rem;margin-bottom:16px;display:block}
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 14px}
+.gloss-item dt{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:.86rem;margin-bottom:4px}
+.gloss-item dd{font-size:.82rem;line-height:1.55;color:var(--texte)}
+
+@media(max-width:640px){
+  .header-titles h1{font-size:1.05rem}
+  .hicon-wrap{width:60px}
+}
+</style>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <div class="header-badge">1<sup>ère</sup> Spé – Séq. 08</div>
+      <button class="cap-toggle" onclick="document.getElementById('capPanel').classList.toggle('open')">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Mouvement d'un système</h1>
+      <p>Thème : <span>Mouvements et interactions</span></p>
+    </div>
+    <div class="hicon-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+        <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+        <g class="hicon-scene hicon-a">
+          <path d="M25,95 C55,90 65,55 95,50 C130,44 145,60 175,35" fill="none" stroke="#2D5F8A" stroke-width="1.6" stroke-dasharray="1 5" opacity=".7"/>
+          <circle cx="25" cy="95" r="3" fill="#1A2A3A"/>
+          <circle cx="70" cy="58" r="3" fill="#1A2A3A"/>
+          <circle cx="120" cy="45" r="3" fill="#1A2A3A"/>
+          <circle cx="175" cy="35" r="3" fill="#1A2A3A"/>
+          <path d="M25,95 L45,80" stroke="#C0392B" stroke-width="2" marker-end="url(#arh1)"/>
+          <path d="M70,58 L95,48" stroke="#C0392B" stroke-width="2" marker-end="url(#arh1)"/>
+          <path d="M120,45 L150,33" stroke="#C0392B" stroke-width="2" marker-end="url(#arh1)"/>
+          <text x="100" y="18" text-anchor="middle" font-size="9" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Chronophotographie</text>
+        </g>
+        <g class="hicon-scene hicon-b">
+          <text x="100" y="18" text-anchor="middle" font-size="9" font-family="Outfit,sans-serif" font-weight="800" fill="#E8783A">Construction de Δv</text>
+          <path d="M70,95 L120,60" stroke="#C0392B" stroke-width="2" marker-end="url(#arh2)"/>
+          <path d="M120,60 L142,95" stroke="#C0392B" stroke-width="2" marker-end="url(#arh2)"/>
+          <path d="M70,95 L142,95" stroke="#3A8A6E" stroke-width="2.4" marker-end="url(#arh3)"/>
+          <text x="92" y="72" font-size="8" font-family="DM Mono,monospace" fill="#C0392B">v1</text>
+          <text x="128" y="82" font-size="8" font-family="DM Mono,monospace" fill="#C0392B">−v0</text>
+          <text x="95" y="112" font-size="8" font-family="DM Mono,monospace" fill="#3A8A6E">Δv</text>
+        </g>
+        <defs>
+          <marker id="arh1" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#C0392B"/></marker>
+          <marker id="arh2" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#C0392B"/></marker>
+          <marker id="arh3" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#3A8A6E"/></marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <div class="cap-panel" id="capPanel">
+    <p><strong>Capacités exigibles :</strong></p>
+    <p>Utiliser la relation approchée entre la variation du vecteur vitesse d'un système modélisé par un point matériel entre deux instants voisins et la somme des forces appliquées sur celui-ci :</p>
+    <p>— pour en déduire une estimation de la variation de vitesse entre deux instants voisins, les forces appliquées au système étant connues ;</p>
+    <p>— pour en déduire une estimation des forces appliquées au système, le comportement cinématique étant connu.</p>
+    <p><strong>Capacités expérimentales :</strong></p>
+    <p>— Réaliser et exploiter une vidéo ou une chronophotographie d'un système modélisé par un point matériel en mouvement pour construire les vecteurs variation de vitesse.</p>
+    <p>— Tester la relation approchée entre la variation du vecteur vitesse entre deux instants voisins et la somme des forces appliquées au système.</p>
+    <p><strong>Capacité numérique :</strong> Utiliser un langage de programmation pour étudier la relation approchée entre la variation du vecteur vitesse d'un système modélisé par un point matériel entre deux instants voisins et la somme des forces appliquées sur celui-ci.</p>
+    <p><strong>Capacité mathématique :</strong> Sommer et soustraire des vecteurs.</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab on" onclick="showTab(this,'cours')">📘 Cours</div>
+    <div class="tab" onclick="showTab(this,'activites')">🧪 Activités</div>
+    <div class="tab" onclick="showTab(this,'exercices')">✏️ Exercices</div>
+    <div class="tab" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</div>
+  </div>
+</div>
+
+<div class="main">
+<!-- ══════════════════ TAB 1 — COURS ══════════════════ -->
+<div class="panel on" id="tab-cours">
+  <div class="intro-box">En seconde, tu as appris à construire le vecteur vitesse d'un point à partir d'une chronophotographie. Ici, on va s'intéresser à la <strong>variation</strong> de ce vecteur vitesse entre deux instants voisins, et découvrir qu'elle est directement liée aux forces qui s'exercent sur le système : c'est une première approche de la 2<sup>e</sup> loi de Newton, que tu retrouveras en Terminale.</div>
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-vitesse')">① Vecteur vitesse</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-deltav')">② Vecteur variation de vitesse</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-typemvt')">③ Type de mouvement</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-forces')">④ Des forces à la variation de vitesse</button>
+  </div>
+
+  <!-- ===== SOUS-ONGLET 1 : VECTEUR VITESSE ===== -->
+  <div class="sub-tab-content active" id="sub-vitesse">
+    <div class="section-title"><span class="icon">📍</span>Vecteur vitesse en un point</div>
+    <p style="font-size:.9rem;line-height:1.6">Le système est considéré ponctuel. Dans un référentiel donné, si on décompose la trajectoire d'un point en une succession de positions à intervalles de temps réguliers Δt : M<sub>0</sub>, M<sub>1</sub>, M<sub>2</sub>, …, M<sub>i-1</sub>, M<sub>i</sub>, M<sub>i+1</sub>, on peut construire le vecteur vitesse <span class="vec">v</span><sub>i</sub> au point M<sub>i</sub> à partir du vecteur déplacement <strong><span class="vec"><span>M<sub>i-1</sub>M<sub>i+1</sub></span></span></strong> sur une durée <strong>2Δt</strong>.</p>
+
+    <div class="formula">
+      <img src="formulevecteurvitesse.jpg" alt="v_i = M_{i-1}M_{i+1} / 2Δt" style="max-height:58px;display:block;margin:2px auto 12px">
+      <div class="legend">• <span class="vec">v</span><sub>i</sub> en m·s⁻¹ &nbsp; • <span class="vec"><span>M<sub>i-1</sub>M<sub>i+1</sub></span></span> = vecteur déplacement (en m) entre les positions encadrant M<sub>i</sub> &nbsp; • Δt en s (durée entre deux positions successives)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">📐</span>Caractéristiques du vecteur vitesse</div>
+      <ul>
+        <li><strong>Direction :</strong> celle de la tangente à la trajectoire au point M<sub>i</sub> (approchée par la droite (M<sub>i-1</sub>M<sub>i+1</sub>)).</li>
+        <li><strong>Sens :</strong> celui du mouvement.</li>
+        <li><strong>Valeur (norme) :</strong> ‖<span class="vec">v</span><sub>i</sub>‖ = M<sub>i-1</sub>M<sub>i+1</sub> / 2Δt, en m·s⁻¹.</li>
+        <li><strong>Point d'application :</strong> M<sub>i</sub>.</li>
+      </ul>
+    </div>
+
+    <div class="sim-box">
+      <div class="card-title" style="margin-bottom:10px"><span class="icon" style="background:var(--orange-clair)">🎮</span>Animation — Construire le vecteur vitesse le long d'une trajectoire</div>
+      <p style="font-size:.83rem;color:var(--texte-leger);margin-bottom:10px">Tous les points de la chronophotographie sont affichés. <strong>Clique et fais glisser le vecteur</strong> directement sur le canvas (ou utilise le curseur) pour le faire avancer point par point. Il est nommé automatiquement selon sa position (v<sub>1</sub>, v<sub>2</sub>, v<sub>3</sub>…), avec les points M<sub>k-1</sub> et M<sub>k+1</sub> qui l'encadrent.</p>
+      <div class="sim-layout">
+        <div class="sim-canvas-wrap">
+          <canvas id="vitesseCanvas" width="480" height="300"></canvas>
+          <div class="sim-readout" id="vitesseReadout"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="sim-ctrl">
+            <label>Position du vecteur sur la trajectoire</label>
+            <input type="range" id="vitesseT" min="1" max="11" step="1" value="6" oninput="renderVitesseSim()">
+          </div>
+          <div class="sim-ctrl">
+            <label>Écart temporel Δt (modifie la longueur affichée du vecteur)</label>
+            <input type="range" id="vitesseDt" min="1" max="3" step="1" value="2" oninput="renderVitesseSim()">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="remarque-box"><strong>Remarque :</strong> plus l'intervalle Δt choisi est petit, plus la construction <span class="vec"><span>M<sub>i-1</sub>M<sub>i+1</sub></span></span>/2Δt donne une <strong>bonne approximation</strong> du vecteur vitesse réel (tangent) au point M<sub>i</sub>.</div>
+  </div>
+
+  <!-- ===== SOUS-ONGLET 2 : VECTEUR VARIATION DE VITESSE ===== -->
+  <div class="sub-tab-content" id="sub-deltav">
+    <div class="section-title"><span class="icon">Δ</span>Vecteur variation de vitesse</div>
+    <p style="font-size:.9rem;line-height:1.6">Pour traduire la variation de la vitesse en un point M<sub>i</sub>, on construit le <strong>vecteur variation de vitesse</strong> <span class="vec">Δv</span><sub>i</sub> au point M<sub>i</sub>, en l'encadrant par les points M<sub>i-1</sub> et M<sub>i+1</sub>. Il est défini par la relation :</p>
+
+    <div class="formula"><span class="vec">Δv</span><sub>i</sub> = <span class="vec">v</span><sub>i+1</sub> − <span class="vec">v</span><sub>i-1</sub>
+      <div class="legend">• <span class="vec">v</span><sub>i+1</sub> : vecteur vitesse à la position M<sub>i+1</sub> &nbsp; • <span class="vec">v</span><sub>i-1</sub> : vecteur vitesse à la position M<sub>i-1</sub></div>
+    </div>
+
+    <div class="attention-box"><strong>⚠️ Attention aux flèches :</strong> <span class="vec">Δv</span><sub>i</sub> se construit comme une <strong>somme</strong> : <span class="vec">Δv</span><sub>i</sub> = <span class="vec">v</span><sub>i+1</sub> + (−<span class="vec">v</span><sub>i-1</sub>). On place donc le vecteur −<span class="vec">v</span><sub>i-1</sub> (même direction que <span class="vec">v</span><sub>i-1</sub>, mais sens opposé) à la <strong>pointe</strong> de <span class="vec">v</span><sub>i+1</sub> : le vecteur <span class="vec">Δv</span><sub>i</sub> va alors de l'origine de <span class="vec">v</span><sub>i+1</sub> jusqu'à la pointe de −<span class="vec">v</span><sub>i-1</sub>.</div>
+
+    <div class="activite-photo-row">
+      <div class="activite-photo" style="max-width:340px">
+        <img src="vecteurvariationvetesse.jpg" alt="Construction générale du vecteur variation de vitesse">
+        <span>Construction générale du vecteur variation de vitesse</span>
+      </div>
+      <div class="activite-photo" style="max-width:340px">
+        <img src="exemple-mvtrectiligneacc2.jpg" alt="Construction de Δv sur un mouvement rectiligne accéléré">
+        <span>Exemple sur un mouvement rectiligne accéléré</span>
+      </div>
+    </div>
+
+    <div class="sim-box">
+      <div class="card-title" style="margin-bottom:10px"><span class="icon" style="background:var(--orange-clair)">🎮</span>Construction pas-à-pas de <span class="vec">Δv</span><sub>i</sub></div>
+      <p style="font-size:.83rem;color:var(--texte-leger);margin-bottom:10px">Choisis une situation, puis avance étape par étape pour voir comment on construit <span class="vec">Δv</span><sub>i</sub> : on déplace <span class="vec">v</span><sub>i+1</sub> à une origine commune, on inverse <span class="vec">v</span><sub>i-1</sub>, puis on le place à sa pointe.</p>
+
+      <div class="sim-caselist" id="deltavSituations">
+        <button type="button" class="sub-tab-btn" data-s="0" onclick="selectDeltavSituation(0,this)">➜ Léger virage + accélération</button>
+        <button type="button" class="sub-tab-btn" data-s="1" onclick="selectDeltavSituation(1,this)">➜ Virage modéré + freinage</button>
+        <button type="button" class="sub-tab-btn" data-s="2" onclick="selectDeltavSituation(2,this)">➜ Virage serré, vitesse constante</button>
+        <button type="button" class="sub-tab-btn" data-s="3" onclick="selectDeltavSituation(3,this)">➜ Quasi demi-tour + freinage</button>
+      </div>
+
+      <div class="sim-canvas-wrap" style="max-width:700px;margin:10px auto 0">
+        <canvas id="deltavCanvas" width="700" height="420"></canvas>
+        <div class="sim-readout" id="deltavReadout"></div>
+      </div>
+
+      <div class="sim-caselist" id="deltavSteps" style="margin-top:14px">
+        <button type="button" class="sub-tab-btn" data-step="1" onclick="selectDeltavStep(1,this)">① Vitesses d'origine</button>
+        <button type="button" class="sub-tab-btn" data-step="2" onclick="selectDeltavStep(2,this)">② Déplacer v<sub>i+1</sub></button>
+        <button type="button" class="sub-tab-btn" data-step="3" onclick="selectDeltavStep(3,this)">③ Déplacer v<sub>i-1</sub></button>
+        <button type="button" class="sub-tab-btn" data-step="4" onclick="selectDeltavStep(4,this)">④ Inverser v<sub>i-1</sub></button>
+        <button type="button" class="sub-tab-btn" data-step="5" onclick="selectDeltavStep(5,this)">⑤ Construire Δv</button>
+      </div>
+      <div class="sim-btn-row">
+        <button type="button" class="exo-btn-secondary" onclick="deltavPrevStep()">◀ Précédent</button>
+        <button type="button" class="exo-btn" onclick="deltavNextStep()">Suivant ▶</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair)">🧭</span>Ce qu'il faut observer</div>
+      <ul>
+        <li>Dans les 4 situations proposées, <span class="vec">v</span><sub>i-1</sub> et <span class="vec">v</span><sub>i+1</sub> ne sont <strong>jamais colinéaires</strong> : le mouvement est toujours curviligne.</li>
+        <li>Plus l'écart angulaire entre les deux vitesses est grand (virage plus serré), plus <span class="vec">Δv</span><sub>i</sub> s'écarte de la direction de <span class="vec">v</span>.</li>
+        <li><span class="vec">Δv</span><sub>i</sub> pointe toujours vers l'<strong>intérieur du virage</strong>, que la norme augmente, diminue ou reste constante.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== SOUS-ONGLET 3 : TYPE DE MOUVEMENT ===== -->
+  <div class="sub-tab-content" id="sub-typemvt">
+    <div class="section-title"><span class="icon">🔀</span>Lien entre variation de vitesse et mouvement</div>
+    <p style="font-size:.9rem;line-height:1.6;margin-bottom:14px">Le vecteur <span class="vec">Δv</span><sub>i</sub> renseigne directement sur la nature du mouvement. Clique sur la bonne réponse pour chacune des situations suivantes.</p>
+
+    <div class="activite-q">
+      <div class="qnum">CAS 1</div>
+      <div class="activite-photo-row">
+        <div class="activite-photo"><img src="exemple-mvtrectiligneuniforme.jpg" alt="Mouvement rectiligne uniforme"></div>
+      </div>
+      <div class="qtext">Le vecteur vitesse reste constant (même direction, même sens, même valeur) d'un point à l'autre. <strong>➜ Quelle est la nature de ce mouvement ?</strong></div>
+      <p style="font-size:.78rem;color:var(--texte-leger);margin-bottom:6px">👉 Choisis la bonne réponse :</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)"><span class="vec">Δv</span> = <span class="vec">0</span> — mouvement rectiligne uniforme</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)"><span class="vec">Δv</span> ≠ <span class="vec">0</span> — mouvement accéléré</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Mouvement circulaire</div>
+      </div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">CAS 2</div>
+      <div class="activite-photo-row">
+        <div class="activite-photo"><img src="exemple-mvtrectiligneacc1.jpg" alt="Mouvement rectiligne accéléré"></div>
+      </div>
+      <div class="qtext">Le vecteur vitesse conserve sa direction et son sens, mais sa norme (valeur) augmente. <strong>➜ Quelle est la nature de ce mouvement ?</strong></div>
+      <p style="font-size:.78rem;color:var(--texte-leger);margin-bottom:6px">👉 Choisis la bonne réponse :</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Mouvement rectiligne <strong>accéléré</strong> — <span class="vec">Δv</span> colinéaire à <span class="vec">v</span>, même sens</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Mouvement rectiligne <strong>décéléré</strong></div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Mouvement curviligne</div>
+      </div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">CAS 3</div>
+      <div class="activite-photo-row">
+        <div class="activite-photo"><img src="exemple-mvtrectiligneralenti.jpg" alt="Mouvement rectiligne décéléré"></div>
+      </div>
+      <div class="qtext">Le vecteur vitesse conserve sa direction et son sens, mais sa norme (valeur) diminue. <strong>➜ Quelle est la nature de ce mouvement ?</strong></div>
+      <p style="font-size:.78rem;color:var(--texte-leger);margin-bottom:6px">👉 Choisis la bonne réponse :</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Mouvement rectiligne accéléré</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Mouvement rectiligne <strong>décéléré (ou retardé)</strong> — <span class="vec">Δv</span> colinéaire à <span class="vec">v</span>, sens opposé</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Mouvement uniforme</div>
+      </div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">CAS 4</div>
+      <div class="activite-photo-row">
+        <div class="activite-photo"><img src="exemple-mvtrectilignecirculaireuniforme.jpg" alt="Mouvement curviligne uniforme"></div>
+      </div>
+      <div class="qtext">Le vecteur vitesse change de direction, mais conserve la même valeur (norme constante). <strong>➜ Quelle est la nature de ce mouvement ?</strong></div>
+      <p style="font-size:.78rem;color:var(--texte-leger);margin-bottom:6px">👉 Choisis la bonne réponse :</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Mouvement rectiligne uniforme</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Mouvement curviligne <strong>uniforme</strong> (ex. circulaire uniforme) — <span class="vec">Δv</span> dirigé vers l'intérieur de la courbe</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Mouvement rectiligne accéléré</div>
+      </div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">CAS 5</div>
+      <div class="activite-photo-row">
+        <div class="activite-photo"><img src="exemple-mvtparapoliq.jpg" alt="Mouvement curviligne varié"></div>
+      </div>
+      <div class="qtext">Le vecteur vitesse change à la fois de direction et de valeur. <strong>➜ Quelle est la nature de ce mouvement ?</strong></div>
+      <p style="font-size:.78rem;color:var(--texte-leger);margin-bottom:6px">👉 Choisis la bonne réponse :</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Mouvement curviligne <strong>varié</strong></div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Mouvement rectiligne uniforme</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Le système est immobile</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--violet-clair)">📌</span>À retenir</div>
+      <ul>
+        <li><span class="vec">Δv</span> = <span class="vec">0</span> ⟺ mouvement rectiligne uniforme.</li>
+        <li><span class="vec">Δv</span> colinéaire à <span class="vec">v</span> ⟺ mouvement rectiligne (accéléré ou décéléré selon le sens de <span class="vec">Δv</span>).</li>
+        <li><span class="vec">Δv</span> non colinéaire à <span class="vec">v</span> ⟺ mouvement curviligne ; <span class="vec">Δv</span> est alors dirigé vers l'intérieur de la courbe.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== SOUS-ONGLET 4 : DES FORCES À LA RELATION APPROCHÉE ===== -->
+  <div class="sub-tab-content" id="sub-forces">
+    <div class="section-title"><span class="icon">⚖️</span>Principe d'inertie (rappel)</div>
+    <p style="font-size:.9rem;line-height:1.6">D'après le <strong>principe d'inertie</strong> (vu en seconde), si la variation du vecteur vitesse est nulle, alors la somme des forces qui modélisent les actions mécaniques s'exerçant sur le système est nulle. La réciproque est vraie.</p>
+    <p style="font-size:.9rem;line-height:1.6;margin-top:8px">D'après la <strong>contraposée</strong> du principe d'inertie, si la variation du vecteur vitesse est non nulle, alors la somme des forces est non nulle. La réciproque est également vraie.</p>
+
+    <div class="section-title"><span class="icon">🔗</span>Lien entre variation de vitesse et forces</div>
+    <p style="font-size:.9rem;line-height:1.6">Le vecteur variation de vitesse <span class="vec">Δv</span><sub>i</sub>, construit à partir de deux vecteurs vitesse voisins au point M<sub>i</sub>, a une direction et un sens particuliers. Le vecteur somme des forces <span class="vec">ΣF</span> a <strong>même direction et même sens</strong> que <span class="vec">Δv</span><sub>i</sub>. Sa valeur est proportionnelle à la variation de vitesse.</p>
+
+    <div class="section-title"><span class="icon">🧮</span>La relation qui relie <span class="vec">ΣF</span> et <span class="vec">Δv</span></div>
+    <p style="font-size:.9rem;line-height:1.6">Dans un référentiel donné, si un système de masse m constante est soumis à une ou plusieurs forces, le vecteur variation de vitesse <span class="vec">Δv</span> de ce système pendant une durée très courte Δt et la somme des forces <span class="vec">ΣF</span> sont reliés — de façon approchée, valable pour Δt petit — par la relation suivante :</p>
+
+    <div class="formula"><span class="vec">ΣF</span> = m × <span class="vec">Δv</span> / Δt
+      <div class="legend">• <span class="vec">ΣF</span> en N (somme vectorielle des forces appliquées) &nbsp; • m en kg (masse du système) &nbsp; • <span class="vec">Δv</span> en m·s⁻¹ &nbsp; • Δt en s (durée très courte)<br>Ces deux vecteurs <span class="vec">ΣF</span> et <span class="vec">Δv</span> sont <strong>colinéaires</strong>, de même sens.</div>
+    </div>
+
+    <div class="sim-box">
+      <div class="card-title" style="margin-bottom:10px"><span class="icon" style="background:var(--orange-clair)">🎮</span>Simulateur — Rôle de la masse</div>
+      <p style="font-size:.83rem;color:var(--texte-leger);margin-bottom:10px">Plus la masse d'un système est grande, plus il est difficile de modifier son mouvement : la force qui modélise l'action requise pour modifier la vitesse d'un système est proportionnelle à sa masse. Fais varier la masse ci-dessous, pour une même force appliquée pendant la même durée Δt, et observe l'effet sur <span class="vec">Δv</span>.</p>
+      <div class="sim-layout">
+        <div class="sim-canvas-wrap">
+          <canvas id="masseCanvas" width="500" height="280"></canvas>
+          <div class="sim-readout" id="masseReadout"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="sim-ctrl">
+            <label>Masse du système m (kg)</label>
+            <div class="sim-caselist" id="masseButtons">
+              <button type="button" class="sub-tab-btn" data-m="1" onclick="selectMasse(1,this)">1,0 kg</button>
+              <button type="button" class="sub-tab-btn" data-m="2" onclick="selectMasse(2,this)">2,0 kg</button>
+              <button type="button" class="sub-tab-btn" data-m="4" onclick="selectMasse(4,this)">4,0 kg</button>
+              <button type="button" class="sub-tab-btn" data-m="6" onclick="selectMasse(6,this)">6,0 kg</button>
+              <button type="button" class="sub-tab-btn" data-m="10" onclick="selectMasse(10,this)">10,0 kg</button>
+            </div>
+          </div>
+          <div class="sim-ctrl" style="font-size:.8rem;color:var(--texte-leger)">Force ΣF = 4,0 N appliquée pendant Δt = 1,0 s (valeurs fixées pour la comparaison).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo-box" id="appF1-box">
+      <h5>📝 Application directe — Relation approchée</h5>
+      <div class="exo-enonce">Un système de masse m = 1,5 kg est soumis à une force résultante constante de norme ΣF = 6,0 N pendant une durée Δt = 0,50 s. Calculer la norme de la variation de vitesse Δv du système.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('appF1',this,false)">Δv = ΣF × m / Δt</div>
+          <div class="qcm-opt" onclick="fcrFormule('appF1',this,true)">Δv = ΣF × Δt / m</div>
+          <div class="qcm-opt" onclick="fcrFormule('appF1',this,false)">Δv = m × Δt / ΣF</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="appF1-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="appF1-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre/nombre)" style="width:100%;max-width:320px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('appF1',2.0,0.05)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="appF1-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="appF1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="appF1-result" class="blank-in" placeholder="en m·s⁻¹"> m·s⁻¹
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('appF1',2.0,0.03,'Δv = 2,0 m·s⁻¹')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="appF1-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('appF1','Δv = ΣF×Δt/m','Δv = 6,0×0,50/1,5','Δv = 2,0 m·s⁻¹')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('appF1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="appF1-correction"></div>
+    </div>
+  </div>
+
+</div>
+<!-- fin tab-cours -->
+
+<!-- ══════════════════ TAB 2 — ACTIVITÉS ══════════════════ -->
+<div class="panel" id="tab-activites">
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'act-1')">① Chute libre</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'act-2')">② Mouvement plan (expérimentale)</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'act-3')">③ Mouvement et masse</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'act-4')">④ Satellite en MCU 🐍 (autonomie)</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'act-5')">⑤ Simulateur Hatier</button>
+  </div>
+
+  <!-- ===== ACTIVITÉ 1 : VOL LIBRE DU GYMNASTE (TRAMPOLINE) ===== -->
+  <div class="sub-tab-content active" id="act-1">
+    <div class="section-title"><span class="icon">🤸</span>Activité 1 — Variation du vecteur vitesse lors d'un vol libre</div>
+    <div class="intro-box">Un·e gymnaste évolue sur une toile de trampoline de 4 m × 2 m, située à 1,15 m du sol. Une fois qu'il/elle a quitté la toile, il/elle est en <strong>vol libre</strong> : seul son poids s'exerce (les frottements de l'air sont négligés). Le mouvement est enregistré par chronophotographie, avec des positions M<sub>0</sub> à M<sub>12</sub> relevées toutes les Δt = 0,100 s dans le référentiel terrestre supposé galiléen — d'abord lors de la <strong>montée</strong>, puis lors de la <strong>descente</strong>.</div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">📊</span>Données mesurées — valeur de la vitesse v (en m·s⁻¹)</div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap">
+        <div style="flex:1;min-width:280px;overflow-x:auto">
+          <strong style="color:var(--bleu);font-size:.85rem">Lors de la montée</strong><br>
+          <table class="data-table-trampo">
+            <tr><th>t (s)</th><td>0,00</td><td>0,10</td><td>0,20</td><td>0,30</td><td>0,40</td><td>0,50</td><td>0,60</td><td>0,70</td><td>0,80</td><td>0,90</td><td>1,0</td><td>1,1</td><td>1,2</td></tr>
+            <tr><th>v (m·s⁻¹)</th><td>12,5</td><td>11,6</td><td>10,6</td><td>9,61</td><td>8,63</td><td>7,65</td><td>6,67</td><td>5,69</td><td>4,71</td><td>3,73</td><td>2,75</td><td>1,77</td><td>0,79</td></tr>
+          </table>
+        </div>
+        <div style="flex:1;min-width:280px;overflow-x:auto">
+          <strong style="color:var(--orange);font-size:.85rem">Lors de la descente</strong><br>
+          <table class="data-table-trampo">
+            <tr><th>t (s)</th><td>0,00</td><td>0,10</td><td>0,20</td><td>0,30</td><td>0,40</td><td>0,50</td><td>0,60</td><td>0,70</td><td>0,80</td><td>0,90</td><td>1,0</td><td>1,1</td><td>1,2</td></tr>
+            <tr><th>v (m·s⁻¹)</th><td>0,0</td><td>1,00</td><td>2,00</td><td>2,94</td><td>3,92</td><td>4,90</td><td>5,88</td><td>6,86</td><td>7,84</td><td>8,82</td><td>9,80</td><td>10,8</td><td>11,8</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sim-box">
+      <div class="card-title" style="margin-bottom:10px"><span class="icon" style="background:var(--bleu-clair)">📷</span>Chronophotographie interactive et construction de <span class="vec">Δv</span><sub>i</sub></div>
+      <p style="font-size:.83rem;color:var(--texte-leger);margin-bottom:10px">Choisis la phase, lance l'animation pour voir les positions apparaître les unes après les autres, puis utilise le curseur pour choisir un point M<sub>i</sub> et observer la construction du vecteur <span class="vec">Δv</span><sub>i</sub> = <span class="vec">v</span><sub>i</sub> − <span class="vec">v</span><sub>i-1</sub> à partir des vitesses mesurées aux points encadrants. <em>(Vecteurs représentés côte à côte pour la lisibilité : ils sont en réalité tous verticaux, colinéaires.)</em></p>
+
+      <div class="sim-caselist" id="trampoPhase">
+        <button type="button" class="sub-tab-btn active" data-phase="montee" onclick="selectTrampoPhase('montee',this)">⬆ Phase de montée</button>
+        <button type="button" class="sub-tab-btn" data-phase="descente" onclick="selectTrampoPhase('descente',this)">⬇ Phase de descente</button>
+      </div>
+
+      <div class="sim-layout">
+        <div class="sim-canvas-wrap">
+          <canvas id="trampoCanvas" width="560" height="380"></canvas>
+          <div class="sim-readout" id="trampoStepReadout"></div>
+        </div>
+        <div class="sim-controls">
+          <div class="sim-ctrl">
+            <button type="button" class="exo-btn-secondary" onclick="trampoAnimate()">▶ Lancer l'animation (positions)</button>
+          </div>
+          <div class="sim-ctrl">
+            <label>Point M<sub>i</sub> étudié (pour la construction de Δv)</label>
+            <input type="range" id="trampoI" min="1" max="12" step="1" value="2" oninput="trampoOnIChange()">
+          </div>
+          <div class="sim-ctrl" style="font-size:.8rem;color:var(--texte-leger)" id="trampoInfo"></div>
+        </div>
+      </div>
+
+      <div class="sim-caselist" id="trampoSteps" style="margin-top:14px">
+        <button type="button" class="sub-tab-btn" data-step="1" onclick="selectTrampoStep(1,this)">① Vitesses d'origine</button>
+        <button type="button" class="sub-tab-btn" data-step="2" onclick="selectTrampoStep(2,this)">② Translater v<sub>i</sub></button>
+        <button type="button" class="sub-tab-btn" data-step="3" onclick="selectTrampoStep(3,this)">③ Translater v<sub>i-1</sub></button>
+        <button type="button" class="sub-tab-btn" data-step="4" onclick="selectTrampoStep(4,this)">④ Inverser v<sub>i-1</sub></button>
+        <button type="button" class="sub-tab-btn" data-step="5" onclick="selectTrampoStep(5,this)">⑤ Construire Δv</button>
+      </div>
+      <div class="sim-btn-row">
+        <button type="button" class="exo-btn-secondary" onclick="trampoPrevStep()">◀ Précédent</button>
+        <button type="button" class="exo-btn" onclick="trampoNextStep()">Suivant ▶</button>
+      </div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 1</div>
+      <div class="qtext">D'après les deux tableaux de mesures, comment évolue la valeur de la vitesse du gymnaste au cours de la montée, puis au cours de la descente ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Elle augmente dans les deux phases</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Elle diminue pendant la montée, puis augmente pendant la descente</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Elle reste constante dans les deux phases</div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+      <div class="reveal-body">Lors de la montée, la valeur de la vitesse diminue progressivement (de 12,5 à 0,79 m·s⁻¹) : le gymnaste ralentit en s'élevant. Lors de la descente, elle augmente au contraire (de 0 à 11,8 m·s⁻¹) : il accélère en retombant. Dans les deux cas, seul le poids agit — c'est lui qui freine la montée puis accélère la chute.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 2</div>
+      <div class="qtext">En orientant un axe Oy vers le haut, quel est le signe de la coordonnée v<sub>y</sub> du vecteur vitesse pendant la montée, puis pendant la descente ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">v<sub>y</sub> &gt; 0 en montée (vitesse dans le sens de Oy) ; v<sub>y</sub> &lt; 0 en descente (vitesse en sens contraire de Oy)</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">v<sub>y</sub> &gt; 0 dans les deux phases</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">v<sub>y</sub> &lt; 0 dans les deux phases</div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+      <div class="reveal-body">En montée, le gymnaste se déplace dans le sens de l'axe Oy (vers le haut) : v<sub>y</sub> &gt; 0. En descente, il se déplace en sens contraire de Oy : v<sub>y</sub> &lt; 0. C'est cette convention de signe qui permet de calculer Δv<sub>y</sub> = v<sub>i,y</sub> − v<sub>i-1,y</sub> par une simple différence de coordonnées, sans avoir à tracer les vecteurs.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 3</div>
+      <div class="qtext">À l'aide de la simulation, place le curseur sur M<sub>2</sub> en phase de montée : relève v<sub>1,y</sub> et v<sub>2,y</sub>, puis calcule Δv<sub>2,y</sub> = v<sub>2,y</sub> − v<sub>1,y</sub>. Fais de même avec M<sub>9</sub> en phase de descente. Que remarques-tu ?</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir la correction</button>
+      <div class="reveal-body">
+        <strong>En M<sub>2</sub> (montée) :</strong> v<sub>1,y</sub> = 11,6 m·s⁻¹ ; v<sub>2,y</sub> = 10,6 m·s⁻¹, donc Δv<sub>2,y</sub> = 10,6 − 11,6 = −1,0 m·s⁻¹.<br>
+        <strong>En M<sub>9</sub> (descente) :</strong> v<sub>8,y</sub> = −6,86 m·s⁻¹ ; v<sub>9,y</sub> = −7,84 m·s⁻¹, donc Δv<sub>9,y</sub> = −7,84 − (−6,86) = −0,98 ≈ −1,0 m·s⁻¹.<br>
+        Dans les deux cas, Δv<sub>y</sub> est <strong>négatif et quasi constant</strong> (≈ −1,0 m·s⁻¹ tous les 0,100 s) : le vecteur <span class="vec">Δv</span> pointe donc toujours dans le sens contraire de Oy, c'est-à-dire <strong>vers le bas</strong>, aussi bien en montée qu'en descente.
+      </div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 4</div>
+      <div class="qtext">Décris la direction, le sens et l'évolution de la norme du vecteur <span class="vec">Δv</span> dans les deux phases du mouvement.</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Direction verticale, sens vers le bas, norme quasi constante dans les deux phases</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Direction verticale, sens vers le haut en montée puis vers le bas en descente</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Direction et sens changeants selon le point choisi</div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+      <div class="reveal-body"><span class="vec">Δv</span> est <strong>vertical</strong>, orienté <strong>vers le bas</strong>, et sa norme reste <strong>quasi constante</strong> tout au long du mouvement, en montée comme en descente. Résultat remarquable : le vecteur variation de vitesse ne dépend pas du sens du mouvement lui-même, seulement de la force qui s'exerce.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 5</div>
+      <div class="qtext">Quelle force est responsable de cette variation du vecteur vitesse ? Ce résultat est-il cohérent avec la relation approchée <span class="vec">ΣF</span> = m·<span class="vec">Δv</span>/Δt ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Le poids <span class="vec">P</span> : il est vertical, vers le bas, comme <span class="vec">Δv</span> — la relation est bien vérifiée</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">La réaction de la toile, encore présente en vol</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Aucune force n'agit une fois le gymnaste en l'air</div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+      <div class="reveal-body">Une fois en vol, le gymnaste n'est plus en contact avec la toile : la seule force qui s'exerce est son poids <span class="vec">P</span>, vertical et dirigé vers le bas. <span class="vec">ΣF</span> = <span class="vec">P</span> a donc la même direction et le même sens que <span class="vec">Δv</span>, ce qui confirme la relation approchée <span class="vec">ΣF</span> = m·<span class="vec">Δv</span>/Δt — aussi bien en montée qu'en descente.</div>
+    </div>
+  </div>
+
+  <!-- ===== ACTIVITÉ 2 : MOUVEMENT PLAN (EXPÉRIMENTALE) ===== -->
+  <div class="sub-tab-content" id="act-2">
+    <div class="section-title"><span class="icon">🧪</span>Activité 2 (expérimentale) — Étude d'un mouvement plan</div>
+    <div class="intro-box">Issue du manuel de Première Spécialité (Hatier). Compétences travaillées : réaliser et exploiter une vidéo de pointage, construire des vecteurs vitesse et variation de vitesse, tester la relation approchée <span class="vec">Δv</span> ≈ (<span class="vec">ΣF</span>/m)·Δt.</div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">🎬</span>Protocole expérimental</div>
+      <ul class="methode-list">
+        <li>Une balle de squash (masse <strong>m = 24 g</strong>) est lancée en l'air selon une direction oblique ; elle n'est quasiment soumise qu'à son poids.</li>
+        <li>La caméra filme le mouvement dans un plan vertical, à raison de <strong>≈ 49 images/s</strong> (soit Δt ≈ 20,0 ms entre deux images), avec un étalon de longueur (30 cm) visible dans le champ.</li>
+        <li>Le logiciel de pointage (Avimeca) permet de repérer, image par image, la position du centre de la balle : on obtient les points M<sub>0</sub>, M<sub>1</sub>, M<sub>2</sub>, … M<sub>22</sub>.</li>
+        <li>Les coordonnées (x, y) de chaque point sont exportées vers un tableur (ou LatisPro/Regressi) pour calculer les coordonnées des vecteurs vitesse puis variation de vitesse.</li>
+      </ul>
+
+      <div class="video-row">
+        <div class="video-box">
+          <video controls loop poster="activite2-poster.png"><source src="activite2-video-parabole.mp4" type="video/mp4"></video>
+          <span>Vidéo source du mouvement (très courte : 0,47 s en vitesse réelle — utilise la pause/le défilement image par image du lecteur).</span>
+        </div>
+        <div class="video-box">
+          <video controls><source src="activite2-tuto-pointage.mp4" type="video/mp4"></video>
+          <span>Tutoriel : réalisation du pointage et export des données (Avimeca → tableur/LatisPro/Regressi).</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">📊</span>Données réelles du pointage</div>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:8px">Extrait des points relevés (tableau complet des 23 points disponible ci-dessous).</p>
+      <div class="table-wrap">
+        <table class="data-table-trampo" id="a2-tableExtrait"></table>
+      </div>
+      <details class="full-table">
+        <summary>📋 Voir le tableau complet (23 points M₀ → M₂₂)</summary>
+        <div class="table-wrap"><table class="data-table-trampo" id="a2-tableComplet"></table></div>
+      </details>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">📈</span>Représentations graphiques</div>
+      <div class="graph-row">
+        <div class="sim-canvas-wrap">
+          <canvas id="a2trajCanvas" width="440" height="300"></canvas>
+          <p style="font-size:.76rem;color:var(--texte-leger);margin-top:4px">Trajectoire y(x) — échelle verticale dilatée ×2 pour la lisibilité</p>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="a2posCanvas" width="440" height="300"></canvas>
+          <p style="font-size:.76rem;color:var(--texte-leger);margin-top:4px">x(t) en bleu, y(t) en rouge</p>
+        </div>
+      </div>
+      <div class="graph-row">
+        <div class="sim-canvas-wrap">
+          <canvas id="a2vitCanvas" width="440" height="300"></canvas>
+          <p style="font-size:.76rem;color:var(--texte-leger);margin-top:4px">v<sub>x</sub>(t) en violet, v<sub>y</sub>(t) en vert</p>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="a2deltaCanvas" width="440" height="300"></canvas>
+          <p style="font-size:.76rem;color:var(--texte-leger);margin-top:4px">Δv<sub>x</sub>(t) en violet, Δv<sub>y</sub>(t) en orange (traits pointillés = modèle constant)</p>
+        </div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">🖥️ Voir le résultat obtenu sous LatisPro (vérification)</button>
+      <div class="reveal-body"><img class="latispro-img" src="activite2-resultats-latispro.png" alt="Résultats LatisPro : x(t), y(t), y(x), vx(t), vy(t), Δvx(t), Δvy(t)"></div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 1.a</div>
+      <div class="qtext">D'après le graphique de v<sub>x</sub>(t), comment peux-tu qualifier l'évolution de v<sub>x</sub> au cours du temps ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">v<sub>x</sub> reste quasiment constante</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">v<sub>x</sub> croît régulièrement</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">v<sub>x</sub> change de signe</div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication</button>
+      <div class="reveal-body">Les valeurs de v<sub>x</sub> oscillent entre 1,7 et 2,0 m·s⁻¹ (bruit de pointage), sans tendance nette à l'augmentation ou à la diminution : v<sub>x</sub> est <strong>quasiment constante</strong> tout au long du mouvement.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 1.b</div>
+      <div class="qtext">Que peux-tu dire du signe de v<sub>y</sub> au cours du temps ? Relie cette observation au mouvement de la balle.</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir la réponse attendue</button>
+      <div class="reveal-body">v<sub>y</sub> est d'abord <strong>positive</strong> (+2,3 m·s⁻¹ au départ) : la balle monte. Elle décroît ensuite régulièrement, s'annule vers t ≈ 0,19 s (sommet de la trajectoire), puis devient <strong>négative</strong> (jusqu'à −2,2 m·s⁻¹) : la balle redescend.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 1.c</div>
+      <div class="qtext">Pourquoi ne peut-on pas calculer v<sub>x</sub> et v<sub>y</sub> à la toute dernière date pointée (M<sub>22</sub>) ?</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir la réponse attendue</button>
+      <div class="reveal-body">La méthode utilisée est celle de la différence finie : v<sub>x</sub>(t<sub>i</sub>) = [x(t<sub>i+1</sub>) − x(t<sub>i</sub>)] / Δt. Elle nécessite de connaître la position <strong>suivante</strong>. Pour le dernier point pointé, il n'y a pas de point suivant : le vecteur vitesse n'est donc pas calculable en M<sub>22</sub>, et la liste des vitesses compte un point de moins que la liste des positions.</div>
+    </div>
+
+    <div class="exo-box" id="exA2dv-box">
+      <h5>📝 FCR — Calcul de Δv<sub>y</sub> entre M₁₄ et M₁₅</h5>
+      <div class="exo-enonce">On lit dans le tableau : v<sub>y</sub>(M₁₄) = −0,70 m·s⁻¹ et v<sub>y</sub>(M₁₅) = −1,05 m·s⁻¹. Calcule la coordonnée Δv<sub>y</sub> du vecteur variation de vitesse entre ces deux instants.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('exA2dv',this,false)">Δv<sub>y</sub> = v<sub>y</sub>(M₁₄) + v<sub>y</sub>(M₁₅)</div>
+          <div class="qcm-opt" onclick="fcrFormule('exA2dv',this,true)">Δv<sub>y</sub> = v<sub>y</sub>(M₁₅) − v<sub>y</sub>(M₁₄)</div>
+          <div class="qcm-opt" onclick="fcrFormule('exA2dv',this,false)">Δv<sub>y</sub> = v<sub>y</sub>(M₁₄) − v<sub>y</sub>(M₁₅)</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="exA2dv-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="exA2dv-calc" class="blank-in" placeholder="ton calcul" style="width:100%;max-width:320px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('exA2dv',-0.35,0.05)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="exA2dv-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="exA2dv-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="exA2dv-result" class="blank-in" placeholder="en m·s⁻¹"> m·s⁻¹
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('exA2dv',-0.35,0.05,'Δv&#8339; = −0,35 m·s⁻¹')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="exA2dv-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('exA2dv','Δv&#8339; = v&#8339;(M₁₅) − v&#8339;(M₁₄)','Δv&#8339; = −1,05 − (−0,70)','Δv&#8339; = −0,35 m·s⁻¹')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('exA2dv')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="exA2dv-correction"></div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 2.b — Modélisation</div>
+      <div class="qtext">Le nuage de points Δv<sub>x</sub>(t) et Δv<sub>y</sub>(t) obtenu à partir des données réelles est très bruité (bruit de pointage). On modélise chaque série par une <strong>constante</strong>. D'après le graphique, que peux-tu dire de ces deux modèles ?</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir la réponse attendue</button>
+      <div class="reveal-body">Le modèle constant de Δv<sub>x</sub>(t) est centré sur une valeur quasi nulle (≈ +0,02 m·s⁻¹ ≈ 0), cohérent avec une composante v<sub>x</sub> constante (question 1.a). Le modèle constant de Δv<sub>y</sub>(t) est centré sur une valeur <strong>négative</strong>, Δv<sub>y</sub> ≈ −0,22 m·s⁻¹, cohérent avec la décroissance régulière de v<sub>y</sub> (question 1.b). On en déduit que le vecteur <span class="vec">Δv</span> est de direction verticale, dirigé vers le bas.</div>
+    </div>
+
+    <div class="exo-box" id="exA2final-box">
+      <h5>📝 FCR — Teste la relation approchée sur tes données</h5>
+      <div class="exo-enonce">À partir du modèle constant précédent, Δv<sub>y</sub> ≈ −0,22 m·s⁻¹ sur un intervalle Δt = 20,0 ms. La masse réelle de la balle est m = 24 g. Calcule la norme de m·<span class="vec">Δv</span>/Δt et compare-la à la norme du poids P = m·g (g = 9,81 N·kg⁻¹).</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('exA2final',this,true)">m·|Δv<sub>y</sub>|/Δt</div>
+          <div class="qcm-opt" onclick="fcrFormule('exA2final',this,false)">m·Δt/|Δv<sub>y</sub>|</div>
+          <div class="qcm-opt" onclick="fcrFormule('exA2final',this,false)">|Δv<sub>y</sub>|/(m·Δt)</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="exA2final-calc-step">
+        <label class="fcr-label">2. Calcul — attention aux unités (m en kg, Δt en s)</label>
+        <input type="text" id="exA2final-calc" class="blank-in" placeholder="ton calcul" style="width:100%;max-width:320px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('exA2final',0.264,0.1)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="exA2final-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="exA2final-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="exA2final-result" class="blank-in" placeholder="en N"> N
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('exA2final',0.26,0.15,'m·|Δv|/Δt ≈ 0,26 N, à comparer à P = m·g ≈ 0,24 N')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="exA2final-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('exA2final','m·|Δv&#8339;|/Δt','0,024 × 0,22 / 0,020','≈ 0,26 N   (à comparer à P = m·g = 0,024 × 9,81 ≈ 0,24 N)')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('exA2final')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="exA2final-correction"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">✅</span>Bilan</div>
+      <p style="font-size:.88rem;line-height:1.65">Aux incertitudes de pointage près (écart d'environ 10 % entre les deux valeurs, tout à fait raisonnable compte tenu de la précision millimétrique du pointage), <strong>m·<span class="vec">Δv</span>/Δt et <span class="vec">P</span> ont bien la même direction (verticale), le même sens (vers le bas) et des normes très proches.</strong> Cette activité expérimentale confirme donc, sur un cas réel, la relation approchée <span class="vec">ΣF</span> ≈ m·<span class="vec">Δv</span>/Δt étudiée en cours : si l'on connaît le poids d'un système, on peut prédire le vecteur variation de vitesse, donc construire les vecteurs vitesse successifs, donc les positions successives du système.</p>
+      <div class="remarque-box"><strong>Pour aller plus loin (hors capacité exigible) :</strong> le calcul de Δv point par point est très sensible au bruit de pointage. Une méthode plus robuste consiste à modéliser <strong>toute la série</strong> v<sub>y</sub>(t) par une droite (régression linéaire) : sa pente donne alors une estimation de l'accélération d'environ −10,0 m·s⁻², très proche de −g = −9,81 m·s⁻² (écart < 2 %). Cela illustre l'intérêt de moyenner sur un grand nombre de points plutôt que de comparer seulement deux instants consécutifs.</div>
+    </div>
+  </div>
+
+  <!-- ===== ACTIVITÉ 3 : MOUVEMENT ET MASSE ===== -->
+  <div class="sub-tab-content" id="act-3">
+    <div class="section-title"><span class="icon">⚖️</span>Activité 3 — Mouvement et masse</div>
+    <p style="font-size:.9rem;line-height:1.6;margin-bottom:12px">On applique la <strong>même force</strong> ΣF, pendant la <strong>même durée</strong> Δt, à deux systèmes de masses différentes, tous deux initialement immobiles.</p>
+
+    <div class="sim-box">
+      <div class="card-title" style="margin-bottom:10px"><span class="icon" style="background:var(--orange-clair)">🎮</span>Comparateur — deux masses, une même force</div>
+      <div class="sim-layout">
+        <div class="sim-canvas-wrap">
+          <canvas id="masse2Canvas" width="480" height="220"></canvas>
+        </div>
+        <div class="sim-controls">
+          <div class="sim-ctrl">
+            <label>Masse du système B (kg) — le système A reste fixé à 1,0 kg</label>
+            <input type="range" id="masse2M" min="1" max="8" step="0.5" value="4" oninput="renderMasse2Sim()">
+          </div>
+          <div class="sim-ctrl" style="font-size:.8rem;color:var(--texte-leger)" id="masse2Info"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 3.a</div>
+      <div class="qtext">Pour une force et une durée Δt identiques, quel système présente la plus grande variation de vitesse Δv ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Le système de plus petite masse</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Le système de plus grande masse</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Les deux ont la même variation de vitesse</div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+      <div class="reveal-body">D'après Δv = ΣF·Δt/m, à ΣF et Δt fixés, Δv est <strong>inversement proportionnel à la masse</strong> m. Le système le plus léger subit donc la plus grande variation de vitesse : il est plus facile de modifier son mouvement.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 3.b</div>
+      <div class="qtext">Comment qualifie-t-on cette propriété d'un système à « résister » à la modification de son mouvement du fait de sa masse ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">L'inertie</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">La pesanteur</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">La célérité</div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+      <div class="reveal-body">On parle d'<strong>inertie</strong> : la masse est une mesure de l'inertie d'un système, c'est-à-dire de sa capacité à s'opposer à une modification de son mouvement (de son vecteur vitesse) sous l'effet d'une force donnée.</div>
+    </div>
+  </div>
+
+  <!-- ===== ACTIVITÉ 4 : SATELLITE EN MCU (PYTHON) ===== -->
+  <div class="sub-tab-content" id="act-4">
+    <div class="section-title"><span class="icon">🛰️</span>Activité 4 (autonomie) — Satellite en mouvement circulaire uniforme</div>
+    <div class="intro-box">Capacité numérique : utiliser un langage de programmation pour étudier la relation approchée entre <span class="vec">Δv</span> et <span class="vec">ΣF</span>/m. Cette activité peut aussi être menée sous Géogébra ; on te propose ici une version Python (Pyodide, directement dans la page).</div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">🎯</span>Situation</div>
+      <p style="font-size:.88rem;line-height:1.6">Un satellite décrit une trajectoire <strong>circulaire</strong> de rayon R autour de la Terre, à <strong>vitesse de valeur constante</strong> (mouvement circulaire uniforme, MCU). On souhaite représenter, en plusieurs points de la trajectoire, les vecteurs vitesse et les vecteurs variation de vitesse <span class="vec">Δv</span>, pour vérifier leur direction.</p>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 4.a — à faire avant de coder</div>
+      <div class="qtext">Le mouvement étant circulaire uniforme (norme de <span class="vec">v</span> constante, direction qui change), quelle direction attends-tu pour <span class="vec">Δv</span> en chaque point, d'après le cours (③ Type de mouvement) ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Tangente à la trajectoire, comme <span class="vec">v</span></div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Dirigée vers le centre de la trajectoire (centripète)</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Nulle, puisque la valeur de la vitesse ne change pas</div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+      <div class="reveal-body">La valeur de la vitesse est constante mais sa <strong>direction</strong> change en permanence : le mouvement est curviligne, donc <span class="vec">Δv</span> n'est pas colinéaire à <span class="vec">v</span>. Il est dirigé vers l'intérieur de la courbe, donc vers le <strong>centre</strong> du cercle : on dit qu'il est <strong>centripète</strong>. C'est cette direction que le programme ci-dessous doit permettre de vérifier.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qtext">Complète le code ci-dessous (remplace chaque <code>___</code>) pour calculer les vecteurs vitesse en 3 points voisins d'un satellite en MCU, puis le vecteur <span class="vec">Δv</span> au point central, et vérifier sa direction. Clique sur <strong>▶ Exécuter</strong>.</div>
+    </div>
+
+    <div class="py-editor-wrap">
+      <pre class="py-editor-highlight" id="pyHighlight" aria-hidden="true"></pre>
+      <textarea id="pyCodeEditor" class="py-editor" spellcheck="false" oninput="pySyncHighlight()" onscroll="pySyncScroll()"></textarea>
+    </div>
+
+    <div class="py-btn-row">
+      <button class="exo-btn" onclick="pyRunCode()">▶ Exécuter</button>
+      <button class="exo-btn-secondary" onclick="pyReset()">↺ Recommencer</button>
+      <button class="btn-reveal" onclick="pyShowCorrection()">🔎 Correction</button>
+    </div>
+
+    <div class="exo-fb" id="pyStatus"></div>
+    <div class="py-output" id="pyOutput"></div>
+
+    <div id="pyExploitBox" style="display:none;margin-top:16px;border-top:1px dashed var(--gris-bord);padding-top:14px">
+      <div class="activite-q">
+        <div class="qnum">QUESTION 4.b</div>
+        <div class="qtext">Le graphique obtenu confirme-t-il ta réponse à la question 4.a ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Oui, la flèche <span class="vec">Δv</span> pointe bien vers le centre du cercle</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Non, elle pointe vers l'extérieur</div>
+        </div>
+      </div>
+      <div class="activite-q">
+        <div class="qnum">QUESTION 4.c</div>
+        <div class="qtext">D'après la relation approchée, quelle est alors la direction de la force résultante <span class="vec">ΣF</span> qui s'exerce sur le satellite ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Centripète, elle aussi dirigée vers le centre de la trajectoire</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Tangente à la trajectoire</div>
+        </div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+        <div class="reveal-body"><span class="vec">ΣF</span> étant colinéaire et de même sens que <span class="vec">Δv</span>, elle est elle aussi centripète : dans le cas du satellite, il s'agit de la force d'interaction gravitationnelle exercée par la Terre, dirigée en permanence vers le centre de la Terre — c'est ce qui maintient le satellite sur son orbite.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ACTIVITÉ 5 : SIMULATEUR HATIER ===== -->
+  <div class="sub-tab-content" id="act-5">
+    <div class="section-title"><span class="icon">🖥️</span>Simulateur Newton — 1ère (Hatier)</div>
+    <div class="intro-box">Le manuel Hatier propose un simulateur en ligne (mouvement de projectiles, réglage de la masse, de la gravité, des frottements…) accompagné de 10 activités guidées. Certaines correspondent exactement au programme de cette séquence, d'autres seront réutilisées plus tard (théorème de l'énergie cinétique, énergie mécanique).</div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">🔗</span>Accès au simulateur</div>
+      <ul class="res-list">
+        <li><a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/newtonpremiere/index.html" target="_blank" rel="noopener">🖥️ Simulateur Newton — Première (Hatier)</a></li>
+      </ul>
+    </div>
+
+    <div class="section-title"><span class="icon">✅</span>Activités liées à cette séquence</div>
+    <ul class="res-list">
+      <li><a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/newtonpremiere/docs/act1a.htm" target="_blank" rel="noopener">1️⃣ Un ballon de basket sur la Lune — Principe d'inertie</a></li>
+      <li><a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/newtonpremiere/docs/act2a.htm" target="_blank" rel="noopener">2️⃣ Étude d'un mouvement plan — Retrouver les lois de la mécanique</a></li>
+      <li><a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/newtonpremiere/docs/act4a.htm" target="_blank" rel="noopener">4️⃣ Chute libre — La masse intervient-elle sur la durée de la chute ?</a></li>
+      <li><a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/newtonpremiere/docs/act6a.htm" target="_blank" rel="noopener">6️⃣ Tee shot — Étude chronophotographique du mouvement d'une balle de golf</a></li>
+    </ul>
+
+    <div class="section-title"><span class="icon">➕</span>Compléments possibles</div>
+    <ul class="res-list">
+      <li><a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/newtonpremiere/docs/act3a.htm" target="_blank" rel="noopener">3️⃣ La balle de golf — Peut-on négliger le frottement de l'air ?</a></li>
+      <li><a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/newtonpremiere/docs/act5a.htm" target="_blank" rel="noopener">5️⃣ La pesanteur sur Mars — Détermination du champ de pesanteur</a></li>
+    </ul>
+
+    <div class="remarque-box"><strong>À réutiliser plus tard (autres séquences — énergie et travail) :</strong> 7️⃣ Hauteur et vitesse, 8️⃣ Flèche d'une trajectoire (théorème de l'énergie cinétique), 9️⃣ Au tennis (théorème de l'énergie mécanique), 🔟 Frottement (travail de la force de frottement). Ces quatre activités ne relèvent pas des capacités exigibles de la Séquence 08 ; elles seront proposées dans la séquence consacrée à l'énergie.</div>
+  </div>
+
+</div>
+<!-- fin tab-activites -->
+
+<!-- ══════════════════ TAB 3 — EXERCICES ══════════════════ -->
+<div class="panel" id="tab-exercices">
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-facile')">🟢 Facile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-inter')">🟠 Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-difficile')">🔴 Difficile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-escape')">🔐 Escape game</button>
+  </div>
+
+  <!-- ===== FACILE ===== -->
+  <div class="sub-tab-content active" id="sub-facile">
+    <div class="exo-box" id="exF1-box">
+      <h5>📝 Exercice 1 — Lecture de vecteurs</h5>
+      <div class="exo-enonce">Un point M est animé d'un mouvement tel que <span class="vec">v</span><sub>i-1</sub> et <span class="vec">v</span><sub>i+1</sub> ont la même direction et le même sens, mais ‖<span class="vec">v</span><sub>i+1</sub>‖ &gt; ‖<span class="vec">v</span><sub>i-1</sub>‖. Quelle est la nature du mouvement ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Rectiligne accéléré</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Rectiligne décéléré</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Curviligne</div>
+      </div>
+    </div>
+
+    <div class="exo-box" id="exF2-box">
+      <h5>📝 Exercice 2 — Calcul direct</h5>
+      <div class="exo-enonce">Un système de masse m = 2,0 kg subit une variation de vitesse de norme Δv = 3,0 m·s⁻¹ pendant une durée Δt = 0,20 s. Calculer la norme de la force résultante ΣF appliquée.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('exF2',this,true)">ΣF = m×Δv/Δt</div>
+          <div class="qcm-opt" onclick="fcrFormule('exF2',this,false)">ΣF = m×Δt/Δv</div>
+          <div class="qcm-opt" onclick="fcrFormule('exF2',this,false)">ΣF = Δv/(m×Δt)</div>
+        </div>
+      </div>
+      <div class="fcr-step" id="exF2-calc-step">
+        <label class="fcr-label">2. Calcul</label>
+        <input type="text" id="exF2-calc" class="blank-in" placeholder="nombre×nombre/nombre">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('exF2',30,0.05)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="exF2-calc-fb"></div>
+      </div>
+      <div class="fcr-step" id="exF2-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="exF2-result" class="blank-in" placeholder="en N"> N
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('exF2',30,0.03,'ΣF = 30 N')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="exF2-result-fb"></div>
+      </div>
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('exF2','ΣF = m×Δv/Δt','ΣF = 2,0×3,0/0,20','ΣF = 30 N')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('exF2')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="exF2-correction"></div>
+    </div>
+  </div>
+
+  <!-- ===== INTERMÉDIAIRE ===== -->
+  <div class="sub-tab-content" id="sub-inter">
+    <div class="exo-box" id="exI1-box">
+      <h5>📝 Exercice 1 — Décomposition de Δv</h5>
+      <div class="exo-enonce">Dans un repère (x,y), un système possède <span class="vec">v</span><sub>i-1</sub>(v<sub>x</sub> = 2,0 m·s⁻¹ ; v<sub>y</sub> = 1,0 m·s⁻¹) et <span class="vec">v</span><sub>i+1</sub>(v<sub>x</sub> = 2,5 m·s⁻¹ ; v<sub>y</sub> = 2,2 m·s⁻¹). Calculer la norme de <span class="vec">Δv</span><sub>i</sub>.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('exI1',this,true)">Δv = √[(v<sub>x,i+1</sub>−v<sub>x,i-1</sub>)² + (v<sub>y,i+1</sub>−v<sub>y,i-1</sub>)²]</div>
+          <div class="qcm-opt" onclick="fcrFormule('exI1',this,false)">Δv = (v<sub>x,i+1</sub>−v<sub>x,i-1</sub>) + (v<sub>y,i+1</sub>−v<sub>y,i-1</sub>)</div>
+        </div>
+      </div>
+      <div class="fcr-step" id="exI1-calc-step">
+        <label class="fcr-label">2. Calcul — indique d'abord Δv<sub>x</sub> et Δv<sub>y</sub>, puis combine-les</label>
+        <p style="font-size:.82rem;color:var(--texte-leger);margin-bottom:6px">Δv<sub>x</sub> = 2,5 − 2,0 = 0,5 m·s⁻¹ &nbsp;·&nbsp; Δv<sub>y</sub> = 2,2 − 1,0 = 1,2 m·s⁻¹</p>
+        <input type="text" id="exI1-calc" class="blank-in" placeholder="(0.5)**2+(1.2)**2" style="width:100%;max-width:320px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('exI1',1.69,0.05)">Vérifier le calcul (avant racine)</button></div>
+        <div class="exo-fb" id="exI1-calc-fb"></div>
+      </div>
+      <div class="fcr-step" id="exI1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="exI1-result" class="blank-in" placeholder="en m·s⁻¹"> m·s⁻¹
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('exI1',1.3,0.05,'Δv = √1,69 ≈ 1,3 m·s⁻¹')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="exI1-result-fb"></div>
+      </div>
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('exI1','Δv = √[(Δv_x)² + (Δv_y)²]','Δv = √[(0,5)² + (1,2)²] = √1,69','Δv ≈ 1,3 m·s⁻¹')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('exI1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="exI1-correction"></div>
+    </div>
+
+    <div class="exo-box" id="exI2-box">
+      <h5>📝 Exercice 2 — Estimer une masse</h5>
+      <div class="exo-enonce">Un chariot est soumis à une force résultante ΣF = 12 N pendant Δt = 0,50 s ; on mesure une variation de vitesse Δv = 3,0 m·s⁻¹. Calculer la masse m du chariot.</div>
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('exI2',this,true)">m = ΣF×Δt/Δv</div>
+          <div class="qcm-opt" onclick="fcrFormule('exI2',this,false)">m = Δv/(ΣF×Δt)</div>
+          <div class="qcm-opt" onclick="fcrFormule('exI2',this,false)">m = ΣF×Δv/Δt</div>
+        </div>
+      </div>
+      <div class="fcr-step" id="exI2-calc-step">
+        <label class="fcr-label">2. Calcul</label>
+        <input type="text" id="exI2-calc" class="blank-in" placeholder="nombre×nombre/nombre">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('exI2',2.0,0.05)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="exI2-calc-fb"></div>
+      </div>
+      <div class="fcr-step" id="exI2-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="exI2-result" class="blank-in" placeholder="en kg"> kg
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('exI2',2.0,0.03,'m = 2,0 kg')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="exI2-result-fb"></div>
+      </div>
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('exI2','m = ΣF×Δt/Δv','m = 12×0,50/3,0','m = 2,0 kg')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('exI2')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="exI2-correction"></div>
+    </div>
+  </div>
+
+  <!-- ===== DIFFICILE ===== -->
+  <div class="sub-tab-content" id="sub-difficile">
+    <div class="exo-box" id="exD1-box">
+      <h5>📝 Exercice — Skieur freinant (problème à étapes)</h5>
+      <div class="exo-enonce">Un skieur de masse m = 70 kg (équipement compris) aborde une zone de freinage. Sa vitesse passe de v<sub>i-1</sub> = 12,0 m·s⁻¹ à v<sub>i+1</sub> = 9,0 m·s⁻¹ (mouvement rectiligne, même direction) en une durée 2Δt = 1,0 s. On cherche la norme de la force de freinage résultante ΣF.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — quelle grandeur calculer en premier ?</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('exD1',this,true)">Δv = v<sub>i+1</sub> − v<sub>i-1</sub>, puis ΣF = m×|Δv|/Δt</div>
+          <div class="qcm-opt" onclick="fcrFormule('exD1',this,false)">ΣF = m×v<sub>i+1</sub>/Δt directement</div>
+        </div>
+      </div>
+      <div class="fcr-step" id="exD1-calc-step">
+        <label class="fcr-label">2. Calcul — attention : Δt = (2Δt)/2 = 0,50 s</label>
+        <p style="font-size:.82rem;color:var(--texte-leger);margin-bottom:6px">Δv = 9,0 − 12,0 = −3,0 m·s⁻¹ (le mouvement ralentit) ; on utilise |Δv| = 3,0 m·s⁻¹ pour la norme de la force.</p>
+        <input type="text" id="exD1-calc" class="blank-in" placeholder="70×3.0/0.50" style="width:100%;max-width:320px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('exD1',420,0.05)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="exD1-calc-fb"></div>
+      </div>
+      <div class="fcr-step" id="exD1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="exD1-result" class="blank-in" placeholder="en N"> N
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('exD1',420,0.03,'ΣF ≈ 4,2×10² N, dirigée vers l\'arrière du skieur (sens opposé au mouvement)')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="exD1-result-fb"></div>
+      </div>
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('exD1','ΣF = m×|Δv|/Δt, avec Δt = (2Δt)/2','ΣF = 70×3,0/0,50','ΣF ≈ 4,2×10² N, dirigée vers l\'arrière (sens opposé au mouvement, car le skieur ralentit)')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('exD1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="exD1-correction"></div>
+
+      <div class="activite-q" style="margin-top:16px">
+        <div class="qnum">QUESTION SUPPLÉMENTAIRE</div>
+        <div class="qtext">Quelle est la direction et le sens de <span class="vec">ΣF</span> par rapport au mouvement du skieur ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Même direction que le mouvement, mais sens opposé (le skieur ralentit)</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Même direction et même sens que le mouvement</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Perpendiculaire au mouvement</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ESCAPE GAME ===== -->
+  <div class="sub-tab-content" id="sub-escape">
+    <div class="escape-wrap">
+      <div class="escape-story">🔐 <strong>Le laboratoire verrouillé</strong> — Une expérience de chronophotographie a été interrompue. Pour rouvrir l'accès au matériel, résous les 3 stations et trouve les 3 chiffres du digicode.</div>
+
+      <div class="escape-steps-nav">
+        <div class="escape-step-badge active" id="egStep1">① Station 1</div>
+        <div class="escape-step-badge" id="egStep2">② Station 2</div>
+        <div class="escape-step-badge" id="egStep3">③ Station 3</div>
+      </div>
+
+      <div class="escape-stage on" id="egStage1">
+        <div class="escape-log">Station 1 — Sur l'enregistrement, <b>v<sub>i-1</sub> = 4,0 m·s⁻¹</b> et <b>v<sub>i+1</sub> = 8,0 m·s⁻¹</b>, même direction et même sens (mouvement rectiligne). Quel est le premier chiffre du code : la valeur de Δv (en m·s⁻¹) ?</div>
+        <div class="escape-comp-grid" id="egPuzzle1">
+          <div class="escape-comp-btn" onclick="egCheck(1,this,false)">2</div>
+          <div class="escape-comp-btn" onclick="egCheck(1,this,true)">4</div>
+          <div class="escape-comp-btn" onclick="egCheck(1,this,false)">6</div>
+          <div class="escape-comp-btn" onclick="egCheck(1,this,false)">12</div>
+        </div>
+        <div id="egFound1" style="display:none;text-align:center;color:#5be08a;font-size:.82rem;margin-top:6px">✓ Premier chiffre trouvé !</div>
+      </div>
+
+      <div class="escape-stage" id="egStage2">
+        <div id="egLock2" class="escape-locked">🔒 Résous d'abord la station 1.</div>
+        <div id="egContent2" style="display:none">
+          <div class="escape-log">Station 2 — Un système de masse <b>m = 3,0 kg</b> subit une force résultante <b>ΣF = 6,0 N</b> pendant <b>Δt = 3,0 s</b>. Quel est le deuxième chiffre du code : la valeur de Δv (en m·s⁻¹) obtenue par la relation approchée ?</div>
+          <div class="escape-comp-grid" id="egPuzzle2">
+            <div class="escape-comp-btn" onclick="egCheck(2,this,false)">1</div>
+            <div class="escape-comp-btn" onclick="egCheck(2,this,false)">3</div>
+            <div class="escape-comp-btn" onclick="egCheck(2,this,true)">6</div>
+            <div class="escape-comp-btn" onclick="egCheck(2,this,false)">9</div>
+          </div>
+          <div id="egFound2" style="display:none;text-align:center;color:#5be08a;font-size:.82rem;margin-top:6px">✓ Deuxième chiffre trouvé !</div>
+        </div>
+      </div>
+
+      <div class="escape-stage" id="egStage3">
+        <div id="egLock3" class="escape-locked">🔒 Résous d'abord la station 2.</div>
+        <div id="egContent3" style="display:none">
+          <div class="escape-log">Station 3 — Un point décrit un mouvement <b>curviligne</b> à valeur de vitesse <b>constante</b> (comme le satellite de l'activité 4). Le troisième chiffre est le nombre de caractéristiques du vecteur vitesse qui changent entre M<sub>i-1</sub> et M<sub>i+1</sub> (direction / sens / valeur) ?</div>
+          <div class="escape-comp-grid" id="egPuzzle3">
+            <div class="escape-comp-btn" onclick="egCheck(3,this,false)">0</div>
+            <div class="escape-comp-btn" onclick="egCheck(3,this,false)">1</div>
+            <div class="escape-comp-btn" onclick="egCheck(3,this,true)">2</div>
+            <div class="escape-comp-btn" onclick="egCheck(3,this,false)">3</div>
+          </div>
+          <div id="egFound3" style="display:none;text-align:center;color:#5be08a;font-size:.82rem;margin-top:6px">✓ Troisième chiffre trouvé !</div>
+        </div>
+      </div>
+
+      <div class="escape-guess" style="margin-top:16px">
+        <label style="color:#dfe4f0;font-size:.85rem;font-weight:700">Digicode :</label>
+        <input type="text" id="egCodeInput" maxlength="3" placeholder="? ? ?" style="width:80px;text-align:center">
+        <button onclick="egCheckFinal()">Valider</button>
+      </div>
+      <div class="escape-result" id="egFinalFb"></div>
+
+      <div class="escape-victory" id="egSuccess">
+        <h3>🎉 Accès autorisé !</h3>
+        <p>Bravo, tu as retrouvé les trois chiffres en reliant Δv, ΣF, m et Δt. Le laboratoire de chronophotographie est de nouveau accessible.</p>
+      </div>
+
+      <button class="escape-reset" onclick="location.reload()">↺ Recommencer l'escape game</button>
+    </div>
+  </div>
+
+</div>
+<!-- fin tab-exercices -->
+
+<!-- ══════════════════ TAB 4 — BILAN & RESSOURCES ══════════════════ -->
+<div class="panel" id="tab-bilan">
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
+
+  <!-- ===== BILAN ===== -->
+  <div class="sub-tab-content active" id="bilan-sub-0">
+    <div class="section-title"><span class="icon">📋</span>Bilan de la séquence</div>
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Vecteur vitesse</h4>
+        <ul class="ke-list">
+          <li><span class="vec">v</span><sub>i</sub> = <span class="vec"><span>M<sub>i-1</sub>M<sub>i+1</sub></span></span> / 2Δt</li>
+          <li>Direction : tangente à la trajectoire en M<sub>i</sub></li>
+          <li>Sens : celui du mouvement</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Vecteur variation de vitesse</h4>
+        <ul class="ke-list">
+          <li><span class="vec">Δv</span><sub>i</sub> = <span class="vec">v</span><sub>i+1</sub> − <span class="vec">v</span><sub>i-1</sub></li>
+          <li>Construction par la méthode du triangle (somme avec l'opposé)</li>
+          <li>Δv = 0 ⟺ mouvement rectiligne uniforme</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Relation approchée</h4>
+        <ul class="ke-list">
+          <li><span class="vec">ΣF</span> = m × <span class="vec">Δv</span> / Δt</li>
+          <li><span class="vec">ΣF</span> et <span class="vec">Δv</span> colinéaires, même sens</li>
+          <li>Approche de la 2<sup>e</sup> loi de Newton (vue en Terminale)</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Rôle de la masse</h4>
+        <ul class="ke-list">
+          <li>À ΣF et Δt fixés, Δv est inversement proportionnel à m</li>
+          <li>La masse mesure l'inertie du système</li>
+          <li>Plus m est grande, plus il est difficile de modifier le mouvement</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair)">✅</span>Capacités exigibles — synthèse</div>
+      <ul class="ke-list">
+        <li>Estimer une variation de vitesse à partir des forces appliquées (connues).</li>
+        <li>Estimer les forces appliquées à partir du comportement cinématique (Δv connu).</li>
+        <li>Réaliser et exploiter une vidéo/chronophotographie pour construire les vecteurs Δv.</li>
+        <li>Tester la relation approchée entre Δv et ΣF.</li>
+        <li>Utiliser un langage de programmation pour étudier cette relation.</li>
+        <li>Sommer et soustraire des vecteurs.</li>
+      </ul>
+    </div>
+  </div>
+  <!-- /bilan-sub-0 -->
+
+  <!-- ===== GLOSSAIRE ===== -->
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span>Glossaire</div>
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="vecteur vitesse"><dt>Vecteur vitesse</dt><dd>Vecteur caractérisant le mouvement d'un point à un instant donné ; direction tangente à la trajectoire, sens du mouvement, valeur en m·s⁻¹.</dd></div>
+      <div class="gloss-item" data-term="vecteur variation de vitesse"><dt>Vecteur variation de vitesse (Δv)</dt><dd>Vecteur défini par <span class="vec">Δv</span><sub>i</sub> = <span class="vec">v</span><sub>i+1</sub> − <span class="vec">v</span><sub>i-1</sub>, traduisant la façon dont le vecteur vitesse évolue entre deux instants voisins.</dd></div>
+      <div class="gloss-item" data-term="chronophotographie"><dt>Chronophotographie</dt><dd>Ensemble de positions successives d'un système en mouvement, relevées à intervalles de temps réguliers Δt.</dd></div>
+      <div class="gloss-item" data-term="principe d'inertie"><dt>Principe d'inertie</dt><dd>Si la variation du vecteur vitesse d'un système est nulle, alors la somme des forces qui s'exercent sur lui est nulle (et réciproquement).</dd></div>
+      <div class="gloss-item" data-term="contraposee"><dt>Contraposée (du principe d'inertie)</dt><dd>Si la variation du vecteur vitesse est non nulle, alors la somme des forces appliquées est non nulle (et réciproquement).</dd></div>
+      <div class="gloss-item" data-term="relation approchee somme des forces"><dt>Relation approchée</dt><dd><span class="vec">ΣF</span> = m×<span class="vec">Δv</span>/Δt : relation reliant, pour une durée Δt très courte, la somme des forces appliquées à un système et la variation de son vecteur vitesse.</dd></div>
+      <div class="gloss-item" data-term="mouvement rectiligne"><dt>Mouvement rectiligne</dt><dd>Mouvement dont la trajectoire est une droite ; le vecteur vitesse garde une direction constante.</dd></div>
+      <div class="gloss-item" data-term="mouvement curviligne"><dt>Mouvement curviligne</dt><dd>Mouvement dont la trajectoire n'est pas une droite ; la direction du vecteur vitesse change au cours du temps.</dd></div>
+      <div class="gloss-item" data-term="mouvement uniforme"><dt>Mouvement uniforme</dt><dd>Mouvement pour lequel la valeur (norme) du vecteur vitesse reste constante.</dd></div>
+      <div class="gloss-item" data-term="mouvement accelere"><dt>Mouvement accéléré</dt><dd>Mouvement pour lequel la valeur du vecteur vitesse augmente au cours du temps.</dd></div>
+      <div class="gloss-item" data-term="mouvement decelere"><dt>Mouvement décéléré (retardé)</dt><dd>Mouvement pour lequel la valeur du vecteur vitesse diminue au cours du temps.</dd></div>
+      <div class="gloss-item" data-term="inertie"><dt>Inertie</dt><dd>Propriété d'un système, liée à sa masse, à s'opposer à toute modification de son vecteur vitesse sous l'effet d'une force.</dd></div>
+      <div class="gloss-item" data-term="centripete"><dt>Centripète</dt><dd>Qualifie un vecteur (ici <span class="vec">Δv</span>, puis <span class="vec">ΣF</span>) dirigé vers le centre de la trajectoire, typique d'un mouvement circulaire.</dd></div>
+      <div class="gloss-item" data-term="referentiel"><dt>Référentiel</dt><dd>Solide (ou ensemble de points) par rapport auquel on étudie le mouvement d'un système, associé à une horloge pour mesurer le temps.</dd></div>
+      <div class="gloss-item" data-term="systeme"><dt>Système</dt><dd>Objet ou ensemble d'objets dont on étudie le mouvement, modélisé ici par un point matériel.</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <!-- ===== RESSOURCES ===== -->
+  <div class="sub-tab-content" id="bilan-sub-2">
+
+    <div class="section-title"><span class="icon">🎬</span>Vidéos</div>
+    <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence-08-mouvement-systeme/id106105394/item809419406" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);max-width:340px" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--rouge);">🎬 L'essentiel — Mouvement et forces</h4>
+        <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier · 2 min 09</p>
+      </div>
+    </a>
+
+    <div class="section-title"><span class="icon">🖥️</span>Simulations / applications</div>
+    <ul class="res-list">
+      <li><a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/tracer_vecteur_vitesse_simple_csp_flash.htm" target="_blank" rel="noopener">🖥️ PCCL — Approcher le vecteur vitesse à l'aide du vecteur déplacement (chronophotographie)</a></li>
+      <li><a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/tracer_representer_vecteur_vitesse_flash.htm" target="_blank" rel="noopener">🖥️ PCCL — Tracer / représenter un vecteur vitesse (v<sub>i</sub> = M<sub>i-1</sub>M<sub>i+1</sub>/2Δt)</a></li>
+      <li><a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/variation_vecteur_vitesse_point_entre_deux_instants_voisins_lien_avec_somme_des_forces_flash.htm" target="_blank" rel="noopener">🖥️ PCCL — Variation du vecteur vitesse entre deux instants voisins et lien avec la somme des forces</a></li>
+      <li><a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/variation_vecteur_vitesse_avec_intervalle_de_deux_delta_t_et_action_exterieure_flash.htm" target="_blank" rel="noopener">🖥️ PCCL — Variation du vecteur vitesse sur un intervalle 2Δt et action extérieure</a></li>
+      <li><a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/chronophotographie_mouvement_accelere_flash.htm" target="_blank" rel="noopener">🖥️ PCCL — Chronophotographie d'un mouvement accéléré</a></li>
+      <li><a href="https://phet.colorado.edu/sims/html/vector-addition/latest/vector-addition_all.html?locale=fr" target="_blank" rel="noopener">🖥️ PhET (Colorado) — Addition de vecteurs, en français</a></li>
+      <li><a href="https://physique.ostralo.net/principe_inertie/" target="_blank" rel="noopener">🖥️ Ostralo — Animation du principe d'inertie (rappel de seconde)</a></li>
+    </ul>
+
+    <div class="section-title"><span class="icon">📝</span>Autres ressources — QCM</div>
+    <ul class="res-list">
+      <li><a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/pc-1_qcm_chap_11/index.html" target="_blank" rel="noopener">📝 QCM Hatier — Chapitre 11 : Mouvement d'un système</a></li>
+    </ul>
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair)">📝</span>Auto-évaluation rapide</div>
+      <div class="activite-q">
+        <div class="qtext">1. La relation approchée <span class="vec">ΣF</span> = m×<span class="vec">Δv</span>/Δt est valable :</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Pour n'importe quelle durée Δt</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Pour une durée Δt très courte</div>
+        </div>
+      </div>
+      <div class="activite-q">
+        <div class="qtext">2. Si <span class="vec">Δv</span> est nul entre deux instants voisins, le mouvement est :</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Rectiligne uniforme</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Circulaire uniforme</div>
+        </div>
+      </div>
+      <div class="activite-q">
+        <div class="qtext">3. À force et durée Δt identiques, un système deux fois plus massif subit une variation de vitesse :</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Deux fois plus grande</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Deux fois plus petite</div>
+        </div>
+      </div>
+      <div class="activite-q">
+        <div class="qtext">4. Le vecteur <span class="vec">ΣF</span> est toujours :</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Perpendiculaire à <span class="vec">Δv</span></div>
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Colinéaire et de même sens que <span class="vec">Δv</span></div>
+        </div>
+      </div>
+      <p style="font-size:.8rem;color:var(--texte-leger);margin-top:8px">Pour t'entraîner davantage, retrouve tous les exercices détaillés (avec correction pas à pas) dans l'onglet ✏️ Exercices.</p>
+    </div>
+  </div>
+  <!-- /bilan-sub-2 -->
+
+</div>
+<!-- fin tab-bilan -->
+
+</div>
+
+<script>
+/* ===== Mesure reelle de la largeur des vecteurs pour dimensionner la fleche .vec ===== */
+function sizeVecLabels(scope){
+  var root = scope || document;
+  var items = root.querySelectorAll ? root.querySelectorAll('.vec') : [];
+  items.forEach(function(el){
+    var w = el.getBoundingClientRect().width;
+    if(w > 0){ el.style.setProperty('--vec-w', w+'px'); }
+  });
+}
+
+/* ===== Navigation onglets ===== */
+function showTab(el,id){
+  document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.main > .panel').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  var panel = document.getElementById('tab-'+id);
+  panel.classList.add('on');
+  sizeVecLabels(panel);
+}
+function showSub(btn,id){
+  var panel = btn.closest('.panel');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b=>b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  var sub = document.getElementById(id);
+  sub.classList.add('active');
+  sizeVecLabels(sub);
+}
+
+/* ===== Glossaire recherchable ===== */
+function glossFilter(){
+  var q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(function(item){
+    var term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
+/* ===== QCM cliquable simple ===== */
+function qcmCheck(el,isCorrect){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(o=>o.classList.remove('correct','incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+}
+
+/* ===== Formule / Calcul / Résultat ===== */
+function FCR(f,c,r){
+  return '<span class="fcr-line"><strong>Formule :</strong> '+f+'</span>'
+       + '<span class="fcr-line"><strong>Calcul :</strong> '+c+'</span>'
+       + '<span class="fcr-line"><strong>Résultat :</strong> '+r+'</span>';
+}
+function safeEvalExpr(str){
+  if(!str) return null;
+  var s = str.replace(/,/g,'.').replace(/×/g,'*').replace(/·/g,'*').replace(/÷/g,'/')
+             .replace(/²/g,'**2').replace(/³/g,'**3').replace(/\s+/g,'');
+  if(!s || !/^[0-9.eE+\-*/().]+$/.test(s)) return null;
+  try{
+    var v = Function('"use strict";return ('+s+')')();
+    if(typeof v !== 'number' || isNaN(v) || !isFinite(v)) return null;
+    return v;
+  } catch(e){ return null; }
+}
+function fcrFormule(id, el, isCorrect){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(function(o){ o.classList.remove('correct','incorrect'); });
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  if(isCorrect){
+    var step = document.getElementById(id+'-calc-step');
+    if(step) step.style.display = 'block';
+  }
+}
+function fcrCalc(id, expected, tol){
+  var raw = document.getElementById(id+'-calc').value;
+  var val = safeEvalExpr(raw);
+  var fb = document.getElementById(id+'-calc-fb');
+  if(val === null){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Écris un calcul numérique valide (chiffres et ×  /  ²  uniquement).';
+    return;
+  }
+  var ok = Math.abs(val-expected)/Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = ok ? '✓ Calcul correct !' : '✗ Vérifie les valeurs que tu as substituées dans la formule.';
+  if(ok){
+    var step = document.getElementById(id+'-result-step');
+    if(step) step.style.display = 'block';
+  }
+}
+function fcrResult(id, expected, tol, resultText){
+  var raw = document.getElementById(id+'-result').value.replace(',', '.').trim();
+  var v = parseFloat(raw);
+  var fb = document.getElementById(id+'-result-fb');
+  if(isNaN(v)){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de saisir une valeur numérique.';
+    return;
+  }
+  var ok = Math.abs(v-expected)/Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = (ok ? '✓ ' : '✗ ') + resultText;
+}
+function fcrCorrection(id, formule, calc, resultat){
+  var fb = document.getElementById(id+'-correction');
+  if(!fb) return;
+  fb.className = 'exo-fb correction';
+  fb.innerHTML = FCR(formule, calc, resultat);
+}
+function fcrReset(id){
+  var box = document.getElementById(id+'-box');
+  if(box){
+    box.querySelectorAll('.qcm-opt').forEach(function(o){ o.classList.remove('correct','incorrect'); });
+  }
+  var calcIn = document.getElementById(id+'-calc');
+  var resIn = document.getElementById(id+'-result');
+  if(calcIn) calcIn.value = '';
+  if(resIn) resIn.value = '';
+  ['calc-fb','result-fb','correction'].forEach(function(suffix){
+    var el = document.getElementById(id+'-'+suffix);
+    if(el){ el.className = 'exo-fb'; el.innerHTML = ''; }
+  });
+}
+
+/* ===== Escape game ===== */
+var egSolved = [false,false,false];
+var egDigits = ['4','6','2'];
+function egCheck(station, el, isCorrect){
+  var puzzle = document.getElementById('egPuzzle'+station);
+  puzzle.querySelectorAll('.escape-comp-btn').forEach(o=>o.classList.remove('ok','ko'));
+  if(isCorrect){
+    el.classList.add('ok');
+    egSolved[station-1] = true;
+    document.getElementById('egFound'+station).style.display = 'block';
+    document.getElementById('egStep'+station).classList.add('done');
+    if(station < 3){
+      document.getElementById('egLock'+(station+1)).style.display = 'none';
+      document.getElementById('egContent'+(station+1)).style.display = 'block';
+      document.getElementById('egStep'+(station+1)).classList.add('active');
+    }
+  } else {
+    el.classList.add('ko');
+  }
+}
+function egCheckFinal(){
+  var val = document.getElementById('egCodeInput').value.trim();
+  var fb = document.getElementById('egFinalFb');
+  if(!(egSolved[0] && egSolved[1] && egSolved[2])){
+    fb.className = 'escape-result';
+    fb.innerHTML = 'Résous d\'abord les 3 stations pour connaître les 3 chiffres.';
+    return;
+  }
+  var code = egDigits.join('');
+  if(val === code){
+    fb.className = 'escape-result win';
+    fb.innerHTML = '✓ Code correct, le digicode s\'ouvre !';
+    document.getElementById('egSuccess').classList.add('show');
+  } else {
+    fb.className = 'escape-result lose';
+    fb.innerHTML = '✗ Code incorrect, réessaie.';
+  }
+}
+
+/* ===== Utilitaires graphiques ===== */
+function drawArrow(ctx,x0,y0,x1,y1,color,lw){
+  lw = lw || 2.2;
+  var len = Math.hypot(x1-x0, y1-y0);
+  ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = lw;
+  ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+  if(len < 0.5) return; // vecteur quasi nul : pas de pointe (evite une pointe demesuree)
+  var ang = Math.atan2(y1-y0, x1-x0);
+  var hl = Math.min(Math.max(9, lw*3.6), len*0.45);
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x1-hl*Math.cos(ang-0.36), y1-hl*Math.sin(ang-0.36));
+  ctx.lineTo(x1-hl*Math.cos(ang+0.36), y1-hl*Math.sin(ang+0.36));
+  ctx.closePath(); ctx.fill();
+}
+/* Etiquette de vecteur pour canvas : texte + petite fleche dessinee au-dessus (equivalent de .vec en HTML) */
+function drawVecLabel(ctx,x,y,text,color,fontPx){
+  fontPx = fontPx || 12;
+  ctx.font = "bold "+fontPx+"px 'DM Mono',monospace";
+  ctx.fillStyle = color;
+  ctx.fillText(text, x, y);
+  var w = ctx.measureText(text).width;
+  var ay = y - fontPx*0.95;
+  ctx.strokeStyle = color; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(x, ay); ctx.lineTo(x+w-2, ay); ctx.stroke();
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(x+w+2, ay);
+  ctx.lineTo(x+w-4, ay-3);
+  ctx.lineTo(x+w-4, ay+3);
+  ctx.closePath(); ctx.fill();
+}
+function bezPoint(t,p0,p1,p2,p3){
+  var mt=1-t;
+  var x = mt*mt*mt*p0[0]+3*mt*mt*t*p1[0]+3*mt*t*t*p2[0]+t*t*t*p3[0];
+  var y = mt*mt*mt*p0[1]+3*mt*mt*t*p1[1]+3*mt*t*t*p2[1]+t*t*t*p3[1];
+  return [x,y];
+}
+function toVec(angleDeg,length){
+  var r = angleDeg*Math.PI/180;
+  return [length*Math.cos(r), -length*Math.sin(r)];
+}
+
+/* ===== Simulation 1 : vecteur vitesse tangent le long d'une trajectoire ===== */
+var VIT_P0=[40,250], VIT_P1=[120,20], VIT_P2=[340,300], VIT_P3=[450,70];
+var VIT_N = 12; /* indices de points de chronophotographie : 0 à 12 */
+var VIT_POINTS_U = [];
+(function(){ for(var i=0;i<=VIT_N;i++){ VIT_POINTS_U.push(0.05 + i*(0.90/VIT_N)); } })();
+
+function renderVitesseSim(){
+  var canvas=document.getElementById('vitesseCanvas'); if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle='#B8D4EC'; ctx.lineWidth=2.5; ctx.beginPath();
+  for(var i=0;i<=100;i++){
+    var p=bezPoint(i/100,VIT_P0,VIT_P1,VIT_P2,VIT_P3);
+    if(i===0) ctx.moveTo(p[0],p[1]); else ctx.lineTo(p[0],p[1]);
+  }
+  ctx.stroke();
+
+  /* chronophotographie : tous les points fixes de la trajectoire */
+  var allPts = VIT_POINTS_U.map(function(uu){ return bezPoint(uu,VIT_P0,VIT_P1,VIT_P2,VIT_P3); });
+  ctx.fillStyle='#8A93A8';
+  allPts.forEach(function(pt){ ctx.beginPath(); ctx.arc(pt[0],pt[1],3.5,0,7); ctx.fill(); });
+
+  var k = parseInt(document.getElementById('vitesseT').value,10);
+  k = Math.max(1, Math.min(VIT_N-1, k));
+  var dtVal = parseFloat(document.getElementById('vitesseDt').value);
+
+  var Mm = allPts[k-1], Mi = allPts[k], Mp = allPts[k+1];
+
+  ctx.fillStyle='#1A2A3A';
+  [Mm,Mi,Mp].forEach(function(pt){ ctx.beginPath(); ctx.arc(pt[0],pt[1],4.5,0,7); ctx.fill(); });
+  ctx.font="bold 11px 'DM Mono',monospace"; ctx.fillStyle='#5A6B7A';
+  ctx.fillText('M'+(k-1), Mm[0]-18, Mm[1]-12);
+  ctx.fillText('M'+k, Mi[0]-8, Mi[1]-14);
+  ctx.fillText('M'+(k+1), Mp[0]+8, Mp[1]-12);
+
+  /* le vecteur vitesse vk : longueur reellement dependante de Δt */
+  var dx=Mp[0]-Mm[0], dy=Mp[1]-Mm[1];
+
+  /* vecteur deplacement Mk-1 -> Mk+1 : couleur orange, distincte du vecteur vitesse (bleu fonce) */
+  var dlen = Math.sqrt(dx*dx+dy*dy) || 1;
+  var nx=-dy/dlen, ny=dx/dlen;
+  var midx=(Mm[0]+Mp[0])/2, midy=(Mm[1]+Mp[1])/2;
+  ctx.setLineDash([6,4]);
+  drawArrow(ctx, Mm[0],Mm[1], Mp[0],Mp[1], '#E8783A', 2.2);
+  ctx.setLineDash([]);
+  drawVecLabel(ctx, midx+nx*18, midy+ny*18, 'M'+(k-1)+'M'+(k+1), '#E8783A', 11);
+
+  var calib = 3.0; /* calibration d'affichage : longueur (px) = calib × deplacement / Δt */
+  var scale = calib/dtVal;
+  var vx=dx*scale, vy=dy*scale;
+  var vnorm=Math.sqrt(vx*vx+vy*vy) || 1;
+  var maxLen=130;
+  if(vnorm>maxLen){ vx=vx*maxLen/vnorm; vy=vy*maxLen/vnorm; }
+
+  drawArrow(ctx, Mi[0],Mi[1], Mi[0]+vx, Mi[1]+vy, '#2D5F8A', 2.8);
+  drawVecLabel(ctx, Mi[0]+vx+8, Mi[1]+vy, 'v'+k, '#2D5F8A', 12);
+
+  document.getElementById('vitesseReadout').innerHTML = 'Le vecteur déplacement <b style="color:#E8783A">M<sub>'+(k-1)+'</sub>M<sub>'+(k+1)+'</sub></b> (en orange, pointillé) relie directement M<sub>'+(k-1)+'</sub> à M<sub>'+(k+1)+'</sub> : c\'est lui qui sert à construire le vecteur vitesse <b style="color:#2D5F8A"><span class="vec">v</span><sub>'+k+'</sub></b> (en bleu foncé), tangent à la trajectoire au point M<sub>'+k+'</sub>. Fais varier Δt : la longueur affichée de <span class="vec">v</span><sub>'+k+'</sub> change réellement, car <span class="vec">v</span><sub>'+k+'</sub> = <span class="vec"><span>M<sub>'+(k-1)+'</sub>M<sub>'+(k+1)+'</sub></span></span> / 2Δt.';
+  sizeVecLabels();
+}
+
+var vitDragging = false;
+function vitUpdateFromEvent(evt){
+  var canvas = document.getElementById('vitesseCanvas');
+  var rect = canvas.getBoundingClientRect();
+  var scaleX = canvas.width/rect.width, scaleY = canvas.height/rect.height;
+  var clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+  var clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
+  var mx = (clientX-rect.left)*scaleX;
+  var my = (clientY-rect.top)*scaleY;
+  var bestK=6, bestD=1e12;
+  for(var kk=1; kk<=VIT_N-1; kk++){
+    var p=bezPoint(VIT_POINTS_U[kk],VIT_P0,VIT_P1,VIT_P2,VIT_P3);
+    var d=(p[0]-mx)*(p[0]-mx)+(p[1]-my)*(p[1]-my);
+    if(d<bestD){ bestD=d; bestK=kk; }
+  }
+  document.getElementById('vitesseT').value = bestK;
+  renderVitesseSim();
+}
+function vitInitDrag(){
+  var canvas = document.getElementById('vitesseCanvas');
+  if(!canvas) return;
+  canvas.style.cursor='pointer';
+  canvas.addEventListener('pointerdown', function(evt){ vitDragging=true; vitUpdateFromEvent(evt); });
+  window.addEventListener('pointermove', function(evt){ if(vitDragging) vitUpdateFromEvent(evt); });
+  window.addEventListener('pointerup', function(){ vitDragging=false; });
+  canvas.addEventListener('touchstart', function(evt){ vitDragging=true; vitUpdateFromEvent(evt); evt.preventDefault(); }, {passive:false});
+  canvas.addEventListener('touchmove', function(evt){ if(vitDragging){ vitUpdateFromEvent(evt); evt.preventDefault(); } }, {passive:false});
+  canvas.addEventListener('touchend', function(){ vitDragging=false; });
+}
+
+/* ===== Simulation 2 : construction du vecteur variation de vitesse Δv ===== */
+var DELTAV_SITUATIONS = [
+  {angleDelta: 35,  normeDelta: 40,  label: 'léger virage + accélération'},
+  {angleDelta: 65,  normeDelta: -35, label: 'virage modéré + freinage'},
+  {angleDelta: 95,  normeDelta: 0,   label: 'virage serré à vitesse constante'},
+  {angleDelta: 140, normeDelta: -50, label: 'quasi demi-tour + freinage'}
+];
+var deltavSituationIdx = 0;
+var deltavStep = 1;
+var deltavAnim = {v2Anchor:0, v1Anchor:0, negV1:0, deltav:0};
+var deltavAnimTarget = {v2Anchor:0, v1Anchor:0, negV1:0, deltav:0};
+var deltavAnimFrom = {v2Anchor:0, v1Anchor:0, negV1:0, deltav:0};
+var deltavAnimStartTime = null;
+var deltavAnimRAF = null;
+
+function selectDeltavSituation(idx, btn){
+  deltavSituationIdx = idx;
+  document.querySelectorAll('#deltavSituations .sub-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  drawDeltavFrame();
+}
+function selectDeltavStep(step, btn){
+  deltavStep = step;
+  document.querySelectorAll('#deltavSteps .sub-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  else {
+    var target = document.querySelector('#deltavSteps [data-step="'+step+'"]');
+    if(target) target.classList.add('active');
+  }
+  deltavAnimTarget = {v2Anchor: step>=2?1:0, v1Anchor: step>=3?1:0, negV1: step>=4?1:0, deltav: step>=5?1:0};
+  updateDeltavReadoutText();
+  startDeltavAnimation();
+}
+function deltavNextStep(){ selectDeltavStep(Math.min(5, deltavStep+1)); }
+function deltavPrevStep(){ selectDeltavStep(Math.max(1, deltavStep-1)); }
+
+function easeInOutDeltav(t){ return t<0.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2; }
+function startDeltavAnimation(){
+  if(deltavAnimRAF) cancelAnimationFrame(deltavAnimRAF);
+  deltavAnimFrom = {v2Anchor:deltavAnim.v2Anchor, v1Anchor:deltavAnim.v1Anchor, negV1:deltavAnim.negV1, deltav:deltavAnim.deltav};
+  deltavAnimStartTime = null;
+  deltavAnimRAF = requestAnimationFrame(deltavAnimTick);
+}
+function deltavAnimTick(now){
+  if(deltavAnimStartTime === null) deltavAnimStartTime = now;
+  var duration = 600;
+  var t = Math.min(1, (now-deltavAnimStartTime)/duration);
+  var e = easeInOutDeltav(t);
+  deltavAnim.v2Anchor = deltavAnimFrom.v2Anchor + (deltavAnimTarget.v2Anchor-deltavAnimFrom.v2Anchor)*e;
+  deltavAnim.v1Anchor = deltavAnimFrom.v1Anchor + (deltavAnimTarget.v1Anchor-deltavAnimFrom.v1Anchor)*e;
+  deltavAnim.negV1   = deltavAnimFrom.negV1   + (deltavAnimTarget.negV1  -deltavAnimFrom.negV1)*e;
+  deltavAnim.deltav  = deltavAnimFrom.deltav  + (deltavAnimTarget.deltav -deltavAnimFrom.deltav)*e;
+  drawDeltavFrame();
+  if(t<1){ deltavAnimRAF = requestAnimationFrame(deltavAnimTick); }
+  else { deltavAnimRAF=null; }
+}
+
+function updateDeltavReadoutText(){
+  var situation = DELTAV_SITUATIONS[deltavSituationIdx];
+  var step = deltavStep, txt='';
+  if(step===1){
+    txt = 'Étape ① : voici <b style="color:#C0392B"><span class="vec">v</span><sub>i-1</sub></b> et <b style="color:#C0392B"><span class="vec">v</span><sub>i+1</sub></b> à leur position d\'origine, sur la trajectoire (situation : '+situation.label+'). Clique sur « Suivant » pour commencer la construction de <span class="vec">Δv</span><sub>i</sub>.';
+  } else if(step===2){
+    txt = 'Étape ② : on <b>déplace</b> <span class="vec">v</span><sub>i+1</sub> jusqu\'à une origine commune O, sans changer sa direction ni sa norme (translation, observe le glissement). Clique sur « Suivant » pour déplacer <span class="vec">v</span><sub>i-1</sub>.';
+  } else if(step===3){
+    txt = 'Étape ③ : on <b>déplace</b> à son tour <span class="vec">v</span><sub>i-1</sub> jusqu\'à la pointe de <span class="vec">v</span><sub>i+1</sub>, <strong>sans encore l\'inverser</strong> (même direction, même sens qu\'à l\'origine). Clique sur « Suivant » pour l\'inverser.';
+  } else if(step===4){
+    txt = 'Étape ④ : on <b>inverse</b> <span class="vec">v</span><sub>i-1</sub> (même direction, sens opposé) pour obtenir <b>-v</b><sub>i-1</sub> — observe la rotation à 180° — <span style="opacity:.7">(le vecteur en pointillé clair montre v<sub>i-1</sub> avant inversion, pour comparaison)</span>. Clique sur « Suivant » pour construire <span class="vec">Δv</span><sub>i</sub>.';
+  } else {
+    var q = situation.normeDelta > 5 ? 'la norme augmente en plus du changement de direction (accélération en virage)' : (situation.normeDelta < -5 ? 'la norme diminue en plus du changement de direction (freinage en virage)' : 'la norme reste constante (virage pur)');
+    txt = 'Étape ⑤ : <b style="color:#3A8A6E"><span class="vec">Δv</span></b> va de O à la pointe de <b>-v</b><sub>i-1</sub>. Ici, '+q+' : <span class="vec">Δv</span> n\'est <strong>pas colinéaire</strong> à <span class="vec">v</span>, il pointe vers l\'intérieur du virage (mouvement curviligne).';
+  }
+  document.getElementById('deltavReadout').innerHTML = txt;
+  sizeVecLabels();
+}
+
+function lerpPt(a,b,t){ return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t]; }
+
+function renderDeltaVSim(){ drawDeltavFrame(); updateDeltavReadoutText(); }
+
+function drawDeltavFrame(){
+  var canvas=document.getElementById('deltavCanvas'); if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  var situation = DELTAV_SITUATIONS[deltavSituationIdx];
+  var angle1 = 25, norm1 = 70;
+  var angle2 = angle1 + situation.angleDelta;
+  var norm2 = Math.max(20, norm1*(1+situation.normeDelta/100));
+
+  /* --- Panneau gauche : trajectoire (contexte, toujours visible) --- */
+  ctx.strokeStyle='#DDE3EC'; ctx.lineWidth=1.3; ctx.beginPath();
+  ctx.moveTo(340,12); ctx.lineTo(340,405); ctx.stroke();
+  ctx.font="bold 14px 'Outfit',sans-serif"; ctx.fillStyle='#2D5F8A';
+  ctx.fillText('① Vitesses d\'origine', 25, 26);
+  ctx.fillText('Construction de Δv', 375, 26);
+
+  var Mim1=[95,390];
+  var midAngle=angle1+situation.angleDelta/2;
+  var midVec=toVec(midAngle,190);
+  var Mip1=[Mim1[0]+midVec[0], Mim1[1]+midVec[1]];
+  var ctrl=[(Mim1[0]+Mip1[0])/2 - midVec[1]*0.28, (Mim1[1]+Mip1[1])/2 + midVec[0]*0.28];
+
+  ctx.strokeStyle='#B8D4EC'; ctx.lineWidth=3; ctx.beginPath();
+  ctx.moveTo(Mim1[0],Mim1[1]); ctx.quadraticCurveTo(ctrl[0],ctrl[1],Mip1[0],Mip1[1]); ctx.stroke();
+
+  ctx.fillStyle='#1A2A3A';
+  ctx.beginPath(); ctx.arc(Mim1[0],Mim1[1],5,0,7); ctx.fill();
+  ctx.beginPath(); ctx.arc(Mip1[0],Mip1[1],5,0,7); ctx.fill();
+  ctx.font="14px 'DM Mono',monospace"; ctx.fillStyle='#5A6B7A';
+  ctx.fillText('Mi-1', Mim1[0]-42, Mim1[1]+5);
+  ctx.fillText('Mi+1', Mip1[0]+10, Mip1[1]+5);
+
+  var v1=toVec(angle1,norm1);
+  drawArrow(ctx, Mim1[0],Mim1[1], Mim1[0]+v1[0],Mim1[1]+v1[1], '#C0392B', 3);
+  drawVecLabel(ctx, Mim1[0]+v1[0]+8, Mim1[1]+v1[1], 'vi-1', '#C0392B', 14);
+
+  var v2=toVec(angle2,norm2);
+  drawArrow(ctx, Mip1[0],Mip1[1], Mip1[0]+v2[0],Mip1[1]+v2[1], '#C0392B', 3);
+  drawVecLabel(ctx, Mip1[0]+v2[0]+8, Mip1[1]+v2[1], 'vi+1', '#C0392B', 14);
+
+  /* --- Panneau droit : construction progressive et animee --- */
+  var O=[525,395];
+  var a = deltavAnim; /* {v2Anchor, v1Anchor, negV1, deltav} valeurs continues 0..1 */
+  var started = a.v2Anchor>0.001 || a.v1Anchor>0.001 || a.negV1>0.001 || a.deltav>0.001;
+
+  if(!started){
+    ctx.fillStyle='#9AA5B5'; ctx.font="13px 'DM Mono',monospace";
+    ctx.fillText('(clique sur ② pour commencer', 400, 220);
+    ctx.fillText('la construction)', 400, 238);
+    sizeVecLabels();
+    return;
+  }
+
+  var v2Origin = lerpPt(Mip1, O, a.v2Anchor);
+  var tipV2 = [v2Origin[0]+v2[0], v2Origin[1]+v2[1]];
+  ctx.fillStyle='#1A2A3A'; ctx.beginPath(); ctx.arc(v2Origin[0],v2Origin[1],4,0,7); ctx.fill();
+  drawArrow(ctx, v2Origin[0],v2Origin[1], tipV2[0],tipV2[1], '#C0392B', 3.2);
+  drawVecLabel(ctx, tipV2[0]+8, tipV2[1], 'vi+1', '#C0392B', 15);
+
+  if(a.v1Anchor > 0.001 || a.negV1 > 0.001){
+    var v1Origin = lerpPt(Mim1, tipV2, a.v1Anchor);
+
+    if(a.negV1 > 0.001){
+      var negAngle = angle1 + 180*a.negV1;
+      var negVec = toVec(negAngle, norm1);
+      var tipNeg = [v1Origin[0]+negVec[0], v1Origin[1]+negVec[1]];
+
+      /* fantome : v_{i-1} original (non inverse), pour montrer le retournement */
+      ctx.setLineDash([3,4]); ctx.globalAlpha=0.5;
+      drawArrow(ctx, v1Origin[0],v1Origin[1], v1Origin[0]+v1[0],v1Origin[1]+v1[1], '#C0392B', 2);
+      ctx.globalAlpha=1; ctx.setLineDash([]);
+      drawArrow(ctx, v1Origin[0],v1Origin[1], tipNeg[0],tipNeg[1], '#C0392B', 3.2);
+      drawVecLabel(ctx, tipNeg[0]+8, tipNeg[1]-6, '-vi-1', '#C0392B', 15);
+
+      if(a.deltav > 0.001){
+        var dvEnd = lerpPt(O, tipNeg, a.deltav);
+        ctx.strokeStyle='#3A8A6E'; ctx.lineWidth=1.8; ctx.setLineDash([5,5]);
+        ctx.beginPath(); ctx.moveTo(O[0],O[1]); ctx.lineTo(dvEnd[0],O[1]); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(dvEnd[0],O[1]); ctx.lineTo(dvEnd[0],dvEnd[1]); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle='#3A8A6E'; ctx.font="13px 'DM Mono',monospace";
+        ctx.fillText('Δvx', (O[0]+dvEnd[0])/2-12, O[1]+18);
+        ctx.fillText('Δvy', dvEnd[0]+8, (O[1]+dvEnd[1])/2);
+
+        drawArrow(ctx, O[0],O[1], dvEnd[0],dvEnd[1], '#3A8A6E', 3.8);
+        drawVecLabel(ctx, (O[0]+dvEnd[0])/2+10, (O[1]+dvEnd[1])/2-14, 'Δvi', '#3A8A6E', 15);
+      }
+    } else {
+      /* v_{i-1} deplace mais pas encore inverse : meme orientation qu'a l'origine */
+      drawArrow(ctx, v1Origin[0],v1Origin[1], v1Origin[0]+v1[0],v1Origin[1]+v1[1], '#C0392B', 3.2);
+      drawVecLabel(ctx, v1Origin[0]+v1[0]+8, v1Origin[1]+v1[1], 'vi-1', '#C0392B', 15);
+    }
+  }
+
+  sizeVecLabels();
+}
+
+/* ===== Simulation 3 : rôle de la masse (cours) ===== */
+var masseCurrentM = 2;
+function selectMasse(m, btn){
+  masseCurrentM = m;
+  document.querySelectorAll('#masseButtons .sub-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderMasseSim();
+}
+function renderMasseSim(){
+  var canvas=document.getElementById('masseCanvas'); if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  var m = masseCurrentM;
+  var F = 4.0, dt = 1.0;
+  var dv = F*dt/m;
+  var dv1 = F*dt/1.0; /* reference a m = 1,0 kg */
+
+  var cx=170, cy=110;
+  var boxSize = 26 + 7*m;
+  var boxHalfMax = 26/2 + 7*10/2; /* demi-taille max (m=10) pour positionner la reference toujours en dessous du systeme */
+
+  ctx.fillStyle='#E8F1F8'; ctx.strokeStyle='#2D5F8A'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(cx-boxSize/2,cy-boxSize/2,boxSize,boxSize,8) : ctx.rect(cx-boxSize/2,cy-boxSize/2,boxSize,boxSize);
+  ctx.fill(); ctx.stroke();
+
+  /* Point centre de masse, bien visible */
+  ctx.fillStyle='#1A2A3A';
+  ctx.beginPath(); ctx.arc(cx,cy,3.5,0,7); ctx.fill();
+
+  /* ΣF et Δv partent tous les deux du centre de masse (cx,cy), meme sens (vers la droite) */
+  var Flen = 70;
+  drawArrow(ctx, cx,cy-9, cx+Flen,cy-9, '#3A8A6E', 3);
+  drawVecLabel(ctx, cx+Flen+8, cy-9, 'ΣF', '#3A8A6E', 13);
+
+  var dvMax = F*dt/1.0; /* Δv maximal atteint a m = 1,0 kg (la plus petite masse proposee) */
+  var dvScale = 30 + 110*(dv/dvMax);
+  drawArrow(ctx, cx,cy+9, cx+dvScale,cy+9, '#C0392B', 3.2);
+  drawVecLabel(ctx, cx+dvScale+8, cy+9, 'Δv', '#C0392B', 13);
+
+  /* Fleche de reference grisee, pointillee, pour m = 1,0 kg : sous le systeme, toujours au meme endroit */
+  var refY = cy + boxHalfMax + 30;
+  var dvScale1 = 30 + 110*(dv1/dvMax);
+  ctx.setLineDash([5,4]);
+  drawArrow(ctx, cx, refY, cx+dvScale1, refY, '#9AA5B5', 2.4);
+  ctx.setLineDash([]);
+  ctx.fillStyle='#9AA5B5'; ctx.font="11px 'DM Mono',monospace";
+  ctx.fillText('référence Δv : m = 1,0 kg', cx, refY+18);
+
+  ctx.fillStyle='#2D5F8A'; ctx.font="bold 12px 'Outfit',sans-serif"; ctx.textAlign='center';
+  ctx.fillText('m = '+m.toFixed(1)+' kg', cx-70, cy+boxHalfMax+50);
+  ctx.textAlign='left';
+
+  document.getElementById('masseReadout').innerHTML =
+    '<strong>Système actuel (m = '+m.toFixed(1)+' kg) :</strong> Δv = ΣF×Δt/m = 4,0×1,0/'+m.toFixed(1)+' ≈ <b style="color:#C0392B">'+dv.toFixed(2)+' m·s⁻¹</b><br>'+
+    '<strong>Référence (m = 1,0 kg) :</strong> Δv = 4,0×1,0/1,0 = <b>'+dv1.toFixed(2)+' m·s⁻¹</b> (flèche grisée)<br>'+
+    'Les vecteurs <b style="color:#3A8A6E"><span class="vec">ΣF</span></b> et <b style="color:#C0392B"><span class="vec">Δv</span></b> partent tous deux du centre de masse du système, colinéaires et de même sens : plus la masse est grande, plus <span class="vec">Δv</span> est faible pour une même force — la masse s\'oppose à la modification du mouvement (inertie).';
+  sizeVecLabels();
+}
+
+/* ===== Activité 2 : données réelles du pointage (balle de squash, m = 24 g, Δt = 20,0 ms) ===== */
+var A2_t = [0,0.02,0.041,0.061,0.081,0.102,0.122,0.142,0.162,0.183,0.203,0.223,0.244,0.264,0.284,0.305,0.325,0.345,0.365,0.386,0.406,0.426,0.447];
+var A2_x = [0,0.0255,0.0622,0.0989,0.136,0.172,0.209,0.243,0.284,0.322,0.357,0.396,0.431,0.469,0.509,0.544,0.582,0.618,0.653,0.688,0.724,0.763,0.798];
+var A2_y = [0.0016,0.0479,0.0798,0.113,0.14,0.163,0.187,0.203,0.212,0.223,0.225,0.227,0.22,0.212,0.198,0.184,0.163,0.139,0.112,0.0814,0.0415,0.00319,-0.0415];
+var A2_vx=[1.275,1.835,1.835,1.855,1.8,1.85,1.7,2.05,1.9,1.75,1.95,1.75,1.9,2.0,1.75,1.9,1.8,1.75,1.75,1.8,1.95,1.75];
+var A2_vy=[2.315,1.595,1.66,1.35,1.15,1.2,0.8,0.45,0.55,0.1,0.1,-0.35,-0.4,-0.7,-0.7,-1.05,-1.2,-1.35,-1.53,-1.995,-1.916,-2.235];
+var A2_dvx=[0.56,0.0,0.02,-0.055,0.05,-0.15,0.35,-0.15,-0.15,0.2,-0.2,0.15,0.1,-0.25,0.15,-0.1,-0.05,0.0,0.05,0.15,-0.2];
+var A2_dvy=[-0.72,0.065,-0.31,-0.2,0.05,-0.4,-0.35,0.1,-0.45,0.0,-0.45,-0.05,-0.3,0.0,-0.35,-0.15,-0.15,-0.18,-0.465,0.079,-0.319];
+
+function A2fmt(v,d){ return v.toFixed(d).replace('.',','); }
+
+function A2buildTable(id, indices){
+  var el = document.getElementById(id); if(!el) return;
+  var h = '<tr><th>Point</th><th>t (s)</th><th>x (m)</th><th>y (m)</th><th>v<sub>x</sub> (m/s)</th><th>v<sub>y</sub> (m/s)</th></tr>';
+  indices.forEach(function(i){
+    h += '<tr><td>M'+i+'</td><td>'+A2fmt(A2_t[i],3)+'</td><td>'+A2fmt(A2_x[i],3)+'</td><td>'+A2fmt(A2_y[i],3)+'</td>'
+       + '<td>'+(A2_vx[i]!==undefined?A2fmt(A2_vx[i],2):'—')+'</td><td>'+(A2_vy[i]!==undefined?A2fmt(A2_vy[i],2):'—')+'</td></tr>';
+  });
+  el.innerHTML = h;
+}
+
+/* Traceur de courbes générique (axes + points + lignes), réservé à l'Activité 2 */
+function A2drawPlot(canvasId, series, opts){
+  var canvas=document.getElementById(canvasId); if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  var W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  var padL=44, padR=14, padT=14, padB=32;
+  var pw=W-padL-padR, ph=H-padT-padB;
+  function px(x){ return padL + (x-opts.xmin)/(opts.xmax-opts.xmin)*pw; }
+  function py(y){ return padT + ph - (y-opts.ymin)/(opts.ymax-opts.ymin)*ph; }
+
+  ctx.strokeStyle='#EEF2F7'; ctx.lineWidth=1;
+  for(var i=0;i<=4;i++){
+    var gx = padL + pw*i/4, gy = padT + ph*i/4;
+    ctx.beginPath(); ctx.moveTo(gx,padT); ctx.lineTo(gx,padT+ph); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(padL,gy); ctx.lineTo(padL+pw,gy); ctx.stroke();
+  }
+  var y0 = (opts.ymin<=0 && opts.ymax>=0) ? py(0) : padT+ph;
+  var x0 = (opts.xmin<=0 && opts.xmax>=0) ? px(0) : padL;
+  ctx.strokeStyle='#9AA5B5'; ctx.lineWidth=1.4;
+  ctx.beginPath(); ctx.moveTo(padL,y0); ctx.lineTo(padL+pw,y0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x0,padT); ctx.lineTo(x0,padT+ph); ctx.stroke();
+
+  ctx.fillStyle='#5A6B7A'; ctx.font="10px 'DM Mono',monospace"; ctx.textAlign='center';
+  ctx.fillText(opts.xmin.toString().replace('.',','), padL, padT+ph+14);
+  ctx.fillText(opts.xmax.toFixed(opts.xdec||2).replace('.',','), padL+pw, padT+ph+14);
+  ctx.save(); ctx.textAlign='right';
+  ctx.fillText(opts.ymax.toFixed(opts.ydec||1).replace('.',','), padL-6, padT+5);
+  ctx.fillText(opts.ymin.toFixed(opts.ydec||1).replace('.',','), padL-6, padT+ph+2);
+  ctx.restore();
+
+  if(opts.hlines){
+    opts.hlines.forEach(function(hl){
+      ctx.strokeStyle=hl.color; ctx.setLineDash([4,4]); ctx.lineWidth=1.6;
+      var yy=py(hl.value);
+      ctx.beginPath(); ctx.moveTo(padL,yy); ctx.lineTo(padL+pw,yy); ctx.stroke();
+      ctx.setLineDash([]);
+    });
+  }
+
+  series.forEach(function(s){
+    ctx.strokeStyle=s.color; ctx.fillStyle=s.color; ctx.lineWidth=1.8;
+    ctx.beginPath();
+    s.data.forEach(function(pt,i){
+      var X=px(pt[0]), Y=py(pt[1]);
+      if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+    });
+    if(s.line!==false) ctx.stroke();
+    s.data.forEach(function(pt){
+      var X=px(pt[0]), Y=py(pt[1]);
+      ctx.beginPath(); ctx.arc(X,Y,2.6,0,7); ctx.fill();
+    });
+  });
+
+  ctx.fillStyle='#2D5F8A'; ctx.font="bold 11px 'Outfit',sans-serif"; ctx.textAlign='left';
+  ctx.fillText(opts.title||'', padL, 12);
+}
+
+function renderA2(){
+  A2buildTable('a2-tableExtrait',[0,3,6,9,12,15,18,21,22]);
+  A2buildTable('a2-tableComplet',[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]);
+
+  var trajData = A2_t.map(function(t,i){ return [A2_x[i], A2_y[i]*2]; });
+  A2drawPlot('a2trajCanvas', [{data:trajData, color:'#C0392B'}], {xmin:0,xmax:0.8,ymin:-0.1,ymax:0.5,xdec:1,ydec:2,title:'y(x) — ech. y ×2'});
+
+  var xData = A2_t.map(function(t,i){ return [t, A2_x[i]]; });
+  var yData = A2_t.map(function(t,i){ return [t, A2_y[i]]; });
+  A2drawPlot('a2posCanvas', [{data:xData,color:'#2D5F8A'},{data:yData,color:'#C0392B'}], {xmin:0,xmax:0.45,ymin:-0.1,ymax:0.85,xdec:2,ydec:2,title:'x(t), y(t)'});
+
+  var tv = []; for(var i=0;i<A2_vx.length;i++) tv.push((A2_t[i]+A2_t[i+1])/2);
+  var vxData = tv.map(function(t,i){ return [t, A2_vx[i]]; });
+  var vyData = tv.map(function(t,i){ return [t, A2_vy[i]]; });
+  A2drawPlot('a2vitCanvas', [{data:vxData,color:'#7B4FA6'},{data:vyData,color:'#3A8A6E'}], {xmin:0,xmax:0.45,ymin:-2.5,ymax:2.5,xdec:2,ydec:1,title:'vx(t), vy(t)'});
+
+  var td = []; for(var j=0;j<A2_dvx.length;j++) td.push((tv[j]+tv[j+1])/2);
+  var dvxData = td.map(function(t,i){ return [t, A2_dvx[i]]; });
+  var dvyData = td.map(function(t,i){ return [t, A2_dvy[i]]; });
+  A2drawPlot('a2deltaCanvas', [{data:dvxData,color:'#7B4FA6',line:false},{data:dvyData,color:'#E8783A',line:false}],
+    {xmin:0,xmax:0.45,ymin:-0.8,ymax:0.8,xdec:2,ydec:1,title:'Δvx(t), Δvy(t)',
+     hlines:[{value:0.023,color:'#7B4FA6'},{value:-0.217,color:'#E8783A'}]});
+}
+
+/* ===== Simulation 4 : vol libre du gymnaste au trampoline (activité 1) =====
+   Positions M0..M12 reconstruites par intégration trapézoïdale des vitesses mesurées
+   (Δt = 0,100 s). La phase de descente est supposée démarrer au sommet atteint en
+   fin de montée (y ≈ 8,0 m), pour un vol continu. */
+/* offset : décalage entre le numéro de point M_i affiché et l'indice du tableau de
+   données (0 pour la montée ; 1 pour la descente, pour retomber exactement sur les
+   valeurs du corrigé : M8 -> 6,86 m·s⁻¹, M9 -> 7,84 m·s⁻¹) */
+var trampoData = {
+  montee:   { v:[12.5,11.6,10.6,9.61,8.63,7.65,6.67,5.69,4.71,3.73,2.75,1.77,0.79],
+              y:[0.00,1.21,2.32,3.33,4.24,5.05,5.77,6.39,6.91,7.33,7.65,7.88,8.01],
+              sign:1, offset:0 },
+  descente: { v:[0.0,1.00,2.00,2.94,3.92,4.90,5.88,6.86,7.84,8.82,9.80,10.8,11.8],
+              y:[8.01,7.96,7.81,7.56,7.22,6.78,6.24,5.60,4.87,4.04,3.10,2.07,0.94],
+              sign:-1, offset:1 }
+};
+var trampoPhase = 'montee';
+var trampoRevealCount = 13;
+var trampoAnimTimer = null;
+
+/* --- Etapes de construction (translation animee, sur le modele de deltavSteps) --- */
+var trampoStep = 1;
+var trampoAnim       = {viAnchor:0, vim1Anchor:0, negVim1:0, deltav:0};
+var trampoAnimTarget = {viAnchor:0, vim1Anchor:0, negVim1:0, deltav:0};
+var trampoAnimFrom   = {viAnchor:0, vim1Anchor:0, negVim1:0, deltav:0};
+var trampoAnimStartTime = null;
+var trampoAnimRAF = null;
+
+function selectTrampoPhase(phase, btn){
+  trampoPhase = phase;
+  document.querySelectorAll('#trampoPhase .sub-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var slider = document.getElementById('trampoI');
+  if(phase==='montee'){ slider.min=1; slider.max=12; slider.value=2; }
+  else { slider.min=2; slider.max=13; slider.value=9; }
+  if(trampoAnimTimer){ clearInterval(trampoAnimTimer); trampoAnimTimer=null; }
+  trampoRevealCount = 13;
+  selectTrampoStep(1);
+}
+
+function trampoOnIChange(){ selectTrampoStep(1); }
+
+function trampoAnimate(){
+  if(trampoAnimTimer){ clearInterval(trampoAnimTimer); trampoAnimTimer=null; }
+  trampoRevealCount = 0;
+  renderTrampoSim();
+  trampoAnimTimer = setInterval(function(){
+    trampoRevealCount++;
+    renderTrampoSim();
+    if(trampoRevealCount>=13){ clearInterval(trampoAnimTimer); trampoAnimTimer=null; }
+  }, 200);
+}
+
+function selectTrampoStep(step, btn){
+  trampoStep = step;
+  document.querySelectorAll('#trampoSteps .sub-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  else {
+    var target = document.querySelector('#trampoSteps [data-step="'+step+'"]');
+    if(target) target.classList.add('active');
+  }
+  trampoAnimTarget = {viAnchor: step>=2?1:0, vim1Anchor: step>=3?1:0, negVim1: step>=4?1:0, deltav: step>=5?1:0};
+  updateTrampoStepReadout();
+  startTrampoAnimation();
+}
+function trampoNextStep(){ selectTrampoStep(Math.min(5, trampoStep+1)); }
+function trampoPrevStep(){ selectTrampoStep(Math.max(1, trampoStep-1)); }
+
+function easeInOutTrampo(t){ return t<0.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2; }
+function startTrampoAnimation(){
+  if(trampoAnimRAF) cancelAnimationFrame(trampoAnimRAF);
+  trampoAnimFrom = {viAnchor:trampoAnim.viAnchor, vim1Anchor:trampoAnim.vim1Anchor, negVim1:trampoAnim.negVim1, deltav:trampoAnim.deltav};
+  trampoAnimStartTime = null;
+  trampoAnimRAF = requestAnimationFrame(trampoAnimTick);
+}
+function trampoAnimTick(now){
+  if(trampoAnimStartTime===null) trampoAnimStartTime = now;
+  var duration = 650;
+  var t = Math.min(1, (now-trampoAnimStartTime)/duration);
+  var e = easeInOutTrampo(t);
+  trampoAnim.viAnchor   = trampoAnimFrom.viAnchor   + (trampoAnimTarget.viAnchor  -trampoAnimFrom.viAnchor)*e;
+  trampoAnim.vim1Anchor = trampoAnimFrom.vim1Anchor + (trampoAnimTarget.vim1Anchor-trampoAnimFrom.vim1Anchor)*e;
+  trampoAnim.negVim1    = trampoAnimFrom.negVim1    + (trampoAnimTarget.negVim1   -trampoAnimFrom.negVim1)*e;
+  trampoAnim.deltav     = trampoAnimFrom.deltav     + (trampoAnimTarget.deltav    -trampoAnimFrom.deltav)*e;
+  renderTrampoSim();
+  if(t<1){ trampoAnimRAF = requestAnimationFrame(trampoAnimTick); }
+  else { trampoAnimRAF = null; }
+}
+
+function updateTrampoStepReadout(){
+  var el = document.getElementById('trampoStepReadout'); if(!el) return;
+  var step = trampoStep, txt='';
+  if(step===1){
+    txt = 'Étape ① : voici <b style="color:#2D5F8A"><span class="vec">v</span><sub>i-1</sub></b> et <b style="color:#2D5F8A"><span class="vec">v</span><sub>i</sub></b> à leur position réelle, aux points M<sub>i-1</sub> et M<sub>i</sub> de la chronophotographie. Clique sur « Suivant » pour commencer la construction.';
+  } else if(step===2){
+    txt = 'Étape ② : on <b>déplace</b> <span class="vec">v</span><sub>i</sub> jusqu\'à une origine commune O, sans changer sa direction ni sa norme (translation — observe le glissement depuis son point réel).';
+  } else if(step===3){
+    txt = 'Étape ③ : on <b>déplace</b> à son tour <span class="vec">v</span><sub>i-1</sub> jusqu\'à la pointe de <span class="vec">v</span><sub>i</sub>, <strong>sans encore l\'inverser</strong> (même direction, même sens qu\'à l\'origine).';
+  } else if(step===4){
+    txt = 'Étape ④ : on <b>inverse</b> <span class="vec">v</span><sub>i-1</sub> (même direction, sens opposé) pour obtenir <b>-v</b><sub>i-1</sub> — le vecteur pointillé clair montre <span class="vec">v</span><sub>i-1</sub> avant inversion, pour comparaison.';
+  } else {
+    txt = 'Étape ⑤ : <b style="color:#C0392B"><span class="vec">Δv</span><sub>i</sub></b> va de O jusqu\'à la pointe de <b>-v</b><sub>i-1</sub>. Sa norme étant petite devant celle de v, l\'encart zoom (×5) permet de bien voir sa direction et son sens.';
+  }
+  el.innerHTML = txt;
+  sizeVecLabels();
+}
+
+function renderTrampoSim(){
+  var canvas=document.getElementById('trampoCanvas'); if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  var data = trampoData[trampoPhase];
+  var i = parseInt(document.getElementById('trampoI').value,10);
+  var n = (trampoRevealCount===undefined||trampoRevealCount===null) ? 13 : trampoRevealCount;
+
+  var trajX = 50, yTop = 25, yBottom = 320;
+  var pxPerMeter = (yBottom-yTop)/8.4;
+  function yToPx(v){ return yBottom - v*pxPerMeter; }
+
+  ctx.strokeStyle='#DDE3EC'; ctx.lineWidth=1.5; ctx.beginPath();
+  ctx.moveTo(trajX, yTop); ctx.lineTo(trajX, yBottom); ctx.stroke();
+  ctx.fillStyle='#5A6B7A'; ctx.font="9px 'DM Mono',monospace"; ctx.textAlign='right';
+  [0,2,4,6,8].forEach(function(m){ ctx.fillText(m+'m', trajX-6, yToPx(m)+3); });
+  ctx.textAlign='left';
+
+  var off = data.offset;
+  var shown = Math.min(n,13);
+  var py_im1=null, py_i=null;
+  for(var k=0;k<shown;k++){
+    var py = yToPx(data.y[k]);
+    var label = k+off;
+    var isSel = (label===i-1 || label===i);
+    var isCenter = (label===i);
+    if(label===i-1) py_im1 = py;
+    if(label===i) py_i = py;
+    ctx.beginPath();
+    ctx.arc(trajX, py, isCenter?6:4.5, 0, 7);
+    ctx.fillStyle = isCenter ? '#E8783A' : (isSel ? '#C0392B' : '#1A2A3A');
+    ctx.fill();
+    ctx.fillStyle='#5A6B7A'; ctx.font="9px 'DM Mono',monospace";
+    ctx.fillText('M'+label, trajX+9, py+3);
+  }
+
+  var infoEl = document.getElementById('trampoInfo');
+  if(!(shown>=13 && py_im1!==null && py_i!==null)){
+    if(infoEl) infoEl.innerHTML = 'Animation en cours… ('+shown+'/13 positions affichées)';
+    sizeVecLabels();
+    return;
+  }
+
+  var vim1 = data.sign*data.v[i-1-off];
+  var vi   = data.sign*data.v[i-off];
+  var dv   = vi - vim1;
+  var vScaleOrig = 4.2;   // echelle reduite pour les vecteurs traces au point reel
+  var vScale = 6.5;       // echelle de la zone de construction
+  var origX = trajX + 26;
+
+  // angles verticaux (90° = vers le haut, 270° = vers le bas), utilises pour l'inversion animee
+  var angleIm1 = vim1>=0 ? 90 : 270, angleI = vi>=0 ? 90 : 270;
+  var Mim1 = [origX, py_im1], Mi = [origX, py_i];
+
+  // --- 1) vecteurs traces a leur point reel (toujours visibles, contexte) ---
+  var vOrigIm1 = toVec(angleIm1, Math.abs(vim1)*vScaleOrig);
+  var vOrigI   = toVec(angleI,   Math.abs(vi)*vScaleOrig);
+  drawArrow(ctx, Mim1[0],Mim1[1], Mim1[0]+vOrigIm1[0], Mim1[1]+vOrigIm1[1], '#2D5F8A', 2);
+  drawArrow(ctx, Mi[0],Mi[1],     Mi[0]+vOrigI[0],      Mi[1]+vOrigI[1],   '#2D5F8A', 2);
+  ctx.fillStyle='#2D5F8A'; ctx.font="9px 'DM Mono',monospace"; ctx.textAlign='left';
+  ctx.fillText('v'+(i-1), Mim1[0]+vOrigIm1[0]+6, Mim1[1]+vOrigIm1[1]+3);
+  ctx.fillText('v'+i, Mi[0]+vOrigI[0]+6, Mi[1]+vOrigI[1]+3);
+
+  // --- 2 a 5) construction animee dans la zone de droite ---
+  var O = [335, 170];
+  var a = trampoAnim;
+  var started = a.viAnchor>0.001 || a.vim1Anchor>0.001 || a.negVim1>0.001 || a.deltav>0.001;
+
+  if(!started){
+    ctx.fillStyle='#9AA5B5'; ctx.font="12px 'DM Mono',monospace"; ctx.textAlign='left';
+    ctx.fillText('(clique sur ② pour commencer', 350, 90);
+    ctx.fillText('la construction de Δv)', 350, 106);
+    if(infoEl){
+      infoEl.innerHTML = 'v<sub>'+(i-1)+',y</sub> = '+vim1.toFixed(2)+' m·s⁻¹, v<sub>'+i+',y</sub> = '+vi.toFixed(2)+' m·s⁻¹.';
+    }
+    sizeVecLabels();
+    return;
+  }
+
+  var vecConsI = toVec(angleI, Math.abs(vi)*vScale);
+  var viOrigin = lerpPt(Mi, O, a.viAnchor);
+  var tipVi = [viOrigin[0]+vecConsI[0], viOrigin[1]+vecConsI[1]];
+  ctx.fillStyle='#1A2A3A'; ctx.beginPath(); ctx.arc(viOrigin[0],viOrigin[1],3.5,0,7); ctx.fill();
+  drawArrow(ctx, viOrigin[0],viOrigin[1], tipVi[0],tipVi[1], '#2D5F8A', 2.6);
+  ctx.fillStyle='#2D5F8A'; ctx.font="bold 10px 'DM Mono',monospace"; ctx.textAlign='left';
+  ctx.fillText('v'+i, tipVi[0]+7, tipVi[1]+3);
+
+  var tipNeg = null;
+  if(a.vim1Anchor > 0.001 || a.negVim1 > 0.001){
+    var vim1Origin = lerpPt(Mim1, tipVi, a.vim1Anchor);
+    var normIm1Cons = Math.abs(vim1)*vScale;
+
+    if(a.negVim1 > 0.001){
+      var negAngle = angleIm1 + 180*a.negVim1;
+      var negVec = toVec(negAngle, normIm1Cons);
+      tipNeg = [vim1Origin[0]+negVec[0], vim1Origin[1]+negVec[1]];
+
+      // fantome : v_{i-1} original (non inverse), pour montrer le retournement
+      var ghostVec = toVec(angleIm1, normIm1Cons);
+      ctx.save(); ctx.setLineDash([3,4]); ctx.globalAlpha=0.45;
+      drawArrow(ctx, vim1Origin[0],vim1Origin[1], vim1Origin[0]+ghostVec[0],vim1Origin[1]+ghostVec[1], '#2D5F8A', 1.8);
+      ctx.restore();
+      drawArrow(ctx, vim1Origin[0],vim1Origin[1], tipNeg[0],tipNeg[1], '#7B4FA6', 2.6);
+      ctx.fillStyle='#7B4FA6'; ctx.font="bold 10px 'DM Mono',monospace"; ctx.textAlign='left';
+      ctx.fillText('-v'+(i-1), tipNeg[0]+7, tipNeg[1]+3);
+    } else {
+      var vecConsIm1 = toVec(angleIm1, normIm1Cons);
+      var tipIm1NotInv = [vim1Origin[0]+vecConsIm1[0], vim1Origin[1]+vecConsIm1[1]];
+      drawArrow(ctx, vim1Origin[0],vim1Origin[1], tipIm1NotInv[0],tipIm1NotInv[1], '#2D5F8A', 2.6);
+      ctx.fillStyle='#2D5F8A'; ctx.font="bold 10px 'DM Mono',monospace"; ctx.textAlign='left';
+      ctx.fillText('v'+(i-1), tipIm1NotInv[0]+7, tipIm1NotInv[1]+3);
+    }
+  }
+
+  if(a.deltav > 0.001 && tipNeg){
+    var dvEnd = lerpPt(O, tipNeg, a.deltav);
+    drawArrow(ctx, O[0],O[1], dvEnd[0],dvEnd[1], '#C0392B', 3);
+    ctx.fillStyle='#C0392B'; ctx.font="bold 11px 'DM Mono',monospace"; ctx.textAlign='left';
+    ctx.fillText('Δv'+i, dvEnd[0]+7, dvEnd[1]+3);
+
+    // encart zoom x5 (croît avec la construction de Δv)
+    var zx=430, zy=225, zw=115, zh=125;
+    ctx.strokeStyle='#DDE3EC'; ctx.lineWidth=1; ctx.strokeRect(zx,zy,zw,zh);
+    ctx.fillStyle='#5A6B7A'; ctx.font="9px 'Nunito',sans-serif"; ctx.textAlign='center';
+    ctx.fillText('zoom Δv (×5)', zx+zw/2, zy+16);
+    var zBase = zy+38, zScale = vScale*5;
+    var zTip = zBase - dv*zScale*a.deltav;
+    drawArrow(ctx, zx+zw/2, zBase, zx+zw/2, zTip, '#C0392B', 3);
+    ctx.fillStyle='#C0392B'; ctx.font="bold 10px 'DM Mono',monospace";
+    ctx.fillText('Δv'+i+' = '+dv.toFixed(2)+' m·s⁻¹', zx+zw/2, zy+zh-8);
+    ctx.textAlign='left';
+  }
+
+  if(infoEl){
+    var infoTxt = 'Phase '+(trampoPhase==='montee'?'montée':'descente')+', point M<sub>'+i+'</sub> : ';
+    infoTxt += 'v<sub>'+(i-1)+',y</sub> = '+vim1.toFixed(2)+' m·s⁻¹, v<sub>'+i+',y</sub> = '+vi.toFixed(2)+' m·s⁻¹';
+    if(a.deltav>0.5){
+      infoTxt += ' → <b style="color:#C0392B">Δv<sub>'+i+',y</sub> = '+dv.toFixed(2)+' m·s⁻¹</b> (<span class="vec">Δv</span> vertical, vers le bas, norme ≈ '+Math.abs(dv).toFixed(1)+' m·s⁻¹).';
+    } else { infoTxt += '.'; }
+    infoEl.innerHTML = infoTxt;
+  }
+  sizeVecLabels();
+}
+
+/* ===== Simulation 5 : comparateur deux masses (activité 3) ===== */
+function renderMasse2Sim(){
+  var canvas=document.getElementById('masse2Canvas'); if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  var mB = parseFloat(document.getElementById('masse2M').value);
+  var mA = 1.0, F=2.0, dt=1.0;
+  var dvA = F*dt/mA, dvB = F*dt/mB;
+
+  function drawSystem(cx,cy,mass,dv,label){
+    var size = 22+6*mass;
+    ctx.fillStyle='#E8F1F8'; ctx.strokeStyle='#2D5F8A'; ctx.lineWidth=2;
+    ctx.beginPath();
+    if(ctx.roundRect) ctx.roundRect(cx-size/2,cy-size/2,size,size,8); else ctx.rect(cx-size/2,cy-size/2,size,size);
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle='#2D5F8A'; ctx.font="bold 11px 'Outfit',sans-serif"; ctx.textAlign='center';
+    ctx.fillText(label+' : '+mass.toFixed(1)+' kg', cx, cy+size/2+16);
+    ctx.textAlign='left';
+    var dvScale = Math.min(150, dv*26);
+    drawArrow(ctx, cx, cy-size/2-6, cx+dvScale, cy-size/2-6, '#C0392B', 3);
+    ctx.fillStyle='#C0392B'; ctx.font="bold 11px 'DM Mono',monospace";
+    ctx.fillText('Δv='+dv.toFixed(2)+' m/s', cx, cy-size/2-14);
+  }
+  drawSystem(110,120,mA,dvA,'Système A');
+  drawSystem(340,120,mB,dvB,'Système B');
+
+  document.getElementById('masse2Info').innerHTML = 'Système A (1,0 kg) : Δv = '+dvA.toFixed(2)+' m·s⁻¹ &nbsp;·&nbsp; Système B ('+mB.toFixed(1)+' kg) : Δv = '+dvB.toFixed(2)+' m·s⁻¹. Même force, même durée : le système le plus léger est le plus « facile » à accélérer.';
+  sizeVecLabels();
+}
+
+/* ===== Activité Python — satellite en MCU (Pyodide) ===== */
+var PY_SKELETON =
+"import numpy as np\n" +
+"import matplotlib.pyplot as plt\n" +
+"\n" +
+"# Rayon de l'orbite circulaire (m), vitesse angulaire (rad/s), duree entre deux positions (s)\n" +
+"R = 7000e3\n" +
+"omega = 0.0011\n" +
+"dt = 60\n" +
+"\n" +
+"theta_i = 1.0   # angle (rad) du point central M(i)\n" +
+"\n" +
+"# Angles des 5 positions successives : M(i-2), M(i-1), M(i), M(i+1), M(i+2)\n" +
+"k = np.array([-2, -1, 0, 1, 2])\n" +
+"theta = theta_i + k*omega*dt\n" +
+"\n" +
+"# Coordonnees (x,y) des 5 positions sur le cercle de rayon R\n" +
+"x = R*np.cos(theta)\n" +
+"y = ___\n" +
+"\n" +
+"# Vecteur vitesse en M(i-1), a partir de M(i-2) et M(i) : v = deplacement/(2*dt)\n" +
+"vx_im1 = (x[2]-x[0])/(2*dt)\n" +
+"vy_im1 = ___\n" +
+"\n" +
+"# Vecteur vitesse en M(i+1), a partir de M(i) et M(i+2)\n" +
+"vx_ip1 = ___\n" +
+"vy_ip1 = (y[4]-y[2])/(2*dt)\n" +
+"\n" +
+"# Vecteur variation de vitesse en M(i) : Δv = v(i+1) - v(i-1)\n" +
+"dvx = vx_ip1 - vx_im1\n" +
+"dvy = ___\n" +
+"\n" +
+"# --- Trace ---\n" +
+"echelle = 3e5   # facteur d'agrandissement de la fleche Δv pour la rendre visible\n" +
+"fig, ax = plt.subplots(figsize=(5,5))\n" +
+"phi = np.linspace(0, 2*np.pi, 200)\n" +
+"ax.plot(R*np.cos(phi), R*np.sin(phi), color='lightgray')\n" +
+"ax.plot(0, 0, 'ko', label='Centre de la Terre')\n" +
+"ax.plot(x[2], y[2], 'ro', label='M(i)')\n" +
+"ax.quiver(x[2], y[2], dvx*echelle, dvy*echelle, color='green', scale=1, scale_units='xy', angles='xy', width=0.01, label='Δv (amplifie)')\n" +
+"ax.set_aspect('equal')\n" +
+"ax.legend(loc='upper right', fontsize=8)\n" +
+"ax.set_title('Vecteur variation de vitesse en M(i)')\n" +
+"plt.show()";
+
+var PY_CORRECTION = PY_SKELETON
+  .replace('y = ___', 'y = R*np.sin(theta)')
+  .replace('vy_im1 = ___', 'vy_im1 = (y[2]-y[0])/(2*dt)')
+  .replace('vx_ip1 = ___', 'vx_ip1 = (x[4]-x[2])/(2*dt)')
+  .replace('dvy = ___', 'dvy = vy_ip1 - vy_im1');
+
+var pyodideReadyPromise = null;
+function getPyodideInstance(){
+  if(!pyodideReadyPromise){
+    pyodideReadyPromise = loadPyodide().then(function(pyodide){
+      return pyodide.loadPackage(['numpy','matplotlib']).then(function(){ return pyodide; });
+    });
+  }
+  return pyodideReadyPromise;
+}
+
+var PY_KEYWORDS = ['import','as','if','else','elif','for','while','def','return','in','and','or','not','True','False','None'];
+var PY_KW_REGEX = new RegExp('\\b(' + PY_KEYWORDS.join('|') + ')\\b', 'g');
+function pyHighlightCode(code){
+  var esc = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  var lines = esc.split('\n');
+  var out = lines.map(function(line){
+    var commentIdx = line.indexOf('#');
+    var codePart = commentIdx >= 0 ? line.slice(0, commentIdx) : line;
+    var commentPart = commentIdx >= 0 ? line.slice(commentIdx) : '';
+    codePart = codePart.replace(/("[^"]*"|'[^']*')/g, function(m){ return '<span class="pystr">' + m + '</span>'; });
+    codePart = codePart.replace(/\b(\d+\.?\d*(?:[eE][-+]?\d+)?)\b/g, '<span class="pynum">$1</span>');
+    codePart = codePart.replace(PY_KW_REGEX, '<span class="pykw">$1</span>');
+    var commentHtml = commentPart ? '<span class="pycmt">' + commentPart + '</span>' : '';
+    return codePart + commentHtml;
+  });
+  return out.join('\n');
+}
+function pySyncHighlight(){
+  var editor = document.getElementById('pyCodeEditor');
+  var hl = document.getElementById('pyHighlight');
+  if(!editor || !hl) return;
+  hl.innerHTML = pyHighlightCode(editor.value) + '\n';
+}
+function pySyncScroll(){
+  var editor = document.getElementById('pyCodeEditor');
+  var hl = document.getElementById('pyHighlight');
+  if(!editor || !hl) return;
+  hl.scrollTop = editor.scrollTop;
+  hl.scrollLeft = editor.scrollLeft;
+}
+function pyReset(){
+  document.getElementById('pyCodeEditor').value = PY_SKELETON;
+  pySyncHighlight();
+  document.getElementById('pyOutput').innerHTML = '';
+  var st = document.getElementById('pyStatus');
+  st.className = 'exo-fb'; st.innerHTML = '';
+  document.getElementById('pyExploitBox').style.display = 'none';
+}
+function pyShowCorrection(){
+  document.getElementById('pyCodeEditor').value = PY_CORRECTION;
+  pySyncHighlight();
+  pyRunCode();
+}
+function pyRunCode(){
+  var statusEl = document.getElementById('pyStatus');
+  var outputEl = document.getElementById('pyOutput');
+  var code = document.getElementById('pyCodeEditor').value;
+  statusEl.className = 'exo-fb ok';
+  statusEl.style.display = 'block';
+  statusEl.innerHTML = '⏳ Exécution en cours… (le tout premier lancement peut prendre quelques secondes, le temps de charger l\'environnement Python)';
+  outputEl.innerHTML = '';
+
+  getPyodideInstance().then(function(pyodide){
+    var wrapped = code + '\n\n' +
+      'import io, base64\n' +
+      '_buf = io.BytesIO()\n' +
+      "plt.savefig(_buf, format='png', dpi=110, bbox_inches='tight')\n" +
+      "plt.close('all')\n" +
+      '_buf.seek(0)\n' +
+      "base64.b64encode(_buf.read()).decode('utf-8')\n";
+    return pyodide.runPythonAsync(wrapped);
+  }).then(function(result){
+    outputEl.innerHTML = '<img src="data:image/png;base64,' + result + '" alt="Trace du vecteur Δv obtenue par le programme">';
+    statusEl.className = 'exo-fb ok';
+    statusEl.innerHTML = '✓ Le programme s\'est exécuté sans erreur. Observe la direction de la flèche verte, puis réponds aux questions d\'exploitation ci-dessous.';
+    document.getElementById('pyExploitBox').style.display = 'block';
+  }).catch(function(err){
+    var msg = String(err && err.message ? err.message : err);
+    statusEl.className = 'exo-fb ko';
+    if(msg.indexOf('___') !== -1){
+      statusEl.innerHTML = '✗ Il reste au moins un <code>___</code> à remplacer par ta valeur ou ta formule dans le code.';
+    } else {
+      var lastLine = msg.trim().split('\n').pop();
+      statusEl.innerHTML = '✗ Erreur dans le code : <code>' + lastLine + '</code>. Vérifie ta syntaxe (parenthèses, indentation…).';
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  renderA2();
+  renderVitesseSim();
+  vitInitDrag();
+  var masseBtn2 = document.querySelector('#masseButtons [data-m="2"]');
+  if(masseBtn2) masseBtn2.classList.add('active');
+  var deltavSitBtn = document.querySelector('#deltavSituations [data-s="0"]');
+  if(deltavSitBtn) deltavSitBtn.classList.add('active');
+  var deltavStepBtn = document.querySelector('#deltavSteps [data-step="1"]');
+  if(deltavStepBtn) deltavStepBtn.classList.add('active');
+  renderDeltaVSim();
+  renderMasseSim();
+  var trampoStepBtn = document.querySelector('#trampoSteps [data-step="1"]');
+  if(trampoStepBtn) trampoStepBtn.classList.add('active');
+  renderTrampoSim();
+  updateTrampoStepReadout();
+  renderMasse2Sim();
+  var pyEditor = document.getElementById('pyCodeEditor');
+  if(pyEditor){
+    pyEditor.value = PY_SKELETON;
+    pySyncHighlight();
+  }
+  sizeVecLabels();
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(function(){ sizeVecLabels(); });
+  }
+});
+
+</script>
+</body>
+</html>
