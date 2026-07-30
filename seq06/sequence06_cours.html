@@ -49,7 +49,7 @@ button.cap-toggle:hover{background:#1e4466}
 .main{max-width:1300px;margin:0 auto;padding:28px 20px 60px}
 
 /* Sous-onglets */
-.sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;overflow-x:auto}
+.sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:nowrap;overflow-x:auto}
 .sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:#b8cfe0;color:var(--bleu);font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all .2s;white-space:nowrap}
 .sub-tab-btn:hover{background:var(--bleu);color:#fff}
 .sub-tab-btn.active{background:#1e4466;color:#fff}
@@ -221,7 +221,7 @@ table.avt input.incorrect{border-color:var(--rouge);background:var(--rouge-clair
 @media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
 .gloss-item{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 16px}
 .gloss-item dt{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:.9rem;margin-bottom:4px}
-.gloss-item dd{font-size:.83rem;line-height:1.5;color:var(--texte)}
+.gloss-item dd{font-size:.84rem;line-height:1.55;color:var(--texte)}
 
 /* Photos activité */
 .activite-photo-row{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0;justify-content:center}
@@ -230,7 +230,7 @@ table.avt input.incorrect{border-color:var(--rouge);background:var(--rouge-clair
 .activite-photo span{display:block;font-size:.76rem;color:var(--texte-leger);margin-top:6px;font-style:italic}
 
 /* Simulateurs interactifs */
-.sim-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:12px;padding:18px 20px;margin:16px 0}
+.sim-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin:14px 0}
 .sim-title{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:.92rem;margin-bottom:4px;display:flex;align-items:center;gap:8px}
 .sim-sub{font-size:.82rem;color:var(--texte-leger);margin-bottom:14px;line-height:1.5}
 .sim-bars{display:flex;justify-content:space-around;align-items:flex-end;gap:16px;margin:14px 0 6px}
@@ -304,6 +304,17 @@ table.avt input.incorrect{border-color:var(--rouge);background:var(--rouge-clair
 .reac-particle.c{background:var(--vert)}
 .reac-particle.reac-hidden{opacity:0;transform:scale(.2)}
 .reac-caption{font-size:.83rem;color:var(--texte);text-align:center;line-height:1.5;min-height:20px;max-width:400px}
+
+@media(max-width:640px){
+  body{padding:6px}
+  .header{padding:12px 16px 10px}
+  .header-titles h1{font-size:1.05rem}
+  .hicon-wrap{width:60px}
+  .tab{padding:8px 12px 10px;font-size:.8rem}
+  .panel{padding:12px}
+  .main{padding:0 0 30px}
+  .activite-photo-row{flex-direction:column;align-items:center}
+}
 </style>
 </head>
 <body>
@@ -1565,8 +1576,8 @@ etat_systeme(xf)
       <div class="activite-q">
         <div class="qnum">Étape 1 — Formule</div>
         <div class="qcm-opts" id="exC3form" data-answer="0" data-fb="exC3formFb" data-explain="On détermine d'abord x_max (plus petite valeur de n₀/coefficient, ici 1:1), puis n(Cu²⁺)_f = n₀(Cu²⁺) − x_max.">
-          <button class="qcm-opt" onclick="selectQCM(this,0)">x_max = min( n₀(Zn) ; n₀(Cu²⁺) ) puis n(Cu²⁺)_f = n₀(Cu²⁺) − x_max</button>
-          <button class="qcm-opt" onclick="selectQCM(this,1)">x_max = min( n₀(Zn) ; n₀(Cu²⁺) ) puis n(Cu²⁺)_f = n₀(Zn) − x_max</button>
+          <button class="qcm-opt" onclick="selectQCM(this,0)">x_max(Zn) = n₀(Zn) et x_max(Cu²⁺) = n₀(Cu²⁺) ; on garde la plus petite valeur, puis n(Cu²⁺)_f = n₀(Cu²⁺) − x_max</button>
+          <button class="qcm-opt" onclick="selectQCM(this,1)">x_max(Zn) = n₀(Zn) et x_max(Cu²⁺) = n₀(Cu²⁺) ; on garde la plus petite valeur, puis n(Cu²⁺)_f = n₀(Zn) − x_max</button>
           <button class="qcm-opt" onclick="selectQCM(this,2)">n(Cu²⁺)_f = n₀(Cu²⁺) − n₀(Zn)</button>
         </div>
         <div class="exo-fb" id="exC3formFb" style="display:none;"></div>
