@@ -470,6 +470,25 @@ function iconSeq10(suffix) {
     </svg>`;
 }
 
+function iconSeq11(suffix) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+      <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+      <g>
+        <text x="100" y="18" text-anchor="middle" font-size="9" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Conservation de Em</text>
+        <path id="trackSeq11-${suffix}" d="M30,115 Q40,30 60,30 Q80,30 90,80 Q100,110 110,80 Q120,30 140,30 Q160,30 170,115 Q140,128 100,128 Q60,128 30,115 Z" fill="none" stroke="#2D5F8A" stroke-width="2" opacity=".55"/>
+        <g>
+          <rect x="-7" y="-5.5" width="14" height="8" rx="2" fill="#C0392B"/>
+          <circle cx="-4" cy="3.5" r="2" fill="#1A2A3A"/>
+          <circle cx="4" cy="3.5" r="2" fill="#1A2A3A"/>
+          <animateMotion dur="6s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyPoints="0;0.15;0.35;0.5;0.65;1" keyTimes="0;0.30;0.45;0.75;0.85;1">
+            <mpath href="#trackSeq11-${suffix}"/>
+          </animateMotion>
+        </g>
+      </g>
+    </svg>`;
+}
+
 const PRE_ICONS = {
   'seq00': iconSeq00,
   'seq01': iconLumiereCouleurs,
@@ -481,7 +500,8 @@ const PRE_ICONS = {
   'seq07': iconSeq07,
   'seq08': iconSeq08,
   'seq09': iconSeq09,
-  'seq10': iconSeq10
+  'seq10': iconSeq10,
+  'seq11': iconSeq11
 };
 
 function getIconPre(name, suffix) {
