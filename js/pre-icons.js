@@ -363,6 +363,113 @@ function iconSeq08(suffix) {
     </svg>`;
 }
 
+function iconSeq09(suffix) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+      <style>
+        .hicon-scene-${suffix}{opacity:0;animation:hiconFade-${suffix} 9s ease-in-out infinite}
+        .hicon-a-${suffix}{animation-delay:0s}
+        .hicon-b-${suffix}{animation-delay:3s}
+        .hicon-c-${suffix}{animation-delay:6s}
+        @keyframes hiconFade-${suffix}{0%{opacity:1}30%{opacity:1}36%{opacity:0}94%{opacity:0}100%{opacity:1}}
+      </style>
+      <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+      <g class="hicon-scene-${suffix} hicon-a-${suffix}">
+        <text x="100" y="20" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Solide ionique NaCl</text>
+        <g font-family="Outfit,sans-serif" font-size="9" font-weight="800">
+          <circle cx="55" cy="45" r="9" fill="#3A8A6E"/><text x="55" y="48" text-anchor="middle" fill="#fff">−</text>
+          <circle cx="85" cy="45" r="6" fill="#E8783A"/><text x="85" y="48" text-anchor="middle" fill="#fff">+</text>
+          <circle cx="115" cy="45" r="9" fill="#3A8A6E"/><text x="115" y="48" text-anchor="middle" fill="#fff">−</text>
+          <circle cx="145" cy="45" r="6" fill="#E8783A"/><text x="145" y="48" text-anchor="middle" fill="#fff">+</text>
+          <circle cx="55" cy="75" r="6" fill="#E8783A"/><text x="55" y="78" text-anchor="middle" fill="#fff">+</text>
+          <circle cx="85" cy="75" r="9" fill="#3A8A6E"/><text x="85" y="78" text-anchor="middle" fill="#fff">−</text>
+          <circle cx="115" cy="75" r="6" fill="#E8783A"/><text x="115" y="78" text-anchor="middle" fill="#fff">+</text>
+          <circle cx="145" cy="75" r="9" fill="#3A8A6E"/><text x="145" y="78" text-anchor="middle" fill="#fff">−</text>
+          <circle cx="55" cy="105" r="9" fill="#3A8A6E"/><text x="55" y="108" text-anchor="middle" fill="#fff">−</text>
+          <circle cx="85" cy="105" r="6" fill="#E8783A"/><text x="85" y="108" text-anchor="middle" fill="#fff">+</text>
+          <circle cx="115" cy="105" r="9" fill="#3A8A6E"/><text x="115" y="108" text-anchor="middle" fill="#fff">−</text>
+          <circle cx="145" cy="105" r="6" fill="#E8783A"/><text x="145" y="108" text-anchor="middle" fill="#fff">+</text>
+        </g>
+      </g>
+      <g class="hicon-scene-${suffix} hicon-b-${suffix}">
+        <text x="100" y="20" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Molécule d'eau polaire</text>
+        <circle cx="100" cy="65" r="13" fill="#C0392B"/><text x="100" y="69" text-anchor="middle" font-size="10" fill="#fff" font-weight="800">O</text>
+        <circle cx="72" cy="90" r="8" fill="#5B8FB9"/><text x="72" y="94" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">H</text>
+        <circle cx="128" cy="90" r="8" fill="#5B8FB9"/><text x="128" y="94" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">H</text>
+        <line x1="100" y1="65" x2="72" y2="90" stroke="#7B4FA6" stroke-width="2.5"/>
+        <line x1="100" y1="65" x2="128" y2="90" stroke="#7B4FA6" stroke-width="2.5"/>
+        <text x="80" y="60" font-size="9" fill="#C0392B" font-weight="800">δ−</text>
+        <text x="68" y="105" font-size="9" fill="#5B8FB9" font-weight="800">δ+</text>
+        <text x="124" y="105" font-size="9" fill="#5B8FB9" font-weight="800">δ+</text>
+        <path d="M100,65 L100,110" stroke="#E8783A" stroke-width="2" marker-end="url(#ar3-09-${suffix})"/>
+        <text x="105" y="118" font-size="8" fill="#E8783A" font-weight="700">p</text>
+      </g>
+      <g class="hicon-scene-${suffix} hicon-c-${suffix}">
+        <text x="100" y="20" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Extraction liquide-liquide</text>
+        <defs>
+          <clipPath id="hiconFunnelClip-${suffix}">
+            <path d="M62,46 C62,36 138,36 138,46 C138,64 112,70 106,86 L106,103 L94,103 L94,86 C88,70 62,64 62,46 Z"/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#hiconFunnelClip-${suffix})">
+          <rect x="55" y="34" width="90" height="24" fill="#B87FD9"/>
+          <rect x="55" y="58" width="90" height="55" fill="#4FB3BF"/>
+        </g>
+        <path d="M62,46 C62,36 138,36 138,46 C138,64 112,70 106,86 L106,103 L94,103 L94,86 C88,70 62,64 62,46 Z" fill="none" stroke="#5A6B7A" stroke-width="1.6" stroke-linejoin="round"/>
+        <line x1="63" y1="58" x2="137" y2="58" stroke="#fff" stroke-width="1" opacity="0.5"/>
+        <rect x="90" y="24" width="20" height="13" fill="#E8F1F8" stroke="#5A6B7A" stroke-width="1.6"/>
+        <ellipse cx="100" cy="24" rx="10" ry="2.4" fill="#DDE3EC" stroke="#5A6B7A" stroke-width="1.3"/>
+        <rect x="86" y="103" width="28" height="6" rx="2" fill="#DDE3EC" stroke="#5A6B7A" stroke-width="1"/>
+        <circle cx="100" cy="106" r="2.6" fill="#C0392B"/>
+        <text x="100" y="122" text-anchor="middle" font-size="7.5" font-family="Nunito,sans-serif" font-weight="700" fill="#5A6B7A">liquides non miscibles</text>
+      </g>
+      <defs>
+        <marker id="ar3-09-${suffix}" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#E8783A"/></marker>
+      </defs>
+    </svg>`;
+}
+
+function iconSeq10(suffix) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+      <style>
+        .hicon-scene-${suffix}{opacity:0;animation:hiconFade-${suffix} 6s ease-in-out infinite}
+        .hicon-a-${suffix}{animation-delay:0s}
+        .hicon-b-${suffix}{animation-delay:3s}
+        @keyframes hiconFade-${suffix}{0%{opacity:1}42%{opacity:1}50%{opacity:0}92%{opacity:0}100%{opacity:1}}
+      </style>
+      <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+      <g class="hicon-scene-${suffix} hicon-a-${suffix}">
+        <text x="100" y="20" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Schéma de Lewis : NH₃</text>
+        <line x1="100" y1="70" x2="60" y2="100" stroke="#5A6B7A" stroke-width="2.5"/>
+        <line x1="100" y1="70" x2="140" y2="100" stroke="#5A6B7A" stroke-width="2.5"/>
+        <line x1="100" y1="70" x2="100" y2="112" stroke="#5A6B7A" stroke-width="2.5"/>
+        <circle cx="100" cy="70" r="15" fill="#2D5F8A"/><text x="100" y="74" text-anchor="middle" font-size="11" fill="#fff" font-weight="800">N</text>
+        <circle cx="60" cy="100" r="10" fill="#5B8FB9"/><text x="60" y="104" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">H</text>
+        <circle cx="140" cy="100" r="10" fill="#5B8FB9"/><text x="140" y="104" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">H</text>
+        <circle cx="100" cy="112" r="10" fill="#5B8FB9"/><text x="100" y="116" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">H</text>
+        <circle cx="93" cy="42" r="2.6" fill="#E8783A"/><circle cx="107" cy="42" r="2.6" fill="#E8783A"/>
+        <text x="100" y="34" text-anchor="middle" font-size="7.5" fill="#a35719" font-weight="700">doublet non liant</text>
+      </g>
+      <g class="hicon-scene-${suffix} hicon-b-${suffix}">
+        <text x="100" y="20" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Molécule d'eau polaire</text>
+        <circle cx="100" cy="65" r="13" fill="#C0392B"/><text x="100" y="69" text-anchor="middle" font-size="10" fill="#fff" font-weight="800">O</text>
+        <circle cx="72" cy="90" r="8" fill="#5B8FB9"/><text x="72" y="94" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">H</text>
+        <circle cx="128" cy="90" r="8" fill="#5B8FB9"/><text x="128" y="94" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">H</text>
+        <line x1="100" y1="65" x2="72" y2="90" stroke="#7B4FA6" stroke-width="2.5"/>
+        <line x1="100" y1="65" x2="128" y2="90" stroke="#7B4FA6" stroke-width="2.5"/>
+        <text x="80" y="60" font-size="9" fill="#C0392B" font-weight="800">δ−</text>
+        <text x="68" y="105" font-size="9" fill="#5B8FB9" font-weight="800">δ+</text>
+        <text x="124" y="105" font-size="9" fill="#5B8FB9" font-weight="800">δ+</text>
+        <path d="M100,65 L100,110" stroke="#E8783A" stroke-width="2" marker-end="url(#ar3-10-${suffix})"/>
+        <text x="105" y="118" font-size="8" fill="#E8783A" font-weight="700">p</text>
+      </g>
+      <defs>
+        <marker id="ar3-10-${suffix}" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#E8783A"/></marker>
+      </defs>
+    </svg>`;
+}
+
 const PRE_ICONS = {
   'seq00': iconSeq00,
   'seq01': iconLumiereCouleurs,
@@ -372,7 +479,9 @@ const PRE_ICONS = {
   'seq05': iconSeq05,
   'seq06': iconSeq06,
   'seq07': iconSeq07,
-  'seq08': iconSeq08
+  'seq08': iconSeq08,
+  'seq09': iconSeq09,
+  'seq10': iconSeq10
 };
 
 function getIconPre(name, suffix) {
