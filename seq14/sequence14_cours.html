@@ -1,0 +1,2635 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Séquence 14 – Ondes mécaniques – Première Spé PC</title>
+<script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --bleu:#2D5F8A; --bleu-clair:#E8F1F8; --bleu-moyen:#5B8FB9;
+  --orange:#E8783A; --orange-clair:#FDF0E8;
+  --vert:#3A8A6E; --vert-clair:#E8F5F0;
+  --gris-fond:#F5F7FA; --gris-bord:#DDE3EC;
+  --texte:#1A2A3A; --texte-leger:#5A6B7A; --blanc:#FFFFFF;
+  --rouge:#C0392B; --rouge-clair:#FDEDEC;
+  --violet:#7B4FA6; --violet-clair:#F3EDF9;
+}
+body{font-family:'Nunito',sans-serif;background:#F0F4F8;padding:14px;color:var(--texte)}
+h1{font-size:1.35rem;font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);line-height:1.2;text-align:left}
+
+/* HEADER */
+.header{background:var(--blanc);border:1px solid #E3E8EE;border-bottom:3px solid var(--bleu);border-radius:14px;padding:18px 24px 14px;max-width:1300px;margin:0 auto 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(45,95,138,0.10)}
+.header-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.header-left{display:flex;flex-direction:column;align-items:flex-start;gap:7px;flex-shrink:0;margin-top:2px}
+.header-badge{background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:20px;white-space:nowrap}
+button.cap-toggle{background:var(--bleu);color:#fff;border:none;padding:5px 12px;border-radius:999px;font-family:'Nunito',sans-serif;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap}
+button.cap-toggle:hover{background:#1e4466}
+.cap-panel{display:none;margin:0 0 14px;background:#fff;border:1px solid #B8D4EC;border-radius:12px;padding:16px 20px;text-align:left;font-size:.88rem;color:var(--texte)}
+.cap-panel.open{display:block}
+.cap-panel p{line-height:1.6;margin-bottom:6px}
+.header-titles{flex:1;min-width:180px}
+.header-titles h1{font-size:1.35rem}
+.header-titles p{font-size:.82rem;color:var(--texte-leger);margin-top:2px}
+.header-titles p span{color:var(--orange);font-weight:700}
+.hicon-wrap{flex-shrink:0;width:80px;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(45,95,138,.18);background:#fff}
+.hicon-wrap svg{display:block;width:100%;height:auto}
+.hicon-scene{opacity:0;animation:hiconFade 6s ease-in-out infinite}
+.hicon-a{animation-delay:0s}
+.hicon-b{animation-delay:3s}
+@keyframes hiconFade{0%{opacity:1}42%{opacity:1}50%{opacity:0}92%{opacity:0}100%{opacity:1}}
+.wave-scroll{animation:waveScroll 1.6s linear infinite}
+@keyframes waveScroll{from{transform:translateX(0)}to{transform:translateX(80px)}}
+.wave-point{animation:wavePointBob 1.6s linear infinite}
+@keyframes wavePointBob{
+  0%{transform:translateY(0)}
+  12.5%{transform:translateY(-10.6px)}
+  25%{transform:translateY(-15px)}
+  37.5%{transform:translateY(-10.6px)}
+  50%{transform:translateY(0)}
+  62.5%{transform:translateY(10.6px)}
+  75%{transform:translateY(15px)}
+  87.5%{transform:translateY(10.6px)}
+  100%{transform:translateY(0)}
+}
+
+/* ONGLETS */
+.tabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;flex-wrap:wrap}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:8px;padding:10px 18px 12px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;color:var(--texte-leger);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;position:relative;bottom:-3px}
+.tab:hover{color:var(--orange)}
+.tab.on{color:var(--orange);border-bottom-color:var(--orange);background:var(--orange-clair);border-radius:6px 6px 0 0}
+.panel{display:none;background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:0 0 12px 12px;padding:20px}
+.panel.on{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.main{max-width:1300px;margin:0 auto;padding:28px 20px 60px}
+
+/* Sous-onglets */
+.sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:nowrap;overflow-x:auto}
+.sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:#b8cfe0;color:var(--bleu);font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all .2s;white-space:nowrap}
+.sub-tab-btn:hover{background:var(--bleu);color:#fff}
+.sub-tab-btn.active{background:#1e4466;color:#fff}
+.sub-tab-content{display:none}
+.sub-tab-content.active{display:block;animation:fadeIn .2s ease}
+
+/* Sections / cartes */
+.section-title{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:var(--bleu);margin:24px 0 14px;display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:2px solid var(--bleu-clair)}
+.section-title:first-child{margin-top:0}
+.section-title .icon{font-size:1.2rem}
+.intro-box{background:#FFFBF7;border-left:4px solid var(--orange);border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:20px;font-size:.9rem;line-height:1.6;color:var(--texte);font-style:italic}
+.card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.card-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;color:var(--bleu);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card-title .icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.card ul{padding-left:1.2rem;margin:8px 0}
+.card li{margin-bottom:5px;line-height:1.55;font-size:.88rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.grid-2{grid-template-columns:1fr}}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:800px){.grid-3{grid-template-columns:1fr}}
+.formula{background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:14px 18px;text-align:center;font-family:'DM Mono',monospace;font-weight:700;color:var(--bleu);margin:14px 0;font-size:1.05rem}
+.formula .legend{font-size:.78rem;font-weight:500;color:var(--texte-leger);margin-top:8px;text-align:left}
+.exemple-box{background:var(--vert-clair);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.exemple-box strong{color:var(--vert)}
+.remarque-box{background:var(--violet-clair);border-left:4px solid var(--violet);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.remarque-box strong{color:var(--violet)}
+.attention-box{background:var(--rouge-clair);border-left:4px solid var(--rouge);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.attention-box strong{color:var(--rouge)}
+.accord-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 16px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;color:var(--texte);transition:background .2s;margin:10px 0}
+.accord-btn:hover{background:var(--bleu-clair)}
+.accord-body{display:none;padding:14px;background:var(--blanc);border:1.5px solid var(--gris-bord);border-top:none;border-radius:0 0 8px 8px;font-size:.88rem;line-height:1.7;margin-top:-10px;margin-bottom:10px}
+.accord-body.open{display:block;animation:fadeIn .2s}
+.bilan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:560px){.bilan-grid{grid-template-columns:1fr}}
+.bilan-card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px}
+.bilan-card h4{font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:700;color:var(--bleu);margin-bottom:8px;padding-bottom:8px;border-bottom:1.5px solid var(--gris-bord)}
+.ke-list{list-style:none;padding:0}
+.ke-list li{padding:6px 10px 6px 28px;position:relative;font-size:.84rem;border-bottom:1px solid var(--gris-bord);line-height:1.5}
+.ke-list li:last-child{border-bottom:none}
+.ke-list li::before{content:"✓";position:absolute;left:8px;color:var(--vert);font-weight:800;font-size:.9rem}
+.res-list{list-style:none;padding:0;margin:10px 0}
+.res-list a{display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--bleu);text-decoration:none;padding:8px 12px;border:1px solid var(--gris-bord);border-radius:8px;transition:background .15s}
+.res-list a:hover{background:var(--bleu-clair)}
+
+/* Méthode - étapes numérotées */
+.methode-list{list-style:none;padding:0;counter-reset:step}
+.methode-list li{counter-increment:step;position:relative;padding:12px 16px 12px 52px;margin-bottom:10px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;font-size:.88rem;line-height:1.6}
+.methode-list li::before{content:counter(step);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+
+/* Tableau */
+table.couples{width:100%;border-collapse:collapse;font-size:.85rem;margin:14px 0}
+table.couples th{background:var(--bleu-clair);color:var(--bleu);font-weight:700;padding:8px;text-align:left;border:1px solid var(--gris-bord)}
+table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:middle;font-family:'DM Mono',monospace}
+
+/* Activité expérimentale - photos */
+.activite-photo-row{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0;justify-content:center}
+.activite-photo{text-align:center;flex:1;min-width:180px;max-width:260px}
+.activite-photo img{width:100%;height:auto;border-radius:10px;border:2px solid var(--gris-bord);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.activite-photo span{display:block;font-size:.76rem;color:var(--texte-leger);margin-top:6px;font-style:italic}
+.activite-q{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.activite-q .qnum{font-family:'Outfit',sans-serif;font-weight:800;color:var(--orange);font-size:.8rem;letter-spacing:.04em;margin-bottom:6px}
+.activite-q .qtext{font-size:.9rem;line-height:1.6;margin-bottom:10px}
+.btn-reveal{background:var(--orange);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer}
+.btn-reveal:hover{background:#c8602a}
+.reveal-body{display:none;margin-top:10px;padding:12px 14px;background:#fff;border:1.5px solid var(--vert);border-radius:8px;font-size:.86rem;line-height:1.6}
+.reveal-body.open{display:block;animation:fadeIn .2s}
+.reveal-body strong{color:var(--vert)}
+
+/* Exercices */
+.exo-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+.exo-box h5{font-family:'Outfit',sans-serif;color:var(--orange);font-size:.92rem;margin-bottom:8px}
+.exo-enonce{background:#fff;border-radius:8px;padding:12px 16px;font-size:.88rem;line-height:1.6;margin-bottom:12px;border:1px solid var(--gris-bord)}
+.exo-btn{background:var(--bleu);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;margin-top:6px}
+.exo-btn:hover{background:#1e4466}
+.exo-fb{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.85rem;line-height:1.6;display:none}
+.exo-fb.ok{display:block;background:var(--vert-clair);border-left:4px solid var(--vert);color:#1a5a3a}
+.exo-fb.ko{display:block;background:var(--rouge-clair);border-left:4px solid var(--rouge);color:#7a2418}
+.exo-fb.correction{display:block;background:var(--bleu-clair);border:1.5px solid var(--bleu-moyen);color:var(--texte);border-radius:8px;padding:10px 14px;margin-top:8px;font-size:.85rem;line-height:1.6}
+.exo-btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.exo-btn-secondary{background:#fff;color:var(--bleu);border:1.5px solid var(--bleu-moyen);padding:7px 14px;border-radius:7px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s}
+.exo-btn-secondary:hover{background:var(--bleu-clair)}
+.dnd-btn{background:var(--bleu);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s}
+.dnd-btn:hover{background:#1e4466}
+.dnd-btn.reset{background:var(--texte-leger)}
+.dnd-btn.reset:hover{background:#3d4b58}
+.dnd-btn.active{background:#1e4466;box-shadow:0 0 0 2px var(--bleu-moyen)}
+.fcr-step{margin-top:14px;padding-top:12px;border-top:1px dashed var(--gris-bord)}
+.fcr-step:first-of-type{border-top:none;padding-top:0}
+.fcr-label{display:block;font-family:'Outfit',sans-serif;font-weight:800;font-size:.8rem;color:var(--orange);margin-bottom:8px;letter-spacing:.02em}
+.fcr-line{display:block;margin-top:3px}
+.fcr-line:first-child{margin-top:0}
+
+/* Glossaire */
+.gloss-search{width:100%;padding:10px 14px;border:1.5px solid var(--gris-bord);border-radius:20px;font-family:'Nunito',sans-serif;font-size:.88rem;margin-bottom:16px}
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+@media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 16px}
+.gloss-item dt{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:.9rem;margin-bottom:4px}
+.gloss-item dd{font-size:.84rem;color:var(--texte);line-height:1.55}
+
+/* Vidéo locale intégrée */
+.video-wrap{max-width:100%;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.15);background:#000}
+.video-wrap video{display:block;width:100%;height:auto}
+.video-caption{font-size:.76rem;color:var(--texte-leger);text-align:center;margin-top:6px;font-style:italic}
+.def-video-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:center}
+@media(max-width:480px){.def-video-grid{grid-template-columns:1fr}}
+
+/* Badges de difficulté */
+.diff-badge{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:800;letter-spacing:.03em;padding:3px 10px;border-radius:20px;margin-right:8px;vertical-align:middle}
+.diff-badge.d1{background:var(--vert-clair);color:var(--vert)}
+.diff-badge.d2{background:var(--bleu-clair);color:var(--bleu)}
+.diff-badge.d3{background:var(--orange-clair);color:var(--orange)}
+
+.footer-note{max-width:1300px;margin:0 auto;padding:0 20px 30px;font-size:.76rem;color:var(--texte-leger);text-align:center}
+
+@media(max-width:600px){
+  body{padding:6px}
+  .header{padding:12px 16px 10px}
+  .header-titles h1{font-size:1.05rem}
+  .hicon-wrap{width:60px}
+  .tab{padding:8px 12px 10px;font-size:.8rem}
+  .panel{padding:12px}
+  .main{padding:0 0 30px}
+  .bilan-grid,.grid-2,.grid-3{grid-template-columns:1fr}
+  .activite-photo-row{flex-direction:column;align-items:center}
+}
+
+.qi-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 16px;margin:10px 0}
+.qi-box .qi-q{font-size:.87rem;line-height:1.6;margin-bottom:8px;font-weight:600}
+.qcm-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.qcm-opts::before{content:"👉 Choisis ta réponse :";display:block;width:100%;font-size:.76rem;font-weight:800;color:var(--bleu-moyen);margin-bottom:2px;font-family:'Nunito',sans-serif;letter-spacing:.01em}
+.qcm-opt{background:#fff;border:1.5px solid var(--gris-bord);border-radius:7px;padding:7px 13px;font-size:.82rem;font-weight:600;font-family:'Nunito',sans-serif;color:var(--texte);cursor:pointer;transition:all .15s}
+.qcm-opt:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.qcm-opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.qcm-opt.incorrect{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+.blank-in{padding:6px 9px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;font-size:.82rem;width:130px}
+.blank-in.correct{border-color:var(--vert);background:var(--vert-clair)}
+.blank-in.incorrect{border-color:var(--rouge);background:var(--rouge-clair)}
+.app-box{background:#fff;border:1.5px solid var(--bleu-clair);border-left:4px solid var(--bleu);border-radius:10px;padding:14px 16px;margin:16px 0}
+.app-box h5{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:.86rem;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+
+/* === Notation vectorielle === */
+.vec{display:inline-flex;flex-direction:column-reverse;align-items:center;line-height:1;vertical-align:text-bottom}
+.vec::after{content:"";display:block;width:.78em;height:.4em;margin-bottom:1px;background-color:currentColor;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cline x1='0' y1='6' x2='18' y2='6' stroke='black' stroke-width='2.6'/%3E%3Cpolygon points='14,0.5 24,6 14,11.5' fill='black'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cline x1='0' y1='6' x2='18' y2='6' stroke='black' stroke-width='2.6'/%3E%3Cpolygon points='14,0.5 24,6 14,11.5' fill='black'/%3E%3C/svg%3E")}
+
+/* === iframe simulateur externe === */
+.sim-frame-wrap{border:2px solid var(--gris-bord);border-radius:12px;overflow:hidden;margin:14px 0;background:#fff}
+.sim-frame-wrap iframe{width:100%;height:520px;border:none;display:block}
+.sim-frame-caption{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--gris-fond);font-size:.78rem;color:var(--texte-leger)}
+.sim-frame-caption a{color:var(--bleu);font-weight:700;text-decoration:none}
+
+/* === Simulateur onde (canvas) === */
+.wave-sim{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin:14px 0}
+.wave-sim-layout{display:flex;gap:20px;flex-wrap:wrap}
+.wave-sim-canvas-wrap{flex:2;min-width:280px;text-align:center}
+.wave-sim-canvas-wrap canvas{background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;max-width:100%;touch-action:none}
+.wave-sim-controls{flex:1;min-width:220px;display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.wave-ctrl{background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;padding:7px 10px;flex:1;min-width:130px}
+.wave-ctrl h5{font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:800;margin-bottom:3px;color:var(--bleu)}
+.wave-ctrl label{display:block;font-size:.68rem;color:var(--texte-leger);margin:2px 0 1px}
+.wave-ctrl input[type=range]{width:100%;margin:0}
+.wave-sim-readout{flex-basis:100%;font-family:'DM Mono',monospace;font-size:.78rem;color:var(--texte);text-align:center;margin-top:2px;line-height:1.6}
+.wave-sim-readout b{color:var(--bleu)}
+.wave-play-row{display:flex;gap:8px;justify-content:center;margin-top:10px}
+
+/* === Code Python === */
+.code-block{background:#f5f7f9;color:#1e2a38;border:1.5px solid var(--gris-bord);border-radius:10px;padding:14px 16px;margin:12px 0;font-family:'DM Mono',monospace;font-size:.78rem;line-height:1.65;overflow-x:auto;white-space:pre}
+.pykw{color:#1a5fb4;font-weight:700}
+.pycmt{color:#2f8a52}
+.pystr{color:#c8602a}
+.pynum{color:#7B4FA6}
+.py-editor-wrap{position:relative;background:#f5f7f9;border-radius:10px;border:2px solid var(--gris-bord);min-height:340px;overflow:hidden}
+.py-editor-wrap:focus-within{border-color:var(--bleu)}
+.py-editor-highlight{position:absolute;top:0;left:0;right:0;bottom:0;margin:0;padding:14px 16px;font-family:'DM Mono',monospace;font-size:.76rem;line-height:1.6;white-space:pre;overflow:auto;pointer-events:none;color:#1e2a38;box-sizing:border-box}
+.py-editor{position:relative;width:100%;height:100%;min-height:340px;background:transparent;color:transparent;caret-color:#1e2a38;padding:14px 16px;font-family:'DM Mono',monospace;font-size:.76rem;line-height:1.6;border:none;resize:vertical;box-sizing:border-box;white-space:pre;z-index:1}
+.py-editor:focus{outline:none}
+.py-output img{display:block;margin:12px auto 0}
+.py-btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+/* === Escape Game === */
+.eg-briefing{background:linear-gradient(135deg,#E8F1F8,#DCEAF5);border:2px solid var(--bleu-moyen);border-radius:14px;padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden}
+.eg-briefing h4{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:1.05rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.eg-briefing p{font-size:.88rem;line-height:1.65;color:var(--texte)}
+.eg-progress{display:flex;gap:6px;margin:16px 0}
+.eg-progress-step{flex:1;height:8px;border-radius:5px;background:var(--gris-bord);transition:background .3s}
+.eg-progress-step.done{background:var(--vert)}
+.eg-puzzle{position:relative;background:#fff;border:2px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px;transition:border-color .3s}
+.eg-puzzle.solved{border-color:var(--vert)}
+.eg-puzzle h5{font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;color:var(--bleu);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.eg-digit{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--bleu);color:#fff;font-family:'DM Mono',monospace;font-weight:700;font-size:.78rem}
+.eg-lock-overlay{position:absolute;inset:0;background:rgba(245,247,250,.93);backdrop-filter:blur(1px);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--texte-leger);font-weight:700;font-size:.85rem;text-align:center;padding:20px}
+.eg-code-found{display:inline-block;margin-top:10px;padding:6px 14px;background:var(--vert-clair);border:1.5px solid var(--vert);border-radius:7px;color:var(--vert);font-family:'DM Mono',monospace;font-weight:700;font-size:.85rem}
+.eg-final{background:var(--gris-fond);border:2px dashed var(--bleu-moyen);border-radius:12px;padding:18px 20px;text-align:center}
+.eg-final input{padding:10px 14px;border:2px solid var(--gris-bord);border-radius:8px;font-family:'DM Mono',monospace;font-size:1.1rem;letter-spacing:.3em;text-align:center;width:140px;margin:10px 0}
+.eg-success{display:none;background:var(--vert-clair);border:2px solid var(--vert);border-radius:12px;padding:22px;text-align:center;margin-top:14px}
+.eg-success.show{display:block;animation:fadeIn .4s}
+.eg-success h4{color:var(--vert);font-family:'Outfit',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:8px}
+
+/* === Chronogramme (mesure de célérité) === */
+.chrono-wrap{text-align:center;margin:14px 0}
+.chrono-wrap svg{max-width:560px;width:100%;background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <div class="header-badge">1<sup>ère</sup> Spé – Séq. 14</div>
+      <button class="cap-toggle" onclick="document.getElementById('capPanel').classList.toggle('open')">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Ondes mécaniques</h1>
+      <p>Thème : <span>Ondes et signaux</span></p>
+    </div>
+    <div class="hicon-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+        <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+        <g class="hicon-scene hicon-a">
+          <clipPath id="waveClipA"><rect x="0" y="0" width="200" height="130"/></clipPath>
+          <g clip-path="url(#waveClipA)">
+            <g class="wave-scroll">
+              <path d="M-90,65 Q-70,30 -50,65 T-10,65 T30,65 T70,65 T110,65 T150,65 T190,65 T230,65 T270,65" stroke="#2D5F8A" stroke-width="2.4" fill="none"/>
+            </g>
+          </g>
+          <g class="wave-point"><circle cx="50" cy="65" r="4" fill="#E8783A"/></g>
+          <text x="100" y="20" text-anchor="middle" font-size="9" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Onde progressive</text>
+          <path d="M140,65 L160,65" stroke="#E8783A" stroke-width="2" marker-end="url(#arw1)"/>
+        </g>
+        <g class="hicon-scene hicon-b">
+          <circle cx="100" cy="65" r="3" fill="none" stroke="#5B8FB9" stroke-width="1.6">
+            <animate attributeName="r" values="3;40" dur="2.4s" begin="0s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.9;0" dur="2.4s" begin="0s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="100" cy="65" r="3" fill="none" stroke="#5B8FB9" stroke-width="1.6">
+            <animate attributeName="r" values="3;40" dur="2.4s" begin="0.8s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.9;0" dur="2.4s" begin="0.8s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="100" cy="65" r="3" fill="none" stroke="#5B8FB9" stroke-width="1.6">
+            <animate attributeName="r" values="3;40" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.9;0" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="100" cy="65" r="3.5" fill="#C0392B"/>
+          <text x="100" y="30" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="700" fill="#2D5F8A">Onde circulaire à la surface de l'eau</text>
+        </g>
+        <defs>
+          <marker id="arw1" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#E8783A"/></marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <div class="cap-panel" id="capPanel">
+    <p><strong>Capacités exigibles :</strong></p>
+    <p>— Décrire, dans le cas d'une onde mécanique progressive, la propagation d'une perturbation mécanique d'un milieu dans l'espace et au cours du temps : houle, ondes sismiques, ondes sonores, etc.</p>
+    <p>— Expliquer, à l'aide d'un modèle qualitatif, la propagation d'une perturbation mécanique dans un milieu matériel.</p>
+    <p>— Produire une perturbation et visualiser sa propagation dans des situations variées, par exemple : onde sonore, onde le long d'une corde ou d'un ressort, onde à la surface de l'eau.</p>
+    <p>— Exploiter la relation entre la durée de propagation, la distance parcourue par une perturbation et la célérité, notamment pour localiser une source d'onde.</p>
+    <p>— Déterminer, par exemple à l'aide d'un microcontrôleur ou d'un smartphone, une distance ou la célérité d'une onde. Illustrer l'influence du milieu sur la célérité d'une onde.</p>
+    <p>— Distinguer périodicité spatiale et périodicité temporelle. Justifier et exploiter la relation entre période, longueur d'onde et célérité.</p>
+    <p>— Déterminer les caractéristiques d'une onde mécanique périodique à partir de représentations spatiales ou temporelles.</p>
+    <p>— Déterminer la période, la longueur d'onde et la célérité d'une onde progressive sinusoïdale à l'aide d'une chaîne de mesure.</p>
+    <p><strong>Capacités numériques :</strong> représenter un signal périodique et illustrer l'influence de ses caractéristiques (période, amplitude) sur sa représentation ; simuler à l'aide d'un langage de programmation la propagation d'une onde périodique.</p>
+    <p><strong>Capacité mathématique :</strong> utiliser les représentations graphiques des fonctions sinus et cosinus.</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab on" onclick="showTab(this,'cours')">📘 Cours</div>
+    <div class="tab" onclick="showTab(this,'activites')">🧪 Activités</div>
+    <div class="tab" onclick="showTab(this,'exercices')">✏️ Exercices</div>
+    <div class="tab" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</div>
+  </div>
+</div>
+
+<div class="main">
+<!-- ══════════════════ TAB 1 — COURS ══════════════════ -->
+<div class="panel on" id="tab-cours">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-progressive')">① Onde progressive</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-periodique')">② Onde périodique</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-longueur-onde')">③ Longueur d'onde</button>
+  </div>
+
+  <!-- ---------- SOUS-ONGLET : ONDE PROGRESSIVE ---------- -->
+  <div class="sub-tab-content active" id="sub-progressive">
+
+    <div class="intro-box">TD 1 : « Ondes mécaniques progressives » — TD 2 : « Épicentre d'un séisme ». Cette partie s'appuie sur les acquis de seconde à propos des signaux sonores (propagation, vitesse, fréquence, période).</div>
+
+    <div class="section-title"><span class="icon">🌊</span>1. Qu'est-ce qu'une onde mécanique progressive ?</div>
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">ℹ️</span>Définition</div>
+      <div class="def-video-grid">
+        <div>
+          <p style="font-size:.9rem;line-height:1.7">Une <strong>onde mécanique progressive</strong> est le phénomène de <strong>propagation d'une perturbation</strong> dans un milieu matériel, <strong>sans transport de matière</strong>, mais avec un <strong>transport d'énergie</strong>.</p>
+          <p style="font-size:.9rem;line-height:1.7;margin-top:8px">Une perturbation peut être produite par exemple en faisant claquer l'extrémité d'une corde tendue, en jetant un caillou à la surface de l'eau, ou lors d'un séisme (ondes sismiques). Une fois la perturbation créée, chaque point du milieu reproduit avec un léger décalage temporel le mouvement du point précédent : c'est ce décalage qui constitue la propagation.</p>
+        </div>
+        <div style="text-align:center">
+          <div class="video-wrap" style="max-width:184px;margin:0 auto">
+            <video controls playsinline preload="auto">
+              <source src="Nathan-son-bougies.mp4" type="video/mp4">
+              Ton navigateur ne prend pas en charge la lecture de cette vidéo.
+            </video>
+          </div>
+          <div class="video-caption">Nathan · chap. 16 p326 — la bougie s'éteint sous l'effet du son émis par un haut-parleur : preuve que l'onde sonore transporte de l'énergie, sans transport de matière.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair)">↔️</span>Onde transversale / onde longitudinale</div>
+      <div class="grid-2">
+        <div class="exemple-box">
+          <strong>Onde transversale</strong><br>La perturbation du milieu se fait <strong>perpendiculairement</strong> à la direction de propagation. Exemple : onde le long d'une corde, houle à la surface de l'eau.
+        </div>
+        <div class="remarque-box">
+          <strong>Onde longitudinale</strong><br>La perturbation du milieu se fait <strong>parallèlement</strong> à la direction de propagation. Exemple : onde le long d'un ressort (compressions/étirements successifs), onde sonore dans l'air.
+        </div>
+        <div style="text-align:center">
+          <img src="onde-transversale.png" alt="Onde transversale le long d'une corde" style="width:100%;max-width:260px;height:130px;object-fit:cover;border-radius:10px;border:1.5px solid var(--gris-bord)">
+        </div>
+        <div style="text-align:center">
+          <img src="onde-longitudinale.png" alt="Onde longitudinale le long d'un ressort : zones de compression et d'étirement" style="width:100%;max-width:260px;height:130px;object-fit:cover;border-radius:10px;border:1.5px solid var(--gris-bord)">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">🎬</span>Onde plane et onde circulaire à la surface de l'eau</div>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:10px">Deux vidéos (Δt = 40 ms entre deux images) illustrant la propagation d'une onde progressive à la surface de l'eau, selon la forme de la source : rectiligne (onde plane) ou ponctuelle (onde circulaire).</p>
+      <div class="def-video-grid">
+        <div style="text-align:center">
+          <div class="video-wrap" style="max-width:185px;margin:0 auto">
+            <video controls playsinline preload="auto">
+              <source src="ondeplane.mp4" type="video/mp4">
+              Ton navigateur ne prend pas en charge la lecture de cette vidéo.
+            </video>
+          </div>
+          <div class="video-caption">Onde plane sur l'eau</div>
+        </div>
+        <div style="text-align:center">
+          <div class="video-wrap" style="max-width:185px;margin:0 auto">
+            <video controls playsinline preload="auto">
+              <source src="ondecirculaire.mp4" type="video/mp4">
+              Ton navigateur ne prend pas en charge la lecture de cette vidéo.
+            </video>
+          </div>
+          <div class="video-caption">Onde circulaire sur l'eau</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="icon">⏱️</span>2. Retard et célérité</div>
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">📐</span>Retard τ</div>
+      <p style="font-size:.9rem;line-height:1.7">Un point M<sub>2</sub> du milieu, situé à une distance d en aval d'un point M<sub>1</sub>, reproduit le même mouvement que M<sub>1</sub> avec un <strong>retard τ</strong> (tau), qui correspond à la <strong>durée de propagation</strong> de la perturbation entre M<sub>1</sub> et M<sub>2</sub>.</p>
+      <div class="formula">τ = d / c
+        <div class="legend">τ : retard entre les deux points (s) — d : distance entre les deux points (m) — c : célérité de l'onde dans le milieu (m·s⁻¹)</div>
+      </div>
+      <div class="attention-box"><strong>⚠️ Vocabulaire :</strong> la <strong>célérité</strong> c est la vitesse de propagation de l'onde dans le milieu — à ne pas confondre avec la vitesse d'un point matériel du milieu, qui oscille sur place sans se déplacer globalement.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">🎬</span>Animation — retard entre deux points du milieu</div>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:10px">Une perturbation <strong>unique, non périodique</strong>, se propage le long d'une corde à la célérité c réglable, à partir de l'origine (chronomètre à 0). Observe l'instant où elle atteint M₁, puis M₂ : le retard entre les deux n'apparaît qu'à la fin, une fois les deux instants relevés.</p>
+      <div class="wave-sim">
+        <div class="wave-sim-layout">
+          <div class="wave-sim-canvas-wrap">
+            <div id="pulseChrono" style="font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--bleu);text-align:center;margin-bottom:6px">⏱️ t = 0,00 s</div>
+            <canvas id="pulseCanvas" width="520" height="200"></canvas>
+            <div class="wave-play-row">
+              <button class="dnd-btn" onclick="pulseTogglePlay()" id="pulsePlayBtn">▶️ Lancer l'animation</button>
+              <button class="dnd-btn reset" onclick="pulseReset()">↺ Réinitialiser</button>
+            </div>
+          </div>
+          <div class="wave-sim-controls">
+            <div class="wave-ctrl">
+              <h5>Célérité c</h5>
+              <label>c = <span id="pulseCVal">2.0</span> m·s⁻¹</label>
+              <input type="range" id="pulseC" min="0.5" max="4.0" step="0.1" value="2.0" oninput="pulseUpdateC()">
+            </div>
+            <div class="wave-sim-readout">Distance M₁M₂ : <b>d = 2,0 m</b></div>
+          </div>
+        </div>
+        <div class="exo-fb" id="pulseResultBox" style="margin-top:14px"></div>
+      </div>
+    </div>
+
+    <div class="exo-box" id="appOMP1-box">
+      <h5>📝 Application directe — Localiser l'épicentre d'un séisme</h5>
+      <div class="exo-enonce">Une onde sismique se propage à la célérité c = 4,0 km·s⁻¹ dans la croûte terrestre. Une station d'enregistrement détecte l'onde avec un retard τ = 12,5 s par rapport à l'instant du séisme. Calculer la distance d entre l'épicentre et la station.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('appOMP1',this,false)">d = τ/c</div>
+          <div class="qcm-opt" onclick="fcrFormule('appOMP1',this,true)">d = c×τ</div>
+          <div class="qcm-opt" onclick="fcrFormule('appOMP1',this,false)">d = c+τ</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="appOMP1-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="appOMP1-calc" class="blank-in" placeholder="ton calcul" style="width:100%;max-width:320px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('appOMP1',50,0.05)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="appOMP1-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="appOMP1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="appOMP1-result" class="blank-in" placeholder="en km"> km
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('appOMP1',50,0.05,'d = 50 km : l\'épicentre du séisme se situe à 50 km de la station.')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="appOMP1-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('appOMP1','d = c×τ','d = 4,0 × 12,5','d = 50 km')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('appOMP1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="appOMP1-correction"></div>
+    </div>
+
+    <div class="section-title"><span class="icon">🧭</span>3. Influence du milieu sur la célérité</div>
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair)">🌍</span>La célérité dépend du milieu de propagation</div>
+      <p style="font-size:.88rem;line-height:1.6;margin-bottom:10px">La célérité d'une onde mécanique n'est <strong>pas universelle</strong> : elle dépend de la <strong>nature du milieu</strong> et de ses propriétés (état, température, tension, etc.), mais <strong>pas de la perturbation elle-même</strong>.</p>
+      <table class="couples">
+        <tr><th>Milieu</th><th>Type d'onde</th><th>Célérité approximative</th></tr>
+        <tr><td>Air (20 °C)</td><td>Onde sonore</td><td>340 m·s⁻¹</td></tr>
+        <tr><td>Eau liquide</td><td>Onde sonore</td><td>1 500 m·s⁻¹</td></tr>
+        <tr><td>Acier</td><td>Onde sonore</td><td>5 000 m·s⁻¹</td></tr>
+        <tr><td>Corde tendue</td><td>Onde transversale</td><td>quelques m·s⁻¹ à quelques dizaines de m·s⁻¹ (dépend de la tension)</td></tr>
+        <tr><td>Croûte terrestre</td><td>Onde sismique (onde P)</td><td>environ 6 km·s⁻¹</td></tr>
+      </table>
+      <div class="remarque-box" style="margin-top:10px"><strong>À retenir :</strong> plus un milieu est « rigide » (solide vs liquide vs gaz), plus la célérité des ondes mécaniques y est généralement grande.</div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">💡 Flash : lors de la propagation d'une onde mécanique le long d'une corde, la matière (les points de la corde) :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Se déplace dans la direction de propagation de l'onde</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Oscille sur place, sans transport global de matière</div>
+      </div>
+    </div>
+
+  </div>
+  <!-- ---------- SOUS-ONGLET : ONDE PÉRIODIQUE ---------- -->
+  <div class="sub-tab-content" id="sub-periodique">
+
+    <div class="intro-box">TP « Corde de musculation » et activité documentaire « Son émis par un diapason ». Nécessité d'une simulation numérique pour visualiser une onde périodique.</div>
+
+    <div class="section-title"><span class="icon">🔁</span>1. Onde progressive périodique</div>
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">ℹ️</span>Définition</div>
+      <p style="font-size:.9rem;line-height:1.7">Une onde mécanique progressive est dite <strong>périodique</strong> lorsque la perturbation à l'origine de l'onde se <strong>répète identique à elle-même</strong> à intervalles de temps réguliers. Chaque point du milieu atteint par l'onde reproduit alors un <strong>mouvement périodique</strong>.</p>
+      <p style="font-size:.9rem;line-height:1.7;margin-top:8px">Lorsque ce mouvement est décrit par une fonction sinusoïdale du temps, on parle d'<strong>onde progressive sinusoïdale</strong> (exemple : son pur émis par un diapason).</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair)">📐</span>Période et fréquence</div>
+      <p style="font-size:.88rem;line-height:1.6">La <strong>période temporelle T</strong> est la plus petite durée au bout de laquelle le mouvement d'un point du milieu se reproduit identique à lui-même. La <strong>fréquence f</strong> est le nombre de fois que ce motif se répète par seconde.</p>
+      <div class="formula">f = 1 / T
+        <div class="legend">f : fréquence (Hz) — T : période temporelle (s)</div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="icon">🖥️</span>2. Simulation — représenter un signal périodique</div>
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">🌊</span>Onde progressive sinusoïdale le long d'une corde</div>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:10px">À gauche, la <strong>photographie</strong> y(x) à l'instant présent (λ est repérée en bas, entre deux points en phase). À droite, le <strong>chronogramme</strong> y(t) du point M (repéré par le trait pointillé à gauche), construit en temps réel (T est repérée en bas). Le curseur « vitesse » permet de ralentir l'animation.</p>
+      <div class="wave-sim">
+        <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:12px">
+          <div style="flex:1;min-width:220px;text-align:center">
+            <div style="font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:800;color:var(--bleu);margin-bottom:4px">y(x) — photographie à l'instant t</div>
+            <canvas id="waveCanvasXCours" width="260" height="190" style="background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;max-width:100%"></canvas>
+          </div>
+          <div style="flex:1;min-width:220px;text-align:center">
+            <div style="font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:800;color:var(--violet);margin-bottom:4px">y(t) — chronogramme au point M</div>
+            <canvas id="waveCanvasTCours" width="260" height="190" style="background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;max-width:100%"></canvas>
+          </div>
+        </div>
+        <div class="wave-play-row">
+          <button class="dnd-btn" onclick="waveTogglePlay('Cours')" id="wavePlayBtnCours">▶️ Lancer l'animation</button>
+          <button class="dnd-btn reset" onclick="waveReset('Cours')">↺ Réinitialiser</button>
+        </div>
+        <div class="wave-sim-layout" style="margin-top:12px">
+          <div class="wave-sim-controls" style="flex:1">
+            <div class="wave-ctrl">
+              <h5>Période T</h5>
+              <label>T = <span id="waveTValCours">1.0</span> s</label>
+              <input type="range" id="waveTCours" min="0.4" max="2.0" step="0.1" value="1.0" oninput="waveUpdateParams('Cours')">
+            </div>
+            <div class="wave-ctrl">
+              <h5>Longueur d'onde λ</h5>
+              <label>λ = <span id="waveLamValCours">2.0</span> m</label>
+              <input type="range" id="waveLamCours" min="0.5" max="4.0" step="0.1" value="2.0" oninput="waveUpdateParams('Cours')">
+            </div>
+            <div class="wave-ctrl">
+              <h5>Vitesse de l'animation</h5>
+              <label>× <span id="waveSpeedValCours">0.4</span></label>
+              <input type="range" id="waveSpeedCours" min="0.1" max="1.5" step="0.1" value="0.4" oninput="waveUpdateParams('Cours')">
+            </div>
+            <div class="wave-sim-readout">Fréquence <b>f = 1/T = <span id="waveFreqCours">1.0</span> Hz</b> — Célérité <b>c = λ/T = <span id="waveCeleriteCours">2.0</span> m·s⁻¹</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo-box" id="appPer1-box">
+      <h5>📝 Application directe — Diapason</h5>
+      <div class="exo-enonce">Un diapason émet un son pur de fréquence f = 440 Hz (note « La »). Calculer la période T du mouvement vibratoire du diapason.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('appPer1',this,true)">T = 1/f</div>
+          <div class="qcm-opt" onclick="fcrFormule('appPer1',this,false)">T = f</div>
+          <div class="qcm-opt" onclick="fcrFormule('appPer1',this,false)">T = 2×f</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="appPer1-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="appPer1-calc" class="blank-in" placeholder="ton calcul" style="width:100%;max-width:320px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('appPer1',0.00227,0.08)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="appPer1-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="appPer1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="appPer1-result" class="blank-in" placeholder="en ms"> ms
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('appPer1',2.27,0.06,'T ≈ 2,3 ms (soit 2,27×10⁻³ s)')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="appPer1-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('appPer1','T = 1/f','T = 1/440','T ≈ 2,3 ms')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('appPer1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="appPer1-correction"></div>
+    </div>
+
+  </div>
+  <!-- ---------- SOUS-ONGLET : LONGUEUR D'ONDE ---------- -->
+  <div class="sub-tab-content" id="sub-longueur-onde">
+
+    <div class="intro-box">Voir TP p348 — animations Ostralo. Notion de double périodicité : une onde périodique possède à la fois une périodicité temporelle (en un point donné) et une périodicité spatiale (à un instant donné).</div>
+
+    <div class="section-title"><span class="icon">📏</span>1. Périodicité spatiale et périodicité temporelle</div>
+    <div class="card">
+      <div class="grid-2">
+        <div class="exemple-box">
+          <strong>Périodicité temporelle</strong><br>En un point fixé du milieu, le mouvement se répète à l'identique toutes les <strong>périodes T</strong> (lecture d'un chronogramme y(t) en un point donné).
+        </div>
+        <div class="remarque-box">
+          <strong>Périodicité spatiale</strong><br>À un instant fixé, la forme de l'onde se répète à l'identique tous les <strong>longueurs d'onde λ</strong> (lecture d'une photographie du milieu y(x) à un instant donné).
+        </div>
+      </div>
+      <div class="attention-box" style="margin-top:10px"><strong>⚠️ À ne pas confondre :</strong> T se lit sur un graphe y(t) (axe du temps), λ se lit sur un graphe y(x) (axe des positions) — une onde périodique possède <strong>ces deux périodicités simultanément</strong> : on parle de <strong>double périodicité</strong>.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair)">🎬</span>Animation — visualiser la double périodicité</div>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:10px">À gauche, la <strong>photographie</strong> y(x) du milieu à l'instant présent (λ est repérée en bas). Le point M (trait pointillé violet) est un point fixe du milieu. À droite, le <strong>chronogramme</strong> y(t) de ce même point M se construit en temps réel (T est repérée en bas). Fais varier T et c pour observer l'effet sur chaque graphique.</p>
+      <div class="wave-sim">
+        <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:12px">
+          <div style="flex:1;min-width:220px;text-align:center">
+            <div style="font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:800;color:var(--bleu);margin-bottom:4px">y(x) — photographie à l'instant t</div>
+            <canvas id="doubleCanvasX" width="260" height="180" style="background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;max-width:100%"></canvas>
+          </div>
+          <div style="flex:1;min-width:220px;text-align:center">
+            <div style="font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:800;color:var(--violet);margin-bottom:4px">y(t) — chronogramme au point M</div>
+            <canvas id="doubleCanvasT" width="260" height="180" style="background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;max-width:100%"></canvas>
+          </div>
+        </div>
+        <div class="wave-play-row">
+          <button class="dnd-btn" onclick="doubleTogglePlay()" id="doublePlayBtn">▶️ Lancer l'animation</button>
+          <button class="dnd-btn reset" onclick="doubleReset()">↺ Réinitialiser</button>
+        </div>
+        <div class="wave-sim-layout" style="margin-top:12px">
+          <div class="wave-sim-controls" style="flex:1">
+            <div class="wave-ctrl">
+              <h5>Période T</h5>
+              <label>T = <span id="doubleTVal">0.8</span> s</label>
+              <input type="range" id="doubleT" min="0.4" max="1.2" step="0.1" value="0.8" oninput="doubleUpdateParams()">
+            </div>
+            <div class="wave-ctrl">
+              <h5>Célérité c</h5>
+              <label>c = <span id="doubleCVal">1.5</span> m·s⁻¹</label>
+              <input type="range" id="doubleC" min="1.0" max="2.5" step="0.1" value="1.5" oninput="doubleUpdateParams()">
+            </div>
+            <div class="wave-sim-readout">Longueur d'onde <b>λ = c×T = <span id="doubleLambdaVal">1.2</span> m</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="icon">〰️</span>2. Longueur d'onde λ</div>
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">📐</span>Définition et relation</div>
+      <p style="font-size:.9rem;line-height:1.7">La <strong>longueur d'onde λ</strong> (lambda) est la distance parcourue par l'onde pendant une durée égale à une période T. Elle correspond à la distance minimale séparant deux points du milieu qui vibrent <strong>en phase</strong> (même mouvement au même instant).</p>
+      <div class="formula">λ = c × T &nbsp;&nbsp;⟺&nbsp;&nbsp; c = λ / T = λ × f
+        <div class="legend">λ : longueur d'onde (m) — c : célérité (m·s⁻¹) — T : période (s) — f : fréquence (Hz)</div>
+      </div>
+    </div>
+
+    <div class="exo-box" id="appLambda1-box">
+      <h5>📝 Application directe — Onde à la surface de l'eau</h5>
+      <div class="exo-enonce">Une onde périodique se propage à la surface de l'eau d'une cuve à ondes à la célérité c = 0,25 m·s⁻¹. La fréquence du vibreur qui la génère est f = 12,5 Hz. Calculer la longueur d'onde λ.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('appLambda1',this,false)">λ = c×f</div>
+          <div class="qcm-opt" onclick="fcrFormule('appLambda1',this,true)">λ = c/f</div>
+          <div class="qcm-opt" onclick="fcrFormule('appLambda1',this,false)">λ = f/c</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="appLambda1-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="appLambda1-calc" class="blank-in" placeholder="ton calcul" style="width:100%;max-width:320px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('appLambda1',0.02,0.08)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="appLambda1-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="appLambda1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="appLambda1-result" class="blank-in" placeholder="en cm"> cm
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('appLambda1',2.0,0.05,'λ = 2,0 cm')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="appLambda1-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('appLambda1','λ = c/f','λ = 0,25 / 12,5','λ = 0,020 m = 2,0 cm')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('appLambda1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="appLambda1-correction"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">🎬</span>Onde circulaire sur l'eau</div>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:10px">Vidéo (Δt = 40 ms entre deux images) — les cercles concentriques illustrent la périodicité spatiale : la distance entre deux crêtes successives est la longueur d'onde λ.</p>
+      <div class="video-wrap" style="max-width:320px;margin:0 auto">
+        <video controls playsinline preload="auto">
+          <source src="ondecirculaire.mp4" type="video/mp4">
+          Ton navigateur ne prend pas en charge la lecture de cette vidéo.
+        </video>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="icon">🗂️</span>3. Schéma bilan</div>
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair)">🗺️</span>Double périodicité — schéma de synthèse</div>
+      <svg viewBox="0 0 560 220" style="max-width:560px;width:100%;display:block;margin:0 auto">
+        <rect width="560" height="220" rx="10" fill="#FAFBFC" stroke="#DDE3EC"/>
+        <text x="20" y="24" font-family="Outfit,sans-serif" font-size="12" font-weight="800" fill="#2D5F8A">y(t) — en un point fixé (périodicité temporelle T)</text>
+        <path d="M20,60 Q45,25 70,60 T120,60 T170,60 T220,60 T270,60" stroke="#2D5F8A" stroke-width="2" fill="none"/>
+        <line x1="20" y1="60" x2="270" y2="60" stroke="#DDE3EC" stroke-width="1"/>
+        <line x1="45" y1="90" x2="45" y2="100" stroke="#E8783A" stroke-width="1.5"/>
+        <line x1="120" y1="90" x2="120" y2="100" stroke="#E8783A" stroke-width="1.5"/>
+        <path d="M45,95 L120,95" stroke="#E8783A" stroke-width="1.5" marker-start="url(#lc1)" marker-end="url(#lc1)"/>
+        <text x="82" y="110" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" font-weight="700" fill="#E8783A">T</text>
+        <text x="270" y="115" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A">t</text>
+
+        <text x="300" y="24" font-family="Outfit,sans-serif" font-size="12" font-weight="800" fill="#7B4FA6">y(x) — à un instant fixé (périodicité spatiale λ)</text>
+        <path d="M300,60 Q325,25 350,60 T400,60 T450,60 T500,60 T550,60" stroke="#7B4FA6" stroke-width="2" fill="none"/>
+        <line x1="300" y1="60" x2="550" y2="60" stroke="#DDE3EC" stroke-width="1"/>
+        <line x1="325" y1="90" x2="325" y2="100" stroke="#E8783A" stroke-width="1.5"/>
+        <line x1="400" y1="90" x2="400" y2="100" stroke="#E8783A" stroke-width="1.5"/>
+        <path d="M325,95 L400,95" stroke="#E8783A" stroke-width="1.5" marker-start="url(#lc1)" marker-end="url(#lc1)"/>
+        <text x="362" y="110" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" font-weight="700" fill="#E8783A">λ</text>
+        <text x="550" y="115" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A">x</text>
+
+        <rect x="120" y="150" width="320" height="50" rx="8" fill="#E8F1F8" stroke="#B8D4EC"/>
+        <text x="280" y="180" text-anchor="middle" font-family="DM Mono,monospace" font-size="15" font-weight="700" fill="#2D5F8A">λ = c × T</text>
+        <defs><marker id="lc1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M3,0 L3,6" stroke="#E8783A" stroke-width="1.2"/></marker></defs>
+      </svg>
+    </div>
+
+  </div>
+
+</div>
+<!-- fin tab-cours -->
+<!-- ══════════════════ TAB 2 — ACTIVITÉS ══════════════════ -->
+<div class="panel" id="tab-activites">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-visualiser')">🌊 Visualiser une propagation</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-mesure')">📏 Mesurer une célérité</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-hatier')">📚 Activités Hatier</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-simus')">🖥️ Simulations guidées</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-python')">🐍 Activité Python</button>
+  </div>
+
+  <!-- ---------- VISUALISER ---------- -->
+  <div class="sub-tab-content active" id="sub-visualiser">
+    <div class="intro-box">TP « Corde de musculation » p348 — Produire une perturbation et visualiser sa propagation dans des situations variées (capacité exigible du B.O.).</div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">🎛️</span>Simulation — onde le long d'une corde</div>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:10px">Utilise les curseurs pour faire varier la période T et la longueur d'onde λ, ralentis l'animation avec le curseur « vitesse » si besoin, puis lance-la. Observe comment se déplace la perturbation (repère le point orange) et réponds aux questions ci-dessous.</p>
+      <div class="wave-sim">
+        <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:12px">
+          <div style="flex:1;min-width:220px;text-align:center">
+            <div style="font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:800;color:var(--bleu);margin-bottom:4px">y(x) — photographie à l'instant t</div>
+            <canvas id="waveCanvasXActivite" width="260" height="190" style="background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;max-width:100%"></canvas>
+          </div>
+          <div style="flex:1;min-width:220px;text-align:center">
+            <div style="font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:800;color:var(--violet);margin-bottom:4px">y(t) — chronogramme au point M</div>
+            <canvas id="waveCanvasTActivite" width="260" height="190" style="background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;max-width:100%"></canvas>
+          </div>
+        </div>
+        <div class="wave-play-row">
+          <button class="dnd-btn" onclick="waveTogglePlay('Activite')" id="wavePlayBtnActivite">▶️ Lancer l'animation</button>
+          <button class="dnd-btn reset" onclick="waveReset('Activite')">↺ Réinitialiser</button>
+        </div>
+        <div class="wave-sim-layout" style="margin-top:12px">
+          <div class="wave-sim-controls" style="flex:1">
+            <div class="wave-ctrl">
+              <h5>Période T</h5>
+              <label>T = <span id="waveTValActivite">1.0</span> s</label>
+              <input type="range" id="waveTActivite" min="0.4" max="2.0" step="0.1" value="1.0" oninput="waveUpdateParams('Activite')">
+            </div>
+            <div class="wave-ctrl">
+              <h5>Longueur d'onde λ</h5>
+              <label>λ = <span id="waveLamValActivite">2.0</span> m</label>
+              <input type="range" id="waveLamActivite" min="0.5" max="4.0" step="0.1" value="2.0" oninput="waveUpdateParams('Activite')">
+            </div>
+            <div class="wave-ctrl">
+              <h5>Vitesse de l'animation</h5>
+              <label>× <span id="waveSpeedValActivite">0.4</span></label>
+              <input type="range" id="waveSpeedActivite" min="0.1" max="1.5" step="0.1" value="0.4" oninput="waveUpdateParams('Activite')">
+            </div>
+            <div class="wave-sim-readout">Fréquence <b>f = 1/T = <span id="waveFreqActivite">1.0</span> Hz</b> — Célérité <b>c = λ/T = <span id="waveCeleriteActivite">2.0</span> m·s⁻¹</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">QUESTION 1</div>
+      <div class="qtext">En augmentant la longueur d'onde λ sans changer la période T, comment évolue la célérité calculée c ?</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁️ Voir la réponse</button>
+      <div class="reveal-body"><strong>Réponse :</strong> c augmente, puisque c = λ/T : à période fixée, la célérité est proportionnelle à la longueur d'onde.</div>
+    </div>
+    <div class="activite-q">
+      <div class="qnum">QUESTION 2</div>
+      <div class="qtext">Le point M (repéré sur le graphique de gauche) se déplace-t-il horizontalement au cours de l'animation ?</div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁️ Voir la réponse</button>
+      <div class="reveal-body"><strong>Réponse :</strong> non, M oscille verticalement sur place — c'est ce que montre le chronogramme y(t) à droite. Seule la perturbation (la forme de l'onde) se propage horizontalement, pas la matière.</div>
+    </div>
+
+  </div>
+
+  <!-- ---------- MESURER ---------- -->
+  <div class="sub-tab-content" id="sub-mesure">
+    <div class="intro-box">Déterminer, à l'aide d'une chaîne de mesure (deux capteurs distants), la célérité d'une onde à partir du retard observé entre les deux signaux enregistrés.</div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair)">📟</span>Chaîne de mesure : deux capteurs de son</div>
+      <p style="font-size:.88rem;line-height:1.6;margin-bottom:10px">Deux microphones M<sub>1</sub> et M<sub>2</sub>, distants de d = 1,70 m, sont reliés à une interface d'acquisition. Un même claquement sonore est enregistré par les deux capteurs. Le chronogramme ci-dessous représente les deux signaux obtenus.</p>
+      <div class="chrono-wrap">
+        <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg">
+          <rect width="560" height="220" rx="10" fill="#FAFBFC"/>
+          <line x1="40" y1="70" x2="540" y2="70" stroke="#DDE3EC"/>
+          <line x1="40" y1="150" x2="540" y2="150" stroke="#DDE3EC"/>
+          <text x="10" y="74" font-family="Outfit,sans-serif" font-size="11" font-weight="800" fill="#2D5F8A">M₁</text>
+          <text x="10" y="154" font-family="Outfit,sans-serif" font-size="11" font-weight="800" fill="#E8783A">M₂</text>
+          <path d="M40,70 L110,70 L120,30 L130,100 L140,70 L540,70" stroke="#2D5F8A" stroke-width="2" fill="none"/>
+          <path d="M40,150 L160,150 L170,110 L180,180 L190,150 L540,150" stroke="#E8783A" stroke-width="2" fill="none"/>
+          <line x1="120" y1="185" x2="120" y2="195" stroke="#5A6B7A" stroke-width="1"/>
+          <line x1="170" y1="185" x2="170" y2="195" stroke="#5A6B7A" stroke-width="1"/>
+          <path d="M120,190 L170,190" stroke="#5A6B7A" stroke-width="1.3" marker-start="url(#chm)" marker-end="url(#chm)"/>
+          <text x="145" y="206" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" font-weight="700" fill="#1A2A3A">Δt</text>
+          <text x="40" y="200" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A">0</text>
+          <!-- échelle temporelle -->
+          <line x1="40" y1="20" x2="40" y2="205" stroke="#DDE3EC" stroke-dasharray="2,2"/>
+          <text x="480" y="35" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A">échelle : 10 ms / grand carreau (10 px)</text>
+          <defs><marker id="chm" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M3,0 L3,6" stroke="#1A2A3A" stroke-width="1.2"/></marker></defs>
+        </svg>
+      </div>
+      <p style="font-size:.85rem;color:var(--texte-leger)">Lecture du chronogramme : le décalage entre les deux fronts de montée correspond à un retard Δt = 5,0 ms entre l'arrivée du son sur M<sub>1</sub> et sur M<sub>2</sub>.</p>
+    </div>
+
+    <div class="exo-box" id="appMesure1-box">
+      <h5>📝 Exploitation — Déterminer la célérité du son</h5>
+      <div class="exo-enonce">À partir de la distance d = 1,70 m entre les deux microphones et du retard Δt = 5,0 ms lu sur le chronogramme, calculer la célérité c du son dans l'air ce jour-là.</div>
+
+      <div class="fcr-step">
+        <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="fcrFormule('appMesure1',this,true)">c = d/Δt</div>
+          <div class="qcm-opt" onclick="fcrFormule('appMesure1',this,false)">c = Δt/d</div>
+          <div class="qcm-opt" onclick="fcrFormule('appMesure1',this,false)">c = d×Δt</div>
+        </div>
+      </div>
+
+      <div class="fcr-step" id="appMesure1-calc-step">
+        <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+        <input type="text" id="appMesure1-calc" class="blank-in" placeholder="ton calcul" style="width:100%;max-width:320px">
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('appMesure1',340,0.06)">Vérifier le calcul</button></div>
+        <div class="exo-fb" id="appMesure1-calc-fb"></div>
+      </div>
+
+      <div class="fcr-step" id="appMesure1-result-step">
+        <label class="fcr-label">3. Résultat</label>
+        <input type="text" id="appMesure1-result" class="blank-in" placeholder="en m/s"> m·s⁻¹
+        <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('appMesure1',340,0.05,'c ≈ 340 m·s⁻¹, valeur cohérente avec la célérité du son dans l\'air à température ambiante.')">Vérifier le résultat</button></div>
+        <div class="exo-fb" id="appMesure1-result-fb"></div>
+      </div>
+
+      <div class="fcr-step exo-btn-row">
+        <button class="btn-reveal" onclick="fcrCorrection('appMesure1','c = d/Δt','c = 1,70 / 5,0×10⁻³','c = 340 m·s⁻¹')">🔎 Correction</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('appMesure1')">↺ Recommencer</button>
+      </div>
+      <div class="exo-fb" id="appMesure1-correction"></div>
+    </div>
+
+  </div>
+
+  <!-- ---------- ACTIVITÉS HATIER ---------- -->
+  <div class="sub-tab-content" id="sub-hatier">
+    <div class="intro-box">Six activités interactives Hatier, à réaliser en autonomie, couvrant l'ensemble des capacités exigibles de la séquence.</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/ondes/docs/act1a.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📚 1. Onde progressive le long d'une corde</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier — Célérité d'une onde sur la corde.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/ondes/docs/act2a.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📚 2. Précision d'une mesure</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier — Quelle précision lors de la détermination d'une célérité par chronométrage ?</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/ondes/docs/act3a.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📚 3. Une onde sur une corde</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier — Période, longueur d'onde, célérité et points en phase.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/ondes/docs/act4a.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📚 4. Corde vibrante</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier — Points en phase et longueur d'onde.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/ondes/docs/act5a.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📚 5. Onde périodique</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier — Détermination des grandeurs caractéristiques.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/ondes/docs/act6a.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📚 6. Célérité d'une onde sinusoïdale</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier — Influence des facteurs physiques sur la célérité de l'onde.</p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ---------- SIMULATIONS GUIDÉES ---------- -->
+  <div class="sub-tab-content" id="sub-simus">
+    <div class="intro-box">Simulations PhET et Ostralo à explorer pour visualiser la propagation d'une onde et mesurer ses caractéristiques.</div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">🧲</span>PhET — Onde sur une corde</div>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:10px">Choisis le mode « Oscillate » (onde continue), règle la fréquence et l'amplitude, et observe la propagation le long de la corde.</p>
+      <div class="sim-frame-wrap">
+        <iframe src="https://phet.colorado.edu/sims/html/wave-on-a-string/latest/wave-on-a-string_all.html?locale=fr" loading="lazy" allowfullscreen></iframe>
+        <div class="sim-frame-caption"><span>PhET Interactive Simulations</span><a href="https://phet.colorado.edu/sims/html/wave-on-a-string/latest/wave-on-a-string_all.html?locale=fr" target="_blank" rel="noopener">Ouvrir en plein écran ↗</a></div>
+      </div>
+      <div class="activite-q" style="margin-top:14px">
+        <div class="qnum">QUESTION 1</div>
+        <div class="qtext">En mode « Oscillate », augmente la fréquence sans changer l'amplitude ni la tension de la corde. Que peux-tu dire de la longueur d'onde observée ?</div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁️ Voir la réponse</button>
+        <div class="reveal-body"><strong>Réponse :</strong> la longueur d'onde diminue : à célérité fixée (tension et milieu inchangés), λ = c/f, donc λ diminue quand f augmente.</div>
+      </div>
+      <div class="activite-q">
+        <div class="qnum">QUESTION 2</div>
+        <div class="qtext">Passe en mode « Pulse » (impulsion unique). Qu'observes-tu concernant le déplacement de la matière (la corde) par rapport à la propagation de la perturbation ?</div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁️ Voir la réponse</button>
+        <div class="reveal-body"><strong>Réponse :</strong> l'impulsion se propage le long de la corde, mais chaque point de la corde oscille seulement verticalement sur place : il n'y a pas de transport de matière dans le sens de propagation.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair)">🌊</span>PhET — Introduction aux ondes</div>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:10px">Compare les ondes à la surface de l'eau, les ondes sonores et la lumière : trois milieux et trois célérités très différentes.</p>
+      <div class="sim-frame-wrap">
+        <iframe src="https://phet.colorado.edu/sims/html/waves-intro/latest/waves-intro_all.html?locale=fr" loading="lazy" allowfullscreen></iframe>
+        <div class="sim-frame-caption"><span>PhET Interactive Simulations</span><a href="https://phet.colorado.edu/sims/html/waves-intro/latest/waves-intro_all.html?locale=fr" target="_blank" rel="noopener">Ouvrir en plein écran ↗</a></div>
+      </div>
+      <div class="activite-q" style="margin-top:14px">
+        <div class="qnum">QUESTION</div>
+        <div class="qtext">Compare la case « Water » (onde à la surface de l'eau) à la case « Sound » (onde sonore). Le milieu de propagation est-il le même ? Qu'en déduis-tu sur la célérité de ces deux ondes ?</div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁️ Voir la réponse</button>
+        <div class="reveal-body"><strong>Réponse :</strong> les milieux sont différents (eau en surface / air), donc les célérités sont différentes : la célérité d'une onde mécanique dépend du milieu dans lequel elle se propage.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair)">🎺</span>Ostralo — Onde sonore dans un tuyau</div>
+      <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:10px">Visualise la propagation longitudinale d'une onde sonore (compressions/dilatations successives) dans un tuyau.</p>
+      <div class="sim-frame-wrap">
+        <iframe src="https://physique.ostralo.net/ondesonoretuyau/" loading="lazy" allowfullscreen></iframe>
+        <div class="sim-frame-caption"><span>Ostralo</span><a href="https://physique.ostralo.net/ondesonoretuyau/" target="_blank" rel="noopener">Ouvrir en plein écran ↗</a></div>
+      </div>
+      <div class="activite-q" style="margin-top:14px">
+        <div class="qnum">QUESTION</div>
+        <div class="qtext">Sur cette simulation, la perturbation se propage-t-elle parallèlement ou perpendiculairement à l'axe du tuyau ? De quel type d'onde s'agit-il ?</div>
+        <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁️ Voir la réponse</button>
+        <div class="reveal-body"><strong>Réponse :</strong> les molécules d'air se déplacent parallèlement à l'axe du tuyau, dans la même direction que la propagation : c'est une onde longitudinale, comme pour le ressort.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ---------- PYTHON ---------- -->
+  <div class="sub-tab-content" id="sub-python">
+    <div class="intro-box">Capacité numérique : simuler à l'aide d'un langage de programmation la propagation d'une onde périodique. Activité adaptée des scripts Hatier « 15_onde-temporel.py » et « 15_onde-spatial.py » (chap. 15 p. 331), pour l'étude de la propagation d'une onde périodique à la surface d'une cuve à ondes.</div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair)">🐍</span>Propagation d'une onde périodique à la surface d'une cuve à ondes</div>
+      <p style="font-size:.87rem;line-height:1.6;margin-bottom:10px">La fonction y(t) qui décrit le mouvement du vibreur à la source est <strong>fournie</strong> (elle n'est pas à écrire) : ce n'est pas elle qu'il faut comprendre en détail, mais son <strong>usage</strong>. Choisis un aspect à étudier ci-dessous, complète uniquement la donnée numérique manquante (<code>___</code>), puis exécute le programme.</p>
+
+      <div class="exo-btn-row" style="margin-bottom:12px">
+        <button class="dnd-btn active" id="pyModeBtnTemporel" onclick="pySwitchMode('temporel')">🕒 Aspect temporel — y(t)</button>
+        <button class="dnd-btn" id="pyModeBtnSpatial" onclick="pySwitchMode('spatial')">📸 Aspect spatial — y(x)</button>
+      </div>
+
+      <div id="pyPrelimBox" style="margin-bottom:14px">
+        <div class="section-title" style="margin-top:0;margin-bottom:10px;font-size:.95rem">🧠 Avant d'exécuter — choisis la bonne réponse</div>
+        <div id="pyPrelimTemporel">
+          <div class="qi-box">
+            <div class="qi-q">AVANT D'EXÉCUTER (1) — Le graphique du bas (au point M) sera, par rapport à celui de la source :</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Identique, sans décalage</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">Identique, mais décalé dans le temps</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">De forme différente</div>
+            </div>
+          </div>
+          <div class="qi-box">
+            <div class="qi-q">AVANT D'EXÉCUTER (2) — Le retard τ entre la source et M vérifie :</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">τ = x<sub>M</sub>/v</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">τ = v/x<sub>M</sub></div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">τ = x<sub>M</sub>×v</div>
+            </div>
+          </div>
+          <div class="qi-box">
+            <div class="qi-q">AVANT D'EXÉCUTER (3) — Si on double v (célérité) sans changer x<sub>M</sub>, le retard τ :</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Double</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">Est divisé par 2</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Ne change pas</div>
+            </div>
+          </div>
+        </div>
+        <div id="pyPrelimSpatial" style="display:none">
+          <div class="qi-box">
+            <div class="qi-q">AVANT D'EXÉCUTER (1) — Entre t₀ = 0 et t₁ &gt; 0, la forme du graphique y(x) va :</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">Rester identique, mais se translater</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">S'inverser</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Se déformer complètement</div>
+            </div>
+          </div>
+          <div class="qi-box">
+            <div class="qi-q">AVANT D'EXÉCUTER (2) — La distance entre deux points en phase sur le graphique y(x) correspond à :</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">La période T</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">La longueur d'onde λ</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">L'amplitude A</div>
+            </div>
+          </div>
+          <div class="qi-box">
+            <div class="qi-q">AVANT D'EXÉCUTER (3) — Si t₁ augmente (à v constante), la translation de la courbe :</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">Augmente</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Diminue</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Reste nulle</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="py-editor-wrap">
+        <pre class="py-editor-highlight" id="pyHighlight"></pre>
+        <textarea id="pyCodeEditor" class="py-editor" spellcheck="false" oninput="pySyncHighlight()" onscroll="pySyncScroll()"></textarea>
+      </div>
+      <div class="py-btn-row">
+        <button class="exo-btn" onclick="pyRunCode()">▶️ Exécuter</button>
+        <button class="exo-btn-secondary" onclick="pyReset()">↺ Réinitialiser</button>
+        <button class="btn-reveal" onclick="pyShowCorrection()">🔎 Voir la correction</button>
+      </div>
+      <div class="exo-fb" id="pyStatus"></div>
+      <div class="py-output" id="pyOutput"></div>
+
+      <div id="pyExploitBox" style="margin-top:16px">
+        <div class="section-title" style="margin-bottom:10px;font-size:.95rem">🔬 Exploitation — à faire après avoir exécuté le programme</div>
+        <div id="pyExploitTemporel">
+          <div class="qi-box">
+            <div class="qi-q">EXPLOITATION (1) — Le décalage horizontal observé entre les deux courbes correspond à :</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">Le retard τ = x<sub>M</sub>/v</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">La période T</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">La longueur d'onde λ</div>
+            </div>
+          </div>
+          <div class="qi-box">
+            <div class="qi-q">EXPLOITATION (2) — Si tu doubles x<sub>M</sub> (à v constante), le retard observé :</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">Double</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Est divisé par 2</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Reste identique</div>
+            </div>
+          </div>
+          <div class="qi-box">
+            <div class="qi-q">EXPLOITATION (3) — Les deux courbes (source et point M) ont-elles la même amplitude ?</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">Oui</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Non, celle en M est plus faible</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Non, celle en M est plus grande</div>
+            </div>
+          </div>
+          <div class="activite-q">
+            <div class="qnum">EXPLOITATION (4) — Question ouverte</div>
+            <div class="qtext">Modifie x<sub>M</sub> dans le code pour une valeur proche de L (par exemple 28 cm) et relance. Décris ce que tu observes sur le décalage entre les deux courbes, et explique pourquoi.</div>
+            <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁️ Voir la réponse</button>
+            <div class="reveal-body"><strong>Réponse :</strong> le décalage devient plus important, car τ = x<sub>M</sub>/v augmente avec x<sub>M</sub> : le point M étant plus loin de la source, l'onde met plus de temps à l'atteindre.</div>
+          </div>
+        </div>
+        <div id="pyExploitSpatial" style="display:none">
+          <div class="qi-box">
+            <div class="qi-q">EXPLOITATION (1) — La distance entre deux points en phase sur le graphique du haut correspond à :</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">λ = v×T</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">T</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">v</div>
+            </div>
+          </div>
+          <div class="qi-box">
+            <div class="qi-q">EXPLOITATION (2) — Entre les deux graphiques (t₀ = 0 et t₁), la courbe :</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">S'est translatée de v×t₁</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">A changé de fréquence</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">A changé d'amplitude</div>
+            </div>
+          </div>
+          <div class="qi-box">
+            <div class="qi-q">EXPLOITATION (3) — Si tu doubles t₁ (à v constante), la translation observée :</div>
+            <div class="qcm-opts">
+              <div class="qcm-opt" onclick="qcmCheck(this,true)">Double</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Est divisée par 2</div>
+              <div class="qcm-opt" onclick="qcmCheck(this,false)">Reste identique</div>
+            </div>
+          </div>
+          <div class="activite-q">
+            <div class="qnum">EXPLOITATION (4) — Question ouverte</div>
+            <div class="qtext">Modifie t₁ pour une valeur nettement plus grande (par exemple 1,0 s) et relance. Que remarques-tu sur l'allure de la courbe du bas ? Explique ce phénomène (indice : au bout de combien de temps le motif se répète-t-il ?).</div>
+            <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">👁️ Voir la réponse</button>
+            <div class="reveal-body"><strong>Réponse :</strong> la courbe ressemble à nouveau à celle de t₀ = 0 (ou à une version décalée d'une fraction de λ) : comme le signal est périodique de période T, la translation v×t₁ « boucle » tous les multiples de λ = v×T, donnant une allure similaire dès que t₁ est un multiple de T.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- fin tab-activites -->
+<!-- ══════════════════ TAB 3 — EXERCICES ══════════════════ -->
+<div class="panel" id="tab-exercices">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-facile')">🟢 Facile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-inter')">🟠 Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-difficile')">🔴 Difficile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-escape')">🔐 Escape game</button>
+  </div>
+
+  <!-- ---------- FACILE ---------- -->
+  <div class="sub-tab-content active" id="sub-facile">
+    <div class="intro-box">Applications directes d'une seule formule. Méthode <strong>Formule → Calcul → Résultat</strong>.</div>
+
+    <div class="exo-box">
+      <h5>Exercice 1 — Retard d'une onde sonore</h5>
+      <div class="exo-enonce">Un coup de tonnerre se propage dans l'air à la célérité c = 340 m·s⁻¹. Un observateur se trouve à d = 680 m de l'éclair. Calculer le retard τ avec lequel il entend le tonnerre.</div>
+      <label style="font-size:.82rem">Résultat τ = </label>
+      <input type="text" id="exF1" class="blank-in" placeholder="en s"> s
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exF1',2.0,0.05,'exF1fb','τ = d/c','τ = 680 / 340','τ = 2,0 s')">Vérifier</button></div>
+      <div class="exo-fb" id="exF1fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 2 — Période et fréquence</h5>
+      <div class="exo-enonce">Un vibreur produit une onde périodique de période T = 25 ms. Calculer sa fréquence f.</div>
+      <label style="font-size:.82rem">Résultat f = </label>
+      <input type="text" id="exF2" class="blank-in" placeholder="en Hz"> Hz
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exF2',40,0.05,'exF2fb','f = 1/T','f = 1 / 25×10⁻³','f = 40 Hz')">Vérifier</button></div>
+      <div class="exo-fb" id="exF2fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 3 — Longueur d'onde dans l'eau</h5>
+      <div class="exo-enonce">Une onde sonore de fréquence f = 750 Hz se propage dans l'eau à la célérité c = 1 500 m·s⁻¹. Calculer sa longueur d'onde λ.</div>
+      <label style="font-size:.82rem">Résultat λ = </label>
+      <input type="text" id="exF3" class="blank-in" placeholder="en m"> m
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exF3',2.0,0.05,'exF3fb','λ = c/f','λ = 1500 / 750','λ = 2,0 m')">Vérifier</button></div>
+      <div class="exo-fb" id="exF3fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 4 — Retard d'une houle</h5>
+      <div class="exo-enonce">Une houle se propage à la surface de l'océan à la célérité c = 8,0 m·s⁻¹. Une bouée d'observation est située à d = 120 m du point où la houle a été générée. Calculer le retard τ avec lequel la bouée est atteinte.</div>
+      <label style="font-size:.82rem">Résultat τ = </label>
+      <input type="text" id="exF4" class="blank-in" placeholder="en s"> s
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exF4',15,0.05,'exF4fb','τ = d/c','τ = 120 / 8,0','τ = 15 s')">Vérifier</button></div>
+      <div class="exo-fb" id="exF4fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 5 — Longueur d'onde d'un son dans l'air</h5>
+      <div class="exo-enonce">Une onde sonore de fréquence f = 200 Hz se propage dans l'air à la célérité c = 340 m·s⁻¹. Calculer sa longueur d'onde λ.</div>
+      <label style="font-size:.82rem">Résultat λ = </label>
+      <input type="text" id="exF5" class="blank-in" placeholder="en m"> m
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exF5',1.7,0.05,'exF5fb','λ = c/f','λ = 340 / 200','λ = 1,7 m')">Vérifier</button></div>
+      <div class="exo-fb" id="exF5fb"></div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">💡 Flash : la célérité d'une onde mécanique dépend :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">De la fréquence de la perturbation</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">De la nature du milieu de propagation</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- INTERMÉDIAIRE ---------- -->
+  <div class="sub-tab-content" id="sub-inter">
+    <div class="intro-box">Il faut parfois réarranger la formule, ou tenir compte d'un aller-retour, avant de calculer.</div>
+
+    <div class="exo-box">
+      <h5>Exercice 1 — Télémètre à ultrasons</h5>
+      <div class="exo-enonce">Un télémètre à ultrasons émet une salve qui se réfléchit sur un obstacle puis revient au capteur. La durée aller-retour mesurée est τ = 24 ms. La célérité des ultrasons dans l'air est c = 340 m·s⁻¹. Calculer la distance d entre le capteur et l'obstacle. <em>Indication : l'onde parcourt deux fois la distance d (aller puis retour).</em></div>
+      <label style="font-size:.82rem">Résultat d = </label>
+      <input type="text" id="exI1" class="blank-in" placeholder="en m"> m
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exI1',4.1,0.05,'exI1fb','d = c×τ/2','d = 340 × 24×10⁻³ / 2','d ≈ 4,1 m')">Vérifier</button></div>
+      <div class="exo-fb" id="exI1fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 2 — Longueur d'onde d'un chant de baleine</h5>
+      <div class="exo-enonce">Une baleine émet un son de fréquence f = 170 Hz. Le son se propage dans l'eau à la célérité c = 1 500 m·s⁻¹. Calculer la longueur d'onde λ de ce son.</div>
+      <label style="font-size:.82rem">Résultat λ = </label>
+      <input type="text" id="exI2" class="blank-in" placeholder="en m"> m
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exI2',8.8,0.05,'exI2fb','λ = c/f','λ = 1500 / 170','λ ≈ 8,8 m')">Vérifier</button></div>
+      <div class="exo-fb" id="exI2fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 3 — Retrouver la période à partir de λ et c</h5>
+      <div class="exo-enonce">Une onde progressive sinusoïdale de longueur d'onde λ = 0,75 m se propage dans l'air à la célérité c = 340 m·s⁻¹. Calculer sa période T.</div>
+      <label style="font-size:.82rem">Résultat T = </label>
+      <input type="text" id="exI3" class="blank-in" placeholder="en ms"> ms
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exI3',2.2,0.05,'exI3fb','λ = c×T  ⟹  T = λ/c','T = 0,75 / 340','T ≈ 2,2×10⁻³ s = 2,2 ms')">Vérifier</button></div>
+      <div class="exo-fb" id="exI3fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 4 — Distance parcourue par une onde sismique (conversion d'unités)</h5>
+      <div class="exo-enonce">Un dispositif d'essai en laboratoire modélise une onde sismique se propageant à la célérité c = 5,0 km·s⁻¹ dans un bloc rocheux. Un capteur détecte l'onde avec un retard τ = 40 ms après l'émission. Calculer la distance d parcourue, en mètres. <em>Indication : convertis c et τ dans les unités du système international avant de calculer.</em></div>
+      <label style="font-size:.82rem">Résultat d = </label>
+      <input type="text" id="exI4" class="blank-in" placeholder="en m"> m
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exI4',200,0.05,'exI4fb','d = c×τ','d = 5,0×10³ × 40×10⁻³','d = 200 m')">Vérifier</button></div>
+      <div class="exo-fb" id="exI4fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 5 — Fréquence d'une onde ultrasonore</h5>
+      <div class="exo-enonce">Une onde ultrasonore de longueur d'onde λ = 3,4 mm se propage dans l'air à la célérité c = 340 m·s⁻¹. Calculer sa fréquence f.</div>
+      <label style="font-size:.82rem">Résultat f = </label>
+      <input type="text" id="exI5" class="blank-in" placeholder="en Hz"> Hz
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exI5',100000,0.05,'exI5fb','f = c/λ','f = 340 / 3,4×10⁻³','f = 1,0×10⁵ Hz = 100 kHz')">Vérifier</button></div>
+      <div class="exo-fb" id="exI5fb"></div>
+    </div>
+  </div>
+
+  <!-- ---------- DIFFICILE ---------- -->
+  <div class="sub-tab-content" id="sub-difficile">
+    <div class="intro-box">Raisonnement multi-étapes, combinant plusieurs relations du cours.</div>
+
+    <div class="exo-box">
+      <h5>Exercice 1 — Localiser un épicentre à partir de deux types d'ondes</h5>
+      <div class="exo-enonce">Lors d'un séisme, les ondes sismiques P (célérité c<sub>P</sub> = 6,0 km·s⁻¹) et les ondes S (célérité c<sub>S</sub> = 3,5 km·s⁻¹) sont émises simultanément à l'épicentre. Une station enregistre les ondes P puis, Δt = 18 s plus tard, les ondes S. On admet la relation : d = Δt / (1/c<sub>S</sub> − 1/c<sub>P</sub>). Calculer la distance d entre la station et l'épicentre.</div>
+      <label style="font-size:.82rem">Résultat d = </label>
+      <input type="text" id="exD1" class="blank-in" placeholder="en km"> km
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD1',151,0.05,'exD1fb','d = Δt / (1/c_S − 1/c_P)','d = 18 / (1/3,5 − 1/6,0) = 18 / (0,286 − 0,167)','d ≈ 151 km')">Vérifier</button></div>
+      <div class="exo-fb" id="exD1fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 2 — Relier chronogramme et photographie de l'onde</h5>
+      <div class="exo-enonce">Sur le chronogramme d'un point du milieu, on lit une période T = 4,0 ms. Sur une photographie du milieu prise au même instant, on lit une longueur d'onde λ = 1,36 m. Calculer la célérité c de cette onde.</div>
+      <label style="font-size:.82rem">Résultat c = </label>
+      <input type="text" id="exD2" class="blank-in" placeholder="en m/s"> m·s⁻¹
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD2',340,0.03,'exD2fb','c = λ/T','c = 1,36 / 4,0×10⁻³','c = 340 m·s⁻¹')">Vérifier</button></div>
+      <div class="exo-fb" id="exD2fb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 3 — Propagation le long d'une corde</h5>
+      <div class="exo-enonce">Une corde tendue a une longueur L = 3,0 m. Une perturbation créée à une extrémité se propage à la célérité c = 15 m·s⁻¹.<br>a. Calculer la durée τ mise par la perturbation pour atteindre l'autre extrémité de la corde.<br>b. Pendant cette propagation, un grain de poussière posé sur la corde à mi-longueur se déplace-t-il le long de la corde ?</div>
+      <label style="font-size:.82rem">a. Résultat τ = </label>
+      <input type="text" id="exD3" class="blank-in" placeholder="en s"> s
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD3',0.2,0.05,'exD3fb','τ = L/c','τ = 3,0 / 15','τ = 0,20 s')">Vérifier a.</button></div>
+      <div class="exo-fb" id="exD3fb"></div>
+      <div class="qi-box" style="margin-top:12px"><div class="qi-q">b. Le grain de poussière :</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">Se déplace le long de la corde, dans le sens de propagation</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Oscille verticalement sur place, sans se déplacer le long de la corde</div>
+        </div>
+      </div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 4 — Points en phase sur une corde</h5>
+      <div class="exo-enonce">Une onde progressive périodique sinusoïdale se propage le long d'une corde à la célérité c = 2,5 m·s⁻¹. Deux points A et B de la corde, distants de d = 1,0 m, vibrent en phase, et ce sont les deux points en phase les plus proches possibles.<br>a. Que vaut la longueur d'onde λ ?<br>b. En déduire la période T du mouvement.</div>
+      <label style="font-size:.82rem">a. Résultat λ = </label>
+      <input type="text" id="exD4a" class="blank-in" placeholder="en m"> m
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD4a',1.0,0.05,'exD4afb','λ = d (points en phase les plus proches)','λ = 1,0','λ = 1,0 m')">Vérifier a.</button></div>
+      <div class="exo-fb" id="exD4afb"></div>
+      <label style="font-size:.82rem;margin-top:10px;display:block">b. Résultat T = </label>
+      <input type="text" id="exD4b" class="blank-in" placeholder="en s"> s
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD4b',0.4,0.05,'exD4bfb','T = λ/c','T = 1,0 / 2,5','T = 0,40 s')">Vérifier b.</button></div>
+      <div class="exo-fb" id="exD4bfb"></div>
+    </div>
+    <div class="exo-box">
+      <h5>Exercice 5 — Deux microphones et un seul retard</h5>
+      <div class="exo-enonce">Deux microphones M₁ et M₂, alignés avec une source sonore et distants entre eux de d = 5,1 m, enregistrent un même signal avec des retards respectifs τ₁ = 15 ms et τ₂ = 30 ms par rapport à l'instant de l'émission.<br>a. Calculer le retard Δτ = τ₂ − τ₁ entre les deux microphones.<br>b. En déduire la célérité du son ce jour-là.</div>
+      <label style="font-size:.82rem">a. Résultat Δτ = </label>
+      <input type="text" id="exD5a" class="blank-in" placeholder="en ms"> ms
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD5a',15,0.05,'exD5afb','Δτ = τ₂ − τ₁','Δτ = 30 − 15','Δτ = 15 ms')">Vérifier a.</button></div>
+      <div class="exo-fb" id="exD5afb"></div>
+      <label style="font-size:.82rem;margin-top:10px;display:block">b. Résultat c = </label>
+      <input type="text" id="exD5b" class="blank-in" placeholder="en m/s"> m·s⁻¹
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD5b',340,0.03,'exD5bfb','c = d/Δτ','c = 5,1 / 15×10⁻³','c = 340 m·s⁻¹')">Vérifier b.</button></div>
+      <div class="exo-fb" id="exD5bfb"></div>
+    </div>
+  </div>
+
+  <!-- ---------- ESCAPE GAME ---------- -->
+  <div class="sub-tab-content" id="sub-escape">
+    <div class="eg-briefing">
+      <h4>🌍 Localiser l'épicentre</h4>
+      <p>Un institut de sismologie a perdu la localisation d'un épicentre juste avant une conférence de presse ! Résous les trois énigmes dans l'ordre pour reconstituer le code à 3 chiffres du coffre contenant les données de la station sismique.</p>
+    </div>
+
+    <div class="eg-progress">
+      <div class="eg-progress-step" id="egStep1"></div>
+      <div class="eg-progress-step" id="egStep2"></div>
+      <div class="eg-progress-step" id="egStep3"></div>
+    </div>
+
+    <!-- STATION 1 -->
+    <div class="eg-puzzle" id="egPuzzle1">
+      <h5><span class="eg-digit">1</span>Station 1 — La bonne relation</h5>
+      <p style="font-size:.86rem;line-height:1.6;margin-bottom:10px">Quelle relation relie correctement le retard τ, la distance parcourue d et la célérité c d'une onde ?</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="egCheck(1,this,false)">τ = c/d</div>
+        <div class="qcm-opt" onclick="egCheck(1,this,true)">τ = d/c</div>
+        <div class="qcm-opt" onclick="egCheck(1,this,false)">τ = d×c</div>
+      </div>
+      <div class="eg-code-found" id="egFound1" style="display:none">Chiffre trouvé : <strong>6</strong></div>
+    </div>
+
+    <!-- STATION 2 -->
+    <div class="eg-puzzle" id="egPuzzle2">
+      <h5><span class="eg-digit">2</span>Station 2 — Ondes P et ondes S</h5>
+      <div class="eg-lock-overlay" id="egLock2">🔒 Résous d'abord la station 1</div>
+      <p style="font-size:.86rem;line-height:1.6;margin-bottom:10px">Les ondes sismiques P se propagent plus vite que les ondes S. Lors d'un séisme, laquelle des deux est enregistrée <strong>en premier</strong> par une station d'observation ?</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="egCheck(2,this,true)">L'onde P</div>
+        <div class="qcm-opt" onclick="egCheck(2,this,false)">L'onde S</div>
+      </div>
+      <div class="eg-code-found" id="egFound2" style="display:none">Chiffre trouvé : <strong>3</strong></div>
+    </div>
+
+    <!-- STATION 3 -->
+    <div class="eg-puzzle" id="egPuzzle3">
+      <h5><span class="eg-digit">3</span>Station 3 — Lire une double périodicité</h5>
+      <div class="eg-lock-overlay" id="egLock3">🔒 Résous d'abord la station 2</div>
+      <p style="font-size:.86rem;line-height:1.6;margin-bottom:10px">Sur le graphique y(x) d'une onde progressive sinusoïdale, tracé à un instant donné, la distance entre deux motifs identiques consécutifs correspond :</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="egCheck(3,this,false)">À la période T</div>
+        <div class="qcm-opt" onclick="egCheck(3,this,true)">À la longueur d'onde λ</div>
+      </div>
+      <div class="eg-code-found" id="egFound3" style="display:none">Chiffre trouvé : <strong>2</strong></div>
+    </div>
+
+    <!-- CODE FINAL -->
+    <div class="eg-final">
+      <p style="font-weight:700;color:var(--bleu)">🔐 Coffre de la station sismique</p>
+      <p style="font-size:.82rem;color:var(--texte-leger);margin-top:4px">Assemble les 3 chiffres trouvés, dans l'ordre des stations.</p>
+      <input type="text" id="egCodeInput" maxlength="3" placeholder="•••">
+      <br>
+      <button class="exo-btn" onclick="egCheckFinal()">Déverrouiller</button>
+      <div class="exo-fb" id="egFinalFb"></div>
+    </div>
+
+    <div class="eg-success" id="egSuccess">
+      <h4>🎉 Coffre déverrouillé !</h4>
+      <p>Bravo, tu as retrouvé les trois chiffres en raisonnant sur le retard, les ondes P et S, et la double périodicité. Les données de la station sont sauvées, la conférence de presse peut commencer !</p>
+    </div>
+  </div>
+
+</div>
+<!-- fin tab-exercices -->
+<!-- ══════════════════ TAB 4 — BILAN & RESSOURCES ══════════════════ -->
+<div class="panel" id="tab-bilan">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
+
+  <div class="sub-tab-content active" id="bilan-sub-0">
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Onde mécanique progressive</h4>
+        <ul class="ke-list">
+          <li>Propagation d'une perturbation, sans transport de matière, avec transport d'énergie</li>
+          <li>Onde transversale : perturbation ⊥ à la direction de propagation (corde)</li>
+          <li>Onde longitudinale : perturbation ∥ à la direction de propagation (ressort, son)</li>
+          <li>La célérité dépend du milieu, pas de la perturbation</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Retard et célérité</h4>
+        <ul class="ke-list">
+          <li>τ = d/c (retard entre deux points distants de d)</li>
+          <li>Relation utilisée pour localiser une source d'onde (ex. épicentre d'un séisme)</li>
+          <li>Chaîne de mesure : microcontrôleur ou smartphone pour déterminer c ou d</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Onde périodique, onde sinusoïdale</h4>
+        <ul class="ke-list">
+          <li>Onde périodique : la perturbation se répète identique à intervalles réguliers</li>
+          <li>f = 1/T (fréquence et période temporelle)</li>
+          <li>Onde sinusoïdale : mouvement décrit par une fonction sinus du temps</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Double périodicité — longueur d'onde</h4>
+        <ul class="ke-list">
+          <li>Périodicité temporelle T (lue sur y(t), en un point) / périodicité spatiale λ (lue sur y(x), à un instant)</li>
+          <li>λ = c×T ⟺ c = λ/T = λ×f</li>
+          <li>λ : distance minimale entre deux points vibrant en phase</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- /bilan-sub-0 -->
+
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span>Glossaire</div>
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="onde mecanique progressive"><dt>Onde mécanique progressive</dt><dd>Propagation d'une perturbation dans un milieu matériel, sans transport de matière, avec transport d'énergie.</dd></div>
+      <div class="gloss-item" data-term="perturbation"><dt>Perturbation</dt><dd>Modification locale et temporaire d'une grandeur physique du milieu, à l'origine de l'onde.</dd></div>
+      <div class="gloss-item" data-term="onde transversale"><dt>Onde transversale</dt><dd>Onde pour laquelle la perturbation du milieu se fait perpendiculairement à la direction de propagation.</dd></div>
+      <div class="gloss-item" data-term="onde longitudinale"><dt>Onde longitudinale</dt><dd>Onde pour laquelle la perturbation du milieu se fait parallèlement à la direction de propagation.</dd></div>
+      <div class="gloss-item" data-term="retard tau"><dt>Retard (τ)</dt><dd>Durée mise par une perturbation pour se propager d'un point à un autre du milieu : τ = d/c.</dd></div>
+      <div class="gloss-item" data-term="celerite c"><dt>Célérité (c)</dt><dd>Vitesse de propagation d'une onde dans un milieu donné ; dépend du milieu, pas de la perturbation.</dd></div>
+      <div class="gloss-item" data-term="onde periodique"><dt>Onde périodique</dt><dd>Onde pour laquelle la perturbation se répète identique à elle-même à intervalles de temps réguliers.</dd></div>
+      <div class="gloss-item" data-term="onde sinusoidale"><dt>Onde sinusoïdale</dt><dd>Onde périodique dont le mouvement de chaque point est décrit par une fonction sinus du temps.</dd></div>
+      <div class="gloss-item" data-term="periode temporelle t"><dt>Période temporelle (T)</dt><dd>Plus petite durée au bout de laquelle le mouvement d'un point du milieu se reproduit identique à lui-même.</dd></div>
+      <div class="gloss-item" data-term="frequence f"><dt>Fréquence (f)</dt><dd>Nombre de répétitions du motif périodique par seconde ; f = 1/T, exprimée en hertz (Hz).</dd></div>
+      <div class="gloss-item" data-term="periodicite temporelle"><dt>Périodicité temporelle</dt><dd>Répétition régulière du mouvement en un point fixé du milieu, au cours du temps (période T).</dd></div>
+      <div class="gloss-item" data-term="periodicite spatiale"><dt>Périodicité spatiale</dt><dd>Répétition régulière de la forme de l'onde dans l'espace, à un instant donné (longueur d'onde λ).</dd></div>
+      <div class="gloss-item" data-term="longueur d'onde lambda"><dt>Longueur d'onde (λ)</dt><dd>Distance parcourue par l'onde pendant une période T ; distance minimale entre deux points vibrant en phase. λ = c×T.</dd></div>
+      <div class="gloss-item" data-term="double periodicite"><dt>Double périodicité</dt><dd>Propriété d'une onde périodique de posséder simultanément une périodicité temporelle T et une périodicité spatiale λ.</dd></div>
+      <div class="gloss-item" data-term="onde p onde s sismique"><dt>Ondes P et ondes S</dt><dd>Deux types d'ondes sismiques de célérités différentes (P plus rapide que S), utilisées pour localiser un épicentre.</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <div class="sub-tab-content" id="bilan-sub-2">
+
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://youtu.be/jXc1lbTlLlw" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Ondes mécaniques progressives</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Vidéo d'introduction — document 1 du TD « Ondes mécaniques progressives »</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence-14-ondes-mecaniques/id106203701/item810103375" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Son et bougies</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Nathan · chap. 16 p326 · 0:38 — une bougie s'éteint sous l'effet du son émis par un haut-parleur</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence-14-ondes-mecaniques/id106203701#item810103232" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Ondes mécaniques périodiques — Longueur d'onde, célérité et période</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">e-profs · 4 min 07</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence-14-ondes-mecaniques/id106203701#item810088484" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Ondes mécaniques (bilan)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier · 2 min 11</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence-14-ondes-mecaniques/id106203701#item810103401" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Période, fréquence, longueur d'onde… Comment CALCULER ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Paul Olivier · 7 min 07</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence-14-ondes-mecaniques/id106203701#item810103131" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Onde mécanique — Célérité et retard</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Paul Olivier · 3 min 36</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence-14-ondes-mecaniques/id106203701#item810103151" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Célérité d'une onde mécanique — Retard ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Paul Olivier · 3 min 10</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence-14-ondes-mecaniques/id106203701/item810103343" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Déterminer la période et la fréquence d'un signal</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier · 3 min 37</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title"><span class="icon">🔬</span> Simulations &amp; applications</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="http://www.ostralo.net/3_animations/animations_phys_ondes.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🌊 Ostralo — Animations ondes mécaniques</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Animations interactives : onde le long d'une corde, cuve à ondes, période/fréquence.</p>
+        </div>
+      </a>
+
+      <a href="https://phet.colorado.edu/sims/html/wave-on-a-string/latest/wave-on-a-string_fr.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🧲 Simulateur PhET — Onde sur une corde</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Simulation interactive : génère une onde continue ou une impulsion, règle amplitude et fréquence.</p>
+        </div>
+      </a>
+
+      <a href="http://www.acgrenoble.fr/disciplines/spc/genevieve_tulloue/file/gtulloue/Ondes/cuve_ondes/propagation_onde_circulaire.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔁 Propagation d'une onde circulaire</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Académie de Grenoble — animation d'une cuve à ondes (onde circulaire à la surface de l'eau).</p>
+        </div>
+      </a>
+
+      <a href="https://physique.ostralo.net/ondesonoretuyau/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎺 Ostralo — Onde sonore dans un tuyau</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Propagation longitudinale d'une onde sonore (compressions/dilatations successives).</p>
+        </div>
+      </a>
+
+      <a href="https://phet.colorado.edu/sims/html/waves-intro/latest/waves-intro_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🌊 Simulateur PhET — Introduction aux ondes</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Compare ondes à la surface de l'eau, ondes sonores et lumière.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/onde_progressive_impulsion_signal_transversal_celerite_corde_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔁 PCCL — Onde progressive : impulsion, signal transversal, célérité (corde)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Animation flash — propagation d'une impulsion transversale le long d'une corde.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/onde_progressive_longitudinale_ressort_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔁 PCCL — Onde progressive longitudinale (ressort)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Animation flash — propagation longitudinale le long d'un ressort.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/onde_progressive_periodique_corde_double_periodicite_temps_espace_longueur_d_onde_periode_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔁 PCCL — Onde progressive périodique : double périodicité (corde)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Animation flash — périodicité temporelle et spatiale, longueur d'onde et période.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/onde_progressive_corde_double_periodicite_temps_espace_longueur_d_onde_periode_ACTIVITE_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔁 PCCL — Activité : double périodicité (corde)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Animation flash avec activité guidée sur la double périodicité (corde).</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/premiere_1S/onde_progressive_longitudinale_ressort_periodique_ACTIVITE_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔁 PCCL — Activité : onde longitudinale périodique (ressort)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Animation flash avec activité guidée sur l'onde longitudinale périodique (ressort).</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title"><span class="icon">🐍</span> Activité Python</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+      <div class="bilan-card" style="border-left:4px solid var(--vert);">
+        <h4 style="color:var(--vert);">🐍 Propagation d'une onde périodique</h4>
+        <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Voir l'onglet Activités → Activité Python : aspects temporel et spatial, exécutés directement dans la page (adapté des scripts Hatier).</p>
+      </div>
+
+      <a href="https://hatier-clic.fr/pc1331" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🐍 Fichiers Python — Hatier (pc1331)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Scripts originaux à télécharger et fiche d'accompagnement (chap. 15 p. 331).</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="section-title"><span class="icon">📝</span> QCM</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/pc-1_qcm_chap_15/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM Hatier — Chapitre 15</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">QCM interactif en ligne, ondes mécaniques.</p>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+  <!-- /bilan-sub-2 -->
+
+</div>
+<!-- fin tab-bilan -->
+
+</div>
+<!-- fin .main -->
+<script>
+/* ===== Navigation onglets principaux ===== */
+function showTab(el,id){
+  document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.main > .panel').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('tab-'+id).classList.add('on');
+}
+
+/* ===== Navigation sous-onglets (scoped au panneau parent) ===== */
+function showSub(btn,id){
+  var panel = btn.closest('.panel');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b=>b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+/* ===== Glossaire recherchable ===== */
+function glossFilter(){
+  var q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(function(item){
+    var term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
+/* ===== QCM cliquable simple ===== */
+function qcmCheck(el,isCorrect){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(o=>o.classList.remove('correct','incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+}
+
+/* ===== Formule / Calcul / Résultat ===== */
+function FCR(f,c,r){
+  return '<span class="fcr-line"><strong>Formule :</strong> '+f+'</span>'
+       + '<span class="fcr-line"><strong>Calcul :</strong> '+c+'</span>'
+       + '<span class="fcr-line"><strong>Résultat :</strong> '+r+'</span>';
+}
+function checkFCR(inputId, correct, tol, fbId, formule, calc, resultat){
+  var raw = document.getElementById(inputId).value.replace(',', '.').trim();
+  var v = parseFloat(raw);
+  var fb = document.getElementById(fbId);
+  if(isNaN(v)){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de saisir une valeur numérique avant de vérifier.';
+    return;
+  }
+  var ok = Math.abs(v-correct)/Math.abs(correct) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = (ok ? '✓ Correct ! ' : '✗ Pas tout à fait, regarde la correction : ') + FCR(formule, calc, resultat);
+}
+
+/* ===== Applications en 3 étapes : Formule (QCM) → Calcul (expression) → Résultat ===== */
+function safeEvalExpr(str){
+  if(!str) return null;
+  var s = str.replace(/,/g,'.').replace(/×/g,'*').replace(/·/g,'*').replace(/÷/g,'/')
+             .replace(/²/g,'**2').replace(/³/g,'**3').replace(/\s+/g,'');
+  if(!s || !/^[0-9.eE+\-*/().]+$/.test(s)) return null;
+  try{
+    var v = Function('"use strict";return ('+s+')')();
+    if(typeof v !== 'number' || isNaN(v) || !isFinite(v)) return null;
+    return v;
+  } catch(e){ return null; }
+}
+function fcrFormule(id, el, isCorrect){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(function(o){ o.classList.remove('correct','incorrect'); });
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  if(isCorrect){
+    var step = document.getElementById(id+'-calc-step');
+    if(step) step.style.display = 'block';
+  }
+}
+function fcrCalc(id, expected, tol){
+  var raw = document.getElementById(id+'-calc').value;
+  var val = safeEvalExpr(raw);
+  var fb = document.getElementById(id+'-calc-fb');
+  if(val === null){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Écris un calcul numérique valide (chiffres et ×  /  ²  uniquement).';
+    return;
+  }
+  var ok = Math.abs(val-expected)/Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = ok ? '✓ Calcul correct !' : '✗ Vérifie les valeurs que tu as substituées dans la formule.';
+  if(ok){
+    var step = document.getElementById(id+'-result-step');
+    if(step) step.style.display = 'block';
+  }
+}
+function fcrResult(id, expected, tol, resultText){
+  var raw = document.getElementById(id+'-result').value.replace(',', '.').trim();
+  var v = parseFloat(raw);
+  var fb = document.getElementById(id+'-result-fb');
+  if(isNaN(v)){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de saisir une valeur numérique.';
+    return;
+  }
+  var ok = Math.abs(v-expected)/Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = (ok ? '✓ ' : '✗ ') + resultText;
+}
+function fcrCorrection(id, formule, calc, resultat){
+  var fb = document.getElementById(id+'-correction');
+  if(!fb) return;
+  fb.className = 'exo-fb correction';
+  fb.innerHTML = FCR(formule, calc, resultat);
+}
+function fcrReset(id){
+  var box = document.getElementById(id+'-box');
+  if(box){
+    box.querySelectorAll('.qcm-opt').forEach(function(o){ o.classList.remove('correct','incorrect'); });
+  }
+  var calcIn = document.getElementById(id+'-calc');
+  var resIn = document.getElementById(id+'-result');
+  if(calcIn) calcIn.value = '';
+  if(resIn) resIn.value = '';
+  ['calc-fb','result-fb','correction'].forEach(function(suffix){
+    var el = document.getElementById(id+'-'+suffix);
+    if(el){ el.className = 'exo-fb'; el.innerHTML = ''; }
+  });
+}
+
+/* ===== Escape game ===== */
+var egSolved = [false,false,false];
+var egDigits = ['6','3','2'];
+function egCheck(station, el, isCorrect){
+  var puzzle = document.getElementById('egPuzzle'+station);
+  puzzle.querySelectorAll('.qcm-opt').forEach(o=>o.classList.remove('correct','incorrect'));
+  if(isCorrect){
+    el.classList.add('correct');
+    egSolved[station-1] = true;
+    document.getElementById('egFound'+station).style.display = 'inline-block';
+    document.getElementById('egStep'+station).classList.add('done');
+    puzzle.classList.add('solved');
+    if(station < 3){
+      var nextLock = document.getElementById('egLock'+(station+1));
+      if(nextLock) nextLock.style.display = 'none';
+    }
+  } else {
+    el.classList.add('incorrect');
+  }
+}
+function egCheckFinal(){
+  var val = document.getElementById('egCodeInput').value.trim();
+  var fb = document.getElementById('egFinalFb');
+  if(!(egSolved[0] && egSolved[1] && egSolved[2])){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Résous d\'abord les 3 stations pour connaître les 3 chiffres.';
+    return;
+  }
+  var code = egDigits.join('');
+  if(val === code){
+    fb.className = 'exo-fb ok';
+    fb.innerHTML = '✓ Code correct, le coffre s\'ouvre !';
+    document.getElementById('egSuccess').classList.add('show');
+  } else {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = '✗ Code incorrect, réessaie.';
+  }
+}
+
+/* ===== Simulateur d'onde progressive sinusoïdale (canvas) ===== */
+var waveState = {
+  Cours:   { T:1.0, lam:2.0, speed:0.4, t:0, playing:false, raf:null, last:null, history:[] },
+  Activite:{ T:1.0, lam:2.0, speed:0.4, t:0, playing:false, raf:null, last:null, history:[] }
+};
+var WAVE_LMAX = 5;
+var WAVE_X0 = 2.0;
+
+function drawArrowedAxes(ctx, W, H, xPad, midY, topPad, xLabel){
+  // axe horizontal (x ou t), flèche à droite
+  ctx.strokeStyle = '#8a93a3'; ctx.lineWidth = 1.3;
+  ctx.beginPath(); ctx.moveTo(xPad, midY); ctx.lineTo(W-12, midY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W-12, midY); ctx.lineTo(W-19, midY-4); ctx.lineTo(W-19, midY+4); ctx.closePath();
+  ctx.fillStyle = '#8a93a3'; ctx.fill();
+  ctx.fillStyle = '#5A6B7A'; ctx.font = '700 10px Nunito, sans-serif'; ctx.textAlign = 'right';
+  ctx.fillText(xLabel, W-22, midY-6);
+
+  // axe vertical (y), flèche en haut, à l'origine
+  ctx.strokeStyle = '#8a93a3'; ctx.lineWidth = 1.3;
+  ctx.beginPath(); ctx.moveTo(xPad, H-8); ctx.lineTo(xPad, topPad); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(xPad, topPad); ctx.lineTo(xPad-4, topPad+7); ctx.lineTo(xPad+4, topPad+7); ctx.closePath();
+  ctx.fillStyle = '#8a93a3'; ctx.fill();
+  ctx.fillStyle = '#5A6B7A'; ctx.font = '700 10px Nunito, sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('y', xPad+5, topPad+9);
+}
+
+function waveDrawX(suffix){
+  var st = waveState[suffix];
+  var canvas = document.getElementById('waveCanvasX'+suffix);
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  var midY = H/2, xPad = 16, xPlot = W-2*xPad, A = 42;
+  var k = 2*Math.PI/st.lam, omega = 2*Math.PI/st.T;
+
+  drawArrowedAxes(ctx, W, H, xPad, midY, 14, 'x (m)');
+
+  ctx.strokeStyle = '#2D5F8A'; ctx.lineWidth = 2.2;
+  ctx.beginPath();
+  for(var i=0;i<=160;i++){
+    var xm = (i/160)*WAVE_LMAX;
+    var xpix = xPad+(i/160)*xPlot;
+    var y = A*Math.sin(k*xm-omega*st.t);
+    var ypix = midY-y;
+    if(i===0) ctx.moveTo(xpix,ypix); else ctx.lineTo(xpix,ypix);
+  }
+  ctx.stroke();
+
+  // bracket λ : accroché à deux crêtes réelles de la courbe
+  var base = (Math.PI/2 + omega*st.t) / k;
+  var xMin = 0.3;
+  var n = Math.ceil((xMin - base)/st.lam);
+  var xStart = base + n*st.lam;
+  var xEnd = xStart + st.lam;
+  if(xEnd > WAVE_LMAX-0.15){ xStart -= st.lam; xEnd -= st.lam; }
+  if(xStart >= 0 && xEnd <= WAVE_LMAX-0.05){
+    var xpixS = xPad+(xStart/WAVE_LMAX)*xPlot;
+    var xpixE = xPad+(xEnd/WAVE_LMAX)*xPlot;
+    var yCrest = midY - A;
+    var yBracket = yCrest - 14;
+    ctx.strokeStyle = '#E8783A'; ctx.lineWidth = 1.2; ctx.setLineDash([2,2]);
+    ctx.beginPath(); ctx.moveTo(xpixS,yCrest); ctx.lineTo(xpixS,yBracket); ctx.moveTo(xpixE,yCrest); ctx.lineTo(xpixE,yBracket); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(xpixS,yBracket-4); ctx.lineTo(xpixS,yBracket+4); ctx.moveTo(xpixE,yBracket-4); ctx.lineTo(xpixE,yBracket+4); ctx.stroke();
+    ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(xpixS,yBracket); ctx.lineTo(xpixE,yBracket); ctx.stroke();
+    ctx.fillStyle = '#3A8A6E';
+    ctx.beginPath(); ctx.arc(xpixS,yCrest,3.5,0,2*Math.PI); ctx.fill();
+    ctx.beginPath(); ctx.arc(xpixE,yCrest,3.5,0,2*Math.PI); ctx.fill();
+    ctx.fillStyle = '#E8783A'; ctx.font = '700 12px DM Mono, monospace'; ctx.textAlign = 'center';
+    ctx.fillText('λ', (xpixS+xpixE)/2, yBracket-7);
+  }
+
+  // point M suivi
+  var xpixM = xPad+(WAVE_X0/WAVE_LMAX)*xPlot;
+  ctx.strokeStyle = '#7B4FA6'; ctx.setLineDash([3,3]); ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(xpixM,midY-A-10); ctx.lineTo(xpixM,midY+A+10); ctx.stroke();
+  ctx.setLineDash([]);
+  var yM = A*Math.sin(k*WAVE_X0-omega*st.t);
+  ctx.fillStyle = '#7B4FA6';
+  ctx.beginPath(); ctx.arc(xpixM, midY-yM, 5, 0, 2*Math.PI); ctx.fill();
+  ctx.font = '800 11px Outfit, sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('M', xpixM, midY-A-16);
+}
+
+function waveDrawT(suffix){
+  var st = waveState[suffix];
+  var canvas = document.getElementById('waveCanvasT'+suffix);
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  var midY = H/2, xPad = 16, xPlot = W-2*xPad;
+  var Wt = 4*st.T;
+  var tStart = Math.max(0, st.t-Wt);
+
+  drawArrowedAxes(ctx, W, H, xPad, midY, 14, 't (s)');
+
+  var hist = st.history;
+  ctx.strokeStyle = '#7B4FA6'; ctx.lineWidth = 2.2;
+  ctx.beginPath();
+  var started = false;
+  for(var i=0;i<hist.length;i++){
+    var pt = hist[i];
+    if(pt.t < tStart) continue;
+    var xpix = xPad+((pt.t-tStart)/Wt)*xPlot;
+    var ypix = midY-pt.y;
+    if(!started){ ctx.moveTo(xpix,ypix); started = true; } else ctx.lineTo(xpix,ypix);
+  }
+  ctx.stroke();
+
+  var tMarkStart = Math.floor((tStart+0.15*Wt)/st.T)*st.T;
+  var tMarkEnd = tMarkStart+st.T;
+  var A = 42;
+  var k = 2*Math.PI/st.lam, omega = 2*Math.PI/st.T;
+  var baseT = (k*WAVE_X0 - Math.PI/2)/omega;
+  var tMin = tStart + 0.15*Wt;
+  var m = Math.ceil((tMin-baseT)/st.T);
+  tMarkStart = baseT + m*st.T;
+  tMarkEnd = tMarkStart + st.T;
+  if(tMarkStart >= tStart && tMarkEnd <= st.t){
+    var xpixS = xPad+((tMarkStart-tStart)/Wt)*xPlot;
+    var xpixE = xPad+((tMarkEnd-tStart)/Wt)*xPlot;
+    var yCrest = midY - A;
+    var yBracket = yCrest - 14;
+    ctx.strokeStyle = '#3A8A6E'; ctx.lineWidth = 1.2; ctx.setLineDash([2,2]);
+    ctx.beginPath(); ctx.moveTo(xpixS,yCrest); ctx.lineTo(xpixS,yBracket); ctx.moveTo(xpixE,yCrest); ctx.lineTo(xpixE,yBracket); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(xpixS,yBracket-4); ctx.lineTo(xpixS,yBracket+4); ctx.moveTo(xpixE,yBracket-4); ctx.lineTo(xpixE,yBracket+4); ctx.stroke();
+    ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(xpixS,yBracket); ctx.lineTo(xpixE,yBracket); ctx.stroke();
+    ctx.fillStyle = '#3A8A6E';
+    ctx.beginPath(); ctx.arc(xpixS,yCrest,3.5,0,2*Math.PI); ctx.fill();
+    ctx.beginPath(); ctx.arc(xpixE,yCrest,3.5,0,2*Math.PI); ctx.fill();
+    ctx.font = '700 12px DM Mono, monospace'; ctx.textAlign = 'center';
+    ctx.fillText('T', (xpixS+xpixE)/2, yBracket-7);
+  }
+}
+
+function waveUpdateParams(suffix){
+  var st = waveState[suffix];
+  st.T = parseFloat(document.getElementById('waveT'+suffix).value);
+  st.lam = parseFloat(document.getElementById('waveLam'+suffix).value);
+  st.speed = parseFloat(document.getElementById('waveSpeed'+suffix).value);
+  document.getElementById('waveTVal'+suffix).textContent = st.T.toFixed(1);
+  document.getElementById('waveLamVal'+suffix).textContent = st.lam.toFixed(1);
+  document.getElementById('waveSpeedVal'+suffix).textContent = st.speed.toFixed(1);
+  document.getElementById('waveFreq'+suffix).textContent = (1/st.T).toFixed(2);
+  document.getElementById('waveCelerite'+suffix).textContent = (st.lam/st.T).toFixed(1);
+  waveDrawX(suffix);
+  waveDrawT(suffix);
+}
+
+function waveStep(suffix, timestamp){
+  var st = waveState[suffix];
+  if(!st.playing) return;
+  if(st.last === null) st.last = timestamp;
+  var dt = (timestamp - st.last)/1000;
+  st.last = timestamp;
+  st.t += dt*st.speed;
+  var k = 2*Math.PI/st.lam, omega = 2*Math.PI/st.T;
+  var yM = 42*Math.sin(k*WAVE_X0-omega*st.t);
+  st.history.push({t:st.t, y:yM});
+  var Wt = 4*st.T;
+  while(st.history.length && st.history[0].t < st.t-Wt-0.2) st.history.shift();
+  waveDrawX(suffix);
+  waveDrawT(suffix);
+  st.raf = requestAnimationFrame(function(ts){ waveStep(suffix, ts); });
+}
+
+function waveTogglePlay(suffix){
+  var st = waveState[suffix];
+  var btn = document.getElementById('wavePlayBtn'+suffix);
+  st.playing = !st.playing;
+  if(st.playing){
+    btn.textContent = '⏸️ Mettre en pause';
+    st.last = null;
+    st.raf = requestAnimationFrame(function(ts){ waveStep(suffix, ts); });
+  } else {
+    btn.textContent = '▶️ Lancer l\'animation';
+    if(st.raf) cancelAnimationFrame(st.raf);
+  }
+}
+
+function waveReset(suffix){
+  var st = waveState[suffix];
+  st.playing = false;
+  st.t = 0;
+  st.last = null;
+  st.history = [];
+  if(st.raf) cancelAnimationFrame(st.raf);
+  var btn = document.getElementById('wavePlayBtn'+suffix);
+  if(btn) btn.textContent = '▶️ Lancer l\'animation';
+  waveDrawX(suffix);
+  waveDrawT(suffix);
+}
+
+/* ===== Activité Python interactive (exécution réelle via Skulpt) ===== */
+/* Adapté des scripts Hatier "15_onde-temporel.py" et "15_onde-spatial.py" (chap. 15 p. 331).
+   Exécution via Skulpt (Python -> JavaScript pur) : fonctionne aussi bien en local (file://)
+   qu'en ligne, sans dépendre d'un chargement WebAssembly externe (contrairement à Pyodide).
+   Pas de numpy (non supporté par Skulpt) : le module standard "math" et des boucles suffisent. */
+
+var PY_SKELETON_TEMPOREL = [
+'import math',
+'',
+'print("*************************************")',
+'print("* Propagation d\'une onde périodique *")',
+'print("*  Mouvements en fonction du temps  *")',
+'print("*************************************")',
+'',
+'### Données modifiables',
+'A = 5        # amplitude en mm (entre 0 et Amax)',
+'T = 50       # période en ms (entre 10 et 100)',
+'v = 40       # célérité en cm/s (entre 10 et 100)',
+'xM = ___     # abscisse du point M en cm (entre 0 et L = 30 cm)',
+'',
+'### Données non modifiables',
+'L = 30       # longueur totale de la cuve en cm',
+'tmax = 250   # date de fin en ms',
+'Amax = 10    # amplitude maximale en mm',
+'N = 300      # nombre de points calculés',
+'',
+'### Test de validité des données',
+'probleme = []',
+'if T < 10 or T > 100: probleme.append("T doit être comprise entre 10 ms et 100 ms")',
+'if v < 10 or v > 100: probleme.append("v doit être comprise entre 10 cm/s et 100 cm/s")',
+'if xM <= 0 or xM > L: probleme.append("xM doit être comprise entre 0 cm et L")',
+'if A <= 0 or A > Amax: probleme.append("A doit être comprise entre 0 mm et Amax")',
+'',
+'if len(probleme) != 0:',
+'    for msg in probleme:',
+'        print(msg)',
+'else:',
+'    ### Affichage des paramètres',
+'    print("Amplitude de l\'onde : A =", round(A,1), "mm")',
+'    print("Période de l\'onde : T =", round(T,1), "ms")',
+'    print("  d\'où la fréquence f =", round(1000/T,1), "Hz")',
+'    print("Célérité de l\'onde : v =", round(v,1), "cm/s")',
+'    print("  d\'où la longueur d\'onde lambda =", round(v*T/1000,2), "cm")',
+'',
+'    ### Fonction périodique donnée (signal du vibreur, de période T) — fournie, pas à modifier',
+'    def y(t):',
+'        return 0.56*A*(math.sin(2*math.pi*t/T) - math.sin(4*math.pi*t/T))',
+'',
+'    ### Construction point par point : t (à la source), puis au point M',
+'    t = []',
+'    yS = []',
+'    yM = []',
+'    for i in range(N+1):',
+'        ti = i*tmax/N',
+'        t.append(ti)',
+'        yS.append(y(ti))',
+'        yM.append(y(ti - 1000*xM/v))'
+].join('\n');
+
+var PY_CORRECTION_TEMPOREL = PY_SKELETON_TEMPOREL
+  .replace('xM = ___     # abscisse du point M en cm (entre 0 et L = 30 cm)', 'xM = 15      # abscisse du point M en cm (entre 0 et L = 30 cm)');
+
+var PY_SKELETON_SPATIAL = [
+'import math',
+'',
+'print("*************************************")',
+'print("* Propagation d\'une onde périodique *")',
+'print("*      Aspect spatial du milieu     *")',
+'print("*************************************")',
+'',
+'### Données modifiables',
+'A = 5        # amplitude en mm (entre 0 et Amax)',
+'T = 50       # période en ms (entre 10 et 100)',
+'v = 40       # célérité en cm/s (entre 10 et 100)',
+'t1 = ___     # date du 2e graphique, en s (positive)',
+'',
+'### Données non modifiables',
+'L = 30       # longueur totale de la cuve en cm',
+'Amax = 10    # amplitude maximale en mm',
+'N = 300      # nombre de points calculés',
+'',
+'### Test de validité des données',
+'probleme = []',
+'if T < 10 or T > 100: probleme.append("T doit être comprise entre 10 ms et 100 ms")',
+'if v < 10 or v > 100: probleme.append("v doit être comprise entre 10 cm/s et 100 cm/s")',
+'if t1 <= 0: probleme.append("t1 doit être positive")',
+'if A <= 0 or A > Amax: probleme.append("A doit être comprise entre 0 mm et Amax")',
+'',
+'if len(probleme) != 0:',
+'    for msg in probleme:',
+'        print(msg)',
+'else:',
+'    ### Affichage des paramètres',
+'    print("Amplitude de l\'onde : A =", round(A,1), "mm")',
+'    print("Période de l\'onde : T =", round(T,1), "ms")',
+'    print("  d\'où la fréquence f =", round(1000/T,1), "Hz")',
+'    print("Célérité de l\'onde : v =", round(v,1), "cm/s")',
+'    print("  d\'où la longueur d\'onde lambda =", round(v*T/1000,2), "cm")',
+'',
+'    ### Fonction périodique donnée (signal du vibreur, de période T) — fournie, pas à modifier',
+'    def y(t):',
+'        return 0.56*A*(math.sin(2*math.pi*t/T) - math.sin(4*math.pi*t/T))',
+'',
+'    ### Construction point par point : x, photographie à t0=0, puis à t1',
+'    x = []',
+'    y0v = []',
+'    y1v = []',
+'    for i in range(N+1):',
+'        xi = i*L/N',
+'        x.append(xi)',
+'        y0v.append(y(-1000*xi/v))',
+'        y1v.append(y(1000*t1 - 1000*xi/v))'
+].join('\n');
+
+var PY_CORRECTION_SPATIAL = PY_SKELETON_SPATIAL
+  .replace('t1 = ___     # date du 2e graphique, en s (positive)', 't1 = 0.12    # date du 2e graphique, en s (positive)');
+
+var pyMode = 'temporel';
+
+/* Exécution via Skulpt : pas de chargement réseau/WASM, fonctionne en local (file://) comme en ligne. */
+function runSkulptCode(code){
+  return new Promise(function(resolve, reject){
+    var outputChunks = [];
+    Sk.configure({
+      output: function(text){ outputChunks.push(text); },
+      read: function(x){
+        if(Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined){
+          throw "Fichier non trouvé : '" + x + "'";
+        }
+        return Sk.builtinFiles["files"][x];
+      },
+      __future__: Sk.python3
+    });
+    try{
+      Sk.misceval.asyncToPromise(function(){
+        return Sk.importMainWithBody("<stdin>", false, code, true);
+      }).then(function(){
+        resolve(outputChunks.join(''));
+      }, function(err){
+        reject(err);
+      });
+    } catch(err){
+      reject(err);
+    }
+  });
+}
+
+/* ===== Tracé des 2 graphiques empilés en Canvas (aucune dépendance graphique fragile côté Python) ===== */
+function pyDrawSubplot(ctx, x0, y0, W, availH, title, xArr, yArr, xLabel, yLabel, xMax, yAbsMax){
+  var margin = {l:48, r:14, t:20, b:30};
+  var plotW = W-margin.l-margin.r;
+  var plotH = availH-margin.t-margin.b;
+
+  function X(v){ return x0+margin.l + v/xMax*plotW; }
+  function Y(v){ return y0+margin.t + (plotH/2) - (v/yAbsMax)*(plotH/2); }
+
+  ctx.fillStyle = '#2D5F8A'; ctx.font = "700 11px 'Outfit',sans-serif"; ctx.textAlign = 'center';
+  ctx.fillText(title, x0+margin.l+plotW/2, y0+13);
+
+  ctx.strokeStyle = '#DDE3EC'; ctx.lineWidth = 1;
+  for(var g=0; g<=4; g++){
+    var gy = y0+margin.t + plotH*g/4;
+    ctx.beginPath(); ctx.moveTo(x0+margin.l,gy); ctx.lineTo(x0+margin.l+plotW,gy); ctx.stroke();
+  }
+
+  ctx.strokeStyle = '#5A6B7A'; ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(x0+margin.l, y0+margin.t); ctx.lineTo(x0+margin.l, y0+margin.t+plotH); ctx.lineTo(x0+margin.l+plotW, y0+margin.t+plotH);
+  ctx.stroke();
+
+  ctx.strokeStyle = '#2D5F8A'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  for(var i=0;i<xArr.length;i++){
+    var xp = X(xArr[i]), yp = Y(yArr[i]);
+    if(i===0) ctx.moveTo(xp,yp); else ctx.lineTo(xp,yp);
+  }
+  ctx.stroke();
+
+  ctx.fillStyle = '#5A6B7A'; ctx.font = "9px 'DM Mono',monospace"; ctx.textAlign = 'center';
+  ctx.fillText(xLabel, x0+margin.l+plotW/2, y0+margin.t+plotH+22);
+  ctx.save(); ctx.translate(x0+13, y0+margin.t+plotH/2); ctx.rotate(-Math.PI/2); ctx.fillText(yLabel,0,0); ctx.restore();
+  ctx.textAlign = 'left';
+}
+
+function pyRenderChart(data){
+  var canvas = document.getElementById('pyChartCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  var halfH = H/2;
+
+  if(pyMode === 'temporel'){
+    pyDrawSubplot(ctx, 0, 0, W, halfH-6, 'y(t) à la source', data.t, data.yS, 't (ms)', 'y (mm)', data.tmax, data.Amax);
+    pyDrawSubplot(ctx, 0, halfH+6, W, halfH-6, 'y(t) au point M, à xM = '+data.xM+' cm', data.t, data.yM, 't (ms)', 'y (mm)', data.tmax, data.Amax);
+  } else {
+    pyDrawSubplot(ctx, 0, 0, W, halfH-6, 'y(x) à t0 = 0 s', data.x, data.y0, 'x (cm)', 'y (mm)', data.L, data.Amax);
+    pyDrawSubplot(ctx, 0, halfH+6, W, halfH-6, 'y(x) à t1 = '+data.t1+' s', data.x, data.y1, 'x (cm)', 'y (mm)', data.L, data.Amax);
+  }
+}
+
+var PY_KEYWORDS = ['import','as','if','else','elif','for','while','def','return','in','and','or','not','True','False','None'];
+var PY_KW_REGEX = new RegExp('\\b(' + PY_KEYWORDS.join('|') + ')\\b', 'g');
+
+function pyHighlightCode(code){
+  var esc = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  var lines = esc.split('\n');
+  var out = lines.map(function(line){
+    var commentIdx = line.indexOf('#');
+    var codePart = commentIdx >= 0 ? line.slice(0, commentIdx) : line;
+    var commentPart = commentIdx >= 0 ? line.slice(commentIdx) : '';
+    codePart = codePart.replace(/("[^"]*"|'[^']*')/g, function(m){ return '<span class="pystr">' + m + '</span>'; });
+    codePart = codePart.replace(/\b(\d+\.?\d*(?:[eE][-+]?\d+)?)\b/g, '<span class="pynum">$1</span>');
+    codePart = codePart.replace(PY_KW_REGEX, '<span class="pykw">$1</span>');
+    var commentHtml = commentPart ? '<span class="pycmt">' + commentPart + '</span>' : '';
+    return codePart + commentHtml;
+  });
+  return out.join('\n');
+}
+
+function pySyncHighlight(){
+  var editor = document.getElementById('pyCodeEditor');
+  var hl = document.getElementById('pyHighlight');
+  if(!editor || !hl) return;
+  hl.innerHTML = pyHighlightCode(editor.value) + '\n';
+}
+function pySyncScroll(){
+  var editor = document.getElementById('pyCodeEditor');
+  var hl = document.getElementById('pyHighlight');
+  if(!editor || !hl) return;
+  hl.scrollTop = editor.scrollTop;
+  hl.scrollLeft = editor.scrollLeft;
+}
+
+function pyCurrentSkeleton(){ return pyMode === 'temporel' ? PY_SKELETON_TEMPOREL : PY_SKELETON_SPATIAL; }
+function pyCurrentCorrection(){ return pyMode === 'temporel' ? PY_CORRECTION_TEMPOREL : PY_CORRECTION_SPATIAL; }
+
+function pySwitchMode(mode){
+  pyMode = mode;
+  document.getElementById('pyModeBtnTemporel').classList.toggle('active', mode==='temporel');
+  document.getElementById('pyModeBtnSpatial').classList.toggle('active', mode==='spatial');
+  document.getElementById('pyPrelimTemporel').style.display = (mode==='temporel') ? 'block' : 'none';
+  document.getElementById('pyPrelimSpatial').style.display = (mode==='spatial') ? 'block' : 'none';
+  pyReset();
+}
+
+function pyReset(){
+  document.getElementById('pyCodeEditor').value = pyCurrentSkeleton();
+  pySyncHighlight();
+  document.getElementById('pyOutput').innerHTML = '';
+  var st = document.getElementById('pyStatus');
+  st.className = 'exo-fb'; st.innerHTML = '';
+  document.getElementById('pyExploitTemporel').style.display = (pyMode==='temporel') ? 'block' : 'none';
+  document.getElementById('pyExploitSpatial').style.display = (pyMode==='spatial') ? 'block' : 'none';
+}
+
+function pyShowCorrection(){
+  document.getElementById('pyCodeEditor').value = pyCurrentCorrection();
+  pySyncHighlight();
+  document.getElementById('pyStatus').className = 'exo-fb'; document.getElementById('pyStatus').innerHTML = '';
+  document.getElementById('pyOutput').innerHTML = '';
+  pyRunCode();
+}
+
+function pyRunCode(){
+  var statusEl = document.getElementById('pyStatus');
+  var outputEl = document.getElementById('pyOutput');
+  var code = document.getElementById('pyCodeEditor').value;
+
+  if(code.indexOf('___') !== -1){
+    statusEl.className = 'exo-fb ko';
+    statusEl.innerHTML = '✗ Il reste au moins un <code>___</code> à remplacer par ta valeur avant d\'exécuter le code.';
+    outputEl.innerHTML = '';
+    return;
+  }
+
+  statusEl.className = 'exo-fb loading';
+  statusEl.style.display = 'block';
+  statusEl.innerHTML = '⏳ Exécution en cours…';
+  outputEl.innerHTML = '';
+
+  var dataSnippet = pyMode === 'temporel'
+    ? '\nif len(probleme) != 0:\n    print("__ERROR__" + str(probleme))\nelse:\n    print("__DATA__" + str(t) + "|||" + str(yS) + "|||" + str(yM) + "|||" + str(Amax) + "|||" + str(tmax) + "|||" + str(xM))\n'
+    : '\nif len(probleme) != 0:\n    print("__ERROR__" + str(probleme))\nelse:\n    print("__DATA__" + str(x) + "|||" + str(y0v) + "|||" + str(y1v) + "|||" + str(Amax) + "|||" + str(L) + "|||" + str(t1))\n';
+
+  var wrapped = code + '\n' + dataSnippet;
+
+  runSkulptCode(wrapped).then(function(rawOutput){
+    var lines = rawOutput.split('\n');
+    var markerLine = null;
+    var logLines = [];
+    for(var i=0;i<lines.length;i++){
+      if(lines[i].indexOf('__DATA__') === 0 || lines[i].indexOf('__ERROR__') === 0){
+        markerLine = lines[i];
+      } else if(lines[i] !== ''){
+        logLines.push(lines[i]);
+      }
+    }
+    var logHtml = logLines.length ? '<pre class="code-block" style="margin-top:0;margin-bottom:10px;font-size:.74rem">'+logLines.join('\n').replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre>' : '';
+
+    if(!markerLine){
+      outputEl.innerHTML = logHtml;
+      statusEl.className = 'exo-fb ko';
+      statusEl.innerHTML = '✗ Le programme ne s\'est pas terminé normalement. Vérifie qu\'aucune ligne n\'a été supprimée par erreur.';
+      return;
+    }
+
+    if(markerLine.indexOf('__ERROR__') === 0){
+      outputEl.innerHTML = logHtml;
+      statusEl.className = 'exo-fb ko';
+      statusEl.innerHTML = '✗ Les données saisies ne respectent pas les contraintes (voir le message ci-dessus). Corrige-les puis relance.';
+      return;
+    }
+
+    var parts = markerLine.replace('__DATA__','').split('|||');
+    var data = pyMode === 'temporel'
+      ? { t: JSON.parse(parts[0]), yS: JSON.parse(parts[1]), yM: JSON.parse(parts[2]), Amax: JSON.parse(parts[3]), tmax: JSON.parse(parts[4]), xM: JSON.parse(parts[5]) }
+      : { x: JSON.parse(parts[0]), y0: JSON.parse(parts[1]), y1: JSON.parse(parts[2]), Amax: JSON.parse(parts[3]), L: JSON.parse(parts[4]), t1: JSON.parse(parts[5]) };
+
+    outputEl.innerHTML = logHtml + '<canvas id="pyChartCanvas" width="480" height="380" style="max-width:100%"></canvas>';
+    pyRenderChart(data);
+    statusEl.className = 'exo-fb ok';
+    statusEl.innerHTML = '✓ Le programme s\'est exécuté sans erreur. Observe les graphiques obtenus, puis réponds aux questions d\'exploitation ci-dessous.';
+  }).catch(function(err){
+    var msg = err && err.toString ? err.toString() : String(err);
+    statusEl.className = 'exo-fb ko';
+    statusEl.innerHTML = '✗ Erreur dans le code : <code>' + msg.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</code>. Vérifie ta syntaxe (parenthèses, indentation…).';
+  });
+}
+
+/* ===== Animation — impulsion unique, retard entre deux points (partie ①) ===== */
+var pulseState = { c:2.0, t:0, playing:false, last:null, raf:null, x1:1.5, x2:3.5, t1:null, t2:null, lit1:false, lit2:false, revealed:false };
+var PULSE_LMAX = 5;
+
+function pulseDraw(){
+  var canvas = document.getElementById('pulseCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  var midY = H/2, xPad = 20, xPlot = W-2*xPad, A = 55, w = 0.3;
+
+  drawArrowedAxes(ctx, W, H, xPad, midY, 16, 'x (m)');
+
+  var xc = pulseState.c*pulseState.t;
+  ctx.strokeStyle = '#2D5F8A'; ctx.lineWidth = 2.4;
+  ctx.beginPath();
+  for(var i=0;i<=200;i++){
+    var xm = (i/200)*PULSE_LMAX;
+    var xpix = xPad+(i/200)*xPlot;
+    var y = A*Math.exp(-Math.pow((xm-xc)/w,2));
+    var ypix = midY-y;
+    if(i===0) ctx.moveTo(xpix,ypix); else ctx.lineTo(xpix,ypix);
+  }
+  ctx.stroke();
+
+  function drawMarker(xm,label,lit,tVal){
+    var xpix = xPad+(xm/PULSE_LMAX)*xPlot;
+    ctx.strokeStyle = lit ? '#3A8A6E' : '#B8C4D1';
+    ctx.setLineDash(lit ? [] : [3,3]);
+    ctx.lineWidth = lit ? 2.2 : 1.4;
+    ctx.beginPath(); ctx.moveTo(xpix,midY-A-16); ctx.lineTo(xpix,midY+A+16); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = lit ? '#3A8A6E' : '#5A6B7A';
+    ctx.font = '800 12px Outfit, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, xpix, midY-A-26);
+    if(lit){
+      ctx.fillStyle = '#3A8A6E';
+      ctx.font = '700 11px DM Mono, monospace';
+      ctx.fillText('atteint à t='+tVal.toFixed(2)+'s', xpix, midY-A-12);
+    }
+  }
+  drawMarker(pulseState.x1,'M₁',pulseState.lit1,pulseState.t1);
+  drawMarker(pulseState.x2,'M₂',pulseState.lit2,pulseState.t2);
+}
+
+function pulseUpdateChrono(){
+  var el = document.getElementById('pulseChrono');
+  if(el) el.textContent = '⏱️ t = ' + pulseState.t.toFixed(2) + ' s';
+}
+
+function pulseRevealResult(){
+  var st = pulseState;
+  if(st.revealed) return;
+  st.revealed = true;
+  var box = document.getElementById('pulseResultBox');
+  if(!box) return;
+  var tauM = st.t2-st.t1;
+  var d = st.x2-st.x1;
+  var tauTheo = d/st.c;
+  box.className = 'exo-fb ok';
+  box.innerHTML = '🏁 <strong>Résultat :</strong> l\'onde a atteint M₁ à t₁ = '+st.t1.toFixed(2)+' s, puis M₂ à t₂ = '+st.t2.toFixed(2)+' s.<br>'
+    + 'Retard mesuré : τ = t₂ − t₁ = '+tauM.toFixed(2)+' s.<br>'
+    + 'Vérification : d/c = '+d.toFixed(1)+' / '+st.c.toFixed(1)+' = '+tauTheo.toFixed(2)+' s ✓';
+}
+
+function pulseStep(timestamp){
+  var st = pulseState;
+  if(!st.playing) return;
+  if(st.last === null) st.last = timestamp;
+  var dt = (timestamp-st.last)/1000;
+  st.last = timestamp;
+  st.t += dt;
+  var xc = st.c*st.t;
+  if(!st.lit1 && xc >= st.x1){ st.lit1 = true; st.t1 = st.t; }
+  if(!st.lit2 && xc >= st.x2){ st.lit2 = true; st.t2 = st.t; pulseRevealResult(); }
+  pulseDraw();
+  pulseUpdateChrono();
+  if(xc > PULSE_LMAX+0.6){
+    st.playing = false;
+    document.getElementById('pulsePlayBtn').textContent = '▶️ Lancer l\'animation';
+    return;
+  }
+  st.raf = requestAnimationFrame(pulseStep);
+}
+
+function pulseTogglePlay(){
+  var st = pulseState;
+  var btn = document.getElementById('pulsePlayBtn');
+  st.playing = !st.playing;
+  if(st.playing){
+    btn.textContent = '⏸️ Mettre en pause';
+    st.last = null;
+    st.raf = requestAnimationFrame(pulseStep);
+  } else {
+    btn.textContent = '▶️ Lancer l\'animation';
+    if(st.raf) cancelAnimationFrame(st.raf);
+  }
+}
+
+function pulseReset(){
+  var st = pulseState;
+  st.playing = false;
+  st.t = 0; st.last = null; st.t1 = null; st.t2 = null; st.lit1 = false; st.lit2 = false; st.revealed = false;
+  if(st.raf) cancelAnimationFrame(st.raf);
+  var btn = document.getElementById('pulsePlayBtn');
+  if(btn) btn.textContent = '▶️ Lancer l\'animation';
+  var box = document.getElementById('pulseResultBox');
+  if(box){ box.className = 'exo-fb'; box.innerHTML = ''; }
+  pulseDraw();
+  pulseUpdateChrono();
+}
+
+function pulseUpdateC(){
+  var st = pulseState;
+  st.c = parseFloat(document.getElementById('pulseC').value);
+  document.getElementById('pulseCVal').textContent = st.c.toFixed(1);
+  pulseReset();
+}
+
+/* ===== Animation — double périodicité, photographie + chronogramme (partie ③) ===== */
+var doubleState = { T:0.8, c:1.5, t:0, playing:false, last:null, raf:null, history:[] };
+var DOUBLE_X0 = 2.0;
+var DOUBLE_LMAX = 5;
+
+function doubleDrawX(){
+  var canvas = document.getElementById('doubleCanvasX');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  var midY = H/2, xPad = 16, xPlot = W-2*xPad, A = 45;
+  var lambda = doubleState.c*doubleState.T;
+  var k = 2*Math.PI/lambda, omega = 2*Math.PI/doubleState.T;
+
+  drawArrowedAxes(ctx, W, H, xPad, midY, 14, 'x (m)');
+
+  ctx.strokeStyle = '#2D5F8A'; ctx.lineWidth = 2.2;
+  ctx.beginPath();
+  for(var i=0;i<=160;i++){
+    var xm = (i/160)*DOUBLE_LMAX;
+    var xpix = xPad+(i/160)*xPlot;
+    var y = A*Math.sin(k*xm-omega*doubleState.t);
+    var ypix = midY-y;
+    if(i===0) ctx.moveTo(xpix,ypix); else ctx.lineTo(xpix,ypix);
+  }
+  ctx.stroke();
+
+  var base = (Math.PI/2 + omega*doubleState.t) / k;
+  var xMin = 0.3;
+  var n = Math.ceil((xMin - base)/lambda);
+  var xStart = base + n*lambda;
+  var xEnd = xStart + lambda;
+  if(xEnd > DOUBLE_LMAX-0.15){ xStart -= lambda; xEnd -= lambda; }
+  if(xStart >= 0 && xEnd <= DOUBLE_LMAX-0.05){
+    var xpixS = xPad+(xStart/DOUBLE_LMAX)*xPlot;
+    var xpixE = xPad+(xEnd/DOUBLE_LMAX)*xPlot;
+    var yCrest = midY - A;
+    var yBracket = yCrest - 14;
+    ctx.strokeStyle = '#E8783A'; ctx.lineWidth = 1.2; ctx.setLineDash([2,2]);
+    ctx.beginPath(); ctx.moveTo(xpixS,yCrest); ctx.lineTo(xpixS,yBracket); ctx.moveTo(xpixE,yCrest); ctx.lineTo(xpixE,yBracket); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(xpixS,yBracket-4); ctx.lineTo(xpixS,yBracket+4); ctx.moveTo(xpixE,yBracket-4); ctx.lineTo(xpixE,yBracket+4); ctx.stroke();
+    ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(xpixS,yBracket); ctx.lineTo(xpixE,yBracket); ctx.stroke();
+    ctx.fillStyle = '#3A8A6E';
+    ctx.beginPath(); ctx.arc(xpixS,yCrest,3.5,0,2*Math.PI); ctx.fill();
+    ctx.beginPath(); ctx.arc(xpixE,yCrest,3.5,0,2*Math.PI); ctx.fill();
+    ctx.fillStyle = '#E8783A'; ctx.font = '700 12px DM Mono, monospace'; ctx.textAlign = 'center';
+    ctx.fillText('λ', (xpixS+xpixE)/2, yBracket-7);
+  }
+
+  var xpixM = xPad+(DOUBLE_X0/DOUBLE_LMAX)*xPlot;
+  ctx.strokeStyle = '#7B4FA6'; ctx.setLineDash([3,3]); ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(xpixM,midY-A-10); ctx.lineTo(xpixM,midY+A+10); ctx.stroke();
+  ctx.setLineDash([]);
+  var yM = A*Math.sin(k*DOUBLE_X0-omega*doubleState.t);
+  ctx.fillStyle = '#7B4FA6';
+  ctx.beginPath(); ctx.arc(xpixM, midY-yM, 5, 0, 2*Math.PI); ctx.fill();
+  ctx.font = '800 11px Outfit, sans-serif';
+  ctx.fillText('M', xpixM, midY-A-16);
+}
+
+function doubleDrawT(){
+  var canvas = document.getElementById('doubleCanvasT');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  var midY = H/2, xPad = 16, xPlot = W-2*xPad;
+  var Wt = 4*doubleState.T;
+  var tStart = Math.max(0, doubleState.t-Wt);
+
+  drawArrowedAxes(ctx, W, H, xPad, midY, 14, 't (s)');
+
+  var hist = doubleState.history;
+  ctx.strokeStyle = '#7B4FA6'; ctx.lineWidth = 2.2;
+  ctx.beginPath();
+  var started = false;
+  for(var i=0;i<hist.length;i++){
+    var pt = hist[i];
+    if(pt.t < tStart) continue;
+    var xpix = xPad+((pt.t-tStart)/Wt)*xPlot;
+    var ypix = midY-pt.y;
+    if(!started){ ctx.moveTo(xpix,ypix); started = true; } else ctx.lineTo(xpix,ypix);
+  }
+  ctx.stroke();
+
+  var tMarkStart = Math.floor((tStart+0.15*Wt)/doubleState.T)*doubleState.T;
+  var tMarkEnd = tMarkStart+doubleState.T;
+  var A = 45;
+  var lambdaT = doubleState.c*doubleState.T;
+  var kT = 2*Math.PI/lambdaT, omegaT = 2*Math.PI/doubleState.T;
+  var baseT = (kT*DOUBLE_X0 - Math.PI/2)/omegaT;
+  var tMin = tStart + 0.15*Wt;
+  var m = Math.ceil((tMin-baseT)/doubleState.T);
+  tMarkStart = baseT + m*doubleState.T;
+  tMarkEnd = tMarkStart + doubleState.T;
+  if(tMarkStart >= tStart && tMarkEnd <= doubleState.t){
+    var xpixS = xPad+((tMarkStart-tStart)/Wt)*xPlot;
+    var xpixE = xPad+((tMarkEnd-tStart)/Wt)*xPlot;
+    var yCrest = midY - A;
+    var yBracket = yCrest - 14;
+    ctx.strokeStyle = '#3A8A6E'; ctx.lineWidth = 1.2; ctx.setLineDash([2,2]);
+    ctx.beginPath(); ctx.moveTo(xpixS,yCrest); ctx.lineTo(xpixS,yBracket); ctx.moveTo(xpixE,yCrest); ctx.lineTo(xpixE,yBracket); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(xpixS,yBracket-4); ctx.lineTo(xpixS,yBracket+4); ctx.moveTo(xpixE,yBracket-4); ctx.lineTo(xpixE,yBracket+4); ctx.stroke();
+    ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(xpixS,yBracket); ctx.lineTo(xpixE,yBracket); ctx.stroke();
+    ctx.fillStyle = '#3A8A6E';
+    ctx.beginPath(); ctx.arc(xpixS,yCrest,3.5,0,2*Math.PI); ctx.fill();
+    ctx.beginPath(); ctx.arc(xpixE,yCrest,3.5,0,2*Math.PI); ctx.fill();
+    ctx.font = '700 12px DM Mono, monospace'; ctx.textAlign = 'center';
+    ctx.fillText('T', (xpixS+xpixE)/2, H-16);
+  }
+}
+
+function doubleUpdateParams(){
+  var st = doubleState;
+  st.T = parseFloat(document.getElementById('doubleT').value);
+  st.c = parseFloat(document.getElementById('doubleC').value);
+  document.getElementById('doubleTVal').textContent = st.T.toFixed(1);
+  document.getElementById('doubleCVal').textContent = st.c.toFixed(1);
+  document.getElementById('doubleLambdaVal').textContent = (st.c*st.T).toFixed(1);
+  doubleDrawX();
+  doubleDrawT();
+}
+
+function doubleStep(timestamp){
+  var st = doubleState;
+  if(!st.playing) return;
+  if(st.last === null) st.last = timestamp;
+  var dt = (timestamp-st.last)/1000;
+  st.last = timestamp;
+  st.t += dt;
+  var lambda = st.c*st.T, k = 2*Math.PI/lambda, omega = 2*Math.PI/st.T;
+  var yM = 45*Math.sin(k*DOUBLE_X0-omega*st.t);
+  st.history.push({t:st.t, y:yM});
+  var Wt = 4*st.T;
+  while(st.history.length && st.history[0].t < st.t-Wt-0.2) st.history.shift();
+  doubleDrawX();
+  doubleDrawT();
+  st.raf = requestAnimationFrame(doubleStep);
+}
+
+function doubleTogglePlay(){
+  var st = doubleState;
+  var btn = document.getElementById('doublePlayBtn');
+  st.playing = !st.playing;
+  if(st.playing){
+    btn.textContent = '⏸️ Mettre en pause';
+    st.last = null;
+    st.raf = requestAnimationFrame(doubleStep);
+  } else {
+    btn.textContent = '▶️ Lancer l\'animation';
+    if(st.raf) cancelAnimationFrame(st.raf);
+  }
+}
+
+function doubleReset(){
+  var st = doubleState;
+  st.playing = false;
+  st.t = 0; st.last = null; st.history = [];
+  if(st.raf) cancelAnimationFrame(st.raf);
+  var btn = document.getElementById('doublePlayBtn');
+  if(btn) btn.textContent = '▶️ Lancer l\'animation';
+  doubleDrawX();
+  doubleDrawT();
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  waveDrawX('Cours'); waveDrawT('Cours');
+  waveDrawX('Activite'); waveDrawT('Activite');
+  pulseDraw();
+  pulseUpdateChrono();
+  doubleDrawX();
+  doubleDrawT();
+  var pyEditor = document.getElementById('pyCodeEditor');
+  if(pyEditor){
+    pyEditor.value = PY_SKELETON_TEMPOREL;
+    pySyncHighlight();
+  }
+});
+</script>
+</body>
+</html>
