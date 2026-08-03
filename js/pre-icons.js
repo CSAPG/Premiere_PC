@@ -489,6 +489,63 @@ function iconSeq11(suffix) {
     </svg>`;
 }
 
+function iconSeq14(suffix) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+      <style>
+        .hicon-scene-${suffix}{opacity:0;animation:hiconFade-${suffix} 6s ease-in-out infinite}
+        .hicon-a-${suffix}{animation-delay:0s}
+        .hicon-b-${suffix}{animation-delay:3s}
+        @keyframes hiconFade-${suffix}{0%{opacity:1}42%{opacity:1}50%{opacity:0}92%{opacity:0}100%{opacity:1}}
+        .wave-scroll-${suffix}{animation:waveScroll-${suffix} 1.6s linear infinite}
+        @keyframes waveScroll-${suffix}{from{transform:translateX(0)}to{transform:translateX(80px)}}
+        .wave-point-${suffix}{animation:wavePointBob-${suffix} 1.6s linear infinite}
+        @keyframes wavePointBob-${suffix}{
+          0%{transform:translateY(0)}
+          12.5%{transform:translateY(-10.6px)}
+          25%{transform:translateY(-15px)}
+          37.5%{transform:translateY(-10.6px)}
+          50%{transform:translateY(0)}
+          62.5%{transform:translateY(10.6px)}
+          75%{transform:translateY(15px)}
+          87.5%{transform:translateY(10.6px)}
+          100%{transform:translateY(0)}
+        }
+      </style>
+      <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+      <g class="hicon-scene-${suffix} hicon-a-${suffix}">
+        <clipPath id="waveClipA-${suffix}"><rect x="0" y="0" width="200" height="130"/></clipPath>
+        <g clip-path="url(#waveClipA-${suffix})">
+          <g class="wave-scroll-${suffix}">
+            <path d="M-90,65 Q-70,30 -50,65 T-10,65 T30,65 T70,65 T110,65 T150,65 T190,65 T230,65 T270,65" stroke="#2D5F8A" stroke-width="2.4" fill="none"/>
+          </g>
+        </g>
+        <g class="wave-point-${suffix}"><circle cx="50" cy="65" r="4" fill="#E8783A"/></g>
+        <text x="100" y="20" text-anchor="middle" font-size="9" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Onde progressive</text>
+        <path d="M140,65 L160,65" stroke="#E8783A" stroke-width="2" marker-end="url(#arw1-${suffix})"/>
+      </g>
+      <g class="hicon-scene-${suffix} hicon-b-${suffix}">
+        <circle cx="100" cy="65" r="3" fill="none" stroke="#5B8FB9" stroke-width="1.6">
+          <animate attributeName="r" values="3;40" dur="2.4s" begin="0s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0" dur="2.4s" begin="0s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="65" r="3" fill="none" stroke="#5B8FB9" stroke-width="1.6">
+          <animate attributeName="r" values="3;40" dur="2.4s" begin="0.8s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0" dur="2.4s" begin="0.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="65" r="3" fill="none" stroke="#5B8FB9" stroke-width="1.6">
+          <animate attributeName="r" values="3;40" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="65" r="3.5" fill="#C0392B"/>
+        <text x="100" y="30" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="700" fill="#2D5F8A">Onde circulaire à la surface de l'eau</text>
+      </g>
+      <defs>
+        <marker id="arw1-${suffix}" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="#E8783A"/></marker>
+      </defs>
+    </svg>`;
+}
+
 const PRE_ICONS = {
   'seq00': iconSeq00,
   'seq01': iconLumiereCouleurs,
@@ -501,7 +558,8 @@ const PRE_ICONS = {
   'seq08': iconSeq08,
   'seq09': iconSeq09,
   'seq10': iconSeq10,
-  'seq11': iconSeq11
+  'seq11': iconSeq11,
+  'seq14': iconSeq14
 };
 
 function getIconPre(name, suffix) {
