@@ -546,6 +546,61 @@ function iconSeq14(suffix) {
     </svg>`;
 }
 
+function iconSeq12(suffix) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+      <style>
+        @keyframes flameMain-${suffix}{0%{transform:scaleY(1) scaleX(1) rotate(0deg) translateX(0)}20%{transform:scaleY(1.12) scaleX(0.92) rotate(-4deg) translateX(-2px)}45%{transform:scaleY(0.9) scaleX(1.1) rotate(3deg) translateX(1px)}70%{transform:scaleY(1.08) scaleX(0.94) rotate(-3deg) translateX(-1px)}100%{transform:scaleY(1) scaleX(1) rotate(0deg) translateX(0)}}
+        @keyframes flameCore-${suffix}{0%{transform:scaleY(1) scaleX(1)}30%{transform:scaleY(0.88) scaleX(1.1)}60%{transform:scaleY(1.12) scaleX(0.9)}100%{transform:scaleY(1) scaleX(1)}}
+        @keyframes flameLeft-${suffix}{0%{transform:scaleY(1) rotate(0deg)}30%{transform:scaleY(1.15) rotate(5deg)}65%{transform:scaleY(0.85) rotate(-4deg)}100%{transform:scaleY(1) rotate(0deg)}}
+        @keyframes flameRight-${suffix}{0%{transform:scaleY(1) rotate(0deg)}35%{transform:scaleY(0.86) rotate(-5deg)}70%{transform:scaleY(1.14) rotate(4deg)}100%{transform:scaleY(1) rotate(0deg)}}
+        @keyframes windFlow-${suffix}{0%{stroke-dashoffset:18}100%{stroke-dashoffset:0}}
+        .flame-main-${suffix}{animation:flameMain-${suffix} 1.1s ease-in-out infinite}
+        .flame-core-${suffix}{animation:flameCore-${suffix} 0.9s ease-in-out infinite}
+        .flame-left-${suffix}{animation:flameLeft-${suffix} 1.3s ease-in-out infinite}
+        .flame-right-${suffix}{animation:flameRight-${suffix} 1.5s ease-in-out infinite .15s}
+        .wind-lines-${suffix} path{animation:windFlow-${suffix} 1s linear infinite}
+      </style>
+      <defs>
+        <linearGradient id="flameGrad-${suffix}" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#BFE3F5"/>
+          <stop offset="18%" stop-color="#FFFFFF"/>
+          <stop offset="48%" stop-color="#E8783A"/>
+          <stop offset="100%" stop-color="#FFCA28"/>
+        </linearGradient>
+        <linearGradient id="flameGradCore-${suffix}" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#E8F6FF"/>
+          <stop offset="35%" stop-color="#FFFFFF"/>
+          <stop offset="100%" stop-color="#FFECB3"/>
+        </linearGradient>
+      </defs>
+      <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+      <text x="100" y="20" text-anchor="middle" font-size="9" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Combustion</text>
+      <g class="wind-lines-${suffix}">
+        <path d="M15,68 C35,63 45,70 60,66" fill="none" stroke="#5B8FB9" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 5" style="animation-delay:0s"/>
+        <path d="M12,84 C33,81 48,87 65,83" fill="none" stroke="#5B8FB9" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 5" style="animation-delay:.25s"/>
+        <path d="M15,100 C35,97 48,102 62,98" fill="none" stroke="#5B8FB9" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 5" style="animation-delay:.5s"/>
+      </g>
+      <g class="flame-left-${suffix}" style="transform-origin:76px 108px">
+        <path d="M76,109 C64,102 60,90 66,78 C69,71 73,67 76,58 C79,67 83,71 86,78 C93,90 88,102 76,109 Z" fill="url(#flameGrad-${suffix})"/>
+      </g>
+      <g class="flame-right-${suffix}" style="transform-origin:124px 108px">
+        <path d="M124,109 C110,101 105,86 112,72 C115,65 119,60 122,50 C125,60 130,65 133,72 C140,86 135,101 124,109 Z" fill="url(#flameGrad-${suffix})"/>
+      </g>
+      <g class="flame-main-${suffix}" style="transform-origin:100px 108px">
+        <path d="M100,110 C80,100 74,80 84,60 C89,49 95,44 99,30 C103,44 109,49 115,60 C126,80 120,100 100,110 Z" fill="url(#flameGrad-${suffix})"/>
+      </g>
+      <g class="flame-core-${suffix}" style="transform-origin:100px 98px">
+        <path d="M100,102 C90,95 88,82 95,68 C98,61 100,56 100,49 C100,56 103,61 106,68 C113,82 111,95 100,102 Z" fill="url(#flameGradCore-${suffix})"/>
+      </g>
+      <g>
+        <rect x="70" y="108" width="60" height="10" rx="5" fill="#8B5A2B"/>
+        <ellipse cx="70" cy="113" rx="6" ry="6" fill="#6B4423"/>
+        <ellipse cx="130" cy="113" rx="6" ry="6" fill="#6B4423"/>
+      </g>
+    </svg>`;
+}
+
 const PRE_ICONS = {
   'seq00': iconSeq00,
   'seq01': iconLumiereCouleurs,
@@ -559,6 +614,7 @@ const PRE_ICONS = {
   'seq09': iconSeq09,
   'seq10': iconSeq10,
   'seq11': iconSeq11,
+  'seq12': iconSeq12,
   'seq14': iconSeq14
 };
 
