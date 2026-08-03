@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Séquence 12 – Conversion de l'énergie stockée dans la matière organique – Première Spé PC</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --bleu:#2D5F8A; --bleu-clair:#E8F1F8; --bleu-moyen:#5B8FB9;
+  --orange:#E8783A; --orange-clair:#FDF0E8;
+  --vert:#3A8A6E; --vert-clair:#E8F5F0;
+  --gris-fond:#F5F7FA; --gris-bord:#DDE3EC;
+  --texte:#1A2A3A; --texte-leger:#5A6B7A; --blanc:#FFFFFF;
+  --rouge:#C0392B; --rouge-clair:#FDEDEC;
+  --violet:#7B4FA6; --violet-clair:#F3EDF9;
+}
+body{font-family:'Nunito',sans-serif;background:#F0F4F8;padding:14px;color:var(--texte)}
+h1{font-size:1.35rem;font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);line-height:1.2;text-align:left}
+
+/* HEADER */
+.header{background:var(--blanc);border:1px solid #E3E8EE;border-bottom:3px solid var(--bleu);border-radius:14px;padding:18px 24px 14px;max-width:1300px;margin:0 auto 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(45,95,138,0.10)}
+.header-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.header-left{display:flex;flex-direction:column;align-items:flex-start;gap:7px;flex-shrink:0;margin-top:2px}
+.header-badge{background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:20px;white-space:nowrap}
+button.cap-toggle{background:var(--bleu);color:#fff;border:none;padding:5px 12px;border-radius:999px;font-family:'Nunito',sans-serif;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap}
+button.cap-toggle:hover{background:#1e4466}
+.cap-panel{display:none;margin:0 0 14px;background:#fff;border:1px solid #B8D4EC;border-radius:12px;padding:16px 20px;text-align:left;font-size:.88rem;color:var(--texte)}
+.cap-panel.open{display:block}
+.cap-panel p{line-height:1.6;margin-bottom:6px}
+.header-titles{flex:1;min-width:180px}
+.header-titles h1{font-size:1.35rem}
+.header-titles p{font-size:.82rem;color:var(--texte-leger);margin-top:2px}
+.header-titles p span{color:var(--orange);font-weight:700}
+.hicon-wrap{flex-shrink:0;width:96px;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(45,95,138,.18);background:#fff}
+.hicon-wrap svg{display:block;width:100%;height:auto}
+
+/* ONGLETS */
+.tabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;flex-wrap:wrap}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:8px;padding:10px 18px 12px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;color:var(--texte-leger);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;position:relative;bottom:-3px}
+.tab:hover{color:var(--orange)}
+.tab.on{color:var(--orange);border-bottom-color:var(--orange);background:var(--orange-clair);border-radius:6px 6px 0 0}
+.panel{display:none;background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:0 0 12px 12px;padding:20px}
+.panel.on{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.main{max-width:1300px;margin:0 auto;padding:28px 20px 60px}
+
+/* Sous-onglets */
+.sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:nowrap;overflow-x:auto}
+.sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:#b8cfe0;color:var(--bleu);font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all .2s;white-space:nowrap}
+.sub-tab-btn:hover{background:var(--bleu);color:#fff}
+.sub-tab-btn.active{background:#1e4466;color:#fff}
+.sub-tab-content{display:none}
+.sub-tab-content.active{display:block;animation:fadeIn .2s ease}
+
+/* Sections / cartes */
+.section-title{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:var(--bleu);margin:24px 0 14px;display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:2px solid var(--bleu-clair)}
+.section-title:first-child{margin-top:0}
+.section-title .icon{font-size:1.2rem}
+.intro-box{background:#FFFBF7;border-left:4px solid var(--orange);border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:20px;font-size:.9rem;line-height:1.6;color:var(--texte);font-style:italic}
+.card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.card-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;color:var(--bleu);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card-title .icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.card ul{padding-left:1.2rem;margin:8px 0}
+.card li{margin-bottom:5px;line-height:1.55;font-size:.88rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.grid-2{grid-template-columns:1fr}}
+.formula{background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:14px 18px;text-align:center;font-family:'DM Mono',monospace;font-weight:700;color:var(--bleu);margin:14px 0;font-size:1.05rem}
+.formula .legend{font-size:.78rem;font-weight:500;color:var(--texte-leger);margin-top:8px;text-align:left}
+.exemple-box{background:var(--vert-clair);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.exemple-box strong{color:var(--vert)}
+.remarque-box{background:var(--violet-clair);border-left:4px solid var(--violet);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.remarque-box strong{color:var(--violet)}
+.attention-box{background:var(--rouge-clair);border-left:4px solid var(--rouge);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.attention-box strong{color:var(--rouge)}
+
+.bilan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:560px){.bilan-grid{grid-template-columns:1fr}}
+.bilan-card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px}
+.bilan-card h4{font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:700;color:var(--bleu);margin-bottom:8px;padding-bottom:8px;border-bottom:1.5px solid var(--gris-bord)}
+.ke-list{list-style:none;padding:0}
+.ke-list li{padding:6px 10px 6px 28px;position:relative;font-size:.84rem;border-bottom:1px solid var(--gris-bord);line-height:1.5}
+.ke-list li:last-child{border-bottom:none}
+.ke-list li::before{content:"✓";position:absolute;left:8px;color:var(--vert);font-weight:800;font-size:.9rem}
+
+/* Méthode - étapes numérotées */
+.methode-list{list-style:none;padding:0;counter-reset:step}
+.methode-list li{counter-increment:step;position:relative;padding:12px 16px 12px 52px;margin-bottom:10px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;font-size:.88rem;line-height:1.6}
+.methode-list li::before{content:counter(step);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+
+table.couples{width:100%;border-collapse:collapse;font-size:.85rem;margin:14px 0}
+table.couples th{background:var(--bleu-clair);color:var(--bleu);font-weight:700;padding:8px;text-align:left;border:1px solid var(--gris-bord)}
+table.couples td{padding:8px;border:1px solid var(--gris-bord);vertical-align:middle;font-family:'DM Mono',monospace}
+table.couples tr.hi td{background:var(--orange-clair);font-weight:700}
+
+.gloss-search{width:100%;padding:10px 14px;border:1.5px solid var(--gris-bord);border-radius:20px;font-family:'Nunito',sans-serif;font-size:.88rem;margin-bottom:16px}
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+@media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 16px}
+.gloss-item dt{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:.9rem;margin-bottom:4px}
+.gloss-item dd{font-size:.84rem;color:var(--texte);line-height:1.55}
+
+.vdw-toggle-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.vdw-toggle{font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;background:var(--gris-fond);border:1.5px solid var(--gris-bord);color:var(--texte);padding:8px 16px;border-radius:999px;cursor:pointer;transition:all .15s}
+.vdw-toggle:hover{border-color:var(--violet)}
+.vdw-toggle.active{background:var(--violet);border-color:var(--violet);color:#fff}
+.vdw-stage{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:12px;padding:6px;max-width:640px;margin:0 auto}
+.vdw-stage svg{display:block;width:100%;height:auto}
+
+select.calc-select{padding:9px 14px;border:1.5px solid var(--gris-bord);border-radius:10px;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:700;color:var(--bleu);background:#fff;cursor:pointer}
+.calc-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.calc-result{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:14px 18px;margin-top:10px}
+.calc-result .step{font-family:'DM Mono',monospace;font-size:.86rem;line-height:1.9;color:var(--texte)}
+.calc-final{font-family:'DM Mono',monospace;font-size:.86rem;line-height:1.9;font-weight:700;color:var(--rouge)}
+.bond-tag{display:inline-block;background:var(--bleu-clair);color:var(--bleu);border-radius:6px;padding:2px 8px;font-family:'DM Mono',monospace;font-weight:700;font-size:.82rem;margin:2px}
+.dev-grid{display:inline-grid;justify-items:center;row-gap:2px;column-gap:2px;font-family:'DM Mono',monospace;font-size:.9rem}
+.dev-grid span{min-width:14px;text-align:center}
+.bond-count-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0}
+.bond-count-row label{font-size:.85rem;font-weight:700;color:var(--texte-leger);min-width:210px}
+.bond-tag.formed{background:var(--vert-clair);color:var(--vert)}
+
+.res-list{list-style:none;padding:0;margin:10px 0}
+
+/* ===== Exercices / QCM / FCR / Escape game (harmonisé Séq.09) ===== */
+.btn-reveal{background:var(--orange);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer}
+.btn-reveal:hover{background:#c8602a}
+.reveal-body{display:none;margin-top:10px;padding:12px 14px;background:#fff;border:1.5px solid var(--vert);border-radius:8px;font-size:.86rem;line-height:1.6}
+.reveal-body.open{display:block;animation:fadeIn .2s}
+.reveal-body strong{color:var(--vert)}
+.exo-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+.exo-box h5{font-family:'Outfit',sans-serif;color:var(--orange);font-size:.92rem;margin-bottom:8px}
+.exo-enonce{background:#fff;border-radius:8px;padding:12px 16px;font-size:.88rem;line-height:1.6;margin-bottom:12px;border:1px solid var(--gris-bord)}
+.exo-btn{background:var(--bleu);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;margin-top:6px}
+.exo-btn:hover{background:#1e4466}
+.exo-btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.exo-fb{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.85rem;line-height:1.6;display:none}
+.exo-fb.ok{display:block;background:var(--vert-clair);border-left:4px solid var(--vert);color:#1a5a3a}
+.exo-fb.ko{display:block;background:var(--rouge-clair);border-left:4px solid var(--rouge);color:#7a2418}
+.fcr-line{display:block;margin-top:3px}
+.fcr-line:first-child{margin-top:0}
+.qi-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 16px;margin:10px 0}
+.qi-box .qi-q{font-size:.87rem;line-height:1.6;margin-bottom:8px;font-weight:600}
+.qcm-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.qcm-opt{background:#fff;border:1.5px solid var(--gris-bord);border-radius:7px;padding:7px 13px;font-size:.82rem;font-weight:600;font-family:'Nunito',sans-serif;color:var(--texte);cursor:pointer;transition:all .15s}
+.qcm-opt:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.qcm-opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.qcm-opt.incorrect{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+.blank-in{padding:6px 9px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace;font-size:.82rem;width:130px}
+.blank-in.correct{border-color:var(--vert);background:var(--vert-clair)}
+.blank-in.incorrect{border-color:var(--rouge);background:var(--rouge-clair)}
+.eg-briefing{background:linear-gradient(135deg,#E8F1F8,#DCEAF5);border:2px solid var(--bleu-moyen);border-radius:14px;padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden}
+.eg-briefing h4{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:1.05rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.eg-briefing p{font-size:.88rem;line-height:1.65;color:var(--texte)}
+.eg-progress{display:flex;gap:6px;margin:16px 0}
+.eg-progress-step{flex:1;height:8px;border-radius:5px;background:var(--gris-bord);transition:background .3s}
+.eg-progress-step.done{background:var(--vert)}
+.eg-puzzle{position:relative;background:#fff;border:2px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px;transition:border-color .3s}
+.eg-puzzle.solved{border-color:var(--vert)}
+.eg-puzzle h5{font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;color:var(--bleu);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.eg-digit{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--bleu);color:#fff;font-family:'DM Mono',monospace;font-weight:700;font-size:.78rem}
+.eg-lock-overlay{position:absolute;inset:0;background:rgba(245,247,250,.93);backdrop-filter:blur(1px);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--texte-leger);font-weight:700;font-size:.85rem;text-align:center;padding:20px}
+.eg-code-found{display:inline-block;margin-top:10px;padding:6px 14px;background:var(--vert-clair);border:1.5px solid var(--vert);border-radius:7px;color:var(--vert);font-family:'DM Mono',monospace;font-weight:700;font-size:.85rem}
+.eg-final{background:var(--gris-fond);border:2px dashed var(--bleu-moyen);border-radius:12px;padding:18px 20px;text-align:center}
+.eg-final input{padding:10px 14px;border:2px solid var(--gris-bord);border-radius:8px;font-family:'DM Mono',monospace;font-size:1.1rem;letter-spacing:.3em;text-align:center;width:140px;margin:10px 0}
+.eg-success{display:none;background:var(--vert-clair);border:2px solid var(--vert);border-radius:12px;padding:22px;text-align:center;margin-top:14px}
+.eg-success.show{display:block;animation:fadeIn .4s}
+.eg-success h4{color:var(--vert);font-family:'Outfit',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <div class="header-badge">1<sup>ère</sup> Spé – Séq. 12</div>
+      <button class="cap-toggle" onclick="document.getElementById('capPanel').classList.toggle('open')">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Conversion de l'énergie stockée dans la matière organique</h1>
+      <p>Thème : <span>Constitution et transformations de la matière</span></p>
+    </div>
+    <div class="hicon-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+        <defs>
+          <linearGradient id="flameGrad" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#BFE3F5"/>
+            <stop offset="18%" stop-color="#FFFFFF"/>
+            <stop offset="48%" stop-color="#E8783A"/>
+            <stop offset="100%" stop-color="#FFCA28"/>
+          </linearGradient>
+          <linearGradient id="flameGradCore" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#E8F6FF"/>
+            <stop offset="35%" stop-color="#FFFFFF"/>
+            <stop offset="100%" stop-color="#FFECB3"/>
+          </linearGradient>
+        </defs>
+        <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+        <text x="100" y="20" text-anchor="middle" font-size="9" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Combustion</text>
+
+        <g class="wind-lines">
+          <path d="M15,68 C35,63 45,70 60,66" fill="none" stroke="#5B8FB9" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 5" style="animation-delay:0s"/>
+          <path d="M12,84 C33,81 48,87 65,83" fill="none" stroke="#5B8FB9" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 5" style="animation-delay:.25s"/>
+          <path d="M15,100 C35,97 48,102 62,98" fill="none" stroke="#5B8FB9" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 5" style="animation-delay:.5s"/>
+        </g>
+
+        <g class="flame-left" style="transform-origin:76px 108px">
+          <path d="M76,109 C64,102 60,90 66,78 C69,71 73,67 76,58 C79,67 83,71 86,78 C93,90 88,102 76,109 Z" fill="url(#flameGrad)"/>
+        </g>
+        <g class="flame-right" style="transform-origin:124px 108px">
+          <path d="M124,109 C110,101 105,86 112,72 C115,65 119,60 122,50 C125,60 130,65 133,72 C140,86 135,101 124,109 Z" fill="url(#flameGrad)"/>
+        </g>
+        <g class="flame-main" style="transform-origin:100px 108px">
+          <path d="M100,110 C80,100 74,80 84,60 C89,49 95,44 99,30 C103,44 109,49 115,60 C126,80 120,100 100,110 Z" fill="url(#flameGrad)"/>
+        </g>
+        <g class="flame-core" style="transform-origin:100px 98px">
+          <path d="M100,102 C90,95 88,82 95,68 C98,61 100,56 100,49 C100,56 103,61 106,68 C113,82 111,95 100,102 Z" fill="url(#flameGradCore)"/>
+        </g>
+
+        <g>
+          <rect x="70" y="108" width="60" height="10" rx="5" fill="#8B5A2B"/>
+          <ellipse cx="70" cy="113" rx="6" ry="6" fill="#6B4423"/>
+          <ellipse cx="130" cy="113" rx="6" ry="6" fill="#6B4423"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <style>
+    @keyframes flameMain{0%{transform:scaleY(1) scaleX(1) rotate(0deg) translateX(0)}20%{transform:scaleY(1.12) scaleX(0.92) rotate(-4deg) translateX(-2px)}45%{transform:scaleY(0.9) scaleX(1.1) rotate(3deg) translateX(1px)}70%{transform:scaleY(1.08) scaleX(0.94) rotate(-3deg) translateX(-1px)}100%{transform:scaleY(1) scaleX(1) rotate(0deg) translateX(0)}}
+    @keyframes flameCore{0%{transform:scaleY(1) scaleX(1)}30%{transform:scaleY(0.88) scaleX(1.1)}60%{transform:scaleY(1.12) scaleX(0.9)}100%{transform:scaleY(1) scaleX(1)}}
+    @keyframes flameLeft{0%{transform:scaleY(1) rotate(0deg)}30%{transform:scaleY(1.15) rotate(5deg)}65%{transform:scaleY(0.85) rotate(-4deg)}100%{transform:scaleY(1) rotate(0deg)}}
+    @keyframes flameRight{0%{transform:scaleY(1) rotate(0deg)}35%{transform:scaleY(0.86) rotate(-5deg)}70%{transform:scaleY(1.14) rotate(4deg)}100%{transform:scaleY(1) rotate(0deg)}}
+    @keyframes windFlow{0%{stroke-dashoffset:18}100%{stroke-dashoffset:0}}
+    .flame-main{animation:flameMain 1.1s ease-in-out infinite}
+    .flame-core{animation:flameCore 0.9s ease-in-out infinite}
+    .flame-left{animation:flameLeft 1.3s ease-in-out infinite}
+    .flame-right{animation:flameRight 1.5s ease-in-out infinite .15s}
+    .wind-lines path{animation:windFlow 1s linear infinite}
+  </style>
+
+  <div class="cap-panel" id="capPanel">
+    <p><strong>Capacités exigibles (B.O.) :</strong></p>
+    <p>— Citer des exemples de combustibles usuels.</p>
+    <p>— Écrire l'équation de réaction de combustion complète d'un alcane et d'un alcool.</p>
+    <p>— Estimer l'énergie molaire de réaction pour une transformation en phase gazeuse à partir de la donnée des énergies de liaison. Mettre en œuvre une expérience pour estimer le pouvoir calorifique d'un combustible.</p>
+    <p>— Citer des applications usuelles qui mettent en œuvre des combustions et les risques associés. Citer des axes d'étude actuels d'applications s'inscrivant dans une perspective de développement durable.</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab on" onclick="showTab(this,'cours')">📘 Cours</div>
+    <div class="tab" onclick="showTab(this,'exercices')">✏️ Exercices</div>
+    <div class="tab" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</div>
+  </div>
+</div>
+
+<div class="main">
+<!-- ══════════════════ TAB 1 — COURS ══════════════════ -->
+<div class="panel on" id="tab-cours">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-combustion')">① Réactions de combustion</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-energie')">② Conversion de l'énergie</button>
+  </div>
+
+  <!-- ---------- SOUS-ONGLET ① RÉACTIONS DE COMBUSTION ---------- -->
+  <div class="sub-tab-content active" id="sub-combustion">
+    <div class="intro-box">🎬 <strong>Vidéo débat :</strong> les réactions de combustion sont-elles indispensables à notre vie quotidienne ? Elles fournissent l'énergie nécessaire aux transports et au chauffage, mais émettent des gaz à effet de serre comme le dioxyde de carbone. Un enjeu du XXI<sup>ème</sup> siècle est de développer des alternatives — comme les agrocarburants — et des systèmes de combustion moins énergivores.</div>
+
+    <div class="section-title"><span class="icon">🔥</span>1. Qu'est-ce qu'une réaction de combustion ?</div>
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">ℹ️</span>Définition</div>
+      <div class="grid-2" style="align-items:center">
+        <div>
+          <p style="font-size:.9rem;line-height:1.7">La <strong>réaction de combustion</strong> est une réaction d'<strong>oxydo-réduction</strong> au cours de laquelle un <strong>combustible</strong> s'oxyde et un <strong>comburant</strong> (généralement le dioxygène O₂(g)) se réduit. Cette réaction est activée si de l'énergie est apportée (énergie d'activation).</p>
+          <p style="font-size:.9rem;line-height:1.7;margin-top:8px">Elle est dite <strong>complète</strong> si les seuls produits formés sont de l'eau et du dioxyde de carbone.</p>
+          <div class="remarque-box"><strong>💡 À retenir :</strong> les trois sommets du triangle du feu doivent être réunis pour qu'une combustion démarre et se poursuive — supprimer un seul des trois (priver d'O₂, refroidir, retirer le combustible) permet d'éteindre un feu.</div>
+        </div>
+        <div style="text-align:center">
+          <img src="triangle-feu.png" alt="Triangle du feu : combustible, comburant, énergie d'activation" style="max-width:280px;width:100%;border-radius:10px">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="icon">⛽</span>2. Deux familles de combustibles</div>
+    <div class="grid-2">
+      <div class="card" style="border-left:4px solid var(--bleu-moyen)">
+        <div class="card-title"><span class="icon" style="background:var(--bleu-clair)">🛢️</span>Combustibles fossiles</div>
+        <p style="font-size:.88rem;line-height:1.65">Issus de la transformation de matière organique fossilisée depuis des millions d'années : <strong>pétrole, charbon, méthane</strong>, etc. Ils sont <strong>non renouvelables</strong> à l'échelle humaine.</p>
+        <img src="combustiblesfossiles.png" alt="Combustibles fossiles : pétrole brut, charbon, méthane" style="width:80%;display:block;margin:10px auto 0;border-radius:10px">
+      </div>
+      <div class="card" style="border-left:4px solid var(--vert)">
+        <div class="card-title"><span class="icon" style="background:var(--vert-clair)">🌱</span>Agrocombustibles</div>
+        <p style="font-size:.88rem;line-height:1.65">Produits à partir de la <strong>biomasse</strong> : <strong>éthanol, ester méthylique de colza (biodiesel), agrométhane, bois</strong>, etc. Ils sont <strong>renouvelables</strong> à l'échelle humaine.</p>
+        <img src="agrocombustibles.png" alt="Agrocombustibles : huile de colza, bioéthanol, bois-énergie, agrométhane" style="width:80%;display:block;margin:10px auto 0;border-radius:10px">
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <p style="font-size:.88rem;line-height:1.65">Dans le tableau ci-dessous, le <strong>gazole</strong> et l'<strong>essence</strong> sont issus de combustibles fossiles. L'<strong>ester méthylique</strong> et l'<strong>éthanol</strong> sont des biocarburants.</p>
+      <table class="couples">
+        <tr><th>Grandeur</th><th>Gazole</th><th>Essence</th><th>Ester méthylique</th><th>Éthanol</th></tr>
+        <tr><td>Pouvoir calorifique (en MJ·kg⁻¹)</td><td>42,8 à 43,4</td><td>42,5 à 43,2</td><td>36,8 à 37,4</td><td>26,8</td></tr>
+        <tr><td>Masse volumique (en kg·L⁻¹)</td><td>0,75</td><td>0,84</td><td>0,89</td><td>0,79</td></tr>
+        <tr><td>Teneur en carbone (en % massique)</td><td>86,1 à 87,5</td><td>85 à 86,4</td><td>73,3 à 76,5</td><td>52,2</td></tr>
+      </table>
+      <p style="font-size:.78rem;color:var(--texte-leger);font-style:italic;text-align:right;margin-top:4px">Étude réalisée par Écobilan pour l'ADEME, 2019.</p>
+      <p style="font-size:.88rem;line-height:1.65;margin-top:10px">On remarque que les biocarburants (ester méthylique, éthanol) présentent un pouvoir calorifique et une teneur en carbone plus faibles que les combustibles fossiles : ils libèrent un peu moins d'énergie par kilogramme, mais rejettent aussi moins de dioxyde de carbone lors de leur combustion.</p>
+    </div>
+
+    <div class="section-title"><span class="icon">✏️</span>3. Équation de la réaction de combustion</div>
+    <div class="card">
+      <p style="font-size:.9rem;line-height:1.7">Pour une molécule organique formée d'atomes de carbone et d'hydrogène, et éventuellement d'oxygène, la combustion complète dans le dioxygène s'écrit (par convention, coefficient a = 1 devant le combustible) :</p>
+      <div class="formula">C<sub>x</sub>H<sub>y</sub>O<sub>z</sub> + b O<sub>2 (g)</sub> ⟶ c CO<sub>2 (g)</sub> + d H<sub>2</sub>O<sub>(g)</sub>
+        <div class="legend">avec c = x ; d = y/2 ; b = c + d/2 − z/2 (conservation des éléments C, H et O)</div>
+      </div>
+
+      <div class="card-title" style="margin-top:10px"><span class="icon" style="background:var(--orange-clair)">🧮</span>À toi de jouer — équilibre la combustion</div>
+      <p style="font-size:.86rem;color:var(--texte-leger);line-height:1.6;margin-bottom:10px">Choisis un combustible, puis sélectionne toi-même les 3 coefficients manquants de l'équation à l'aide des listes déroulantes.</p>
+      <div class="calc-row">
+        <label for="fuelSelect" style="font-size:.86rem;font-weight:700;color:var(--texte-leger)">Choisir un combustible :</label>
+        <select class="calc-select" id="fuelSelect" onchange="updateEquation()">
+          <option value="methane">Méthane — CH₄ (alcane)</option>
+          <option value="ethane">Éthane — C₂H₆ (alcane)</option>
+          <option value="propane">Propane — C₃H₈ (alcane)</option>
+          <option value="butane">Butane — C₄H₁₀ (alcane)</option>
+          <option value="methanol">Méthanol — CH₄O (alcool)</option>
+          <option value="ethanol">Éthanol — C₂H₆O (alcool)</option>
+        </select>
+      </div>
+      <div class="calc-result" id="equationResult"></div>
+    </div>
+
+    <div class="section-title"><span class="icon">⚠️</span>4. Les risques associés</div>
+    <div class="card">
+      <div class="grid-2" style="align-items:center">
+        <div>
+          <p style="font-size:.9rem;line-height:1.7">Une combustion est <strong>exothermique</strong> : elle présente des risques de <strong>brûlures, d'incendies ou d'explosion</strong>.</p>
+          <div class="attention-box"><strong>⚠️ Combustion incomplète :</strong> si l'apport d'oxygène est insuffisant, la combustion est incomplète et il apparaît alors, en plus (ou à la place) du CO₂ et de l'eau : du <strong>carbone solide</strong> sous forme de particules fines, et du <strong>monoxyde de carbone</strong> (CO), un gaz <strong>asphyxiant, invisible et incolore</strong> — d'où la nécessité d'une bonne ventilation des appareils de chauffage et de cuisson.</div>
+          <div class="remarque-box"><strong>💡 Prévention :</strong> un détecteur de fumée sauve des vies — installes-en un !</div>
+        </div>
+        <div style="text-align:center">
+          <img src="stastistiquerisque2023.png" alt="Statistiques et risques des incendies domestiques en France" style="width:100%;border-radius:10px">
+          <p style="font-size:.74rem;color:var(--texte-leger);font-style:italic;margin-top:4px">Sources : ONSE (Observatoire national de la sécurité électrique), Sapeurs-Pompiers (DGSCGC). Données de l'année 2023.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /sub-combustion -->
+
+  <!-- ---------- SOUS-ONGLET ② CONVERSION DE L'ÉNERGIE ---------- -->
+  <div class="sub-tab-content" id="sub-energie">
+    <div class="intro-box">Lors de la combustion, la structure moléculaire des réactifs se modifie : des liaisons se dissocient, d'autres se forment. Le système chimique contenant le combustible <strong>libère de l'énergie Q</strong> — les réactions de combustion sont des transformations <strong>exothermiques</strong>, donc <strong>Q &lt; 0</strong>.</div>
+
+    <div class="section-title"><span class="icon">📐</span>1. Énergie molaire de combustion et pouvoir calorifique</div>
+    <div class="card">
+      <p style="font-size:.9rem;line-height:1.7">L'énergie transférée (ou libérée) <strong>Q</strong> lors de la combustion dépend de la quantité de combustible. Elle peut se calculer à partir de l'<strong>énergie molaire de combustion E<sub>comb</sub></strong> ou du <strong>pouvoir calorifique PC</strong>.</p>
+      <div class="grid-2">
+        <div class="formula">Q = n × E<sub>comb</sub>
+          <div class="legend">Q en J ; n en mol (quantité de matière de combustible) ; E<sub>comb</sub> en J·mol⁻¹, <strong>E<sub>comb</sub> &lt; 0</strong> (définie par rapport au système contenant le combustible)</div>
+        </div>
+        <div class="formula">Q = − m × PC
+          <div class="legend">Q en J ; m en kg (masse de combustible) ; PC en J·kg⁻¹, <strong>PC &gt; 0</strong> (défini par rapport au système chauffé)</div>
+        </div>
+      </div>
+      <div class="formula" style="margin-top:4px">E<sub>comb</sub> = PC × M
+        <div class="legend">M : masse molaire du combustible (kg·mol⁻¹) — relation entre énergie molaire de combustion et pouvoir calorifique</div>
+      </div>
+      <div class="remarque-box"><strong>💡 Pourquoi ces signes différents ?</strong> E<sub>comb</sub> &lt; 0 car elle est définie par rapport au système chimique qui contient le combustible (il perd de l'énergie). PC &gt; 0 car il est défini par rapport au système que l'on chauffe (il reçoit de l'énergie).</div>
+    </div>
+
+    <div class="section-title"><span class="icon">🔗</span>2. Énergie de liaison</div>
+    <div class="card">
+      <p style="font-size:.9rem;line-height:1.7">En phase gazeuse, la dissociation d'une liaison chimique A–B conduit aux atomes A et B isolés. L'<strong>énergie de liaison E<sub>ℓ</sub></strong> d'une liaison covalente A–B correspond à l'énergie nécessaire pour rompre une mole de liaisons et libérer les atomes isolés A et B à l'état gazeux.</p>
+      <table class="couples">
+        <tr><th>Liaison</th><th>Énergie de liaison E<sub>ℓ</sub> (kJ·mol⁻¹)</th></tr>
+        <tr><td>C—H</td><td>413</td></tr>
+        <tr><td>C—C</td><td>348</td></tr>
+        <tr><td>C—O</td><td>360</td></tr>
+        <tr><td>O═O</td><td>496</td></tr>
+        <tr><td>O—H</td><td>463</td></tr>
+        <tr><td>C═O</td><td>804</td></tr>
+        <tr class="hi"><td>C═O (dans CO₂)</td><td>796</td></tr>
+      </table>
+    </div>
+
+    <div class="section-title"><span class="icon">📉</span>3. Énergie molaire de réaction ΔE</div>
+    <div class="card">
+      <p style="font-size:.9rem;line-height:1.7">L'énergie molaire de réaction ΔE est l'énergie libérée lors de la combustion d'une mole de combustible. Elle est <strong>négative</strong> puisque les combustions sont exothermiques. Elle peut être estimée à partir des liaisons rompues et formées au cours de la combustion complète :</p>
+      <div class="formula">ΔE = Σ E<sub>liaisons rompues</sub> − Σ E<sub>liaisons formées</sub> &nbsp;(en J·mol⁻¹)</div>
+
+      <div class="grid-2" style="align-items:center">
+        <div class="exemple-box">
+          <strong>💡 Exemple — combustion du méthane</strong>
+          <div style="font-family:'DM Mono',monospace;font-size:.86rem;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin:10px 0">
+            <span style="text-align:center;line-height:1.3">H<br>|<br>H–C–H<br>|<br>H</span>
+            <span>+</span>
+            <span>2 O=O</span>
+            <span>⟶</span>
+            <span>O=C=O</span>
+            <span>+</span>
+            <span>2 H–O–H</span>
+          </div>
+          <div style="color:var(--bleu);font-weight:700;margin-top:8px">Liaisons rompues : 4 E(C–H) + 2 E(O═O)</div>
+          <div style="color:var(--rouge);font-weight:700;margin-top:4px">Liaisons formées : 2 E(C═O) (dans CO₂) + 4 E(O–H)</div>
+          <div style="color:var(--violet);font-weight:700;margin-top:4px">E<sub>comb</sub> = [4×413 + 2×496] − [2×796 + 4×463] = −800 kJ·mol⁻¹</div>
+        </div>
+
+        <div style="text-align:center">
+          <img src="energiemolairedecombustionmethane.png" alt="Diagramme énergétique de la combustion du méthane" style="max-width:252px;width:100%;border-radius:10px;border:1.5px solid var(--gris-bord)">
+          <p style="font-size:.78rem;color:var(--texte-leger);font-style:italic;margin-top:4px">Diagramme énergétique de la combustion du méthane : l'énergie libérée en formant les nouvelles liaisons est supérieure à celle qu'il faut fournir pour rompre les liaisons initiales.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="icon">🧮</span>4. À toi de jouer — décompose et calcule ΔE</div>
+    <div class="card" style="border-left:4px solid var(--violet)">
+      <p style="font-size:.87rem;color:var(--texte-leger);line-height:1.6;margin-bottom:10px">Choisis un combustible : sa formule développée s'affiche, puis indique toi-même le nombre de liaisons de chaque type rompues et formées lors de sa combustion complète, à l'aide des listes déroulantes.</p>
+      <div class="calc-row">
+        <label for="fuelSelect2" style="font-size:.86rem;font-weight:700;color:var(--texte-leger)">Combustible :</label>
+        <select class="calc-select" id="fuelSelect2" onchange="updateEnergyCalc()">
+          <option value="ethane">Éthane — C₂H₆</option>
+          <option value="propane">Propane — C₃H₈</option>
+          <option value="butane">Butane — C₄H₁₀</option>
+          <option value="methanol">Méthanol — CH₄O</option>
+          <option value="ethanol">Éthanol — C₂H₆O</option>
+        </select>
+      </div>
+      <div class="calc-result" id="devFormulaResult"></div>
+      <div id="bondCountForm"></div>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="checkEnergyCalc()">Vérifier</button>
+        <button class="exo-btn-secondary" onclick="showEnergyCorrection()">Voir la correction</button>
+        <button class="exo-btn-secondary" onclick="resetEnergyCalc()">↺ Réinitialiser</button>
+      </div>
+      <div class="exo-fb" id="energyFb"></div>
+      <div class="reveal-body" id="energyCorrection"></div>
+    </div>
+  </div>
+  <!-- /sub-energie -->
+
+</div>
+<!-- fin tab-cours -->
+
+<!-- ══════════════════ TAB 2 — EXERCICES ══════════════════ -->
+<div class="panel" id="tab-exercices">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-facile')">🟢 Facile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-inter')">🟠 Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-difficile')">🔴 Difficile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-escape')">🔐 Escape game</button>
+  </div>
+
+  <!-- ---------- FACILE ---------- -->
+  <div class="sub-tab-content active" id="sub-facile">
+    <div class="intro-box">Applications directes d'une seule formule ou reconnaissance directe. Méthode <strong>Formule → Calcul → Résultat</strong> pour les calculs.</div>
+
+    <div class="exo-box">
+      <h5>Exercice 1 — Combustible et comburant</h5>
+      <div class="exo-enonce">On étudie la combustion du butane : C<sub>4</sub>H<sub>10 (g)</sub> + 13/2 O<sub>2 (g)</sub> ⟶ 4 CO<sub>2 (g)</sub> + 5 H<sub>2</sub>O<sub>(g)</sub>. Quelle espèce est le combustible et quelle espèce est le comburant ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Combustible : C₄H₁₀ — Comburant : O₂</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Combustible : O₂ — Comburant : C₄H₁₀</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Combustible : CO₂ — Comburant : H₂O</div>
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Exercice 2 — Énergie libérée par une combustion (Q = n × E<sub>comb</sub>)</h5>
+      <div class="exo-enonce">On brûle n = 0,30 mol de méthane, d'énergie molaire de combustion E<sub>comb</sub> = −800 kJ·mol⁻¹ (valeur calculée dans le cours). Calculer l'énergie Q libérée.</div>
+      <label style="font-size:.82rem">Résultat Q = </label>
+      <input type="text" id="exF2" class="blank-in" placeholder="en kJ"> kJ
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exF2',-240,0.05,'exF2fb','Q = n × E_comb','Q = 0,30 × (−800)','Q ≈ −240 kJ (énergie libérée par le système)')">Vérifier</button></div>
+      <div class="exo-fb" id="exF2fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Exercice 3 — Combustion complète ou incomplète ?</h5>
+      <div class="exo-enonce">Lors de la combustion d'un combustible organique, on observe la formation de particules de carbone (suie) et de monoxyde de carbone en plus de l'eau. Cette combustion est-elle complète ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Oui, tant qu'il y a de l'eau formée, la combustion est complète</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Non : une combustion complète ne forme que de l'eau et du CO₂, sans suie ni CO</div>
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Exercice 4 — Pouvoir calorifique (Q = −m × PC)</h5>
+      <div class="exo-enonce">Un gaz naturel (assimilé au méthane) a un pouvoir calorifique PC = 50 000 kJ·kg⁻¹. Calculer l'énergie Q libérée par la combustion de m = 0,50 kg de ce gaz.</div>
+      <label style="font-size:.82rem">Résultat Q = </label>
+      <input type="text" id="exF4" class="blank-in" placeholder="en kJ"> kJ
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exF4',-25000,0.05,'exF4fb','Q = − m × PC','Q = − 0,50 × 50 000','Q ≈ −25 000 kJ = −25,0 MJ')">Vérifier</button></div>
+      <div class="exo-fb" id="exF4fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Exercice 5 — Le risque du monoxyde de carbone</h5>
+      <div class="exo-enonce">Un appareil de chauffage mal ventilé fonctionne en combustion incomplète. Quel est le principal danger pour les occupants ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">La production de monoxyde de carbone (CO), gaz asphyxiant, invisible et incolore</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">La production excessive de dioxygène, qui devient toxique</div>
+      </div>
+    </div>
+  </div>
+  <!-- /sub-facile -->
+
+  <!-- ---------- INTERMÉDIAIRE ---------- -->
+  <div class="sub-tab-content" id="sub-inter">
+    <div class="intro-box">Il faut ici combiner deux notions, ou repérer/compter soi-même les liaisons rompues et formées.</div>
+
+    <div class="exo-box">
+      <h5>Exercice 1 — ΔE de la combustion de l'éthanol</h5>
+      <div class="exo-enonce">La combustion complète de l'éthanol C₂H₆O(g) s'écrit : C₂H₆O(g) + 3O₂(g) ⟶ 2CO₂(g) + 3H₂O(g). En comptant les liaisons rompues (1 C–C, 5 C–H, 1 C–O, 1 O–H, 3 O═O) et formées (4 C═O dans CO₂, 6 O–H) à l'aide de la table d'énergies de liaison, calculer ΔE.</div>
+      <label style="font-size:.82rem">Résultat ΔE = </label>
+      <input type="text" id="exI1" class="blank-in" placeholder="en kJ·mol⁻¹"> kJ·mol⁻¹
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exI1',-1238,0.05,'exI1fb','ΔE = Σ E(rompues) − Σ E(formées)','ΔE = [348 + 5×413 + 360 + 463 + 3×496] − [4×796 + 6×463]','ΔE ≈ −1238 kJ·mol⁻¹')">Vérifier</button></div>
+      <div class="exo-fb" id="exI1fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Exercice 2 — Fossile ou renouvelable ?</h5>
+      <div class="exo-enonce">L'éthanol utilisé comme carburant est produit par fermentation de la biomasse (betterave, canne à sucre…), tandis que le méthane des chaudières provient du sous-sol.</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">L'éthanol est un agrocombustible renouvelable ; le méthane est un combustible fossile non renouvelable</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Les deux sont des combustibles fossiles non renouvelables</div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication</button>
+      <div class="reveal-body">La biomasse (végétaux cultivés) se renouvelle à l'échelle d'une vie humaine, contrairement aux combustibles fossiles issus de matière organique fossilisée depuis des millions d'années.</div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Exercice 3 — Pouvoir calorifique de l'éthanol</h5>
+      <div class="exo-enonce">On a calculé E<sub>comb</sub>(éthanol) ≈ −1238 kJ·mol⁻¹ (exercice 1). La masse molaire de l'éthanol est M = 46 g·mol⁻¹ = 0,046 kg·mol⁻¹. Calculer le pouvoir calorifique PC de l'éthanol (grandeur positive).</div>
+      <label style="font-size:.82rem">Résultat PC = </label>
+      <input type="text" id="exI3" class="blank-in" placeholder="en kJ·kg⁻¹"> kJ·kg⁻¹
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exI3',26913,0.05,'exI3fb','PC = |E_comb| / M','PC = 1238 / 0,046','PC ≈ 26 900 kJ·kg⁻¹ ≈ 26,9 MJ·kg⁻¹')">Vérifier</button></div>
+      <div class="exo-fb" id="exI3fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Exercice 4 — Un chauffage d'appoint dans une pièce close</h5>
+      <div class="exo-enonce">Un chauffage d'appoint fonctionne dans une pièce mal ventilée. Après quelques heures, les occupants ressentent maux de tête et somnolence, alors qu'aucune odeur ni fumée n'est perceptible.</div>
+      <div class="qi-box"><div class="qi-q">Quelle est l'explication la plus probable ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Le manque de dioxygène a rendu la combustion incomplète, produisant du CO — gaz invisible, inodore et toxique</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">La combustion complète produit toujours des symptômes de ce type, c'est normal</div>
+        </div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication</button>
+      <div class="reveal-body">L'absence d'odeur ou de fumée ne garantit pas l'absence de danger : le monoxyde de carbone (CO), produit par combustion incomplète en atmosphère pauvre en O₂, est <strong>invisible, inodore et incolore</strong>, ce qui en fait un gaz particulièrement dangereux. D'où l'importance d'une bonne ventilation et de détecteurs de CO.</div>
+    </div>
+  </div>
+  <!-- /sub-inter -->
+
+  <!-- ---------- DIFFICILE ---------- -->
+  <div class="sub-tab-content" id="sub-difficile">
+    <div class="intro-box">Exercices de synthèse : plusieurs étapes de calcul ou de raisonnement à enchaîner soi-même.</div>
+
+    <div class="exo-box">
+      <h5>Exercice 1 — ΔE de la combustion du propane</h5>
+      <div class="exo-enonce">Écris l'équation de combustion complète du propane C₃H₈(g), dénombre toi-même les liaisons rompues et formées, puis calcule l'énergie molaire de réaction ΔE à l'aide de la table d'énergies de liaison.</div>
+      <label style="font-size:.82rem">Résultat ΔE = </label>
+      <input type="text" id="exD1" class="blank-in" placeholder="en kJ·mol⁻¹"> kJ·mol⁻¹
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD1',-2000,0.05,'exD1fb','C₃H₈ + 5O₂ → 3CO₂ + 4H₂O ; ΔE = Σ E(rompues) − Σ E(formées)','ΔE = [2×348 + 8×413 + 5×496] − [6×796 + 8×463]','ΔE ≈ −2000 kJ·mol⁻¹')">Vérifier</button></div>
+      <div class="exo-fb" id="exD1fb"></div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Exercice 2 — Comparer deux combustibles</h5>
+      <div class="exo-enonce">Le méthane a un pouvoir calorifique PC ≈ 50,0 MJ·kg⁻¹, l'éthanol PC ≈ 26,9 MJ·kg⁻¹ (calculés précédemment). Pour une même masse embarquée dans un véhicule, lequel des deux libère le plus d'énergie ?</div>
+      <div class="qi-box"><div class="qi-q">Quel combustible choisir uniquement sur le critère énergétique ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmCheck(this,true)">Le méthane, dont le pouvoir calorifique est presque le double de celui de l'éthanol</div>
+          <div class="qcm-opt" onclick="qcmCheck(this,false)">L'éthanol, car c'est un agrocombustible renouvelable</div>
+        </div>
+      </div>
+      <button class="btn-reveal" onclick="this.nextElementSibling.classList.toggle('open')">Voir l'explication complète</button>
+      <div class="reveal-body">Sur le seul critère du pouvoir calorifique, le <strong>méthane</strong> libère davantage d'énergie par kilogramme. Cependant, le choix d'un combustible dans une perspective de développement durable ne se limite pas à ce critère : le caractère <strong>renouvelable</strong> de l'éthanol (agrocombustible) est un avantage environnemental que ne possède pas le méthane (combustible fossile).</div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Exercice 3 — Énergie libérée par une masse de butane</h5>
+      <div class="exo-enonce">On dispose de m = 100 g de butane C₄H₁₀ (M = 58 g·mol⁻¹, E<sub>comb</sub> = −2600 kJ·mol⁻¹, calculée à partir des liaisons rompues/formées). Calculer l'énergie Q libérée par la combustion complète de cette masse de butane (2 étapes : calcule d'abord n, puis Q).</div>
+      <label style="font-size:.82rem">Résultat Q = </label>
+      <input type="text" id="exD3" class="blank-in" placeholder="en kJ"> kJ
+      <div class="exo-btn-row"><button class="exo-btn" onclick="checkFCR('exD3',-4483,0.05,'exD3fb','n = m/M puis Q = n × E_comb','n = 100/58 ≈ 1,72 mol ; Q = 1,72 × (−2600)','Q ≈ −4480 kJ ≈ −4,48 MJ')">Vérifier</button></div>
+      <div class="exo-fb" id="exD3fb"></div>
+    </div>
+  </div>
+  <!-- /sub-difficile -->
+
+  <!-- ---------- ESCAPE GAME ---------- -->
+  <div class="sub-tab-content" id="sub-escape">
+    <div class="eg-briefing">
+      <h4>🔥 Alerte à la chaufferie</h4>
+      <p>La chaudière du gymnase s'est arrêtée en urgence après un dégagement de fumée suspecte. Résous les trois énigmes dans l'ordre pour reconstituer le code du rapport d'incident et comprendre ce qui s'est passé.</p>
+    </div>
+
+    <div class="eg-progress">
+      <div class="eg-progress-step" id="egStep1"></div>
+      <div class="eg-progress-step" id="egStep2"></div>
+      <div class="eg-progress-step" id="egStep3"></div>
+    </div>
+
+    <!-- STATION 1 -->
+    <div class="eg-puzzle" id="egPuzzle1">
+      <h5><span class="eg-digit">1</span>Station 1 — Le triangle du feu</h5>
+      <p style="font-size:.86rem;line-height:1.6;margin-bottom:10px">Quels sont les trois sommets nécessaires (et suffisants) pour qu'une combustion démarre et se poursuive ?</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="egCheck(1,this,false)">Combustible, chaleur, fumée</div>
+        <div class="qcm-opt" onclick="egCheck(1,this,true)">Combustible, comburant, énergie d'activation</div>
+        <div class="qcm-opt" onclick="egCheck(1,this,false)">Combustible, comburant, catalyseur</div>
+      </div>
+      <div class="eg-code-found" id="egFound1" style="display:none">Chiffre trouvé : <strong>4</strong></div>
+    </div>
+
+    <!-- STATION 2 -->
+    <div class="eg-puzzle" id="egPuzzle2">
+      <h5><span class="eg-digit">2</span>Station 2 — Le signe qui ne trompe pas</h5>
+      <div class="eg-lock-overlay" id="egLock2">🔒 Résous d'abord la station 1</div>
+      <p style="font-size:.86rem;line-height:1.6;margin-bottom:10px">La combustion étant exothermique, quel est le signe correct de l'énergie molaire de combustion E<sub>comb</sub> ?</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="egCheck(2,this,true)">E<sub>comb</sub> &lt; 0</div>
+        <div class="qcm-opt" onclick="egCheck(2,this,false)">E<sub>comb</sub> &gt; 0</div>
+      </div>
+      <div class="eg-code-found" id="egFound2" style="display:none">Chiffre trouvé : <strong>8</strong></div>
+    </div>
+
+    <!-- STATION 3 -->
+    <div class="eg-puzzle" id="egPuzzle3">
+      <h5><span class="eg-digit">3</span>Station 3 — Le gaz invisible</h5>
+      <div class="eg-lock-overlay" id="egLock3">🔒 Résous d'abord la station 2</div>
+      <p style="font-size:.86rem;line-height:1.6;margin-bottom:10px">Le manque de dioxygène a rendu la combustion incomplète. Quel gaz asphyxiant, invisible et incolore a été détecté par les pompiers ?</p>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="egCheck(3,this,true)">Le monoxyde de carbone CO</div>
+        <div class="qcm-opt" onclick="egCheck(3,this,false)">Le dioxyde de carbone CO₂</div>
+      </div>
+      <div class="eg-code-found" id="egFound3" style="display:none">Chiffre trouvé : <strong>1</strong></div>
+    </div>
+
+    <!-- CODE FINAL -->
+    <div class="eg-final">
+      <p style="font-weight:700;color:var(--bleu)">🔐 Code du rapport d'incident</p>
+      <p style="font-size:.82rem;color:var(--texte-leger);margin-top:4px">Assemble les 3 chiffres trouvés, dans l'ordre des stations.</p>
+      <input type="text" id="egCodeInput" maxlength="3" placeholder="•••">
+      <br>
+      <button class="exo-btn" onclick="egCheckFinal()">Déverrouiller</button>
+      <div class="exo-fb" id="egFinalFb"></div>
+    </div>
+
+    <div class="eg-success" id="egSuccess">
+      <h4>🎉 Incident élucidé !</h4>
+      <p>Un apport insuffisant de dioxygène a rendu la combustion incomplète : du monoxyde de carbone s'est formé et a déclenché le détecteur. Après vérification et ventilation, la chaudière a pu redémarrer en toute sécurité.</p>
+    </div>
+  </div>
+  <!-- /sub-escape -->
+
+</div>
+<!-- fin tab-exercices -->
+
+<!-- ══════════════════ TAB 3 — BILAN & RESSOURCES ══════════════════ -->
+<div class="panel" id="tab-bilan">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
+
+  <div class="sub-tab-content active" id="bilan-sub-0">
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Réactions de combustion</h4>
+        <ul class="ke-list">
+          <li>Réaction d'oxydoréduction : le combustible s'oxyde, le comburant O₂ se réduit</li>
+          <li>Combustion complète ⇒ formation d'eau et de CO₂ uniquement</li>
+          <li>Combustibles fossiles (non renouvelables) ou agrocombustibles (renouvelables)</li>
+          <li>Équation générale : C<sub>x</sub>H<sub>y</sub>O<sub>z</sub> + bO₂(g) → cCO₂(g) + dH₂O(g)</li>
+          <li>Combustion incomplète ⇒ risque de production de CO, gaz asphyxiant</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Conversion de l'énergie</h4>
+        <ul class="ke-list">
+          <li>Combustion exothermique : Q &lt; 0, E<sub>comb</sub> &lt; 0, PC &gt; 0</li>
+          <li>Q = n × E<sub>comb</sub> ; Q = −m × PC ; E<sub>comb</sub> = PC × M</li>
+          <li>Énergie de liaison E<sub>ℓ</sub> : énergie pour rompre une mole de liaisons A–B en phase gazeuse</li>
+          <li>ΔE = Σ E<sub>liaisons rompues</sub> − Σ E<sub>liaisons formées</sub></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- /bilan-sub-0 -->
+
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span>Glossaire</div>
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="combustible"><dt>Combustible</dt><dd>Espèce chimique qui s'oxyde lors d'une combustion, en libérant de l'énergie (ex. méthane, éthanol).</dd></div>
+      <div class="gloss-item" data-term="comburant"><dt>Comburant</dt><dd>Espèce chimique qui se réduit lors d'une combustion, généralement le dioxygène O₂.</dd></div>
+      <div class="gloss-item" data-term="combustion complete"><dt>Combustion complète</dt><dd>Combustion dont les seuls produits sont l'eau et le dioxyde de carbone.</dd></div>
+      <div class="gloss-item" data-term="combustion incomplete"><dt>Combustion incomplète</dt><dd>Combustion avec un apport insuffisant en dioxygène, produisant en plus du carbone solide (particules fines) et du monoxyde de carbone CO.</dd></div>
+      <div class="gloss-item" data-term="monoxyde de carbone co"><dt>Monoxyde de carbone (CO)</dt><dd>Gaz asphyxiant, invisible et incolore, produit lors d'une combustion incomplète.</dd></div>
+      <div class="gloss-item" data-term="combustible fossile"><dt>Combustible fossile</dt><dd>Combustible issu de la biomasse fossilisée (pétrole, charbon, méthane), non renouvelable à l'échelle humaine.</dd></div>
+      <div class="gloss-item" data-term="agrocombustible"><dt>Agrocombustible</dt><dd>Combustible produit à partir de la biomasse (éthanol, ester méthylique de colza, agrométhane, bois), renouvelable à l'échelle humaine.</dd></div>
+      <div class="gloss-item" data-term="energie molaire de combustion ecomb"><dt>Énergie molaire de combustion (E<sub>comb</sub>)</dt><dd>Énergie transférée lors de la combustion d'une mole de combustible ; grandeur négative (E<sub>comb</sub> &lt; 0).</dd></div>
+      <div class="gloss-item" data-term="pouvoir calorifique pc"><dt>Pouvoir calorifique (PC)</dt><dd>Énergie que l'on peut récupérer lors de la combustion d'un kilogramme de combustible ; grandeur positive (PC &gt; 0).</dd></div>
+      <div class="gloss-item" data-term="energie de liaison"><dt>Énergie de liaison (E<sub>ℓ</sub>)</dt><dd>Énergie nécessaire pour rompre une mole de liaisons covalentes A–B et libérer les atomes A et B isolés à l'état gazeux.</dd></div>
+      <div class="gloss-item" data-term="energie molaire de reaction delta e"><dt>Énergie molaire de réaction (ΔE)</dt><dd>Énergie libérée lors de la combustion d'une mole de combustible, estimée à partir des liaisons rompues et formées.</dd></div>
+      <div class="gloss-item" data-term="transformation exothermique"><dt>Transformation exothermique</dt><dd>Transformation chimique qui libère de l'énergie vers le milieu extérieur (Q &lt; 0 pour le système réactionnel).</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <div class="sub-tab-content" id="bilan-sub-2">
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence12-conversion/id106208516#item810130892" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Ravi Ambroise — 1ère spé. Énergie de combustion</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 11 min 43.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence12-conversion/id106208516#item810130878" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Gérard Moreau — Cours de Chimie 1ère spé. 1.3.3.1 : Combustion des molécules organiques</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 12 min 39.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence12-conversion/id106208516#item810130611" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Hatier — Schéma bilan : Énergie et réactions chimiques</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 2 min 19.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence12-conversion/id106208516#item810157545" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — Énergie molaire de réaction : combustion, pouvoir calorifique</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 6 min 14.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title"><span class="icon">🔬</span> Simulations &amp; applications</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://phet.colorado.edu/sims/html/energy-forms-and-changes/latest/energy-forms-and-changes_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔥 PhET — Formes et transferts d'énergie</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Simulation interactive sur les transferts et conversions d'énergie.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="section-title"><span class="icon">📝</span> QCM</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/pc-1_qcm_chap_8/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM — Hatier (chapitre 8)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">QCM d'entraînement du manuel Hatier.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!-- /bilan-sub-2 -->
+
+</div>
+<!-- fin tab-bilan -->
+
+</div>
+<!-- fin .main -->
+
+<script>
+/* ===== Navigation onglets principaux ===== */
+function showTab(el,id){
+  document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.main > .panel').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('tab-'+id).classList.add('on');
+}
+
+/* ===== Navigation sous-onglets (scoped au panneau parent) ===== */
+function showSub(btn,id){
+  var panel = btn.closest('.panel');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b=>b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+/* ===== QCM ===== */
+function qcmCheck(el,isCorrect){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(o=>o.classList.remove('correct','incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+}
+
+/* ===== Formule / Calcul / Résultat ===== */
+function FCR(f,c,r){
+  return '<span class="fcr-line"><strong>Formule :</strong> '+f+'</span>'
+       + '<span class="fcr-line"><strong>Calcul :</strong> '+c+'</span>'
+       + '<span class="fcr-line"><strong>Résultat :</strong> '+r+'</span>';
+}
+function checkFCR(inputId, correct, tol, fbId, formule, calc, resultat){
+  var raw = document.getElementById(inputId).value.replace(',', '.').trim();
+  var v = parseFloat(raw);
+  var fb = document.getElementById(fbId);
+  if(isNaN(v)){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de saisir une valeur numérique avant de vérifier.';
+    return;
+  }
+  var ok = Math.abs(v-correct)/Math.abs(correct) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = (ok ? '✓ Correct ! ' : '✗ Pas tout à fait, regarde la correction : ') + FCR(formule, calc, resultat);
+}
+
+/* ===== Escape game ===== */
+var egSolved = [false,false,false];
+var egDigits = ['4','8','1'];
+function egCheck(station, el, isCorrect){
+  var puzzle = document.getElementById('egPuzzle'+station);
+  puzzle.querySelectorAll('.qcm-opt').forEach(o=>o.classList.remove('correct','incorrect'));
+  if(isCorrect){
+    el.classList.add('correct');
+    egSolved[station-1] = true;
+    document.getElementById('egFound'+station).style.display = 'inline-block';
+    document.getElementById('egStep'+station).classList.add('done');
+    puzzle.classList.add('solved');
+    if(station < 3){
+      var nextLock = document.getElementById('egLock'+(station+1));
+      if(nextLock) nextLock.style.display = 'none';
+    }
+  } else {
+    el.classList.add('incorrect');
+  }
+}
+function egCheckFinal(){
+  var val = document.getElementById('egCodeInput').value.trim();
+  var fb = document.getElementById('egFinalFb');
+  if(!(egSolved[0] && egSolved[1] && egSolved[2])){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Résous d\'abord les 3 stations pour connaître les 3 chiffres.';
+    return;
+  }
+  var code = egDigits.join('');
+  if(val === code){
+    fb.className = 'exo-fb ok';
+    fb.innerHTML = '✓ Code correct, le rapport s\'ouvre !';
+    document.getElementById('egSuccess').classList.add('show');
+  } else {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = '✗ Code incorrect, réessaie.';
+  }
+}
+
+/* ===== Glossaire ===== */
+function glossFilter(){
+  var q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(function(item){
+    var term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
+/* ===== Données combustibles : x,y,z + décomposition en liaisons ===== */
+var fuels = {
+  methane:  { name:'Méthane', formula:'CH₄', x:1,y:4,z:0,
+    broken:{'C–H':4,'O═O':2}, formed:{'C═O (CO₂)':2,'O–H':4} },
+  ethane:   { name:'Éthane', formula:'C₂H₆', x:2,y:6,z:0,
+    broken:{'C–C':1,'C–H':6,'O═O':3.5}, formed:{'C═O (CO₂)':4,'O–H':6},
+    tokens:['H','–','C','–','C','–','H'], carbons:[2,4] },
+  propane:  { name:'Propane', formula:'C₃H₈', x:3,y:8,z:0,
+    broken:{'C–C':2,'C–H':8,'O═O':5}, formed:{'C═O (CO₂)':6,'O–H':8},
+    tokens:['H','–','C','–','C','–','C','–','H'], carbons:[2,4,6] },
+  butane:   { name:'Butane', formula:'C₄H₁₀', x:4,y:10,z:0,
+    broken:{'C–C':3,'C–H':10,'O═O':6.5}, formed:{'C═O (CO₂)':8,'O–H':10},
+    tokens:['H','–','C','–','C','–','C','–','C','–','H'], carbons:[2,4,6,8] },
+  methanol: { name:'Méthanol', formula:'CH₄O', x:1,y:4,z:1,
+    broken:{'C–H':3,'C–O':1,'O–H':1,'O═O':1.5}, formed:{'C═O (CO₂)':2,'O–H':4},
+    tokens:['H','–','C','–','O','–','H'], carbons:[2] },
+  ethanol:  { name:'Éthanol', formula:'C₂H₆O', x:2,y:6,z:1,
+    broken:{'C–C':1,'C–H':5,'C–O':1,'O–H':1,'O═O':3}, formed:{'C═O (CO₂)':4,'O–H':6},
+    tokens:['H','–','C','–','C','–','O','–','H'], carbons:[2,4] }
+};
+var bondEnergy = {'C–H':413,'C–C':348,'C–O':360,'O═O':496,'O–H':463,'C═O':804,'C═O (CO₂)':796};
+
+
+function fmtNum(n){
+  return (Math.round(n*100)/100).toString().replace('.',',');
+}
+
+function buildEquation(f){
+  var c = f.x, d = f.y/2, b = c + d/2 - f.z/2;
+  function co(n){ return (Math.abs(n-Math.round(n))<1e-9) ? Math.round(n) : n.toString().replace('.',','); }
+  var bStr = co(b), dStr = co(d);
+  return f.formula + ' + ' + (bStr==1?'':bStr) + 'O₂<sub>(g)</sub> ⟶ ' + (c==1?'':c) + 'CO₂<sub>(g)</sub> + ' + (dStr==1?'':dStr) + 'H₂O<sub>(g)</sub>';
+}
+
+function coeffOptions(selected, values){
+  var html = '<option value="">?</option>';
+  values.forEach(function(v){
+    var label = (Math.abs(v-Math.round(v))<1e-9) ? Math.round(v).toString() : v.toString().replace('.',',');
+    html += '<option value="'+v+'">'+label+'</option>';
+  });
+  return html;
+}
+
+function updateEquation(){
+  var key = document.getElementById('fuelSelect').value;
+  var f = fuels[key];
+  var c = f.x, d = f.y/2, b = c + d/2 - f.z/2;
+
+  var bVals = [1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7];
+  var cVals = [1,2,3,4];
+  var dVals = [1,2,3,4,5];
+
+  var html = '<div class="step"><strong>' + f.name + ' (' + f.formula + ')</strong> — complète les coefficients de l\'équation :</div>';
+  html += '<div class="formula" style="margin:10px 0 4px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center">';
+  html += f.formula + ' + <select class="calc-select" id="coefB">' + coeffOptions(b,bVals) + '</select> O₂<sub>(g)</sub> ⟶ ';
+  html += '<select class="calc-select" id="coefC">' + coeffOptions(c,cVals) + '</select> CO₂<sub>(g)</sub> + ';
+  html += '<select class="calc-select" id="coefD">' + coeffOptions(d,dVals) + '</select> H₂O<sub>(g)</sub>';
+  html += '</div>';
+  html += '<div class="exo-btn-row"><button class="exo-btn" onclick="checkEquation(' + c + ',' + d + ',' + b + ')">Vérifier</button></div>';
+  html += '<div class="exo-fb" id="equationFb"></div>';
+  document.getElementById('equationResult').innerHTML = html;
+}
+
+function checkEquation(correctC, correctD, correctB){
+  var b = document.getElementById('coefB').value;
+  var c = document.getElementById('coefC').value;
+  var d = document.getElementById('coefD').value;
+  var fb = document.getElementById('equationFb');
+  if(b === '' || c === '' || d === ''){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Choisis une valeur pour chacun des 3 coefficients.';
+    return;
+  }
+  var ok = (parseFloat(b) === correctB) && (parseFloat(c) === correctC) && (parseFloat(d) === correctD);
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  if(ok){
+    fb.innerHTML = '✓ Équation équilibrée : conservation du carbone (c = x), de l\'hydrogène (d = y/2) et de l\'oxygène (b = c + d/2 − z/2).';
+  } else {
+    fb.innerHTML = '✗ Vérifie la conservation des éléments C, H et O un par un (c = x ; d = y/2 ; b = c + d/2 − z/2).';
+  }
+}
+
+function idKey(k){ return k.replace(/[^a-zA-Z0-9]/g,''); }
+
+function buildDevGrid(f){
+  var tokens = f.tokens, carbons = f.carbons;
+  var top='', mid='', bottom='';
+  for(var i=0;i<tokens.length;i++){
+    var isC = carbons.indexOf(i) !== -1;
+    top    += '<span>' + (isC?'H':'') + '</span>';
+    mid    += '<span>' + tokens[i] + '</span>';
+    bottom += '<span>' + (isC?'H':'') + '</span>';
+  }
+  return '<div class="dev-grid" style="grid-template-columns:repeat('+tokens.length+',auto)">' + top + mid + bottom + '</div>';
+}
+
+function buildProductsText(f){
+  var c = f.x, d = f.y/2;
+  return (c==1?'':c+' ') + 'O=C=O' + '  +  ' + (d==1?'':d+' ') + 'H–O–H';
+}
+
+function bondOptions(values){
+  var html = '<option value="">?</option>';
+  values.forEach(function(v){
+    var label = (Math.abs(v-Math.round(v))<1e-9) ? Math.round(v).toString() : v.toString().replace('.',',');
+    html += '<option value="'+v+'">'+label+'</option>';
+  });
+  return html;
+}
+
+function updateEnergyCalc(){
+  var key = document.getElementById('fuelSelect2').value;
+  var f = fuels[key];
+
+  var html = '<div class="step" style="margin-bottom:6px"><strong>' + f.name + ' (' + f.formula + ')</strong> — combustion complète :</div>';
+  html += '<div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin:8px 0;font-family:\'DM Mono\',monospace;font-size:.9rem">';
+  html += buildDevGrid(f) + '<span>+&nbsp;&nbsp;n O=O</span><span>⟶</span><span>' + buildProductsText(f) + '</span>';
+  html += '</div>';
+  document.getElementById('devFormulaResult').innerHTML = html;
+
+  var intOpts = [0,1,2,3,4,5,6,7,8,9,10,11,12];
+  var halfOpts = [0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8];
+  var labels = {'C–H':'Liaisons C–H rompues','C–C':'Liaisons C–C rompues','C–O':'Liaisons C–O rompues','O–H':'Liaisons O–H rompues','O═O':'Liaisons O═O rompues','C═O (CO₂)':'Liaisons C═O (CO₂) formées'};
+
+  var formHtml = '';
+  for(var k in f.broken){
+    var opts = (k === 'O═O') ? halfOpts : intOpts;
+    formHtml += '<div class="bond-count-row"><label for="brk_'+idKey(k)+'">'+labels[k]+' :</label><select class="calc-select" id="brk_'+idKey(k)+'">'+bondOptions(opts)+'</select></div>';
+  }
+  formHtml += '<div class="bond-count-row"><label for="fmd_COCO2">Liaisons C═O (CO₂) formées :</label><select class="calc-select" id="fmd_COCO2">'+bondOptions(intOpts)+'</select></div>';
+  formHtml += '<div class="bond-count-row"><label for="fmd_OH">Liaisons O–H formées :</label><select class="calc-select" id="fmd_OH">'+bondOptions(intOpts)+'</select></div>';
+  document.getElementById('bondCountForm').innerHTML = formHtml;
+
+  document.getElementById('energyFb').className = 'exo-fb';
+  document.getElementById('energyFb').innerHTML = '';
+  document.getElementById('energyCorrection').className = 'reveal-body';
+  document.getElementById('energyCorrection').innerHTML = '';
+}
+
+function computeEnergyBreakdown(f){
+  var sumBroken = 0, brokenParts = [], brokenLine = [];
+  for(var k in f.broken){
+    var n = f.broken[k];
+    sumBroken += n * bondEnergy[k];
+    brokenParts.push(fmtNum(n)+'×E('+k+')');
+    brokenLine.push(fmtNum(n)+' E('+k+')');
+  }
+  var sumFormed = 0, formedParts = [], formedLine = [];
+  for(var k2 in f.formed){
+    var n2 = f.formed[k2];
+    sumFormed += n2 * bondEnergy[k2];
+    formedParts.push(fmtNum(n2)+'×E('+k2+')');
+    formedLine.push(fmtNum(n2)+' E('+k2+')');
+  }
+  var delta = sumBroken - sumFormed;
+  var html = '<div style="color:var(--bleu);font-weight:700">Liaisons rompues : ' + brokenLine.join(' + ') + '</div>';
+  html += '<div style="color:var(--rouge);font-weight:700;margin-top:4px">Liaisons formées : ' + formedLine.join(' + ') + '</div>';
+  html += '<div style="color:var(--violet);font-weight:700;margin-top:4px">ΔE = [' + brokenParts.join(' + ') + '] − [' + formedParts.join(' + ') + '] = ' + fmtNum(sumBroken) + ' − ' + fmtNum(sumFormed) + ' = ' + fmtNum(delta) + ' kJ·mol⁻¹</div>';
+  html += '<div class="step" style="margin-top:6px;font-style:italic">ΔE est négatif : la réaction est bien exothermique, elle libère de l\'énergie.</div>';
+  return html;
+}
+
+function checkEnergyCalc(){
+  var key = document.getElementById('fuelSelect2').value;
+  var f = fuels[key];
+  var fb = document.getElementById('energyFb');
+  var allOk = true, allFilled = true;
+
+  for(var k in f.broken){
+    var el = document.getElementById('brk_'+idKey(k));
+    if(el.value === ''){ allFilled = false; }
+    else if(parseFloat(el.value) !== f.broken[k]){ allOk = false; }
+  }
+  var elCO2 = document.getElementById('fmd_COCO2');
+  var elOH = document.getElementById('fmd_OH');
+  if(elCO2.value === '' || elOH.value === ''){ allFilled = false; }
+  else{
+    if(parseFloat(elCO2.value) !== f.formed['C═O (CO₂)']) allOk = false;
+    if(parseFloat(elOH.value) !== f.formed['O–H']) allOk = false;
+  }
+
+  if(!allFilled){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Complète toutes les listes déroulantes avant de vérifier.';
+    return;
+  }
+  if(allOk){
+    fb.className = 'exo-fb ok';
+    fb.innerHTML = '✓ Décompte correct !<br>' + computeEnergyBreakdown(f);
+  } else {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = '✗ Au moins un décompte est incorrect. Recompte les liaisons rompues et formées dans la formule développée ci-dessus, ou clique sur « Voir la correction ».';
+  }
+}
+
+function showEnergyCorrection(){
+  var key = document.getElementById('fuelSelect2').value;
+  var f = fuels[key];
+  var box = document.getElementById('energyCorrection');
+  box.className = 'reveal-body open';
+  box.innerHTML = computeEnergyBreakdown(f);
+}
+
+function resetEnergyCalc(){
+  var key = document.getElementById('fuelSelect2').value;
+  var f = fuels[key];
+  for(var k in f.broken){
+    document.getElementById('brk_'+idKey(k)).value = '';
+  }
+  document.getElementById('fmd_COCO2').value = '';
+  document.getElementById('fmd_OH').value = '';
+  document.getElementById('energyFb').className = 'exo-fb';
+  document.getElementById('energyFb').innerHTML = '';
+  document.getElementById('energyCorrection').className = 'reveal-body';
+  document.getElementById('energyCorrection').innerHTML = '';
+}
+
+updateEquation();
+updateEnergyCalc();
+</script>
+</body>
+</html>
