@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Séquence 13 – Structure des entités organiques et synthèses – Première Spé PC</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --bleu:#2D5F8A; --bleu-clair:#E8F1F8; --bleu-moyen:#5B8FB9;
+  --orange:#E8783A; --orange-clair:#FDF0E8;
+  --vert:#3A8A6E; --vert-clair:#E8F5F0;
+  --gris-fond:#F5F7FA; --gris-bord:#DDE3EC;
+  --texte:#1A2A3A; --texte-leger:#5A6B7A; --blanc:#FFFFFF;
+  --rouge:#C0392B; --rouge-clair:#FDEDEC;
+  --violet:#7B4FA6; --violet-clair:#F3EDF9;
+}
+body{font-family:'Nunito',sans-serif;background:#F0F4F8;padding:14px;color:var(--texte)}
+h1{font-size:1.35rem;font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);line-height:1.2;text-align:left}
+
+/* HEADER */
+.header{background:var(--blanc);border:1px solid #E3E8EE;border-bottom:3px solid var(--bleu);border-radius:14px;padding:18px 24px 14px;max-width:1300px;margin:0 auto 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(45,95,138,0.10)}
+.header-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.header-left{display:flex;flex-direction:column;align-items:flex-start;gap:7px;flex-shrink:0;margin-top:2px}
+.header-badge{background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:20px;white-space:nowrap}
+button.cap-toggle{background:var(--bleu);color:#fff;border:none;padding:5px 12px;border-radius:999px;font-family:'Nunito',sans-serif;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap}
+button.cap-toggle:hover{background:#1e4466}
+.cap-panel{display:none;margin:0 0 14px;background:#fff;border:1px solid #B8D4EC;border-radius:12px;padding:16px 20px;text-align:left;font-size:.88rem;color:var(--texte)}
+.cap-panel.open{display:block}
+.cap-panel p{line-height:1.6;margin-bottom:6px}
+.header-titles{flex:1;min-width:180px}
+.header-titles h1{font-size:1.3rem}
+.header-titles p{font-size:.82rem;color:var(--texte-leger);margin-top:2px}
+.header-titles p span{color:var(--orange);font-weight:700}
+.hicon-wrap{flex-shrink:0;width:86px;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(45,95,138,.18);background:#fff;position:relative}
+.hicon-wrap svg{display:block;width:100%;height:auto}
+.hicon-scene{display:none}
+.hicon-scene.active{display:block;animation:fadeIn .5s ease}
+.hicon-pop{opacity:0;animation:hiconPop .4s ease forwards}
+@keyframes hiconPop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+.hicon-pop{transform-box:fill-box;transform-origin:center}
+.hicon-o-pulse circle{animation:hiconPulse 1.6s ease-in-out .6s infinite}
+@keyframes hiconPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.hicon-o-pulse circle{transform-box:fill-box;transform-origin:center}
+.hicon-curve{transition:stroke-dashoffset 1s cubic-bezier(.4,0,.2,1)}
+.hicon-reflux-glass{fill:none;stroke:#5B8FB9;stroke-width:2.5}
+.hicon-reflux-liquid{fill:#2D5F8A;opacity:.55;animation:hiconRefluxSlosh 3s ease-in-out infinite}
+.hicon-reflux-bubble-1{fill:#5B8FB9;opacity:0;animation:hiconRefluxBubble 2.4s ease-in-out .2s infinite}
+.hicon-reflux-bubble-2{fill:#5B8FB9;opacity:0;animation:hiconRefluxBubble 2.4s ease-in-out .9s infinite}
+.hicon-reflux-bubble-3{fill:#5B8FB9;opacity:0;animation:hiconRefluxBubble 2.4s ease-in-out 1.5s infinite}
+.hicon-reflux-vapor-1{fill:#B8D4EC;opacity:0;animation:hiconRefluxVapor 2s ease-out 0s infinite}
+.hicon-reflux-vapor-2{fill:#E8F1F8;opacity:0;animation:hiconRefluxVapor 2s ease-out 1s infinite}
+.hicon-reflux-drop{fill:#2D5F8A;opacity:0;animation:hiconRefluxDrop 2s ease-in .5s infinite}
+@keyframes hiconRefluxSlosh{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes hiconRefluxBubble{0%{opacity:0;transform:translateY(0)}20%{opacity:.8}100%{opacity:0;transform:translateY(-18px)}}
+@keyframes hiconRefluxVapor{0%{opacity:0;transform:translateY(0) scale(1)}30%{opacity:.6}100%{opacity:0;transform:translateY(-28px) scale(1.8)}}
+@keyframes hiconRefluxDrop{0%{opacity:0;transform:translateY(-22px)}40%{opacity:.9}100%{opacity:0;transform:translateY(8px)}}
+
+/* ONGLETS */
+.tabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;flex-wrap:wrap}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:8px;padding:10px 18px 12px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;color:var(--texte-leger);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;position:relative;bottom:-3px}
+.tab:hover{color:var(--orange)}
+.tab.on{color:var(--orange);border-bottom-color:var(--orange);background:var(--orange-clair);border-radius:6px 6px 0 0}
+.panel{display:none;background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:0 0 12px 12px;padding:20px}
+.panel.on{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.main{max-width:1300px;margin:0 auto;padding:28px 20px 60px}
+
+/* Sous-onglets */
+.sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;overflow-x:auto}
+.sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:#b8cfe0;color:var(--bleu);font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all .2s;white-space:nowrap}
+.sub-tab-btn:hover{background:var(--bleu);color:#fff}
+.sub-tab-btn.active{background:#1e4466;color:#fff}
+.sub-tab-content{display:none}
+.sub-tab-content.active{display:block;animation:fadeIn .2s ease}
+.sub-tab-content .section-title:first-child{margin-top:0}
+
+/* Sections / cartes */
+.section-title{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:var(--bleu);margin:24px 0 14px;display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:2px solid var(--bleu-clair)}
+.section-title:first-child{margin-top:0}
+.section-title .icon{font-size:1.2rem}
+.subtitle{font-family:'Outfit',sans-serif;font-size:.96rem;font-weight:700;color:var(--texte);margin:18px 0 10px;display:flex;align-items:center;gap:8px}
+.intro-box{background:#FFFBF7;border-left:4px solid var(--orange);border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:20px;font-size:.9rem;line-height:1.6;color:var(--texte);font-style:italic}
+.card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.card-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;color:var(--bleu);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card ul{padding-left:1.2rem;margin:8px 0}
+.card li{margin-bottom:5px;line-height:1.55;font-size:.88rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:700px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.formula{background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:14px 18px;text-align:center;font-family:'DM Mono',monospace;font-weight:700;color:var(--bleu);margin:14px 0;font-size:1.05rem}
+.formula .legend{font-size:.78rem;font-weight:500;color:var(--texte-leger);margin-top:8px;text-align:left}
+.exemple-box{background:var(--vert-clair);border-left:4px solid var(--vert);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.exemple-box strong{color:var(--vert)}
+.remarque-box{background:var(--violet-clair);border-left:4px solid var(--violet);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.remarque-box strong{color:var(--violet)}
+.attention-box{background:var(--rouge-clair);border-left:4px solid var(--rouge);border-radius:0 8px 8px 0;padding:11px 16px;margin:10px 0;font-size:.88rem;color:var(--texte)}
+.attention-box strong{color:var(--rouge)}
+
+.accord-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 16px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;color:var(--texte);transition:background .2s;margin:10px 0}
+.accord-btn:hover{background:var(--bleu-clair)}
+.accord-btn .chev{transition:transform .2s;color:var(--bleu)}
+.accord-btn.open .chev{transform:rotate(90deg)}
+.accord-body{display:none;padding:14px;background:var(--blanc);border:1.5px solid var(--gris-bord);border-top:none;border-radius:0 0 8px 8px;font-size:.88rem;line-height:1.7;margin-top:-10px;margin-bottom:10px}
+.accord-body.open{display:block;animation:fadeIn .2s}
+
+table.donnees{width:100%;border-collapse:collapse;font-size:.83rem;margin:14px 0}
+table.donnees th{background:var(--bleu-clair);color:var(--bleu);font-weight:700;padding:8px;text-align:left;border:1px solid var(--gris-bord)}
+table.donnees td{padding:8px;border:1px solid var(--gris-bord);vertical-align:middle;font-family:'DM Mono',monospace}
+table.groupes{width:100%;border-collapse:collapse;font-size:.85rem;margin:14px 0}
+table.groupes th{background:var(--bleu-clair);color:var(--bleu);font-weight:700;padding:10px;text-align:center;border:1px solid var(--gris-bord)}
+table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:center;font-family:'DM Mono',monospace;font-size:.95rem}
+
+.activite-q{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.activite-q .qnum{font-family:'Outfit',sans-serif;font-weight:800;color:var(--orange);font-size:.8rem;letter-spacing:.04em;margin-bottom:6px}
+.activite-q .qtext{font-size:.9rem;line-height:1.6;margin-bottom:10px}
+.comp-badge{display:inline-block;font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.03em;color:#fff;padding:4px 11px;border-radius:6px;margin-bottom:8px}
+.comp-badge.app{background:var(--orange)}
+.comp-badge.rea{background:var(--violet)}
+.comp-badge.ana{background:var(--vert)}
+.comp-badge.com{background:var(--bleu)}
+.comp-badge.val{background:var(--bleu)}
+.btn-reveal{background:var(--orange);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer}
+.btn-reveal:hover{background:#c8602a}
+.reveal-body{display:none;margin-top:10px;padding:12px 14px;background:#fff;border:1.5px solid var(--vert);border-radius:8px;font-size:.86rem;line-height:1.6}
+.reveal-body.open{display:block;animation:fadeIn .2s}
+.reveal-body strong{color:var(--vert)}
+
+.methode-list{list-style:none;padding:0;counter-reset:step}
+.methode-list li{counter-increment:step;position:relative;padding:12px 16px 12px 52px;margin-bottom:10px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;font-size:.88rem;line-height:1.6}
+.methode-list li::before{content:counter(step);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+.methode-list li strong{color:var(--bleu)}
+
+.pictos{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0}
+.picto{display:flex;flex-direction:column;align-items:center;gap:5px}
+.picto img{width:56px;height:auto;display:block}
+.picto .diamond{width:52px;height:52px;background:#fff;border:3px solid var(--rouge);transform:rotate(45deg);display:flex;align-items:center;justify-content:center}
+.picto .diamond span{transform:rotate(-45deg);font-size:1.4rem}
+.picto small{font-size:.72rem;color:var(--texte-leger);text-align:center;max-width:90px}
+
+/* Glossaire */
+.gloss-search{width:100%;padding:10px 14px;border:1.5px solid var(--gris-bord);border-radius:20px;font-family:'Nunito',sans-serif;font-size:.88rem;margin-bottom:16px}
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+@media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 16px}
+.gloss-item dt{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:.9rem;margin-bottom:4px}
+.gloss-item dd{font-size:.84rem;color:var(--texte);line-height:1.55}
+
+/* QCM */
+.qi-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 16px;margin:10px 0}
+.qi-box .qi-q{font-size:.87rem;line-height:1.6;margin-bottom:8px;font-weight:600}
+.qcm-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.qcm-opt{background:#fff;border:1.5px solid var(--gris-bord);border-radius:7px;padding:7px 13px;font-size:.82rem;font-weight:600;font-family:'Nunito',sans-serif;color:var(--texte);cursor:pointer;transition:all .15s}
+.qcm-opt:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.qcm-opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.qcm-opt.incorrect{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+.qi-expl{display:none;margin-top:8px;padding:9px 12px;border-radius:7px;font-size:.83rem;line-height:1.6;background:#fff;border-left:4px solid var(--bleu-moyen)}
+.qi-expl.show{display:block;animation:fadeIn .2s}
+
+/* ===== Escape Game ===== */
+.esc-intro{background:linear-gradient(135deg,#2D5F8A 0%,#1e4466 100%);color:#fff;border-radius:14px;padding:22px 24px;margin-bottom:18px}
+.esc-intro h3{font-family:'Outfit',sans-serif;font-size:1.15rem;margin-bottom:8px}
+.esc-intro p{font-size:.88rem;line-height:1.6;opacity:.95}
+.esc-progress{display:flex;gap:6px;margin-bottom:20px}
+.esc-progress-step{flex:1;height:8px;border-radius:4px;background:var(--gris-bord);transition:background .3s}
+.esc-progress-step.done{background:var(--vert)}
+.esc-progress-step.current{background:var(--orange)}
+.esc-step-card{background:#fff;border:1.5px solid var(--gris-bord);border-radius:14px;padding:20px;margin-bottom:18px;transition:opacity .3s}
+.esc-step-card.locked{opacity:.4;pointer-events:none;filter:grayscale(.6)}
+.esc-step-title{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.esc-step-badge{background:var(--bleu);color:#fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:999px}
+.esc-hint{background:var(--bleu-clair);border-left:4px solid var(--bleu-moyen);border-radius:0 8px 8px 0;padding:10px 14px;font-size:.83rem;margin:10px 0;color:var(--texte)}
+.bottle-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin:14px 0}
+.bottle-btn{background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;padding:12px 10px;text-align:center;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:.8rem;color:var(--texte);transition:all .15s;line-height:1.6}
+.bottle-btn:hover{border-color:var(--bleu-moyen)}
+.bottle-btn.picked{background:var(--vert-clair);border-color:var(--vert);color:var(--vert);pointer-events:none}
+.bottle-btn.incorrect-flash{background:var(--rouge-clair);border-color:var(--rouge)}
+.esc-tooltip{background:var(--rouge-clair);border-left:4px solid var(--rouge);border-radius:0 8px 8px 0;padding:9px 14px;font-size:.82rem;color:var(--rouge);margin:8px 0;display:none}
+.esc-tooltip.show{display:block;animation:fadeIn .2s}
+.esc-equation{background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:16px;text-align:center;font-family:'DM Mono',monospace;font-size:.9rem;color:var(--bleu);font-weight:700;margin:14px 0;display:none}
+.esc-equation.show{display:block;animation:fadeIn .3s}
+.equip-grid{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.equip-btn{background:#fff;border:1.5px solid var(--gris-bord);border-radius:999px;padding:8px 16px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;color:var(--texte);transition:all .15s}
+.equip-btn:hover{border-color:var(--bleu-moyen)}
+.equip-btn.used{opacity:.35;pointer-events:none}
+.equip-stack{display:flex;flex-direction:column-reverse;gap:4px;margin:14px 0;min-height:56px;border:1.5px dashed var(--gris-bord);border-radius:10px;padding:10px}
+.equip-stack-item{background:var(--vert-clair);border-left:4px solid var(--vert);border-radius:0 6px 6px 0;padding:7px 12px;font-size:.82rem;font-weight:700;color:var(--texte)}
+.decant-svg-wrap{display:flex;justify-content:center;margin:16px 0}
+.decant-zone{cursor:pointer;transition:opacity .15s}
+.decant-zone:hover{opacity:.7}
+.ccm-pipette-row{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;justify-content:center}
+.pipette-btn{background:#fff;border:1.5px solid var(--bleu-moyen);color:var(--bleu);border-radius:999px;padding:8px 16px;font-size:.8rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.pipette-btn.used{background:var(--vert-clair);border-color:var(--vert);color:var(--vert);pointer-events:none}
+.esc-check-row{display:flex;align-items:flex-start;gap:8px;margin:8px 0;font-size:.85rem;line-height:1.5}
+.esc-check-row input{margin-top:3px;flex-shrink:0}
+.esc-success{background:var(--vert-clair);border:1.5px solid var(--vert);border-radius:10px;padding:12px 16px;margin-top:14px;display:none;font-size:.85rem;color:var(--texte)}
+.esc-success.show{display:block;animation:fadeIn .3s}
+.esc-success strong{color:var(--vert)}
+.esc-final{display:none;background:linear-gradient(135deg,#3A8A6E 0%,#2a6350 100%);color:#fff;border-radius:14px;padding:24px;text-align:center;margin-top:20px}
+.esc-final.show{display:block;animation:fadeIn .4s}
+.esc-final h3{font-family:'Outfit',sans-serif;font-size:1.3rem;margin-bottom:8px}
+.esc-final p{font-size:.88rem;line-height:1.6;opacity:.95}
+
+/* Exercices / FCR */
+.exo-box{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+.exo-box h5{font-family:'Outfit',sans-serif;color:var(--orange);font-size:.92rem;margin-bottom:8px}
+.exo-enonce{background:#fff;border-radius:8px;padding:12px 16px;font-size:.88rem;line-height:1.6;margin-bottom:12px;border:1px solid var(--gris-bord)}
+.exo-btn{background:var(--bleu);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;margin-top:6px}
+.exo-btn:hover{background:#1e4466}
+.exo-btn-secondary{background:#fff;color:var(--bleu);border:1.5px solid var(--bleu-moyen);padding:7px 14px;border-radius:7px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s}
+.exo-btn-secondary:hover{background:var(--bleu-clair)}
+.exo-btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.exo-input{padding:8px 10px;border:1.5px solid var(--gris-bord);border-radius:7px;font-family:'DM Mono',monospace;font-size:.88rem;width:130px}
+.exo-fb{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.85rem;line-height:1.6;display:none}
+.exo-fb.ok{display:block;background:var(--vert-clair);border-left:4px solid var(--vert);color:#1a5a3a}
+.exo-fb.ko{display:block;background:var(--rouge-clair);border-left:4px solid var(--rouge);color:#7a2418}
+.exo-fb.correction{display:block;background:var(--bleu-clair);border:1.5px solid var(--bleu-moyen);color:var(--texte);border-radius:8px;padding:10px 14px;margin-top:8px;font-size:.85rem;line-height:1.6}
+.fcr-line{display:block;margin-top:3px}
+.fcr-line:first-child{margin-top:0}
+.fcr-step{margin-top:14px;padding-top:12px;border-top:1px dashed var(--gris-bord);display:none}
+.fcr-step.show{display:block}
+.fcr-label{display:block;font-family:'Outfit',sans-serif;font-weight:800;font-size:.8rem;color:var(--orange);margin-bottom:8px;letter-spacing:.02em}
+
+/* Jeu d'association */
+.dnd-game{display:flex;gap:24px;flex-wrap:wrap;margin:14px 0}
+.dnd-pool{display:flex;flex-direction:column;gap:10px;min-width:220px}
+.dnd-chip{background:#fff;border:2px solid var(--bleu);border-radius:8px;padding:10px 14px;font-family:'DM Mono',monospace;font-weight:600;font-size:.86rem;color:var(--bleu);cursor:pointer;text-align:center;transition:all .15s;user-select:none}
+.dnd-chip.selected{background:var(--bleu-clair);box-shadow:0 0 0 3px var(--bleu-moyen)}
+.dnd-chip.placed-correct{cursor:default;background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.dnd-chip.dragging{position:fixed;z-index:1000;pointer-events:none;box-shadow:0 8px 20px rgba(45,95,138,.25);transform:scale(1.04)}
+.dnd-chip.placed-wrong{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge);cursor:default}
+.dnd-target.dragover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.dnd-targets{display:flex;flex-direction:column;gap:10px;flex:1;min-width:220px}
+.dnd-target{border:2px dashed var(--gris-bord);border-radius:8px;padding:10px 14px;font-size:.83rem;font-weight:700;color:var(--texte-leger);min-height:44px;display:flex;align-items:center;justify-content:center;text-align:center;transition:all .15s;cursor:pointer}
+.dnd-target.shake{animation:dndShake .4s;border-color:var(--rouge);background:var(--rouge-clair)}
+.dnd-target.filled{border-style:solid;border-color:var(--vert);background:var(--vert-clair);display:block;color:var(--texte);cursor:default}
+@keyframes dndShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* Réordonner (boutons haut/bas) */
+.reorder-list{list-style:none;padding:0;margin:14px 0;counter-reset:pos}
+.reorder-item{background:#F0FAF6;border:2px solid var(--gris-bord);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:.85rem;display:flex;align-items:center;gap:10px}
+.reorder-item .pos-badge{width:26px;height:26px;flex-shrink:0;border-radius:50%;background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+.reorder-item .txt{flex:1}
+.reorder-item .updown{display:flex;flex-direction:column;gap:2px}
+.reorder-item .updown button{border:none;background:var(--bleu-clair);color:var(--bleu);width:24px;height:20px;border-radius:4px;cursor:pointer;font-weight:800;font-size:.7rem}
+.reorder-item .updown button:hover{background:var(--bleu);color:#fff}
+.reorder-item.correct{border-color:var(--vert);background:var(--vert-clair)}
+.reorder-item.incorrect{border-color:var(--rouge);background:var(--rouge-clair)}
+
+/* Simulateur IR */
+.ir-wrap{background:linear-gradient(180deg,#FAFCFE 0%,#EFF4F9 100%);border:1.5px solid var(--gris-bord);border-radius:14px;padding:20px 20px 18px}
+.ir-buttons{display:flex;gap:4px;margin:0 0 18px;justify-content:center;background:#fff;border:1.5px solid var(--gris-bord);border-radius:999px;padding:4px;max-width:600px;margin-left:auto;margin-right:auto;box-shadow:inset 0 1px 3px rgba(0,0,0,.04)}
+.ir-btn{flex:1;background:transparent;border:none;color:var(--texte-leger);padding:9px 12px;border-radius:999px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s;white-space:nowrap}
+.ir-btn:hover{color:var(--bleu);background:var(--bleu-clair)}
+.ir-btn.active{background:var(--bleu);color:#fff;box-shadow:0 2px 6px rgba(45,95,138,.32)}
+.ir-scene{display:none}
+.ir-scene.active{display:block;animation:fadeIn .3s ease}
+.ir-scene svg{background:#fff;border-radius:12px;display:block;box-shadow:0 1px 6px rgba(45,95,138,.08)}
+.ir-curve{transition:stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1)}
+.ir-scanline{opacity:0;transition:opacity .15s;transform:translateX(0)}
+.ir-scanline.scanning{opacity:.9;transition:transform 1.1s linear}
+.ir-band-rect,.ir-band-label{opacity:0;transition:opacity .5s ease}
+.ir-band-rect.show,.ir-band-label.show{opacity:1}
+.ir-caption{display:flex;align-items:flex-start;gap:10px;background:#fff;border-left:4px solid var(--bleu);border-radius:0 10px 10px 0;padding:13px 18px;margin-top:16px;font-size:.85rem;color:var(--texte);line-height:1.6;box-shadow:0 1px 5px rgba(0,0,0,.05);transition:border-color .2s}
+.ir-caption.ir-acide{border-left-color:var(--orange)}
+.ir-caption.ir-carbonyle{border-left-color:var(--vert)}
+
+.bilan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:560px){.bilan-grid{grid-template-columns:1fr}}
+.bilan-card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px}
+.bilan-card h4{font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:700;color:var(--bleu);margin-bottom:8px;padding-bottom:8px;border-bottom:1.5px solid var(--gris-bord)}
+.ke-list{list-style:none;padding:0}
+.ke-list li{padding:6px 10px 6px 28px;position:relative;font-size:.84rem;border-bottom:1px solid var(--gris-bord);line-height:1.5}
+.ke-list li:last-child{border-bottom:none}
+.ke-list li::before{content:"✓";position:absolute;left:8px;color:var(--vert);font-weight:800;font-size:.9rem}
+.res-list{list-style:none;padding:0;margin:10px 0}
+.res-list li{display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--texte);padding:8px 12px;border:1px solid var(--gris-bord);border-radius:8px;margin-bottom:6px}
+
+.score-banner{display:none;text-align:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;color:var(--bleu);background:var(--bleu-clair);border:2px solid var(--bleu);border-radius:12px;padding:12px;margin:12px 0}
+.score-banner.show{display:block;animation:fadeIn .25s}
+
+/* Images de cours */
+.cours-img-box{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:14px;margin:14px 0;text-align:center}
+.cours-img-box img{max-width:100%;height:auto;border-radius:8px}
+.cours-img-box .cours-img-caption{margin-top:10px;font-size:.8rem;color:var(--texte-leger);font-style:italic;line-height:1.5}
+.cours-img-flex{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.cours-img-flex>*{flex:1 1 280px;margin:0;min-width:0}
+@media(max-width:640px){.cours-img-flex{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <div class="header-badge">1<sup>ère</sup> Spé – Séq. 13</div>
+      <button class="cap-toggle" onclick="document.getElementById('capPanel').classList.toggle('open')">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Structure des entités organiques et synthèses</h1>
+      <p>Thème : <span>Constitution de la matière</span></p>
+    </div>
+    <div class="hicon-wrap">
+      <div class="hicon-scene active" id="hicon-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+          <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+          <text x="100" y="20" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Chaîne carbonée</text>
+          <line class="hicon-pop" style="animation-delay:.05s" x1="45" y1="70" x2="80" y2="55" stroke="#5A6B7A" stroke-width="2.5"/>
+          <line class="hicon-pop" style="animation-delay:.2s" x1="80" y1="55" x2="115" y2="70" stroke="#5A6B7A" stroke-width="2.5"/>
+          <line class="hicon-pop" style="animation-delay:.35s" x1="115" y1="70" x2="150" y2="55" stroke="#5A6B7A" stroke-width="2.5"/>
+          <g class="hicon-pop" style="animation-delay:0s"><circle cx="45" cy="70" r="10" fill="#3A8A6E"/><text x="45" y="74" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">C</text></g>
+          <g class="hicon-pop" style="animation-delay:.15s"><circle cx="80" cy="55" r="10" fill="#3A8A6E"/><text x="80" y="59" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">C</text></g>
+          <g class="hicon-pop" style="animation-delay:.3s"><circle cx="115" cy="70" r="10" fill="#3A8A6E"/><text x="115" y="74" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">C</text></g>
+          <g class="hicon-pop hicon-o-pulse" style="animation-delay:.45s"><circle cx="150" cy="55" r="10" fill="#C0392B"/><text x="150" y="59" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">O</text></g>
+          <text x="100" y="105" text-anchor="middle" font-size="7.5" font-family="Nunito,sans-serif" font-weight="700" fill="#5A6B7A">groupe caractéristique</text>
+        </svg>
+      </div>
+      <div class="hicon-scene" id="hicon-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+          <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+          <text x="100" y="18" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Spectre IR</text>
+          <line x1="24" y1="105" x2="180" y2="105" stroke="#5A6B7A" stroke-width="1.2"/>
+          <line x1="24" y1="105" x2="24" y2="28" stroke="#5A6B7A" stroke-width="1.2"/>
+          <path class="hicon-curve" d="M24,40 L95,40 C104,40 108,90 118,90 C128,90 132,40 141,40 L180,40" fill="none" stroke="#2D5F8A" stroke-width="2.5" stroke-linecap="round"/>
+          <text x="100" y="120" text-anchor="middle" font-size="7" font-family="Nunito,sans-serif" font-weight="700" fill="#5A6B7A">bande d'absorption</text>
+        </svg>
+      </div>
+      <div class="hicon-scene" id="hicon-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+          <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+          <text x="100" y="18" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Montage à reflux</text>
+          <g transform="translate(62,18) scale(0.75)">
+            <line x1="50" y1="4" x2="50" y2="58" stroke="#5B8FB9" stroke-width="3"/>
+            <circle class="hicon-reflux-glass" cx="50" cy="14" r="9"/>
+            <circle class="hicon-reflux-glass" cx="50" cy="32" r="9"/>
+            <circle class="hicon-reflux-glass" cx="50" cy="50" r="9"/>
+            <circle class="hicon-reflux-vapor hicon-reflux-vapor-1" cx="50" cy="60" r="3.5"/>
+            <circle class="hicon-reflux-vapor hicon-reflux-vapor-2" cx="50" cy="60" r="3"/>
+            <circle class="hicon-reflux-drop" cx="50" cy="54" r="3"/>
+            <path class="hicon-reflux-glass" d="M42,60 L42,72 L58,72 L58,60"/>
+            <circle class="hicon-reflux-glass" cx="50" cy="94" r="26"/>
+            <clipPath id="hiconBallonClip"><circle cx="50" cy="94" r="25"/></clipPath>
+            <rect class="hicon-reflux-liquid" clip-path="url(#hiconBallonClip)" x="24" y="86" width="52" height="34"/>
+            <circle class="hicon-reflux-bubble hicon-reflux-bubble-1" cx="42" cy="110" r="3"/>
+            <circle class="hicon-reflux-bubble hicon-reflux-bubble-2" cx="54" cy="113" r="2.5"/>
+            <circle class="hicon-reflux-bubble hicon-reflux-bubble-3" cx="62" cy="108" r="3"/>
+            <rect x="14" y="124" width="72" height="7" rx="2" fill="#8593A2"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="cap-panel" id="capPanel">
+    <p><strong>Capacités exigibles (B.O.) :</strong></p>
+    <p>— Identifier, à partir d'une formule semi-développée, les groupes caractéristiques associés aux familles de composés : alcool, aldéhyde, cétone et acide carboxylique.</p>
+    <p>— Justifier le nom associé à la formule semi-développée de molécules simples possédant un seul groupe caractéristique et inversement.</p>
+    <p>— Exploiter, à partir de données tabulées, un spectre d'absorption infrarouge. Utiliser des modèles moléculaires ou des logiciels pour visualiser la géométrie de molécules organiques.</p>
+    <p>— Identifier, dans un protocole, les étapes de transformation des réactifs, d'isolement, de purification et d'analyse (identification, pureté) du produit synthétisé. Justifier, à partir des propriétés physicochimiques des réactifs et produits, le choix de méthodes d'isolement, de purification ou d'analyse.</p>
+    <p>— Déterminer, à partir d'un protocole et de données expérimentales, le rendement d'une synthèse. Schématiser des dispositifs expérimentaux des étapes d'une synthèse et les légender.</p>
+    <p>— Mettre en œuvre un montage à reflux pour synthétiser une espèce chimique organique. Mettre en œuvre une extraction liquide-liquide, une filtration, une distillation fractionnée, un lavage pour isoler et purifier un produit.</p>
+    <p>— Mettre en œuvre une chromatographie sur couche mince ou une mesure de température de changement d'état pour analyser un produit.</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab on" onclick="showTab(this,'cours')">📘 Cours</div>
+    <div class="tab" onclick="showTab(this,'activites')">🧪 Activités</div>
+    <div class="tab" onclick="showTab(this,'exercices')">✏️ Exercices</div>
+    <div class="tab" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</div>
+  </div>
+</div>
+
+<div class="main">
+<!-- ══════════════════ TAB 1 — COURS ══════════════════ -->
+<div class="panel on" id="tab-cours">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-I')">I. Entités organiques</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-II')">II. Spectroscopie IR</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-III')">III. Synthèses</button>
+  </div>
+
+  <!-- ===== SOUS-PARTIE I ===== -->
+  <div class="sub-tab-content active" id="sub-I">
+    <div class="intro-box">Les molécules de la chimie organique comportent des atomes de carbone et d'hydrogène et, en nombre réduit, des atomes d'oxygène, d'azote, de chlore, etc.</div>
+
+    <div class="section-title"><span class="icon">🧬</span> I. Description des entités organiques</div>
+
+    <div class="subtitle">a. Modélisation des molécules</div>
+    <div class="card">
+      <div class="card-title">🔵 Modèles moléculaires</div>
+      <div class="cours-img-flex">
+        <p style="font-size:.88rem;line-height:1.6">Ils permettent, comme les logiciels, de représenter les molécules afin de visualiser l'arrangement en trois dimensions des atomes qui les constituent. Ces représentations sont fondées sur un code de couleurs et de formes : les atomes sont généralement représentés par des sphères colorées.</p>
+        <div class="cours-img-box">
+          <img src="tableau-modeles-moleculaire.png" alt="Tableau des éléments et couleurs conventionnelles utilisées dans les modèles moléculaires, avec exemple de la molécule d'urée en modèle compact et modèle éclaté">
+          <div class="cours-img-caption">Code couleur des éléments et exemple de représentation de la molécule d'urée (modèle compact et modèle éclaté)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title">Formule brute</div>
+        <p style="font-size:.85rem;line-height:1.6">Donne la composition de la molécule en précisant, par des indices, le nombre de chacun des atomes qui la constituent.</p>
+        <div class="formula" style="font-size:.95rem">C₄H₁₀O</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Formule développée</div>
+        <p style="font-size:.85rem;line-height:1.6">Tous les atomes <strong>et</strong> toutes les liaisons sont représentés, sans tenir compte de la géométrie réelle de la molécule.</p>
+        <div class="formula" style="padding:12px 8px">
+          <svg viewBox="0 0 380 180" style="max-width:320px;width:100%;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="'DM Mono',monospace" font-size="20" text-anchor="middle">
+            <!-- liaisons horizontales -->
+            <line x1="22" y1="90" x2="48" y2="90" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <line x1="72" y1="90" x2="108" y2="90" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <line x1="132" y1="90" x2="168" y2="90" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <line x1="192" y1="90" x2="228" y2="90" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <line x1="252" y1="90" x2="288" y2="90" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <line x1="312" y1="90" x2="348" y2="90" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <!-- liaisons verticales C-H, hauts -->
+            <line x1="60" y1="78" x2="60" y2="42" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <line x1="120" y1="78" x2="120" y2="42" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <line x1="180" y1="78" x2="180" y2="42" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <line x1="240" y1="78" x2="240" y2="42" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <!-- liaisons verticales C-H, bas -->
+            <line x1="60" y1="102" x2="60" y2="138" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <line x1="120" y1="102" x2="120" y2="138" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <line x1="180" y1="102" x2="180" y2="138" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <line x1="240" y1="102" x2="240" y2="138" stroke="var(--bleu-moyen)" stroke-width="2"/>
+            <!-- atomes : H, C1, C2, C3, C4, O, H -->
+            <text x="10" y="97" fill="var(--bleu)">H</text>
+            <text x="60" y="97" fill="var(--bleu)">C</text>
+            <text x="120" y="97" fill="var(--bleu)">C</text>
+            <text x="180" y="97" fill="var(--bleu)">C</text>
+            <text x="240" y="97" fill="var(--bleu)">C</text>
+            <text x="300" y="97" fill="var(--bleu)">O</text>
+            <text x="360" y="97" fill="var(--bleu)">H</text>
+            <!-- H du haut -->
+            <text x="60" y="37" fill="var(--bleu)">H</text>
+            <text x="120" y="37" fill="var(--bleu)">H</text>
+            <text x="180" y="37" fill="var(--bleu)">H</text>
+            <text x="240" y="37" fill="var(--bleu)">H</text>
+            <!-- H du bas -->
+            <text x="60" y="157" fill="var(--bleu)">H</text>
+            <text x="120" y="157" fill="var(--bleu)">H</text>
+            <text x="180" y="157" fill="var(--bleu)">H</text>
+            <text x="240" y="157" fill="var(--bleu)">H</text>
+          </svg>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Formule semi-développée</div>
+        <p style="font-size:.85rem;line-height:1.6">Tous les atomes sont représentés, mais pas les liaisons avec les atomes d'hydrogène.</p>
+        <div class="formula" style="font-size:.95rem;white-space:nowrap;overflow-x:auto;padding:14px 10px">CH₃–CH₂–CH₂–CH₂OH</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔗 Squelette carboné saturé</div>
+      <div class="cours-img-flex">
+        <div>
+          <p style="font-size:.88rem;line-height:1.6">Les atomes de carbone sont liés les uns aux autres pour former des <strong>chaînes carbonées</strong>, qui peuvent être <strong>linéaires</strong>, <strong>ramifiées</strong> ou <strong>cycliques</strong>. Ces chaînes constituent le squelette carboné des molécules organiques.</p>
+          <div class="remarque-box"><strong>À retenir :</strong> le squelette d'une molécule est <strong>saturé</strong> si toutes les liaisons chimiques entre les atomes de carbone sont des liaisons <strong>simples</strong>.</div>
+        </div>
+        <div class="cours-img-box">
+          <img src="exemples-formulesbrute-dev-semidev-ramifie-lineaire-cyclique.png" alt="Comparaison des formules brute, développée et semi-développée pour une molécule linéaire (butane), ramifiée (isobutane) et cyclique (cyclobutane)">
+        </div>
+      </div>
+    </div>
+
+    <div class="subtitle">Nomenclature des alcanes</div>
+    <table class="donnees">
+      <tr><th>Formule semi-développée</th><th>Nom</th></tr>
+      <tr><td>CH₄</td><td>Méthane</td></tr>
+      <tr><td>CH₃–CH₃</td><td>Éthane</td></tr>
+      <tr><td>CH₃–CH₂–CH₃</td><td>Propane</td></tr>
+      <tr><td>CH₃–CH₂–CH₂–CH₃</td><td>Butane</td></tr>
+      <tr><td>CH₃–CH₂–CH₂–CH₂–CH₃</td><td>Pentane</td></tr>
+      <tr><td>CH₃–CH₂–CH₂–CH₂–CH₂–CH₃</td><td>Hexane</td></tr>
+    </table>
+    <div class="remarque-box"><strong>À retenir :</strong> le nom des molécules organiques dérive de celui des <strong>alcanes</strong>, de formule brute générale C<sub>n</sub>H<sub>2n+2</sub>.</div>
+
+    <div class="card">
+      <div class="card-title">🌿 Alcanes ramifiés</div>
+      <div class="cours-img-flex">
+        <div>
+          <p style="font-size:.88rem;line-height:1.6">Le nom est donné par la chaîne carbonée <strong>la plus longue</strong>, appelée <strong>chaîne principale</strong>, précédé de la position et du nom, sur cette chaîne, des ramifications appelées <strong>groupes alkyles</strong> (formule générale C<sub>n</sub>H<sub>2n+1</sub>–).</p>
+          <div class="exemple-box"><strong>Exemple :</strong> la chaîne principale à 6 carbones (hexane) portant deux groupes méthyle sur le carbone 2 se nomme <strong>2,2-diméthylhexane</strong>. Règle : entre deux nombres, il y a toujours une virgule ; si un groupe apparaît deux fois, on utilise le préfixe « di- ».</div>
+        </div>
+        <div class="cours-img-box">
+          <img src="comment-nommer-un-alcane-ramifie.png" alt="Schéma détaillant la construction du nom 2,2-diméthylhexane à partir de la chaîne carbonée numérotée">
+        </div>
+      </div>
+    </div>
+
+    <button class="accord-btn" onclick="toggleAccord(this)">
+      <span>💬 Qu'est-ce qu'un groupement alkyle&nbsp;? Qu'est-ce qu'une formule topologique&nbsp;?</span>
+      <span class="chev">▶</span>
+    </button>
+    <div class="accord-body">
+      <p><strong>Groupement alkyle :</strong> c'est le groupe d'atomes obtenu en retirant un atome d'hydrogène à un alcane. Sa formule générale est C<sub>n</sub>H<sub>2n+1</sub>–. Exemples : méthyle (–CH₃), éthyle (–CH₂–CH₃).</p>
+      <p style="margin-top:8px"><strong>Formule topologique :</strong> représentation simplifiée où chaque sommet ou extrémité de segment représente un atome de carbone (les hydrogènes portés par ces carbones ne sont pas représentés), et où les autres atomes (O, N, Cl…) sont indiqués explicitement.</p>
+    </div>
+
+    <div class="subtitle">b. Groupes caractéristiques et familles de composés</div>
+    <div class="card">
+      <p style="font-size:.88rem;line-height:1.6">Certains groupements d'atomes, appelés <strong>groupes caractéristiques</strong>, se retrouvent dans de nombreuses molécules et leur confèrent des propriétés chimiques particulières, ce qui permet de les classer par <strong>famille</strong>.</p>
+      <div class="remarque-box"><strong>Attention :</strong> ne pas confondre <em>groupement</em> (l'entité chimique) et <em>famille</em> (la catégorie de composés qui le possède).</div>
+    </div>
+
+    <table class="groupes">
+      <tr><th>Nom</th><th>Hydroxyle</th><th>Carbonyle</th><th>Carboxyle</th></tr>
+      <tr>
+        <td>Groupe caractéristique</td>
+        <td>–OH</td>
+        <td>C=O</td>
+        <td>–COOH</td>
+      </tr>
+    </table>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">🍶 Les alcools</div>
+        <p style="font-size:.85rem;line-height:1.6">Composés organiques qui comportent le groupe hydroxyle <strong>–OH</strong>. Formule brute de la forme C<sub>x</sub>H<sub>y</sub>O ou C<sub>x</sub>H<sub>y</sub>OH.</p>
+        <div class="exemple-box">
+          CH₃–CH₂–CH₂–CH₂OH : <strong>butan-1-ol</strong> (alcool primaire)<br>
+          CH₃–CH₂–CH(OH)–CH₃ : <strong>butan-2-ol</strong> (alcool secondaire)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">⚗️ Aldéhydes et cétones</div>
+        <p style="font-size:.85rem;line-height:1.6">Composés carbonylés, ils possèdent le groupe <strong>carbonyle C=O</strong>. Terminaison <strong>« -al »</strong> pour les aldéhydes, <strong>« -one »</strong> pour les cétones.</p>
+        <p style="font-size:.85rem;line-height:1.6;margin-top:6px">Pour les aldéhydes, le groupement carbonyle est situé <strong>en bout de chaîne</strong> (lié à un seul carbone) ; pour la cétone, il est nécessairement lié à <strong>deux carbones</strong>.</p>
+        <div class="exemple-box">
+          CH₃–CH₂–CH₂–CHO : <strong>butanal</strong> (aldéhyde)<br>
+          CH₃–CH₂–CO–CH₃ : <strong>butan-2-one</strong> (cétone)
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🧪 Les acides carboxyliques</div>
+      <p style="font-size:.85rem;line-height:1.6">Constitués du groupement <strong>carboxyle –COOH</strong> en bout de chaîne. Terminaison <strong>« -oïque »</strong> (nom précédé de « acide »).</p>
+      <div class="remarque-box"><strong>Règle de numérotation :</strong> la chaîne carbonée est numérotée afin que l'atome de carbone fonctionnel (celui qui porte le groupe caractéristique) porte l'indice le plus petit possible.</div>
+      <div class="exemple-box">
+        CH₃–CH₂–CH₂–COOH : <strong>acide butanoïque</strong>
+      </div>
+    </div>
+
+    <div class="subtitle">🧩 Jeu : associer chaque famille à son groupe caractéristique</div>
+    <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:6px">Glisse-dépose une étiquette sur la case correspondante (ou clique sur l'étiquette puis sur la case).</p>
+    <div class="dnd-game" id="matchGame">
+      <div class="dnd-pool" id="matchPool"></div>
+      <div class="dnd-targets" id="matchTargets"></div>
+    </div>
+    <div class="exo-btn-row">
+      <button class="exo-btn-secondary" onclick="matchGameFamilies.init()">🔄 Recommencer</button>
+      <button class="exo-btn-secondary" onclick="matchGameFamilies.correction()">✅ Correction</button>
+    </div>
+    <div class="score-banner" id="matchScoreBanner"></div>
+  </div>
+
+  <!-- ===== SOUS-PARTIE II ===== -->
+  <div class="sub-tab-content" id="sub-II">
+    <div class="section-title"><span class="icon">📈</span> II. Spectroscopie infrarouge</div>
+
+    <div class="card">
+      <div class="cours-img-flex">
+        <div>
+          <p style="font-size:.88rem;line-height:1.6">La spectroscopie infrarouge (IR) est une technique d'analyse d'échantillons et d'identification d'espèces chimiques. Quand une radiation infrarouge de longueur d'onde λ traverse un échantillon, certaines liaisons entre atomes absorbent de l'énergie.</p>
+          <div class="formula">T = I / I₀
+            <div class="legend">T : transmittance de l'échantillon — I : intensité transmise — I₀ : intensité incidente</div>
+          </div>
+          <div class="formula">𝜈̅ = 1 / λ
+            <div class="legend">𝜈̅ : nombre d'onde (en cm⁻¹) — λ : longueur d'onde</div>
+          </div>
+          <p style="font-size:.88rem;line-height:1.6">On obtient un graphique appelé <strong>spectre infrarouge</strong> (ou « spectre IR »), qui représente généralement la transmittance T en fonction du nombre d'onde 𝜈̅. Certains groupes d'atomes donnent des bandes caractéristiques, dont la position dépend peu du reste de la molécule.</p>
+          <div class="remarque-box"><strong>À retenir :</strong> au-dessus de 1200 cm⁻¹, le spectre IR renseigne sur des groupes d'atomes caractéristiques d'une molécule.</div>
+        </div>
+        <div class="cours-img-box">
+          <img src="princie-spectroscopie-ir.png" alt="Schéma du principe de la spectroscopie infrarouge : un faisceau IR d'intensité I₀ traverse un échantillon de butanone, un capteur mesure l'intensité transmise I, puis le spectre IR est tracé">
+          <div class="cours-img-caption">Principe de la spectroscopie IR et spectre obtenu pour la butanone, avec la bande caractéristique de la liaison C=O</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📏 Vocabulaire d'une bande</div>
+      <div class="cours-img-flex">
+        <div>
+          <p style="font-size:.85rem;line-height:1.6">Une bande est dite <strong>« forte »</strong> lorsque la transmittance est faible (le creux descend bas). Une bande est dite <strong>« large »</strong> si elle s'étale sur un intervalle de nombre d'onde important.</p>
+          <div class="exemple-box"><strong>Exemple :</strong> un groupe carbonyle est identifié par la présence de <strong>deux</strong> bandes de vibration caractéristiques (la molécule contient une liaison C=O ET une liaison C–H), contrairement à un groupe hydroxyle qui est identifié par une <strong>seule</strong> bande large (liaison O–H).</div>
+        </div>
+        <div class="cours-img-box">
+          <img src="IR-hydroxyle-carboxyle.png" alt="Comparaison de deux spectres IR : le groupe carboxyle présente deux bandes (O-H et C=O) alors que le groupe hydroxyle ne présente qu'une bande O-H">
+          <div class="cours-img-caption">Comparaison des spectres IR : le groupe carboxyle se distingue du groupe hydroxyle par la présence de deux bandes caractéristiques (O–H et C=O)</div>
+        </div>
+      </div>
+    </div>
+
+    <table class="donnees">
+      <tr><th>Liaison</th><th>Position (cm⁻¹)</th><th>Allure de la bande</th></tr>
+      <tr><td>O–H (alcool)</td><td>3200 – 3400</td><td>forte et large</td></tr>
+      <tr><td>O–H (acide carboxylique)</td><td>2600 – 3200</td><td>forte et large</td></tr>
+      <tr><td>C=O (carbonyle)</td><td>1700 – 1760</td><td>forte et fine</td></tr>
+    </table>
+
+    <div class="subtitle">🔬 Simulateur : reconnaître un spectre IR</div>
+    <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:6px">Choisis une famille de composé pour observer l'allure typique de son spectre IR.</p>
+    <div class="ir-buttons">
+      <button class="ir-btn active" onclick="irSetMode('alcool',this)">🟦 Alcool</button>
+      <button class="ir-btn" onclick="irSetMode('acide',this)">🟧 Acide carboxylique</button>
+      <button class="ir-btn" onclick="irSetMode('carbonyle',this)">🟩 Aldéhyde / cétone</button>
+    </div>
+    <div class="card ir-wrap">
+      <div class="ir-scene active" id="ir-alcool">
+        <svg viewBox="0 0 560 210" width="100%">
+          <defs>
+            <marker id="arrow-alcool" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#5A6B7A"/>
+            </marker>
+          </defs>
+          <line x1="50" y1="140" x2="536" y2="140" stroke="#DDE3EC" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="50" y1="100" x2="536" y2="100" stroke="#DDE3EC" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="50" y1="60" x2="536" y2="60" stroke="#DDE3EC" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="44" y="184" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">0</text>
+          <text x="44" y="144" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">25</text>
+          <text x="44" y="104" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">50</text>
+          <text x="44" y="64" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">75</text>
+          <text x="44" y="24" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">100</text>
+          <rect class="ir-band-rect" x="345" y="20" width="80" height="160" rx="6" fill="#2D5F8A" fill-opacity="0.08"/>
+          <line x1="50" y1="180" x2="540" y2="180" stroke="#5A6B7A" stroke-width="1.5" marker-end="url(#arrow-alcool)"/>
+          <line x1="50" y1="180" x2="50" y2="20" stroke="#5A6B7A" stroke-width="1.5" marker-end="url(#arrow-alcool)"/>
+          <text x="295" y="200" text-anchor="middle" font-size="11" fill="#5A6B7A" font-family="DM Mono,monospace">nombre d'onde 𝜈̅ (cm⁻¹)</text>
+          <text x="16" y="100" text-anchor="middle" font-size="11" fill="#5A6B7A" font-family="DM Mono,monospace" transform="rotate(-90 16 100)">T (%)</text>
+          <path class="ir-curve" d="M50,40 L330,40 C355,40 365,150 385,150 C405,150 415,40 440,40 L540,40" fill="none" stroke="#2D5F8A" stroke-width="2.5" stroke-linecap="round"/>
+          <text class="ir-band-label" x="385" y="168" text-anchor="middle" font-size="10" fill="#2D5F8A" font-weight="700" font-family="Nunito,sans-serif">O–H (3200-3400)</text>
+          <text class="ir-band-label" x="385" y="180" text-anchor="middle" font-size="9" fill="#5A6B7A" font-family="Nunito,sans-serif">large et forte</text>
+          <rect class="ir-scanline" x="49" y="18" width="3" height="164" fill="var(--orange)"/>
+        </svg>
+      </div>
+      <div class="ir-scene" id="ir-acide">
+        <svg viewBox="0 0 560 210" width="100%">
+          <defs>
+            <marker id="arrow-acide" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#5A6B7A"/>
+            </marker>
+          </defs>
+          <line x1="50" y1="140" x2="536" y2="140" stroke="#DDE3EC" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="50" y1="100" x2="536" y2="100" stroke="#DDE3EC" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="50" y1="60" x2="536" y2="60" stroke="#DDE3EC" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="44" y="184" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">0</text>
+          <text x="44" y="144" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">25</text>
+          <text x="44" y="104" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">50</text>
+          <text x="44" y="64" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">75</text>
+          <text x="44" y="24" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">100</text>
+          <rect class="ir-band-rect" x="245" y="20" width="140" height="160" rx="6" fill="#E8783A" fill-opacity="0.08"/>
+          <rect class="ir-band-rect" x="470" y="20" width="36" height="160" rx="6" fill="#C0392B" fill-opacity="0.10"/>
+          <line x1="50" y1="180" x2="540" y2="180" stroke="#5A6B7A" stroke-width="1.5" marker-end="url(#arrow-acide)"/>
+          <line x1="50" y1="180" x2="50" y2="20" stroke="#5A6B7A" stroke-width="1.5" marker-end="url(#arrow-acide)"/>
+          <text x="295" y="200" text-anchor="middle" font-size="11" fill="#5A6B7A" font-family="DM Mono,monospace">nombre d'onde 𝜈̅ (cm⁻¹)</text>
+          <text x="16" y="100" text-anchor="middle" font-size="11" fill="#5A6B7A" font-family="DM Mono,monospace" transform="rotate(-90 16 100)">T (%)</text>
+          <path class="ir-curve" d="M50,40 L230,40 C260,40 270,155 310,155 C350,155 360,40 400,40 L470,40 C478,40 480,90 486,90 C492,90 494,40 500,40 L540,40" fill="none" stroke="#E8783A" stroke-width="2.5" stroke-linecap="round"/>
+          <text class="ir-band-label" x="310" y="172" text-anchor="middle" font-size="10" fill="#E8783A" font-weight="700" font-family="Nunito,sans-serif">O–H (2600-3200)</text>
+          <text class="ir-band-label" x="488" y="105" text-anchor="middle" font-size="9" fill="#C0392B" font-weight="700" font-family="Nunito,sans-serif">C=O</text>
+          <rect class="ir-scanline" x="49" y="18" width="3" height="164" fill="var(--orange)"/>
+        </svg>
+      </div>
+      <div class="ir-scene" id="ir-carbonyle">
+        <svg viewBox="0 0 560 210" width="100%">
+          <defs>
+            <marker id="arrow-carbonyle" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#5A6B7A"/>
+            </marker>
+          </defs>
+          <line x1="50" y1="140" x2="536" y2="140" stroke="#DDE3EC" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="50" y1="100" x2="536" y2="100" stroke="#DDE3EC" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="50" y1="60" x2="536" y2="60" stroke="#DDE3EC" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="44" y="184" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">0</text>
+          <text x="44" y="144" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">25</text>
+          <text x="44" y="104" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">50</text>
+          <text x="44" y="64" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">75</text>
+          <text x="44" y="24" text-anchor="end" font-size="9" fill="#8593A2" font-family="DM Mono,monospace">100</text>
+          <rect class="ir-band-rect" x="386" y="20" width="38" height="160" rx="6" fill="#3A8A6E" fill-opacity="0.08"/>
+          <line x1="50" y1="180" x2="540" y2="180" stroke="#5A6B7A" stroke-width="1.5" marker-end="url(#arrow-carbonyle)"/>
+          <line x1="50" y1="180" x2="50" y2="20" stroke="#5A6B7A" stroke-width="1.5" marker-end="url(#arrow-carbonyle)"/>
+          <text x="295" y="200" text-anchor="middle" font-size="11" fill="#5A6B7A" font-family="DM Mono,monospace">nombre d'onde 𝜈̅ (cm⁻¹)</text>
+          <text x="16" y="100" text-anchor="middle" font-size="11" fill="#5A6B7A" font-family="DM Mono,monospace" transform="rotate(-90 16 100)">T (%)</text>
+          <path class="ir-curve" d="M50,40 L390,40 C398,40 400,90 406,90 C412,90 414,40 420,40 L540,40" fill="none" stroke="#3A8A6E" stroke-width="2.5" stroke-linecap="round"/>
+          <text class="ir-band-label" x="408" y="105" text-anchor="middle" font-size="10" fill="#3A8A6E" font-weight="700" font-family="Nunito,sans-serif">C=O</text>
+          <text class="ir-band-label" x="408" y="118" text-anchor="middle" font-size="9" fill="#5A6B7A" font-family="Nunito,sans-serif">fine et forte (1700-1760)</text>
+          <rect class="ir-scanline" x="49" y="18" width="3" height="164" fill="var(--orange)"/>
+        </svg>
+      </div>
+      <div class="ir-caption ir-alcool" id="irCaption">🟦 La liaison O–H de l'alcool donne une bande <strong>forte et large</strong> entre 3200 et 3400 cm⁻¹. Aucune bande de carbonyle n'est présente.</div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">Q. Un spectre IR présente une bande large et forte entre 2600 et 3200 cm⁻¹ ainsi qu'une bande fine et forte vers 1710 cm⁻¹. À quelle famille appartient probablement la molécule&nbsp;?</div>
+      <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Alcool</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Acide carboxylique</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Alcane</div>
+      </div>
+      <div class="qi-expl" id="qiExpl1">La présence simultanée d'une bande O–H large (2600-3200 cm⁻¹, caractéristique de l'acide) et d'une bande C=O fine (1700-1760 cm⁻¹) signe le groupe <strong>carboxyle</strong> : c'est un acide carboxylique.</div>
+    </div>
+    <script>document.querySelectorAll('#qiExpl1').forEach(function(){});</script>
+
+    <div class="qi-box">
+      <div class="qi-q">Q. Un spectre IR ne présente aucune bande large entre 2500 et 3300 cm⁻¹, mais une bande fine et forte vers 1715 cm⁻¹. À quelle famille appartient probablement la molécule&nbsp;?</div>
+      <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Alcool</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Acide carboxylique</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Aldéhyde ou cétone</div>
+      </div>
+      <div class="qi-expl" id="qiExpl2">L'absence de bande O–H large élimine l'alcool et l'acide carboxylique. La bande fine et forte vers 1700-1760 cm⁻¹, caractéristique du groupe <strong>carbonyle</strong> C=O, signe un aldéhyde ou une cétone (on ne peut pas distinguer les deux uniquement par IR).</div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">Q. Un spectre IR présente une bande forte et large entre 3200 et 3400 cm⁻¹, sans aucune bande entre 1700 et 1760 cm⁻¹. À quelle famille appartient probablement la molécule&nbsp;?</div>
+      <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Alcool</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Acide carboxylique</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Cétone</div>
+      </div>
+      <div class="qi-expl" id="qiExpl3">La bande O–H forte et large entre 3200 et 3400 cm⁻¹, sans bande de carbonyle (1700-1760 cm⁻¹), est caractéristique du groupe <strong>hydroxyle</strong> d'un alcool (et non d'un acide carboxylique, dont la bande O–H se situe plus bas, entre 2600 et 3200 cm⁻¹).</div>
+    </div>
+  </div>
+
+  <!-- ===== SOUS-PARTIE III ===== -->
+  <div class="sub-tab-content" id="sub-III">
+    <div class="section-title"><span class="icon">🧫</span> III. Synthèses d'espèces chimiques organiques</div>
+    <div class="intro-box">Une synthèse est la fabrication d'une espèce chimique au laboratoire. La chimie de synthèse permet de reproduire des espèces chimiques naturelles ou d'en créer de nouvelles.</div>
+
+    <div class="subtitle">Les 4 étapes d'une synthèse chimique</div>
+    <ol class="methode-list">
+      <li><strong>Étape 1 — Prélèvement des réactifs.</strong> Avant de prélever les réactifs, il faut rechercher leurs pictogrammes de danger et les consignes de sécurité associées. Si le réactif est solide, on pèse une masse m ; s'il est en solution (soluté), on mesure un volume de solution V<sub>solution</sub> ; s'il est liquide, on pèse une masse m ou on mesure un volume V.</li>
+      <li><strong>Étape 2 — Transformation chimique.</strong> Le produit est formé au cours de cette étape. Une augmentation de la température permet d'accélérer la réaction et de favoriser la dissolution des réactifs solides. Le <strong>montage à reflux</strong> permet de chauffer le milieu réactionnel sans perte de matière (les vapeurs se condensent et retombent dans le ballon). À la fin, le milieu réactionnel est refroidi.</li>
+      <li><strong>Étape 3 — Isolement.</strong> Il consiste à séparer le produit du milieu réactionnel (réactifs n'ayant pas réagi, autres produits, solvant…). L'isolement conduit au <strong>produit brut</strong>.</li>
+      <li><strong>Étape 4 — Analyse.</strong> Elle permet l'identification de l'espèce chimique obtenue et le contrôle de sa pureté (mesure d'une caractéristique physique comparée à des valeurs répertoriées, chromatographie, spectroscopie…).</li>
+    </ol>
+
+    <div class="cours-img-box">
+      <img src="synthese-4etapes.png" alt="Schéma des 4 étapes d'une synthèse organique : prélèvement des réactifs, transformation chimique, isolement, analyse">
+      <div class="cours-img-caption">Les 4 étapes d'une synthèse organique : prélèvement, transformation, isolement, analyse</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">⚪ Produit solide</div>
+        <div class="cours-img-flex">
+          <p style="font-size:.85rem;line-height:1.6;margin:0">Séparation par <strong>filtration</strong>, puis lavage avec un solvant glacé pour éliminer les impuretés, puis <strong>séchage</strong>.</p>
+          <div class="cours-img-box">
+            <img src="filtration-lavage-sechage.png" alt="Trois étapes de l'isolement d'un produit solide : filtration sur Büchner, lavage du solide avec un solvant, séchage à la spatule">
+            <div class="cours-img-caption">Filtration, lavage et séchage du produit brut solide</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">💧 Produit liquide</div>
+        <div class="cours-img-flex">
+          <p style="font-size:.85rem;line-height:1.6;margin:0">Séparation par <strong>extraction liquide-liquide</strong> (ampoule à décanter), puis séchage avec un solide anhydre et élimination du solvant (distillation).</p>
+          <div class="cours-img-box">
+            <img src="distillation-eliminationsolvant.png" alt="Montage de distillation avec ballon chauffé, réfrigérant incliné vers le bas et éprouvette de récupération, utilisé pour éliminer le solvant">
+            <div class="cours-img-caption">Montage de distillation pour éliminer le solvant et isoler le produit liquide</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="accord-btn" onclick="toggleAccord(this)">
+      <span>💬 Comment purifier un liquide&nbsp;? / Comment identifier une espèce chimique&nbsp;?</span>
+      <span class="chev">▶</span>
+    </button>
+    <div class="accord-body">
+      <p>Pour purifier un liquide, on peut réaliser un montage de <strong>distillation fractionnée</strong>.</p>
+      <p style="margin-top:8px">Pour identifier une espèce chimique, on peut mesurer l'une de ses caractéristiques physiques (température de fusion sur banc Köfler, température d'ébullition…) et la comparer aux valeurs répertoriées, ou utiliser des méthodes chromatographiques (CCM) ou spectroscopiques (IR).</p>
+    </div>
+
+    <div class="subtitle">✅ Vérifie tes connaissances sur les 4 étapes</div>
+
+    <div class="qi-box">
+      <div class="qi-q">Étape 1 — Avant de prélever un réactif solide pour une synthèse, il faut impérativement :</div>
+      <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Le chauffer à reflux</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Le filtrer sur Büchner</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Consulter ses pictogrammes de danger et les consignes de sécurité associées</div>
+      </div>
+      <div class="qi-expl" id="qiExpl4">Avant toute manipulation, il est indispensable de rechercher les <strong>pictogrammes de danger</strong> du réactif (fiche de sécurité, étiquette) afin d'adopter les précautions adaptées (gants, hotte, lunettes…).</div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">Étape 2 — Quel est l'intérêt principal d'un montage à reflux lors de la transformation chimique ?</div>
+      <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Chauffer le milieu réactionnel (pour accélérer la réaction) sans perte de matière</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Séparer le produit du milieu réactionnel</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Identifier l'espèce chimique formée</div>
+      </div>
+      <div class="qi-expl" id="qiExpl5">Le réfrigérant vertical condense les vapeurs qui s'échappent du ballon et les fait retomber : on peut donc <strong>chauffer</strong> (pour accélérer la réaction) <strong>sans perdre de matière</strong> par évaporation.</div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">Étape 3 — Pour isoler un produit liquide, non miscible avec l'eau, obtenu en solution dans le milieu réactionnel, on réalise en général :</div>
+      <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Une filtration sur Büchner</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Une extraction liquide-liquide à l'ampoule à décanter</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Une chromatographie sur couche mince</div>
+      </div>
+      <div class="qi-expl" id="qiExpl6">Un produit liquide non miscible à l'eau se sépare par <strong>extraction liquide-liquide</strong> : la différence de solubilité entre les deux phases permet de récupérer le produit dans l'ampoule à décanter. On sèche ensuite la phase organique et on élimine le solvant par distillation. La filtration est réservée à l'isolement d'un produit <strong>solide</strong>.</div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">Étape 4 — Pour contrôler la pureté d'une espèce chimique synthétisée, on peut :</div>
+      <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Mesurer une caractéristique physique (T<sub>fus</sub>, T<sub>éb</sub>…) et la comparer à une valeur tabulée, ou réaliser une CCM/un spectre IR</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Peser la masse du produit brut obtenu</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Calculer le rendement de la synthèse</div>
+      </div>
+      <div class="qi-expl" id="qiExpl7">La pureté s'évalue en comparant une <strong>grandeur physique mesurée</strong> (température de fusion sur banc Köfler, température d'ébullition…) à une valeur de référence, ou par des méthodes <strong>chromatographiques</strong> (CCM) ou <strong>spectroscopiques</strong> (IR). Peser la masse ou calculer le rendement ne renseigne pas sur la pureté du produit.</div>
+    </div>
+
+    <div class="subtitle">Le rendement d'une synthèse</div>
+    <div class="card">
+      <p style="font-size:.88rem;line-height:1.6">Le rendement η de la synthèse est le quotient de la quantité n<sub>p</sub> de produit P effectivement obtenue par la quantité maximale n<sub>max</sub> attendue (calculée par la stœchiométrie de la réaction, à partir du réactif limitant).</p>
+      <div class="formula">η = n<sub>p</sub> / n<sub>max</sub>&nbsp;&nbsp;&nbsp;(ou en %)
+        <div class="legend">η est sans unité (ou en %) ; n<sub>p</sub> et n<sub>max</sub> en mol</div>
+      </div>
+      <div class="remarque-box"><strong>Causes possibles d'un rendement inférieur à 100 % :</strong>
+        <ul style="margin-top:6px">
+          <li>la transformation chimique n'est pas totale (équilibre, réaction limitée) ;</li>
+          <li>des réactions secondaires consomment une partie des réactifs ;</li>
+          <li>des pertes de matière ont lieu lors de l'isolement et de la purification (transvasements, produit qui reste accroché à la verrerie, phase mal séparée…).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subtitle">📊 Exemple guidé : rendement de la synthèse de l'éthanoate de benzyle</div>
+    <div class="exo-box" id="fcrExo1-box">
+      <div class="exo-enonce">
+        On synthétise l'éthanoate de benzyle à partir de <strong>10,0 mL d'alcool benzylique</strong> (réactif limitant, M = 108,1 g·mol⁻¹, ρ = 1,04 g·mL⁻¹) et d'un excès d'anhydride éthanoïque, selon l'équation :<br>
+        C₇H₈O + C₄H₆O₃ → C₉H₁₀O₂ + C₂H₄O₂<br>
+        On obtient en fin de synthèse une masse m = 9,60 g d'éthanoate de benzyle pur (M = 150,2 g·mol⁻¹).
+      </div>
+      <p style="font-size:.85rem;font-weight:700;margin-bottom:6px">Étape 1 — Quantité de matière maximale de produit attendue n<sub>max</sub></p>
+      <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('fcrExo1', this, false)">n<sub>max</sub> = m(alcool)/M(alcool) × M(ester)</div>
+        <div class="qcm-opt" onclick="fcrFormule('fcrExo1', this, true)">n<sub>max</sub> = n(alcool benzylique) = ρV/M</div>
+        <div class="qcm-opt" onclick="fcrFormule('fcrExo1', this, false)">n<sub>max</sub> = m/M(ester)</div>
+      </div>
+      <div class="fcr-step" id="fcrExo1-calc-step">
+        <span class="fcr-label">Étape 2 — Calcule n<sub>max</sub> (mol), avec ρ = 1,04 g·mL⁻¹, V = 10,0 mL, M = 108,1 g·mol⁻¹</span>
+        <div class="exo-btn-row">
+          <input type="text" class="exo-input" id="fcrExo1-calc" placeholder="ex : 1.04*10/108.1">
+          <button class="exo-btn-secondary" onclick="fcrCalc('fcrExo1', 0.0962, 0.03)">Vérifier le calcul</button>
+        </div>
+        <div class="exo-fb" id="fcrExo1-calc-fb"></div>
+      </div>
+      <div class="fcr-step" id="fcrExo1-result-step">
+        <span class="fcr-label">Étape 3 — Calcule le rendement η en % (n(produit obtenu) = m/M(ester))</span>
+        <div class="exo-btn-row">
+          <input type="text" class="exo-input" id="fcrExo1-result" placeholder="η en %">
+          <button class="exo-btn-secondary" onclick="fcrResult('fcrExo1', 66.4, 0.05, 'Le rendement de cette synthèse est d\'environ 66 %.')">Vérifier</button>
+        </div>
+        <div class="exo-fb" id="fcrExo1-result-fb"></div>
+      </div>
+      <div class="exo-btn-row">
+        <button class="exo-btn" onclick="fcrCorrection('fcrExo1', 'η = n(produit obtenu)/n_max = [m/M(ester)] / [ρV/M(alcool)]', 'n_max = 1,04×10,0/108,1 = 0,0962 mol ; n(produit) = 9,60/150,2 = 0,0639 mol', 'η = 0,0639/0,0962 ≈ 0,664 → η ≈ 66 %')">Voir la correction complète</button>
+        <button class="exo-btn-secondary" onclick="fcrReset('fcrExo1')">Réinitialiser</button>
+      </div>
+      <div class="exo-fb" id="fcrExo1-correction"></div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">Le rendement de cette synthèse est d'environ 66 %. Que peut-on en conclure ?</div>
+      <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">La totalité de l'alcool benzylique introduit a été transformée en ester</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Le rendement est supérieur à celui attendu théoriquement</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Une partie du réactif limitant n'a pas été convertie en produit, et/ou des pertes ont eu lieu lors de l'isolement</div>
+      </div>
+      <div class="qi-expl" id="qiExpl8">Un rendement de 66 % signifie que seulement 66 % de la quantité maximale théorique de produit a été récupérée. Cela peut venir d'une transformation non totale, de réactions secondaires, ou de <strong>pertes de matière lors de l'isolement/purification</strong> (transvasements, verrerie…). Le rendement ne peut jamais dépasser 100 %, qui correspond au maximum théorique.</div>
+    </div>
+
+    <div class="qi-box">
+      <div class="qi-q">Pour augmenter le rendement d'une synthèse, on peut notamment :</div>
+      <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Diminuer la durée de chauffage à reflux</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,true)">Limiter les pertes de matière lors des transvasements et de l'isolement</div>
+        <div class="qcm-opt" onclick="qcmCheck(this,false)">Utiliser le réactif limitant en large excès</div>
+      </div>
+      <div class="qi-expl" id="qiExpl9">Par définition, le <strong>réactif limitant</strong> est celui présent en quantité insuffisante par rapport à la stœchiométrie : il ne peut pas être « en excès ». En revanche, limiter les <strong>pertes de matière</strong> à chaque étape (transvasements, produit accroché à la verrerie, phase mal séparée) permet de se rapprocher du rendement maximal.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════ TAB 2 — ACTIVITÉS ══════════════════ -->
+<div class="panel" id="tab-activites">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-act-td1')">🌸 TD1</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-act-td2')">💊 TD2</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-act-td3')">🌲 TD3</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-act-tp1')">🧴 TP1</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-act-tp2')">🔷 TP2</button>
+  </div>
+
+  <!-- ===== TD1 ===== -->
+  <div class="sub-tab-content active" id="sub-act-td1">
+
+  <div class="section-title"><span class="icon">🌸</span> TD1 — Composition d'un parfum <span style="font-size:.7rem;color:var(--texte-leger);font-weight:500">(Activité 1 p.138)</span></div>
+
+  <div class="intro-box">Le N° 5 est un parfum très célèbre créé en 1921 par Gabrielle Chanel. Parmi plus de quatre-vingts ingrédients dans sa formule, on trouve des extraits de fleurs (jasmin de Grasse, ylang-ylang…), mais également, fait exceptionnel pour l'époque, des espèces de synthèse.</div>
+  <div class="remarque-box" style="font-weight:700"><strong>❓ Question directrice :</strong> le nom commun d'une espèce chimique organique donne-t-il des informations sur la structure de la molécule ?</div>
+
+  <div class="card">
+    <div class="card-title">📄 Document — Quelques espèces chimiques présentes dans le N°5</div>
+    <table class="donnees">
+      <tr><th>N°</th><th>Nom</th><th>Formule semi-développée</th><th>Formule brute</th></tr>
+      <tr><td>1</td><td>Linalol <em>(nom commun)</em></td><td>(CH₃)₂C=CH–CH₂–CH₂–C(OH)(CH₃)–CH=CH₂</td><td>C₁₀H₁₈O</td></tr>
+      <tr><td>2</td><td>Citronellal <em>(nom commun)</em></td><td>(CH₃)₂C=CH–CH₂–CH₂–CH(CH₃)–CH₂–CHO</td><td>C₁₀H₁₈O</td></tr>
+      <tr><td>3</td><td>Muscone <em>(nom commun)</em></td><td>cétone cyclique : cycle à 15 atomes de carbone portant un groupe méthyle (position 3) et un groupe carbonyle (position 1)</td><td>C₁₆H₃₀O</td></tr>
+      <tr><td>4</td><td>2-méthylundécanal <em>(nom officiel, espèce de synthèse)</em></td><td>CH₃–(CH₂)₈–CH(CH₃)–CHO</td><td>C₁₂H₂₄O</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Données — Groupes caractéristiques et nomenclature</div>
+    <table class="donnees">
+      <tr><th>Famille</th><th>Groupe caractéristique</th></tr>
+      <tr><td>Cétone</td><td>C(=O) entre deux atomes de carbone</td></tr>
+      <tr><td>Aldéhyde</td><td>C(=O)H en bout de chaîne</td></tr>
+      <tr><td>Alcool</td><td>C–OH</td></tr>
+    </table>
+    <div class="remarque-box" style="margin-top:10px"><strong>Rappel :</strong> le nom d'une molécule se décompose en trois parties : un <strong>préfixe</strong> (position et nom des ramifications), un <strong>radical</strong> (nombre de carbones de la chaîne principale) et un <strong>suffixe</strong> (famille chimique et position du groupe caractéristique). Exemple : 4-méthylhexan-2-one → préfixe « 4-méthyl », radical « hexan » (6 carbones), suffixe « 2-one » (cétone en position 2).</div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge app">1 · S'APPROPRIER</div>
+    <div class="qtext">Associer chaque molécule du document à sa famille chimique.</div>
+    <div class="dnd-game" id="matchGameTD1Wrap">
+      <div class="dnd-pool" id="matchPoolTD1"></div>
+      <div class="dnd-targets" id="matchTargetsTD1"></div>
+    </div>
+    <div class="exo-btn-row">
+      <button class="exo-btn-secondary" onclick="matchGameTD1.init()">🔄 Recommencer</button>
+      <button class="exo-btn-secondary" onclick="matchGameTD1.correction()">✅ Correction</button>
+    </div>
+    <div class="score-banner" id="matchScoreBannerTD1"></div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge ana">2 · ANALYSER-RAISONNER</div>
+    <div class="qtext"><strong>a.</strong> Quel est le nom associé à la molécule 4 (CH₃–(CH₂)₈–CH(CH₃)–CHO)&nbsp;?</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">2-méthyldécanal</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">2-méthylundécanal</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">3-méthylundécan-2-one</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">La chaîne principale comporte 11 carbones (radical « undécan »). Le groupe –CHO en bout de chaîne (position 1) donne le suffixe « -al ». Une ramification méthyle en position 2 donne le préfixe « 2-méthyl » : <strong>2-méthylundécanal</strong>.</div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:14px"><strong>b.</strong> Le nom officiel de la muscone est <strong>3-méthylcyclopentadécan-1-one</strong>. Quelle information ce nom donne-t-il sur le cycle carboné&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Le cycle comporte 15 carbones, avec un méthyle en position 3 et un groupe cétone en position 1</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Le cycle comporte 3 carbones, avec un groupe cétone en position 15</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Le cycle comporte 15 carbones et un groupe alcool en position 3</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">« Cyclopentadécan » indique un cycle de 15 atomes de carbone. Le suffixe « -1-one » signale un groupe cétone porté par le carbone n°1 du cycle. Le préfixe « 3-méthyl » indique une ramification méthyle en position 3.</div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge com">3 · COMMUNIQUER</div>
+    <div class="qtext">Que peut-on dire de l'information apportée par le <strong>nom commun</strong> des espèces 1 à 3 (linalol, citronellal, muscone), comparée à celle d'un nom officiel comme celui de la molécule 4&nbsp;?</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Le nom commun permet, comme le nom officiel, de retrouver la structure exacte de la molécule</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Le nom commun ne donne aucune information sur la structure ; seul le nom officiel permet de la reconstruire</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Le nom commun indique uniquement la famille chimique de la molécule</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">Les noms communs (linalol, citronellal, muscone) sont des noms d'usage, souvent liés à l'origine naturelle de l'espèce (bois de linaloe, citronnelle, musc) : ils ne renseignent ni sur la longueur de la chaîne, ni sur les ramifications, ni sur la position du groupe caractéristique. Seul le nom officiel (nomenclature systématique), comme celui de la molécule 4, permet de reconstruire directement la structure.</div>
+  </div>
+
+  </div>
+
+  <!-- ===== TD2 ===== -->
+  <div class="sub-tab-content" id="sub-act-td2">
+  <div class="section-title"><span class="icon">💊</span> TD2 — Contrôle de la synthèse d'un médicament <span style="font-size:.7rem;color:var(--texte-leger);font-weight:500">(Activité 2 p.140)</span></div>
+
+  <div class="intro-box">La synthèse de l'ibuprofène, un antalgique courant, a été optimisée par la société BHC pour être la plus respectueuse possible de l'environnement. Elle s'effectue en trois étapes.</div>
+  <div class="remarque-box" style="font-weight:700"><strong>❓ Question directrice :</strong> comment contrôler la bonne réalisation de ces étapes ?</div>
+
+  <div class="card">
+    <div class="card-title">📄 DOC.1 — Étapes de la synthèse de l'ibuprofène selon le procédé BHC</div>
+    <table class="donnees">
+      <tr><th>Espèce</th><th>Formule semi-développée</th><th>Formule brute</th></tr>
+      <tr><td><strong>A</strong></td><td>CH₃–CO–C₆H₄–CH₂–CH(CH₃)₂</td><td>C₁₂H₁₆O</td></tr>
+      <tr><td><strong>B</strong></td><td>CH₃–CH(OH)–C₆H₄–CH₂–CH(CH₃)₂</td><td>C₁₂H₁₈O</td></tr>
+      <tr><td><strong>C</strong> (ibuprofène)</td><td>CH₃–CH(COOH)–C₆H₄–CH₂–CH(CH₃)₂</td><td>C₁₃H₁₈O₂</td></tr>
+    </table>
+    <p style="font-size:.82rem;color:var(--texte-leger);margin-top:8px">C₆H₄ désigne le cycle aromatique (benzénique), substitué de part et d'autre.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 DONNÉES 2 — Bandes caractéristiques de quelques liaisons</div>
+    <table class="donnees">
+      <tr><th>Liaison</th><th>O–H (hydroxy)</th><th>O–H (carboxy)</th><th>C–H</th><th>C=O</th></tr>
+      <tr><td>σ (cm⁻¹)</td><td>3200 à 3650</td><td>2500 à 3200</td><td>2900 à 3100</td><td>1680 à 1725</td></tr>
+    </table>
+  </div>
+
+  <div class="cours-img-flex">
+    <div class="cours-img-box">
+      <img src="TD2-2.png" alt="Exemple de spectre infrarouge annoté : transmittance en fonction du nombre d'onde, avec une bande d'absorption caractérisée par son abscisse à 1700 cm-1, correspondant à la molécule H3C-CO-CH2-CH(OH)-CH3">
+      <div class="cours-img-caption">DOC.2 — Exemple de spectre infrarouge : en abscisse le nombre d'onde σ = 1/λ (échelle décroissante), en ordonnée la transmittance (d'autant plus faible que l'absorption est forte)</div>
+    </div>
+    <div class="cours-img-box">
+      <img src="TD2-3.png" alt="Spectres infrarouges des espèces chimiques A et C : le spectre de A présente une bande fine et forte proche de 1700 cm-1 sans bande large, le spectre de C présente une large bande entre 2500 et 3200 cm-1 en plus d'une bande vers 1700 cm-1">
+      <div class="cours-img-caption">DONNÉES 1 — Spectres infrarouges des espèces chimiques A et C</div>
+    </div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge app">1 · S'APPROPRIER</div>
+    <div class="qtext"><strong>a.</strong> Sur le spectre infrarouge du DOC.2, quelle grandeur porte l'axe des abscisses, et quelle particularité présente cette échelle&nbsp;?</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Le nombre d'onde σ (en cm⁻¹), sur une échelle qui décroît de gauche à droite</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">La longueur d'onde λ (en nm), sur une échelle croissante</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">La fréquence (en Hz), sur une échelle logarithmique</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">L'axe des abscisses porte le nombre d'onde σ = 1/λ (en cm⁻¹), et par convention, l'échelle est orientée de la plus grande valeur (à gauche) vers la plus petite (à droite).</div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:14px"><strong>b.</strong> Quelle grandeur porte l'axe des ordonnées, et que signifie une valeur faible de cette grandeur&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">La transmittance ; une valeur faible signifie que le rayonnement est fortement absorbé</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">L'absorbance ; une valeur faible signifie que le rayonnement est fortement absorbé</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">La transmittance ; une valeur faible signifie que le rayonnement traverse totalement l'échantillon</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">L'ordonnée est la transmittance T, un nombre sans dimension d'autant plus faible que le rayonnement incident est fortement absorbé par l'espèce chimique étudiée (d'où les « creux » du spectre au niveau des bandes d'absorption).</div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:14px"><strong>c.</strong> Associer chaque espèce chimique (A, B, C) à sa famille.</p>
+    <div class="dnd-game" id="matchGameTD2Wrap">
+      <div class="dnd-pool" id="matchPoolTD2"></div>
+      <div class="dnd-targets" id="matchTargetsTD2"></div>
+    </div>
+    <div class="exo-btn-row">
+      <button class="exo-btn-secondary" onclick="matchGameTD2.init()">🔄 Recommencer</button>
+      <button class="exo-btn-secondary" onclick="matchGameTD2.correction()">✅ Correction</button>
+    </div>
+    <div class="score-banner" id="matchScoreBannerTD2"></div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge rea">2 · RÉALISER</div>
+    <div class="qtext">Une bande du spectre du DOC.2 a pour nombre d'onde σ = 1700 cm⁻¹. Vérifier que la longueur d'onde λ correspondante appartient bien au domaine infrarouge (rappel : σ = 1/λ ; domaine IR ≈ 0,8 µm à 1 mm).</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">λ = 1/σ ≈ 5,9 µm : cette valeur appartient bien au domaine infrarouge</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">λ = σ = 1700 µm : cette valeur n'appartient pas au domaine infrarouge</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">λ = 1/σ ≈ 0,59 µm : cette valeur appartient au domaine visible</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">λ = 1/σ = 1/1700 cm = 5,88×10⁻⁴ cm = 5,9 µm. Cette valeur est bien comprise entre 0,8 µm et 1 mm : le rayonnement appartient au domaine infrarouge.</div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge ana">3 · ANALYSER-RAISONNER</div>
+    <div class="qtext"><strong>a.</strong> Sur le spectre du DOC.2 (molécule H₃C–CO–CH₂–CH(OH)–CH₃), la bande fine et forte vers 1700 cm⁻¹ correspond à quelle liaison&nbsp;?</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">La liaison C=O</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">La liaison O–H</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">La liaison C–H</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">D'après les données 2, une bande fine et forte entre 1680 et 1725 cm⁻¹ est caractéristique de la liaison C=O, cohérent avec le groupe carbonyle porté par cette molécule.</div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:14px"><strong>b.</strong> Le spectre de l'espèce C (DONNÉES 1) présente une large bande entre 2500 et 3200 cm⁻¹, en plus d'une bande vers 1700 cm⁻¹. Quel groupe caractéristique ces deux bandes signent-elles ensemble&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Le groupe hydroxyle seul</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Le groupe carboxyle (acide carboxylique)</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Le groupe carbonyle seul (cétone)</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">La bande large 2500-3200 cm⁻¹ correspond à la liaison O–H d'un groupe carboxy, et la bande vers 1700 cm⁻¹ à la liaison C=O associée : la présence simultanée des deux signe le groupe <strong>carboxyle</strong>, cohérent avec l'ibuprofène (espèce C).</div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:14px"><strong>c.</strong> Le spectre de l'espèce A (DONNÉES 1) ne présente qu'une bande fine et forte vers 1700 cm⁻¹, sans bande large. Quel groupe cela signe-t-il&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Le groupe carboxyle</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Le groupe hydroxyle</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Le groupe carbonyle seul (cétone)</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">L'absence de bande large entre 2500 et 3650 cm⁻¹ exclut tout groupe O–H (hydroxyle ou carboxyle). Seule la bande C=O vers 1700 cm⁻¹ est présente : cela signe un groupe carbonyle isolé, cohérent avec la cétone A.</div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:14px"><strong>d.</strong> La molécule B porte un groupe hydroxyle –OH (pas de C=O). Quelle(s) bande(s) de nombre d'onde supérieur à 1500 cm⁻¹ doit-on s'attendre à observer sur son spectre&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Une bande large et forte entre 3200 et 3650 cm⁻¹, et aucune bande vers 1700 cm⁻¹</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Une bande fine vers 1700 cm⁻¹, et aucune bande large</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Deux bandes : une large entre 2500 et 3200 cm⁻¹ et une fine vers 1700 cm⁻¹</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">B possède un groupe hydroxy –OH (pas de C=O ni de carboxyle) : on attend donc une bande large et forte entre 3200 et 3650 cm⁻¹, et l'absence de toute bande vers 1700 cm⁻¹.</div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge val">4 · VALIDER</div>
+    <div class="qtext">Une bande caractéristique de l'espèce A apparaît-elle sur le spectre de chaque espèce ?</div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:10px">La bande caractéristique de A (≈1700 cm⁻¹, C=O) est-elle présente sur le spectre de <strong>A</strong> elle-même&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">✔ Oui</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">✗ Non</div>
+    </div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:10px">Cette même bande est-elle présente sur le spectre de <strong>B</strong>&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">✔ Oui</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">✗ Non</div>
+    </div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:10px">Cette même bande est-elle présente sur le spectre de <strong>C</strong>&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">✔ Oui</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">✗ Non</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">La bande C=O (≈1700 cm⁻¹) est présente chez A (cétone) et chez C (acide carboxylique, qui porte aussi un groupe C=O), mais absente chez B (alcool seul, sans C=O).</div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:14px"><strong>b.</strong> Pourquoi la zone 2800-3200 cm⁻¹ ne permet-elle pas d'assurer seule le suivi de la transformation de A en B, puis de B en C&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Cette zone contient des bandes C–H communes aux trois espèces, qui se superposent aux bandes recherchées</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Cette zone n'appartient pas au domaine infrarouge</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Aucune des trois espèces n'absorbe dans cette zone</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">La liaison C–H (2900-3100 cm⁻¹) est présente dans les trois espèces A, B et C : une bande dans cette zone ne permet donc pas de distinguer les espèces entre elles. Il faut se concentrer sur les zones plus spécifiques (O–H, C=O).</div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:14px"><strong>c.</strong> Un expérimentateur réalise la première étape de la synthèse. Avant de poursuivre, il enregistre le spectre IR du milieu réactionnel et observe une bande d'absorption à 1680 cm⁻¹. Que doit-il en conclure&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">La bande à 1680 cm⁻¹ signe le groupe C=O attendu pour l'espèce A : l'étape semble réussie, il peut poursuivre</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Cette bande signe un groupe O–H : l'espèce obtenue est en réalité B</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">L'étape a échoué, car aucune bande ne devrait apparaître à ce stade</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">1680 cm⁻¹ appartient au domaine 1680-1725 cm⁻¹ caractéristique de la liaison C=O (donnée 2), attendue pour l'espèce A (cétone) à l'issue de la première étape. L'expérimentateur peut donc considérer que la transformation a bien eu lieu et poursuivre la synthèse.</div>
+  </div>
+
+  </div>
+
+  <!-- ===== TD3 ===== -->
+  <div class="sub-tab-content" id="sub-act-td3">
+  <div class="section-title"><span class="icon">🌲</span> TD3 — Synthèse du camphre <span style="font-size:.7rem;color:var(--texte-leger);font-weight:500">(p.156-157)</span></div>
+
+  <div class="intro-box">Le camphre est une espèce chimique organique odorante. Utilisé comme antiseptique et anesthésique naturel, il est habituellement extrait de l'écorce ou des racines d'un arbre, le camphrier. Il est également possible d'obtenir du camphre par synthèse en laboratoire.</div>
+  <div class="remarque-box" style="font-weight:700"><strong>❓ Question directrice :</strong> quelles sont les différentes étapes de cette synthèse et quel est le rôle de chacune&nbsp;?</div>
+
+  <div class="card">
+    <div class="card-title">📄 Protocole simplifié de synthèse du camphre</div>
+    <ol style="padding-left:1.3rem;font-size:.87rem;line-height:1.8">
+      <li>Dans un ballon monocol de 50 mL, dissoudre 1,00 g de bornéol dans 5 mL d'éthanoate d'éthyle. Ajouter 2,40 g d'oxone et 1,5 mL d'eau distillée.</li>
+      <li>Agiter le mélange réactionnel pendant 50 min.</li>
+      <li>Ajouter 15 mL d'eau distillée et transvaser le mélange dans une ampoule à décanter. Séparer les phases aqueuse et organique.</li>
+      <li>Extraire le camphre de la phase aqueuse avec 10 mL d'éthanoate d'éthyle et rassembler les phases organiques.</li>
+      <li>Laver la phase organique afin de la débarrasser des espèces ioniques avec 20 mL d'eau distillée.</li>
+      <li>Évaporer le solvant.</li>
+      <li>Analyser le produit obtenu par chromatographie sur couche mince en révélant les espèces avec du diiode (DOC. 2).</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Données</div>
+    <table class="donnees">
+      <tr><th>Espèce</th><th>Formule brute</th><th>Solubilité dans l'eau</th><th>Solubilité dans l'éthanoate d'éthyle</th><th>θ<sub>fusion</sub> (°C)</th><th>θ<sub>vaporisation</sub> (°C)</th></tr>
+      <tr><td>Éthanoate d'éthyle</td><td>C₄H₈O₂</td><td>Faible</td><td>—</td><td>—</td><td>77,1</td></tr>
+      <tr><td>Bornéol</td><td>C₁₀H₁₈O</td><td>Faible</td><td>Élevée</td><td>208</td><td>—</td></tr>
+      <tr><td>Camphre</td><td>C₁₀H₁₆O</td><td>Faible</td><td>Élevée</td><td>175</td><td>—</td></tr>
+    </table>
+    <p style="font-size:.82rem;color:var(--texte-leger);margin-top:8px">Pictogrammes de danger : éthanoate d'éthyle (inflammable, irritant) ; bornéol (inflammable) ; camphre (inflammable, irritant, danger pour l'environnement). L'oxone est un solide ionique transformé au cours de la synthèse en espèces ioniques notées <em>I</em>.</p>
+  </div>
+
+  <div class="cours-img-flex">
+    <div class="cours-img-box">
+      <img src="TD3-2.png" alt="Chromatogramme obtenu en fin de synthèse : dépôt 1 bornéol de référence (une tache basse), dépôt 2 produits isolés en fin de synthèse (une tache haute intense et une trace faible à la hauteur du dépôt 1), dépôt 3 camphre de référence (une tache haute, à la même hauteur que la tache principale du dépôt 2)" style="max-width:200px">
+      <div class="cours-img-caption">DOC.2 — Chromatogramme obtenu en fin de synthèse (révélation au diiode) : 1 bornéol de référence, 2 produits isolés en fin de synthèse, 3 camphre de référence</div>
+    </div>
+    <div class="cours-img-box">
+      <img src="TD3-6.png" alt="Schéma des principes de l'extraction et du lavage : extraction d'une phase aqueuse contenant l'espèce d'intérêt (points rouges) avec un solvant organique, qui passe alors dans la phase organique ; lavage d'une phase organique avec de l'eau distillée pour éliminer les espèces indésirables (croix) qui passent dans la phase aqueuse éliminée">
+      <div class="cours-img-caption">DOC.4 — Principe de l'extraction (récupérer l'espèce d'intérêt dans un solvant organique) et du lavage (éliminer les espèces indésirables avec de l'eau)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💬 Témoignage d'une chimiste</div>
+    <p style="font-size:.86rem;line-height:1.65">Écrire l'équation d'une réaction ne suffit pas à préparer une espèce chimique : il faut choisir un solvant adapté, parfois un catalyseur, et souvent chauffer longtemps. Une fois le produit formé, il reste dissous dans le milieu réactionnel, mélangé à des traces de réactifs n'ayant pas réagi et à d'autres espèces formées : il faut l'<strong>isoler</strong>, ce qui peut demander plusieurs essais et le choix d'une technique adaptée à ses propriétés (souvent une meilleure solubilité dans un solvant organique que dans l'eau). Une fois isolé, le produit n'est généralement pas pur : il faut le <strong>purifier</strong> (chromatographie, distillation, recristallisation…), là encore parfois en plusieurs tentatives. Ce n'est qu'après avoir vérifié sa pureté (température de changement d'état, spectre IR, comparaison à des valeurs de référence…) que l'on peut considérer la synthèse réussie et en rédiger le protocole définitif.</p>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge app">1 · S'APPROPRIER</div>
+    <div class="qtext">Associer chaque étape du protocole à son rôle dans la synthèse.</div>
+    <div class="dnd-game" id="matchGameTD3Wrap">
+      <div class="dnd-pool" id="matchPoolTD3"></div>
+      <div class="dnd-targets" id="matchTargetsTD3"></div>
+    </div>
+    <div class="exo-btn-row">
+      <button class="exo-btn-secondary" onclick="matchGameTD3.init()">🔄 Recommencer</button>
+      <button class="exo-btn-secondary" onclick="matchGameTD3.correction()">✅ Correction</button>
+    </div>
+    <div class="score-banner" id="matchScoreBannerTD3"></div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge rea">2 · RÉALISER</div>
+    <div class="qtext">Calculer la quantité de matière de bornéol introduite à l'étape 1 (m = 1,00 g, M = 154,2 g·mol⁻¹).</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">n ≈ 1,54×10⁻² mol</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">n ≈ 6,49×10⁻³ mol</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">n ≈ 154 mol</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">n = m/M = 1,00/154,2 ≈ 6,49×10⁻³ mol, soit environ 6,5 mmol de bornéol introduites.</div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge ana">3 · ANALYSER-RAISONNER</div>
+    <div class="qtext"><strong>a.</strong> D'après le DOC.4, pourquoi extrait-on la phase aqueuse avec de l'éthanoate d'éthyle à l'étape 4, plutôt que de jeter directement cette phase&nbsp;?</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Car une partie du camphre, soluble dans l'eau même faiblement, peut encore s'y trouver : l'extraction permet de le récupérer</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Car l'éthanoate d'éthyle détruit les espèces ioniques I</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Car la phase aqueuse contient uniquement de l'eau, sans intérêt</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">Le camphre a une solubilité élevée dans l'éthanoate d'éthyle : en extrayant la phase aqueuse avec ce solvant, on récupère le camphre qui aurait pu y rester dissous, afin de maximiser la quantité de produit isolé.</div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:14px"><strong>b.</strong> Pourquoi lave-t-on ensuite la phase organique avec de l'eau distillée (étape 5)&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Pour dissoudre davantage de camphre dans la phase organique</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Pour éliminer les espèces ioniques I, solubles dans l'eau mais pas dans la phase organique</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Pour évaporer le solvant plus rapidement</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">Les espèces ioniques I, issues de la transformation de l'oxone, sont solubles dans l'eau : le lavage à l'eau distillée permet de les extraire de la phase organique, qui ne conserve alors que les espèces organiques (camphre, traces de bornéol, éthanoate d'éthyle).</div>
+
+    <p style="font-size:.85rem;line-height:1.6;margin-top:14px"><strong>c.</strong> Sur le chromatogramme (DOC.2), que représentent les dépôts 1 et 3&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Des références (bornéol pur et camphre pur), utilisées pour identifier les espèces du dépôt 2 par comparaison de hauteur de tache</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Des échantillons du produit brut prélevés à deux étapes différentes de la synthèse</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Des témoins négatifs, qui ne doivent présenter aucune tache</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">Les dépôts 1 (bornéol de référence) et 3 (camphre de référence) servent de repères : une espèce du dépôt 2 migre à la même hauteur qu'une référence si et seulement si elle lui est identique (même rapport frontal R<sub>f</sub>).</div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge val">4 · VALIDER</div>
+    <div class="qtext">Le produit obtenu à l'étape 6 (avant toute purification supplémentaire) est-il du camphre pur&nbsp;?</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Oui, le chromatogramme ne montre qu'une seule tache dans le dépôt 2, à la hauteur du camphre de référence</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Non, le dépôt 2 montre une tache principale à la hauteur du camphre (3) mais aussi une trace faible à la hauteur du bornéol (1)</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">On ne peut pas conclure sans mesurer la température de fusion</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">Le chromatogramme du dépôt 2 présente bien une tache principale à la même hauteur que le camphre de référence (3), confirmant que l'espèce majoritaire est le camphre. Mais une trace, certes faible, apparaît aussi à la hauteur du bornéol de référence (1) : le produit contient encore un peu de réactif n'ayant pas réagi. Il n'est donc <strong>pas totalement pur</strong> — une étape de purification supplémentaire (par exemple une recristallisation) serait nécessaire pour l'éliminer complètement.</div>
+  </div>
+
+  </div>
+
+  <!-- ===== TP1 ===== -->
+  <div class="sub-tab-content" id="sub-act-tp1">
+
+  <div class="section-title"><span class="icon">🧴</span> TP — Synthèse d'un liquide : l'éthanoate de benzyle <span style="font-size:.7rem;color:var(--texte-leger);font-weight:500">(note de tête du jasmin)</span></div>
+  <div class="card">
+    <div class="card-title">Équation de la réaction de synthèse</div>
+    <div class="formula" style="font-size:.85rem">
+      Alcool benzylique + Anhydride éthanoïque → Éthanoate de benzyle + Acide éthanoïque<br>
+      C₇H₈O(ℓ) + C₄H₆O₃(ℓ) → C₉H₁₀O₂(ℓ) + C₂H₄O₂(ℓ)
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ Pictogrammes de danger</div>
+    <div class="pictos">
+      <div class="picto"><img src="pictogramme-inflammable.png" alt="Pictogramme de danger : inflammable"><small>Anhydride éthanoïque — inflammable</small></div>
+      <div class="picto"><img src="pictogramme-toxicite-aigue.png" alt="Pictogramme de danger : toxicité aiguë"><small>Anhydride éthanoïque — toxicité aiguë</small></div>
+      <div class="picto"><img src="pictogramme-nocif-irritant.png" alt="Pictogramme de danger : nocif ou irritant"><small>Alcool benzylique — nocif / irritant</small></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Données</div>
+    <table class="donnees">
+      <tr><th>Espèce chimique</th><th>M (g·mol⁻¹)</th><th>ρ (g·mL⁻¹)</th><th>T<sub>éb</sub> (°C)</th><th>Solubilités</th></tr>
+      <tr><td>Anhydride éthanoïque</td><td>102,1</td><td>1,08</td><td>140</td><td rowspan="2">plutôt soluble dans l'eau salée</td></tr>
+      <tr><td>Acide éthanoïque</td><td>60,1</td><td>1,05</td><td>118</td></tr>
+      <tr><td>Alcool benzylique</td><td>108,1</td><td>1,04</td><td>205</td><td rowspan="2">plutôt soluble dans le cyclohexane</td></tr>
+      <tr><td>Éthanoate de benzyle</td><td>150,2</td><td>1,05</td><td>212</td></tr>
+      <tr><td>Cyclohexane</td><td>84,2</td><td>0,78</td><td>81</td><td>très peu soluble dans l'eau salée</td></tr>
+    </table>
+  </div>
+
+  <div class="subtitle">🔁 Reconstitue les étapes du protocole dans le bon ordre</div>
+  <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:6px">Utilise les flèches ↑ ↓ pour remettre les étapes dans l'ordre chronologique, puis clique sur « Vérifier ».</p>
+  <ol class="reorder-list" id="reorderList"></ol>
+  <div class="exo-btn-row">
+    <button class="exo-btn" onclick="reorderCheck()">Vérifier l'ordre</button>
+    <button class="exo-btn-secondary" onclick="reorderInit()">Mélanger à nouveau</button>
+  </div>
+  <div class="exo-fb" id="reorderFb"></div>
+
+  <div class="activite-q" style="margin-top:20px">
+    <div class="qnum">QUESTION</div>
+    <div class="qtext">Pourquoi ajoute-t-on une solution d'hydrogénocarbonate de sodium puis une solution de chlorure de sodium saturée avant de récupérer la phase organique&nbsp;?</div>
+    <button class="btn-reveal" onclick="toggleReveal(this)">Voir la réponse</button>
+    <div class="reveal-body"><strong>Réponse :</strong> l'hydrogénocarbonate de sodium neutralise l'acide éthanoïque formé et l'excès d'anhydride éthanoïque (d'où le dégagement gazeux de CO₂), facilitant leur passage en phase aqueuse. Le chlorure de sodium saturé (relargage) permet ensuite de mieux séparer les deux phases lors de la décantation, en limitant la solubilité des espèces organiques dans l'eau.</div>
+  </div>
+
+  <div class="activite-q">
+    <div class="qnum">QUESTION</div>
+    <div class="qtext">Comment le montage d'élimination du solvant (doc. C) permet-il de récupérer l'éthanoate de benzyle pur&nbsp;?</div>
+    <button class="btn-reveal" onclick="toggleReveal(this)">Voir la réponse</button>
+    <div class="reveal-body"><strong>Réponse :</strong> ce montage réalise une <strong>distillation</strong> : le mélange est chauffé, le solvant (cyclohexane, T<sub>éb</sub> = 81 °C) s'évapore en premier car sa température d'ébullition est nettement plus basse que celle de l'éthanoate de benzyle (T<sub>éb</sub> = 212 °C), qui reste donc dans le ballon.</div>
+  </div>
+
+  </div>
+
+  <!-- ===== TP2 ===== -->
+  <div class="sub-tab-content" id="sub-act-tp2">
+  <div class="section-title"><span class="icon">🔷</span> TP — Purification et contrôle du dibenzalacétone (DBA)</div>
+  <div class="card">
+    <p style="font-size:.88rem;line-height:1.6">Le dibenzalacétone (DBA) est un solide jaune obtenu par synthèse organique. Comme tout produit brut, il doit être <strong>purifié</strong> avant d'être analysé : la méthode utilisée pour un produit solide est la <strong>recristallisation</strong>, suivie d'une filtration sur Büchner.</p>
+  </div>
+
+  <div class="cours-img-flex">
+    <div class="cours-img-box">
+      <img src="dba-recristallisation.png" alt="Étapes de purification du DBA par recristallisation : montage à reflux avec DBA à purifier dans l'éthanoate d'éthyle, chauffage à reflux jusqu'à dissolution complète, solution limpide, lent refroidissement avec formation de DBA solide purifié, essorage sur entonnoir Büchner">
+      <div class="cours-img-caption">Purification du DBA par recristallisation dans l'éthanoate d'éthyle, puis essorage sur Büchner</div>
+    </div>
+    <div class="cours-img-box">
+      <img src="dba-purifie.png" alt="Poudre jaune pâle de DBA purifiée par recristallisation, présentée dans une coupelle en verre">
+      <div class="cours-img-caption">DBA purifiée par recristallisation</div>
+    </div>
+  </div>
+
+  <div class="activite-q">
+    <div class="qnum">QUESTION</div>
+    <div class="qtext">Pourquoi chauffe-t-on à reflux <strong>jusqu'à dissolution complète</strong> du solide dans l'éthanoate d'éthyle, avant de laisser refroidir&nbsp;?</div>
+    <button class="btn-reveal" onclick="toggleReveal(this)">Voir la réponse</button>
+    <div class="reveal-body"><strong>Réponse :</strong> la solubilité d'un solide augmente généralement avec la température. En dissolvant la totalité du DBA à chaud, on obtient une solution limpide homogène ; lors du refroidissement lent qui suit, les molécules de DBA se réorganisent progressivement en un réseau cristallin ordonné, tandis que les impuretés (plus solubles) restent en solution : c'est le principe de la <strong>recristallisation</strong>.</div>
+  </div>
+
+  <div class="activite-q">
+    <div class="qnum">QUESTION</div>
+    <div class="qtext">Pourquoi un <strong>refroidissement lent</strong> est-il préférable à un refroidissement brutal (dans un bain de glace, par exemple) pour obtenir un solide pur&nbsp;?</div>
+    <button class="btn-reveal" onclick="toggleReveal(this)">Voir la réponse</button>
+    <div class="reveal-body"><strong>Réponse :</strong> un refroidissement lent laisse le temps aux molécules de DBA de s'organiser en cristaux réguliers, en excluant les impuretés du réseau cristallin. Un refroidissement trop rapide provoque une cristallisation brutale et désordonnée, qui piège des impuretés à l'intérieur des cristaux : le solide obtenu serait alors moins pur.</div>
+  </div>
+
+  <div class="subtitle">🌡️ Contrôle de pureté au banc Köfler</div>
+  <div class="card">
+    <p style="font-size:.88rem;line-height:1.6">Une fois le DBA purifié et séché, on contrôle sa pureté en mesurant sa <strong>température de fusion</strong> au banc Köfler et en la comparant à la valeur tabulée.</p>
+    <div class="remarque-box" style="margin-top:10px"><strong>À retenir :</strong> un solide <strong>pur</strong> fond de façon nette, sur un intervalle de température étroit et proche de la valeur tabulée. Un solide <strong>impur</strong> fond à une température plus basse et sur un intervalle plus large.</div>
+    <table class="donnees" style="margin-top:12px">
+      <tr><th>Espèce</th><th>T<sub>fus</sub> tabulée</th></tr>
+      <tr><td>Dibenzalacétone (DBA)</td><td>110 – 111 °C</td></tr>
+    </table>
+  </div>
+
+  <div class="activite-q">
+    <div class="qnum">QUESTION</div>
+    <div class="qtext">Lors du contrôle au banc Köfler, on observe une fusion progressive entre 104 °C et 109 °C (au lieu d'une fusion nette vers 111 °C). Que peut-on en conclure sur l'échantillon de DBA&nbsp;?</div>
+    <button class="btn-reveal" onclick="toggleReveal(this)">Voir la réponse</button>
+    <div class="reveal-body"><strong>Réponse :</strong> l'intervalle de fusion est large (5 °C) et la température de fusion est nettement inférieure à la valeur tabulée (111 °C) : l'échantillon de DBA est encore <strong>impur</strong>. Il faudrait reprendre l'étape de recristallisation (par exemple avec un volume de solvant plus adapté) pour améliorer la pureté du produit.</div>
+  </div>
+
+  </div>
+
+</div>
+
+<!-- ══════════════════ TAB 3 — EXERCICES ══════════════════ -->
+<div class="panel" id="tab-exercices">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-exo-facile')">🟢 Facile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-exo-inter')">🟡 Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-exo-diff')">🔴 Difficile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-exo-escape')">🎮 Escape Game</button>
+  </div>
+
+  <!-- ===== FACILE ===== -->
+  <div class="sub-tab-content active" id="sub-exo-facile">
+
+  <div class="section-title"><span class="icon">✏️</span> Exercice 1 — Nommer une molécule</div>
+  <div class="qi-box">
+    <div class="qi-q">1) Quelle est la famille de la molécule CH₃–CH₂–CH₂–COOH&nbsp;?</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Alcool</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Cétone</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Acide carboxylique</div>
+    </div>
+  </div>
+  <div class="qi-box">
+    <div class="qi-q">2) Quelle est la famille de la molécule CH₃–CH(OH)–CH₃&nbsp;?</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Alcool</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Aldéhyde</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Acide carboxylique</div>
+    </div>
+  </div>
+  <div class="qi-box">
+    <div class="qi-q">3) Quelle est la famille de la molécule CH₃–CO–CH₂–CH₃&nbsp;?</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Aldéhyde</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Cétone</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Alcool</div>
+    </div>
+  </div>
+  <div class="qi-box">
+    <div class="qi-q">4) La molécule CH₃–CH₂–CH₂–CHO appartient à la famille des :</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Aldéhydes</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Cétones</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Alcools</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">🔤</span> Exercice 2 — De la formule au nom</div>
+  <div class="qi-box">
+    <div class="qi-q">Le composé CH₃–CH₂–CH₂–CH₂–CH₃ se nomme :</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Butane</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Pentane</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Hexane</div>
+    </div>
+  </div>
+  <div class="qi-box">
+    <div class="qi-q">Le composé CH₃–CH₂OH se nomme :</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Méthanol</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Éthanol</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Éthanal</div>
+    </div>
+  </div>
+  <div class="qi-box">
+    <div class="qi-q">Le composé CH₃–COOH se nomme :</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Acide propanoïque</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Acide éthanoïque</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Éthanal</div>
+    </div>
+  </div>
+
+  </div>
+
+  <!-- ===== INTERMÉDIAIRE ===== -->
+  <div class="sub-tab-content" id="sub-exo-inter">
+
+  <div class="section-title"><span class="icon">📈</span> Exercice 3 — Interpréter un spectre IR</div>
+  <div class="exo-box">
+    <div class="exo-enonce">On analyse une molécule inconnue. Son spectre IR présente une <strong>unique</strong> bande large et forte entre 3200 et 3400 cm⁻¹ ; aucune bande n'est observée entre 1700 et 1760 cm⁻¹.</div>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">C'est un alcool</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">C'est un acide carboxylique</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">C'est une cétone</div>
+    </div>
+    <p style="font-size:.82rem;color:var(--texte-leger);margin-top:8px">Indice : l'absence de bande C=O exclut le groupe carbonyle, donc exclut l'acide carboxylique et la cétone.</p>
+  </div>
+
+  <div class="section-title"><span class="icon">🧮</span> Exercice 4 — Calcul de rendement</div>
+  <div class="exo-box" id="fcrExo2-box">
+    <div class="exo-enonce">
+      Lors d'une synthèse organique, la quantité maximale de produit attendue est <strong>n<sub>max</sub> = 0,150 mol</strong>. En fin de synthèse, on récupère une masse <strong>m = 12,5 g</strong> de produit pur, de masse molaire <strong>M = 116 g·mol⁻¹</strong>.
+    </div>
+    <p style="font-size:.85rem;font-weight:700;margin-bottom:6px">Étape 1 — Quelle formule permet de calculer le rendement η&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="fcrFormule('fcrExo2', this, false)">η = n<sub>max</sub> / n<sub>p</sub></div>
+      <div class="qcm-opt" onclick="fcrFormule('fcrExo2', this, true)">η = n<sub>p</sub> / n<sub>max</sub></div>
+      <div class="qcm-opt" onclick="fcrFormule('fcrExo2', this, false)">η = m × M</div>
+    </div>
+    <div class="fcr-step" id="fcrExo2-calc-step">
+      <span class="fcr-label">Étape 2 — Calcule n<sub>p</sub> = m/M (en mol)</span>
+      <div class="exo-btn-row">
+        <input type="text" class="exo-input" id="fcrExo2-calc" placeholder="ex : 12.5/116">
+        <button class="exo-btn-secondary" onclick="fcrCalc('fcrExo2', 0.1078, 0.03)">Vérifier le calcul</button>
+      </div>
+      <div class="exo-fb" id="fcrExo2-calc-fb"></div>
+    </div>
+    <div class="fcr-step" id="fcrExo2-result-step">
+      <span class="fcr-label">Étape 3 — Déduis le rendement η en % (arrondi à l'unité)</span>
+      <div class="exo-btn-row">
+        <input type="text" class="exo-input" id="fcrExo2-result" placeholder="η en %">
+        <button class="exo-btn-secondary" onclick="fcrResult('fcrExo2', 71.9, 0.03, 'Le rendement de cette synthèse est d\'environ 72 %.')">Vérifier</button>
+      </div>
+      <div class="exo-fb" id="fcrExo2-result-fb"></div>
+    </div>
+    <div class="exo-btn-row">
+      <button class="exo-btn" onclick="fcrCorrection('fcrExo2', 'η = n_p / n_max', 'n_p = m/M = 12,5/116 = 0,1078 mol', 'η = 0,1078/0,150 ≈ 0,719 → η ≈ 72 %')">Voir la correction complète</button>
+      <button class="exo-btn-secondary" onclick="fcrReset('fcrExo2')">Réinitialiser</button>
+    </div>
+    <div class="exo-fb" id="fcrExo2-correction"></div>
+  </div>
+
+  </div>
+
+  <!-- ===== DIFFICILE ===== -->
+  <div class="sub-tab-content" id="sub-exo-diff">
+
+  <div class="section-title"><span class="icon">🔬</span> Exercice 5 — Synthèse d'un arôme : IR et rendement</div>
+  <div class="exo-box" id="fcrExo3-box">
+    <div class="exo-enonce">
+      On synthétise un arôme par réaction entre un alcool (réactif limitant, masse <strong>m = 5,20 g</strong>, M = 74,1 g·mol⁻¹) et un excès d'acide carboxylique. En fin de synthèse, on récupère une masse <strong>m<sub>produit</sub> = 6,10 g</strong> de produit pur (M<sub>produit</sub> = 116,2 g·mol⁻¹). Le spectre IR du produit obtenu ne présente <strong>aucune</strong> bande large entre 2500 et 3400 cm⁻¹.
+    </div>
+    <p style="font-size:.85rem;font-weight:700;margin-bottom:6px">Question 1 — Que peut-on conclure de ce spectre IR ?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">La bande O–H de l'alcool a disparu : le réactif limitant a été (quasi) totalement consommé</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">On observe toujours la bande O–H de l'alcool</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">L'IR ne permet pas d'obtenir d'information ici</div>
+    </div>
+    <div class="qi-expl show" style="margin-top:8px">L'absence de bande large entre 2500 et 3400 cm⁻¹ montre qu'il ne reste (quasiment) plus de liaison O–H : le réactif limitant (l'alcool) a bien été consommé par la réaction.</div>
+
+    <p style="font-size:.85rem;font-weight:700;margin:16px 0 6px">Question 2 — Quelle formule permet de calculer le rendement η&nbsp;?</p>
+    <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="fcrFormule('fcrExo3', this, false)">η = n<sub>max</sub> × n<sub>p</sub></div>
+      <div class="qcm-opt" onclick="fcrFormule('fcrExo3', this, true)">η = n<sub>p</sub> / n<sub>max</sub></div>
+      <div class="qcm-opt" onclick="fcrFormule('fcrExo3', this, false)">η = n<sub>max</sub> / n<sub>p</sub></div>
+    </div>
+    <div class="fcr-step" id="fcrExo3-calc-step">
+      <span class="fcr-label">Étape suivante — Calcule n<sub>max</sub> = m/M de l'alcool (en mol), avec m = 5,20 g et M = 74,1 g·mol⁻¹</span>
+      <div class="exo-btn-row">
+        <input type="text" class="exo-input" id="fcrExo3-calc" placeholder="ex : 5.20/74.1">
+        <button class="exo-btn-secondary" onclick="fcrCalc('fcrExo3', 0.0702, 0.03)">Vérifier le calcul</button>
+      </div>
+      <div class="exo-fb" id="fcrExo3-calc-fb"></div>
+    </div>
+    <div class="fcr-step" id="fcrExo3-result-step">
+      <span class="fcr-label">Étape suivante — Déduis le rendement η en % (arrondi à l'unité), avec n<sub>p</sub> = m<sub>produit</sub>/M<sub>produit</sub></span>
+      <div class="exo-btn-row">
+        <input type="text" class="exo-input" id="fcrExo3-result" placeholder="η en %">
+        <button class="exo-btn-secondary" onclick="fcrResult('fcrExo3', 74.8, 0.03, 'Le rendement de cette synthèse est d\'environ 75 %.')">Vérifier</button>
+      </div>
+      <div class="exo-fb" id="fcrExo3-result-fb"></div>
+    </div>
+    <div class="exo-btn-row">
+      <button class="exo-btn" onclick="fcrCorrection('fcrExo3', 'η = n_p / n_max , avec n_max = m/M(alcool) et n_p = m_produit/M_produit', 'n_max = 5,20/74,1 = 0,0702 mol ; n_p = 6,10/116,2 = 0,0525 mol', 'η = 0,0525/0,0702 ≈ 0,748 → η ≈ 75 %')">Voir la correction complète</button>
+      <button class="exo-btn-secondary" onclick="fcrReset('fcrExo3')">Réinitialiser</button>
+    </div>
+    <div class="exo-fb" id="fcrExo3-correction"></div>
+  </div>
+
+  </div>
+
+  <!-- ===== ESCAPE GAME ===== -->
+  <div class="sub-tab-content" id="sub-exo-escape">
+    <div class="esc-intro">
+      <h3>🌿 Mission Parfumeur : Sauvez la note de Lavande !</h3>
+      <p><strong>Le Brief :</strong> Vous avez été recruté(e) comme « Nez » et chimiste junior dans une prestigieuse maison de parfumerie à Grasse. Suite à de fortes sécheresses, la récolte de lavande a été catastrophique et l'huile essentielle naturelle vient à manquer. Votre mission : synthétiser la molécule responsable de son odeur, l'<strong>acétate de linalyle</strong>, pour sauver la production du parfum phare de la maison.</p>
+    </div>
+
+    <div class="esc-progress">
+      <div class="esc-progress-step current" id="escProg1"></div>
+      <div class="esc-progress-step" id="escProg2"></div>
+      <div class="esc-progress-step" id="escProg3"></div>
+      <div class="esc-progress-step" id="escProg4"></div>
+    </div>
+
+    <!-- ÉTAPE 1 -->
+    <div class="esc-step-card" id="escStep1">
+      <div class="esc-step-title"><span class="esc-step-badge">Étape 1</span> 🧪 L'étude de l'équation</div>
+      <p style="font-size:.88rem;line-height:1.6;margin:8px 0">Vous êtes devant l'armoire à produits chimiques virtuelle. Sélectionnez les <strong>2 réactifs</strong> nécessaires à la synthèse de l'acétate de linalyle.</p>
+      <div class="esc-hint">💡 Indice : l'acétate de linalyle s'obtient par réaction entre un <strong>alcool</strong> et un <strong>acide carboxylique</strong> (ou son anhydride).</div>
+      <div class="bottle-grid" id="escBottleGrid">
+        <div class="bottle-btn" onclick="escPickReagent(this,true)" data-hint="">🌸<br>Linalol</div>
+        <div class="bottle-btn" onclick="escPickReagent(this,true)" data-hint="">🧴<br>Anhydride acétique</div>
+        <div class="bottle-btn" onclick="escPickReagent(this,false)" data-hint="C'est bien un alcool, mais sa chaîne carbonée est trop courte : ce n'est pas lui qui porte l'odeur de lavande.">🍾<br>Éthanol</div>
+        <div class="bottle-btn" onclick="escPickReagent(this,false)" data-hint="C'est un catalyseur possible pour une estérification, mais ce n'est pas un réactif de l'équation-bilan demandée ici.">⚠️<br>Acide sulfurique concentré</div>
+        <div class="bottle-btn" onclick="escPickReagent(this,false)" data-hint="C'est une cétone (groupe C=O) : elle ne possède ni le groupe alcool, ni le groupe acide nécessaires à cette réaction.">🧫<br>Butanone</div>
+        <div class="bottle-btn" onclick="escPickReagent(this,false)" data-hint="L'eau n'est pas un réactif de cette synthèse organique.">💧<br>Eau distillée</div>
+      </div>
+      <div class="esc-tooltip" id="escTooltip1"></div>
+      <div class="esc-equation" id="escEquation1">Linalol + Anhydride acétique&nbsp;&nbsp;⟶&nbsp;&nbsp;Acétate de linalyle + Acide acétique</div>
+      <div class="esc-success" id="escSuccess1">✅ <strong>Bien joué !</strong> Le linalol (alcool) et l'anhydride acétique réagissent pour former l'acétate de linalyle et de l'acide acétique. L'étape 2 est débloquée.</div>
+    </div>
+
+    <!-- ÉTAPE 2 -->
+    <div class="esc-step-card locked" id="escStep2">
+      <div class="esc-step-title"><span class="esc-step-badge">Étape 2</span> 🔥 Le chauffage à reflux</div>
+      <p style="font-size:.88rem;line-height:1.6;margin:8px 0">Assemblez le montage sur la paillasse en cliquant les éléments <strong>dans le bon ordre</strong>, du bas vers le haut. Attention aux pièges !</p>
+      <div class="equip-grid" id="escEquipGrid">
+        <div class="equip-btn" onclick="escPickEquip(this,0)">Support élévateur</div>
+        <div class="equip-btn" onclick="escPickEquip(this,1)">Chauffe-ballon</div>
+        <div class="equip-btn" onclick="escPickEquip(this,2)">Ballon bicol (+ pierre ponce)</div>
+        <div class="equip-btn" onclick="escPickEquip(this,3)">Réfrigérant à boules</div>
+        <div class="equip-btn" onclick="escPickEquip(this,-1)">Bec Bunsen (flamme nue)</div>
+        <div class="equip-btn" onclick="escPickEquip(this,-1)">Erlenmeyer</div>
+      </div>
+      <div class="esc-tooltip" id="escTooltip2"></div>
+      <div class="equip-stack" id="escEquipStackEl"><span style="font-size:.8rem;color:var(--texte-leger)">Le montage se construit ici, du bas vers le haut…</span></div>
+      <div class="exo-btn-row">
+        <button class="exo-btn" id="escVerifyMontage" onclick="escCheckMontage()" style="display:none">Vérifier le montage</button>
+        <button class="exo-btn-secondary" onclick="escResetMontage()">Recommencer le montage</button>
+      </div>
+      <div class="esc-success" id="escSuccess2a">✅ <strong>Montage correct !</strong> Le support élévateur permet de retirer rapidement le chauffe-ballon en cas d'urgence, et la pierre ponce régularise l'ébullition.</div>
+
+      <div id="escQuizBlock" style="display:none;margin-top:16px">
+        <div class="qi-box">
+          <div class="qi-q">Quel est le rôle du réfrigérant à boules ?</div>
+          <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="escQuizCheck(this,false,1)">Séparer le produit du milieu réactionnel</div>
+            <div class="qcm-opt" onclick="escQuizCheck(this,true,1)">Éviter les pertes de matière par condensation des vapeurs</div>
+            <div class="qcm-opt" onclick="escQuizCheck(this,false,1)">Refroidir le ballon avant l'isolement</div>
+          </div>
+        </div>
+        <div class="qi-box">
+          <div class="qi-q">Pourquoi chauffe-t-on ce mélange réactionnel ?</div>
+          <div style="font-size:.8rem;color:var(--texte-leger);margin:2px 0 8px">👉 Choisis ta réponse :</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="escQuizCheck(this,true,2)">Pour accélérer la réaction, la température étant un facteur cinétique</div>
+            <div class="qcm-opt" onclick="escQuizCheck(this,false,2)">Pour évaporer le produit formé</div>
+            <div class="qcm-opt" onclick="escQuizCheck(this,false,2)">Pour stériliser la verrerie</div>
+          </div>
+        </div>
+      </div>
+      <div class="esc-success" id="escSuccess2b">✅ <strong>Parfait !</strong> Vous maîtrisez le montage à reflux. L'étape 3 est débloquée.</div>
+    </div>
+
+    <!-- ÉTAPE 3 -->
+    <div class="esc-step-card locked" id="escStep3">
+      <div class="esc-step-title"><span class="esc-step-badge">Étape 3</span> 💧 L'extraction et la décantation</div>
+      <p style="font-size:.88rem;line-height:1.6;margin:8px 0">Le mélange réactionnel refroidi a été versé dans une ampoule à décanter, avec de l'eau salée (relargage) et du cyclohexane. Après agitation, deux phases se séparent.</p>
+      <table class="donnees" style="max-width:420px;margin:14px auto">
+        <tr><th>Espèce</th><th>Masse volumique</th></tr>
+        <tr><td>Eau salée</td><td>d = 1,10</td></tr>
+        <tr><td>Cyclohexane</td><td>d = 0,78</td></tr>
+        <tr><td>Acétate de linalyle</td><td>d = 0,89</td></tr>
+      </table>
+      <p style="font-size:.85rem;font-weight:700;text-align:center;margin:10px 0">👉 Clique sur la phase qui contient le produit d'intérêt :</p>
+      <div class="decant-svg-wrap">
+        <svg viewBox="0 0 200 220" width="220">
+          <path d="M40,10 L160,10 L160,120 L100,200 L40,120 Z" fill="none" stroke="#5A6B7A" stroke-width="2"/>
+          <clipPath id="funnelClip"><path d="M42,12 L158,12 L158,119 L100,196 L42,119 Z"/></clipPath>
+          <g clip-path="url(#funnelClip)">
+            <rect class="decant-zone" x="40" y="12" width="120" height="80" fill="#FDF0E8" onclick="escPickPhase(true)"/>
+            <rect class="decant-zone" x="40" y="92" width="120" height="108" fill="#E8F1F8" onclick="escPickPhase(false)"/>
+          </g>
+          <line x1="40" y1="92" x2="160" y2="92" stroke="#5A6B7A" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="100" y="55" text-anchor="middle" font-size="10" fill="#8A6E4A" font-family="Nunito,sans-serif" font-weight="700">Phase supérieure ?</text>
+          <text x="100" y="150" text-anchor="middle" font-size="10" fill="#4A6E8A" font-family="Nunito,sans-serif" font-weight="700">Phase inférieure ?</text>
+          <rect x="90" y="200" width="20" height="14" fill="none" stroke="#5A6B7A" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="esc-tooltip" id="escTooltip3"></div>
+      <div class="esc-success" id="escSuccess3">✅ <strong>Exact !</strong> La phase organique (cyclohexane d=0,78 et acétate de linalyle d=0,89) est moins dense que l'eau salée (d=1,10) : elle surnage. L'étape 4 est débloquée.</div>
+    </div>
+
+    <!-- ÉTAPE 4 -->
+    <div class="esc-step-card locked" id="escStep4">
+      <div class="esc-step-title"><span class="esc-step-badge">Étape 4</span> 🔍 Le contrôle qualité (CCM)</div>
+      <p style="font-size:.88rem;line-height:1.6;margin:8px 0">Prouvez à la direction que votre molécule est identique à celle de la nature ! Dépose les 3 taches sur la ligne de base :</p>
+      <div class="ccm-pipette-row">
+        <button class="pipette-btn" id="escPip0" onclick="escDeposit(0,this)">🧪 Déposer (H) Huile de lavande</button>
+        <button class="pipette-btn" id="escPip1" onclick="escDeposit(1,this)">🧪 Déposer (L) Linalol pur</button>
+        <button class="pipette-btn" id="escPip2" onclick="escDeposit(2,this)">🧪 Déposer (S) Produit de synthèse</button>
+      </div>
+      <div style="display:flex;justify-content:center">
+        <svg viewBox="0 0 260 200" width="280" id="escCcmSvg">
+          <rect x="20" y="10" width="220" height="170" fill="none" stroke="#5A6B7A" stroke-width="2" rx="4"/>
+          <line x1="20" y1="150" x2="240" y2="150" stroke="#8A9BA8" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <text x="230" y="147" text-anchor="end" font-size="8" fill="#8A9BA8" font-family="DM Mono,monospace">ligne de base</text>
+          <line x1="20" y1="25" x2="240" y2="25" stroke="#8A9BA8" stroke-width="1" stroke-dasharray="2,4"/>
+          <text x="230" y="22" text-anchor="end" font-size="8" fill="#8A9BA8" font-family="DM Mono,monospace">front d'élution</text>
+          <text x="75" y="192" text-anchor="middle" font-size="10" font-weight="700" fill="#5A6B7A" font-family="Nunito,sans-serif">H</text>
+          <text x="140" y="192" text-anchor="middle" font-size="10" font-weight="700" fill="#5A6B7A" font-family="Nunito,sans-serif">L</text>
+          <text x="205" y="192" text-anchor="middle" font-size="10" font-weight="700" fill="#5A6B7A" font-family="Nunito,sans-serif">S</text>
+          <circle id="escSpotH0" cx="75" cy="150" r="4" fill="#2D5F8A" style="display:none"/>
+          <circle id="escSpotL0" cx="140" cy="150" r="4" fill="#2D5F8A" style="display:none"/>
+          <circle id="escSpotS0" cx="205" cy="150" r="4" fill="#2D5F8A" style="display:none"/>
+          <g id="escCcmResult" style="display:none">
+            <circle cx="75" cy="94" r="5" fill="#3A8A6E"/>
+            <circle cx="140" cy="122" r="5" fill="#E8783A"/>
+            <circle cx="205" cy="94" r="5" fill="#3A8A6E"/>
+          </g>
+        </svg>
+      </div>
+      <div class="exo-btn-row" id="escElutionRow" style="display:none;justify-content:center">
+        <button class="exo-btn" onclick="escRevealCcm()">Réaliser l'élution et la révélation</button>
+      </div>
+
+      <div id="escCcmConclusions" style="display:none;margin-top:16px">
+        <p style="font-size:.85rem;font-weight:700;margin-bottom:8px">👉 Coche les conclusions correctes :</p>
+        <label class="esc-check-row"><input type="checkbox" data-ok="true"> La tache (S) est à la même hauteur que la tache (H) : le produit synthétisé est bien l'acétate de linalyle (même R<sub>f</sub>)</label>
+        <label class="esc-check-row"><input type="checkbox" data-ok="false"> La tache (S) présente aussi une tache à la hauteur de (L) : le produit contient encore du linalol</label>
+        <label class="esc-check-row"><input type="checkbox" data-ok="true"> L'absence de tache de (S) à la hauteur de (L) prouve que le produit est pur (pas de réactif résiduel)</label>
+        <label class="esc-check-row"><input type="checkbox" data-ok="false"> Le rapport frontal R<sub>f</sub> ne peut pas être utilisé pour identifier une espèce chimique</label>
+        <div class="exo-btn-row"><button class="exo-btn" onclick="escValidateCcm()">Valider mes conclusions</button></div>
+        <div class="esc-tooltip" id="escTooltip4"></div>
+      </div>
+    </div>
+
+    <div class="esc-final" id="escFinal">
+      <h3>🎉 Mission accomplie !</h3>
+      <p>Grâce à votre synthèse d'acétate de linalyle, contrôlée et validée par CCM, la maison de parfumerie peut sauver la note de lavande de son parfum phare. Vous avez mobilisé les 4 étapes d'une synthèse organique : prélèvement raisonné des réactifs, transformation à reflux, isolement par extraction liquide-liquide, et analyse par chromatographie. Bravo, chimiste !</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════ TAB 4 — BILAN & RESSOURCES ══════════════════ -->
+<div class="panel" id="tab-bilan">
+
+ <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
+
+  <div class="sub-tab-content active" id="bilan-sub-0">
+  <div class="bilan-grid">
+    <div class="bilan-card">
+      <h4>I. Description des entités organiques</h4>
+      <ul class="ke-list">
+        <li>Formule brute / développée / semi-développée / topologique</li>
+        <li>Squelette carboné saturé : liaisons C–C simples uniquement</li>
+        <li>Nomenclature des alcanes (méthane → hexane) et des alcanes ramifiés</li>
+        <li>Groupe hydroxyle –OH → famille des alcools</li>
+        <li>Groupe carbonyle C=O → aldéhydes (bout de chaîne, « -al ») et cétones (« -one »)</li>
+        <li>Groupe carboxyle –COOH → acides carboxyliques (« acide … -oïque »)</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>II. Spectroscopie infrarouge</h4>
+      <ul class="ke-list">
+        <li>T = I/I₀ ; spectre = T en fonction de 𝜈̅ = 1/λ</li>
+        <li>Bande « forte » = transmittance faible ; bande « large » = étendue en 𝜈̅</li>
+        <li>O–H alcool : 3200-3400 cm⁻¹, forte et large (1 bande)</li>
+        <li>O–H acide : 2600-3200 cm⁻¹, forte et large</li>
+        <li>C=O : 1700-1760 cm⁻¹, forte et fine</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>III. Synthèses organiques</h4>
+      <ul class="ke-list">
+        <li>4 étapes : prélèvement, transformation, isolement, analyse</li>
+        <li>Montage à reflux : chauffer sans perte de matière</li>
+        <li>Isolement solide → filtration ; isolement liquide → extraction liquide-liquide</li>
+        <li>η = n<sub>p</sub>/n<sub>max</sub> (sans unité ou en %)</li>
+        <li>Rendement &lt; 100 % : réaction non totale, réactions secondaires, pertes lors de l'isolement/purification</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>Vocabulaire clé</h4>
+      <ul class="ke-list">
+        <li>Groupe alkyle : C<sub>n</sub>H<sub>2n+1</sub>–</li>
+        <li>Produit brut vs produit pur/purifié</li>
+        <li>Réactif limitant</li>
+        <li>Distillation fractionnée</li>
+        <li>Chromatographie sur couche mince (CCM)</li>
+      </ul>
+    </div>
+  </div>
+ </div>
+  <!-- /bilan-sub-0 -->
+
+    <div class="sub-tab-content" id="bilan-sub-1">
+      <div class="section-title"><span class="icon">📖</span>Glossaire</div>
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+       <div class="gloss-item" data-term="acide carboxylique"><dt>Acide carboxylique</dt><dd>Composé organique caractérisé par la présence du groupement carboxyle -COOH en bout de chaîne. Le nom est de la forme "acide ...-oïque".</dd></div>
+       <div class="gloss-item" data-term="alcane et groupe alkyle"><dt>Alcane et Groupe alkyle</dt><dd>Un alcane est un hydrocarbure saturé de formule brute générale CnH2n+2. Un groupe alkyle est l'entité obtenue en retirant un atome d'hydrogène à un alcane, de formule CnH2n+1- (ex: méthyle, éthyle).</dd></div>
+       <div class="gloss-item" data-term="alcool"><dt>Alcool</dt><dd>Composé organique comportant le groupe caractéristique hydroxyle -OH lié à un atome de carbone tétraédrique.</dd></div>
+       <div class="gloss-item" data-term="aldehyde"><dt>Aldéhyde</dt><dd>Composé carbonylé possédant le groupe carbonyle C=O situé obligatoirement en bout de chaîne (le carbone fonctionnel est lié à un seul autre atome de carbone). Le nom se termine par le suffixe "-al".</dd></div>
+       <div class="gloss-item" data-term="banc kofler"><dt>Banc Köfler</dt><dd>Appareil permettant de mesurer la température de fusion d'un solide. Il est utilisé pour contrôler la pureté d'une espèce chimique : un solide pur fond nettement, sur un intervalle étroit, à une température proche de la valeur tabulée.</dd></div>
+       <div class="gloss-item" data-term="catalyseur"><dt>Catalyseur</dt><dd>Espèce chimique qui accélère une réaction sans être consommée au cours de celle-ci, et qui n'apparaît donc pas dans l'équation de la réaction.</dd></div>
+       <div class="gloss-item" data-term="cetone"><dt>Cétone</dt><dd>Composé carbonylé possédant le groupe carbonyle C=O situé à l'intérieur de la chaîne carbonée (le carbone fonctionnel est lié à deux autres atomes de carbone). Le nom se termine par le suffixe "-one".</dd></div>
+       <div class="gloss-item" data-term="chromatographie ccm rf"><dt>Chromatographie sur couche mince (CCM) et rapport frontal R<sub>f</sub></dt><dd>Technique séparative permettant d'identifier une espèce chimique par comparaison à des références, en exploitant les différences de migration des espèces sur une plaque. Le rapport frontal R<sub>f</sub> (distance parcourue par la tache divisée par celle parcourue par l'éluant) est caractéristique d'une espèce dans des conditions données : deux taches à la même hauteur signent la même espèce.</dd></div>
+       <div class="gloss-item" data-term="distillation"><dt>Distillation</dt><dd>Technique de séparation d'un mélange liquide basée sur les différences de température d'ébullition des constituants : le composé le plus volatil s'évapore en premier, puis est recondensé par un réfrigérant.</dd></div>
+       <div class="gloss-item" data-term="distillation fractionnee"><dt>Distillation fractionnée</dt><dd>Méthode de séparation et de purification basée sur les différences de température d'ébullition des composés d'un mélange liquide.</dd></div>
+       <div class="gloss-item" data-term="extraction liquide-liquide"><dt>Extraction liquide-liquide</dt><dd>Technique d'isolement utilisée pour un produit liquide. Elle s'effectue dans une ampoule à décanter en exploitant la différence de solubilité du produit d'intérêt entre deux solvants non miscibles.</dd></div>
+       <div class="gloss-item" data-term="formule brute"><dt>Formule brute</dt><dd>Formule donnant la composition globale de la molécule en précisant, par des indices, le nombre de chacun des atomes qui la constituent (ex: C₄H₁₀O).</dd></div>
+       <div class="gloss-item" data-term="formule developpee"><dt>Formule développée</dt><dd>Représentation où tous les atomes et toutes les liaisons chimiques sont explicitement dessinés, sans considération pour la géométrie spatiale réelle.</dd></div>
+       <div class="gloss-item" data-term="formule semi-developpee"><dt>Formule semi-développée</dt><dd>Représentation simplifiée de la formule développée où les liaisons liant un atome d'hydrogène à un autre atome ne sont pas représentées.</dd></div>
+       <div class="gloss-item" data-term="formule topologique"><dt>Formule topologique</dt><dd>Représentation très simplifiée où chaque sommet ou extrémité de segment représente un atome de carbone. Les atomes d'hydrogène liés aux carbones sont omis, tandis que les autres atomes (O, N, Cl...) sont indiqués explicitement.</dd></div>
+       <div class="gloss-item" data-term="groupe caracteristique"><dt>Groupe caractéristique</dt><dd>Groupement spécifique d'atomes présent dans une molécule qui lui confère des propriétés chimiques particulières, permettant de classer la molécule au sein d'une famille de composés.</dd></div>
+       <div class="gloss-item" data-term="isolement et produit brut"><dt>Isolement et Produit brut</dt><dd>L'isolement est l'étape consistant à séparer le produit d'intérêt du reste du milieu réactionnel. L'espèce récupérée, souvent encore impure, est appelée le produit brut.</dd></div>
+       <div class="gloss-item" data-term="lavage"><dt>Lavage</dt><dd>Étape de purification consistant à agiter une phase organique avec une solution aqueuse (eau distillée, solution saline…) afin d'en extraire les espèces indésirables solubles dans l'eau (par exemple des espèces ioniques).</dd></div>
+       <div class="gloss-item" data-term="montage a reflux"><dt>Montage à reflux</dt><dd>Dispositif expérimental permettant de chauffer le milieu réactionnel (pour accélérer la réaction) sans subir de perte de matière, grâce à la condensation des vapeurs.</dd></div>
+       <div class="gloss-item" data-term="nom commun et nom systematique"><dt>Nom commun et nom systématique</dt><dd>Le nom commun est un nom d'usage (souvent lié à l'origine naturelle de l'espèce) qui ne renseigne pas sur la structure de la molécule. Le nom systématique (ou officiel) se décompose en préfixe, radical et suffixe, et permet de reconstruire la formule semi-développée de la molécule.</dd></div>
+       <div class="gloss-item" data-term="nombre d onde"><dt>Nombre d'onde</dt><dd>Grandeur inverse de la longueur d'onde (ν = 1 / λ), classiquement exprimée en centimètres inverses (cm⁻¹) en spectroscopie IR.</dd></div>
+       <div class="gloss-item" data-term="recristallisation"><dt>Recristallisation</dt><dd>Technique de purification d'un solide : on le dissout à chaud dans un solvant approprié jusqu'à dissolution complète, puis on laisse refroidir lentement pour obtenir des cristaux purs, les impuretés (plus solubles) restant en solution.</dd></div>
+       <div class="gloss-item" data-term="relargage"><dt>Relargage</dt><dd>Ajout d'une solution ionique saturée (souvent de chlorure de sodium) à un mélange, afin de diminuer la solubilité des espèces organiques dans l'eau et de faciliter la séparation des phases lors d'une décantation.</dd></div>
+       <div class="gloss-item" data-term="rendement d une synthese"><dt>Rendement d'une synthèse</dt><dd>Grandeur évaluant l'efficacité d'une synthèse. Elle est définie par le quotient de la quantité de produit pur effectivement obtenue par la quantité maximale de produit attendue théoriquement.</dd></div>
+       <div class="gloss-item" data-term="spectroscopie ir"><dt>Spectroscopie IR</dt><dd>Technique d'analyse permettant d'identifier des groupes caractéristiques au sein d'une molécule, reposant sur l'absorption d'énergie par les liaisons interatomiques traversées par un rayonnement infrarouge.</dd></div>
+       <div class="gloss-item" data-term="squelette carbone sature"><dt>Squelette carboné saturé</dt><dd>Enchaînement d'atomes de carbone reliés les uns aux autres exclusivement par des liaisons covalentes simples. Ces chaînes peuvent être linéaires, ramifiées ou cycliques.</dd></div>
+       <div class="gloss-item" data-term="synthese organique"><dt>Synthèse organique</dt><dd>Fabrication d'une espèce chimique au laboratoire. Elle se déroule classiquement en 4 étapes : (1) prélèvement, (2) transformation chimique, (3) isolement et (4) analyse.</dd></div>
+       <div class="gloss-item" data-term="transmittance"><dt>Transmittance</dt><dd>Grandeur physique représentant la fraction de la lumière ayant traversé l'échantillon. Elle est définie par le rapport de l'intensité transmise sur l'intensité incidente.</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+   
+  <div class="sub-tab-content" id="bilan-sub-2">
+
+    <div class="section-title"><span class="icon">🔬</span> Simulations &amp; applications</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://chimie.ostralo.net/nomenclature_alcanes/nomenclature_alcanes.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🧂 Ostralo — Nomenclature des alcanes</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Animation qui permet de construire un alcane et d'obtenir son nom.</p>
+        </div>
+      </a>
+
+      <a href="https://chimie.ostralo.net/fonctionsorganiques/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🧂 Ostralo — Reconnaître les familles en chimie organique</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Animation/jeu qui permet de s'entraîner à reconnaître la famille d'une molécule.</p>
+        </div>
+      </a>
+
+      <a href="https://chimie.ostralo.net/spectreIR/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🧂 Ostralo — Spectre infrarouge d'une molécule</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Page interactive qui permet de vsualiser les liaisons et les bandes d'absorption du spectre infrarouge de quelques molécules.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173872" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Hatier — Physique-Chimie 1re - Schéma bilan : Molécules organiques</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 3 min 38.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173152" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — Nommer une molécule ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 6 min 32.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173125" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — Nommer les molécules en Chimie organique </h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 3 min 45.</p>
+        </div>
+      </a>
+      
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173523" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — Formule SEMI-DÉVELOPPÉE ▶️ TOPOLOGIQUE d'une molécule </h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 2 min 23.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173181" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — Nomenclature des ALCANES </h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 7 min 25.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173200" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — 4 Groupes caractéristiques et familles à connaitre !</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 5 min 28.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173255" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — NOMENCLATURE des ALCOOLS ✏️ Exercice</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 5 min 51.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173306" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — Nomenclature des ALDÉHYDES et des CÉTONES</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 5 min 25.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173276" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — Nomenclature des ACIDES CARBOXYLIQUES</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 5 min 18.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173349" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — Nomenclature des ESTERS</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 5 min 10.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173509" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — Nomenclature des AMINES</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 4 min 08.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173463" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — Nomenclature des AMIDES</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 4 min 06.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173885" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Hatier — Physique-Chimie 1re - Schéma bilan : Synthèses organiques</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 3 min 40.</p>
+        </div>
+      
+      </a>
+            <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810172533" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Gérard Moreau — Synthèse de composés organiques.</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 12 min 45.</p>
+        </div>
+      </a>
+
+     </a>
+            <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810172533" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Ravi Ambroise — La synthèse d'espèces chimiques organiques.</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 11 min 12.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173218" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — SPECTRE INFRAROUGE ✅ Comment les exploiter ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 6 min 23.</p>
+        </div>
+      </a>
+
+          <a href="https://www.pearltrees.com/poiraultgauvin.cynthia/sequence13-organiques/id106214105#item810173238" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Paul Olivier — Spectre infrarouge : identifier une molécule ✏️ Exercice</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Durée : 5 min 07.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="section-title"><span class="icon">📝</span> QCM</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/pc-1_qcm_chap_6/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM — Hatier (chapitre 5)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">QCM d'entraînement du manuel Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/pc-1_qcm_chap_6/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM — Hatier (chapitre 5)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">QCM d'entraînement du manuel Hatier.</p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+  <!-- /bilan-sub-2 -->
+
+</div>
+<!-- fin tab-bilan -->
+
+</div>
+<!-- fin .main -->
+
+<script>
+/* ===== Navigation onglets ===== */
+function showTab(el,id){
+  document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.main > .panel').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('tab-'+id).classList.add('on');
+}
+function showSub(btn,id){
+  var panel = btn.closest('.panel');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b=>b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+/* ===== Accordéons et reveal ===== */
+function toggleAccord(btn){
+  btn.classList.toggle('open');
+  var body = btn.nextElementSibling;
+  body.classList.toggle('open');
+}
+function toggleReveal(btn){
+  var body = btn.nextElementSibling;
+  body.classList.toggle('open');
+  btn.textContent = body.classList.contains('open') ? 'Masquer la réponse' : 'Voir la réponse';
+}
+
+/* ===== Glossaire recherchable ===== */
+function glossFilter(){
+  var q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(function(item){
+    var term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
+/* ===== QCM simple ===== */
+function qcmCheck(el,isCorrect){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(o=>o.classList.remove('correct','incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  var expl = el.parentElement.nextElementSibling;
+  if(expl && expl.classList.contains('qi-expl')){ expl.classList.add('show'); }
+}
+
+/* ===== Simulateur IR ===== */
+var irCaptions = {
+  alcool: "🟦 La liaison O–H de l'alcool donne une bande <strong>forte et large</strong> entre 3200 et 3400 cm⁻¹. Aucune bande de carbonyle n'est présente.",
+  acide: "🟧 L'acide carboxylique présente <strong>deux</strong> bandes caractéristiques : O–H forte et large entre 2600 et 3200 cm⁻¹, et C=O forte et fine entre 1700 et 1760 cm⁻¹.",
+  carbonyle: "🟩 Le groupe carbonyle (aldéhyde ou cétone) donne une bande <strong>unique, forte et fine</strong> entre 1700 et 1760 cm⁻¹. Aucune bande O–H large n'est présente."
+};
+function irSetMode(mode, btn){
+  document.querySelectorAll('.ir-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.ir-scene').forEach(s=>s.classList.remove('active'));
+  var scene = document.getElementById('ir-'+mode);
+  scene.classList.add('active');
+  var cap = document.getElementById('irCaption');
+  cap.className = 'ir-caption ir-'+mode;
+  cap.innerHTML = irCaptions[mode];
+  irAnimateScene(scene);
+}
+function irAnimateScene(scene){
+  var path = scene.querySelector('.ir-curve');
+  var scan = scene.querySelector('.ir-scanline');
+  var rects = scene.querySelectorAll('.ir-band-rect');
+  var labels = scene.querySelectorAll('.ir-band-label');
+  if(!path) return;
+  var len = path.getTotalLength();
+  rects.forEach(function(r){ r.classList.remove('show'); });
+  labels.forEach(function(t){ t.classList.remove('show'); });
+  path.style.transition = 'none';
+  path.style.strokeDasharray = len;
+  path.style.strokeDashoffset = len;
+  if(scan){
+    scan.style.transition = 'none';
+    scan.classList.remove('scanning');
+    scan.style.transform = 'translateX(0)';
+  }
+  // force reflow before enabling transition
+  path.getBoundingClientRect();
+  requestAnimationFrame(function(){
+    path.style.transition = '';
+    path.style.strokeDashoffset = '0';
+    if(scan){
+      scan.style.transition = '';
+      scan.classList.add('scanning');
+      scan.style.transform = 'translateX(490px)';
+    }
+  });
+  setTimeout(function(){
+    rects.forEach(function(r){ r.classList.add('show'); });
+    labels.forEach(function(t){ t.classList.add('show'); });
+    if(scan) scan.classList.remove('scanning');
+  }, 1150);
+}
+
+/* ===== Formule / Calcul / Résultat ===== */
+function FCR(f,c,r){
+  return '<span class="fcr-line"><strong>Formule :</strong> '+f+'</span>'
+       + '<span class="fcr-line"><strong>Calcul :</strong> '+c+'</span>'
+       + '<span class="fcr-line"><strong>Résultat :</strong> '+r+'</span>';
+}
+function safeEvalExpr(str){
+  if(!str) return null;
+  var s = str.replace(/,/g,'.').replace(/×/g,'*').replace(/·/g,'*').replace(/÷/g,'/')
+             .replace(/²/g,'**2').replace(/³/g,'**3').replace(/\s+/g,'');
+  if(!s || !/^[0-9.eE+\-*/().]+$/.test(s)) return null;
+  try{
+    var v = Function('"use strict";return ('+s+')')();
+    if(typeof v !== 'number' || isNaN(v) || !isFinite(v)) return null;
+    return v;
+  } catch(e){ return null; }
+}
+function fcrFormule(id, el, isCorrect){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(function(o){ o.classList.remove('correct','incorrect'); });
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  if(isCorrect){
+    var step = document.getElementById(id+'-calc-step');
+    if(step) step.classList.add('show');
+  }
+}
+function fcrCalc(id, expected, tol){
+  var raw = document.getElementById(id+'-calc').value;
+  var val = safeEvalExpr(raw);
+  var fb = document.getElementById(id+'-calc-fb');
+  if(val === null){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Écris un calcul numérique valide (chiffres et ×  /  ²  uniquement).';
+    return;
+  }
+  var ok = Math.abs(val-expected)/Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = ok ? '✓ Calcul correct !' : '✗ Vérifie les valeurs que tu as substituées dans la formule.';
+  if(ok){
+    var step = document.getElementById(id+'-result-step');
+    if(step) step.classList.add('show');
+  }
+}
+function fcrResult(id, expected, tol, resultText){
+  var raw = document.getElementById(id+'-result').value.replace(',', '.').trim();
+  var v = parseFloat(raw);
+  var fb = document.getElementById(id+'-result-fb');
+  if(isNaN(v)){
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de saisir une valeur numérique.';
+    return;
+  }
+  var ok = Math.abs(v-expected)/Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = (ok ? '✓ ' : '✗ ') + resultText;
+}
+function fcrCorrection(id, formule, calc, resultat){
+  var fb = document.getElementById(id+'-correction');
+  if(!fb) return;
+  fb.className = 'exo-fb correction';
+  fb.innerHTML = FCR(formule, calc, resultat);
+}
+function fcrReset(id){
+  var box = document.getElementById(id+'-box');
+  if(box){
+    box.querySelectorAll('.qcm-opt').forEach(function(o){ o.classList.remove('correct','incorrect'); });
+  }
+  var calcIn = document.getElementById(id+'-calc');
+  var resIn = document.getElementById(id+'-result');
+  if(calcIn) calcIn.value = '';
+  if(resIn) resIn.value = '';
+  ['calc-step','result-step'].forEach(function(suffix){
+    var el = document.getElementById(id+'-'+suffix);
+    if(el) el.classList.remove('show');
+  });
+  ['calc-fb','result-fb','correction'].forEach(function(suffix){
+    var el = document.getElementById(id+'-'+suffix);
+    if(el){ el.className = 'exo-fb'; el.innerHTML = ''; }
+  });
+}
+
+/* ===== Jeu d'association (moteur générique, glisser-déposer + clic) ===== */
+function matchShuffle(arr){
+  var a = arr.slice();
+  for(var i=a.length-1;i>0;i--){
+    var j = Math.floor(Math.random()*(i+1));
+    var tmp=a[i]; a[i]=a[j]; a[j]=tmp;
+  }
+  return a;
+}
+function makeMatchGame(pairs, poolId, targetsId, bannerId){
+  var st = { selected:null, done:0, drag:null, suppressClick:false };
+  function init(){
+    var pool = document.getElementById(poolId);
+    var targets = document.getElementById(targetsId);
+    if(!pool) return;
+    pool.innerHTML = '';
+    targets.innerHTML = '';
+    st.selected = null; st.done = 0; st.drag = null; st.suppressClick = false;
+    document.getElementById(bannerId).classList.remove('show');
+    var shuffledLeft = matchShuffle(pairs.map(function(p,i){ return {text:p.left, idx:i}; }));
+    shuffledLeft.forEach(function(item){
+      var chip = document.createElement('div');
+      chip.className = 'dnd-chip';
+      chip.textContent = item.text;
+      chip.dataset.idx = item.idx;
+      chip.addEventListener('click', function(){ selectChip(chip); });
+      chip.addEventListener('pointerdown', pointerDown);
+      pool.appendChild(chip);
+    });
+    var shuffledRight = matchShuffle(pairs.map(function(p,i){ return {text:p.right, idx:i}; }));
+    shuffledRight.forEach(function(item){
+      var tgt = document.createElement('div');
+      tgt.className = 'dnd-target';
+      tgt.textContent = item.text;
+      tgt.dataset.idx = item.idx;
+      tgt.onclick = function(){ selectTarget(tgt); };
+      targets.appendChild(tgt);
+    });
+  }
+  function selectChip(chip){
+    if(st.suppressClick){ st.suppressClick = false; return; }
+    if(chip.classList.contains('placed-correct')) return;
+    document.querySelectorAll('#'+poolId+' .dnd-chip').forEach(function(c){ c.classList.remove('selected'); });
+    chip.classList.add('selected');
+    st.selected = chip;
+  }
+  function selectTarget(tgt){
+    if(!st.selected || tgt.classList.contains('filled')) return;
+    tryPlace(st.selected, tgt);
+  }
+  function tryPlace(chip, tgt){
+    if(tgt.classList.contains('filled')) return false;
+    if(tgt.dataset.idx === chip.dataset.idx){
+      tgt.classList.add('filled');
+      tgt.textContent = chip.textContent + ' ✓ ' + tgt.textContent;
+      chip.classList.add('placed-correct');
+      chip.classList.remove('selected');
+      chip.onclick = null;
+      if(st.selected === chip) st.selected = null;
+      st.done++;
+      if(st.done === pairs.length){
+        var banner = document.getElementById(bannerId);
+        banner.textContent = '🎉 Bravo, toutes les associations sont correctes !';
+        banner.classList.add('show');
+      }
+      return true;
+    } else {
+      tgt.classList.add('shake');
+      setTimeout(function(){ tgt.classList.remove('shake'); }, 400);
+      return false;
+    }
+  }
+  function correction(){
+    var pool = document.getElementById(poolId);
+    var targets = document.getElementById(targetsId);
+    if(!pool) return;
+    document.querySelectorAll('#'+poolId+' .dnd-chip').forEach(function(chip){
+      if(chip.classList.contains('placed-correct')) return;
+      var idx = chip.dataset.idx;
+      var tgt = targets.querySelector('.dnd-target[data-idx="'+idx+'"]');
+      if(tgt && !tgt.classList.contains('filled')){
+        tgt.classList.add('filled');
+        tgt.textContent = chip.textContent + ' ✓ ' + tgt.textContent;
+      }
+      chip.classList.remove('selected','placed-wrong');
+      chip.classList.add('placed-correct');
+      chip.onclick = null;
+    });
+    st.selected = null;
+    st.done = pairs.length;
+    var banner = document.getElementById(bannerId);
+    banner.textContent = '✅ Correction affichée : voici les bonnes associations.';
+    banner.classList.add('show');
+  }
+  function pointerDown(e){
+    var chip = e.currentTarget;
+    if(chip.classList.contains('placed-correct')) return;
+    var rect = chip.getBoundingClientRect();
+    st.drag = {
+      chip: chip, origWidth: rect.width,
+      offsetX: e.clientX - rect.left, offsetY: e.clientY - rect.top,
+      startX: e.clientX, startY: e.clientY, moved: false
+    };
+    chip.setPointerCapture(e.pointerId);
+    chip.addEventListener('pointermove', pointerMove);
+    chip.addEventListener('pointerup', pointerUp);
+    chip.addEventListener('pointercancel', pointerUp);
+  }
+  function pointerMove(e){
+    if(!st.drag || st.drag.chip !== e.currentTarget) return;
+    var dx = e.clientX - st.drag.startX;
+    var dy = e.clientY - st.drag.startY;
+    if(!st.drag.moved && (Math.abs(dx) > 6 || Math.abs(dy) > 6)){
+      st.drag.moved = true;
+      st.drag.chip.classList.add('dragging');
+      st.drag.chip.style.width = st.drag.origWidth + 'px';
+      document.querySelectorAll('#'+targetsId+' .dnd-target').forEach(function(t){ t.classList.remove('dragover'); });
+    }
+    if(st.drag.moved){
+      st.drag.chip.style.left = (e.clientX - st.drag.offsetX) + 'px';
+      st.drag.chip.style.top = (e.clientY - st.drag.offsetY) + 'px';
+      document.querySelectorAll('#'+targetsId+' .dnd-target').forEach(function(t){ t.classList.remove('dragover'); });
+      var under = document.elementFromPoint(e.clientX, e.clientY);
+      var tgt = under ? under.closest('.dnd-target') : null;
+      if(tgt && !tgt.classList.contains('filled')) tgt.classList.add('dragover');
+    }
+  }
+  function pointerUp(e){
+    var chip = e.currentTarget;
+    if(!st.drag || st.drag.chip !== chip) return;
+    chip.releasePointerCapture(e.pointerId);
+    chip.removeEventListener('pointermove', pointerMove);
+    chip.removeEventListener('pointerup', pointerUp);
+    chip.removeEventListener('pointercancel', pointerUp);
+    document.querySelectorAll('#'+targetsId+' .dnd-target').forEach(function(t){ t.classList.remove('dragover'); });
+    if(st.drag.moved){
+      chip.classList.remove('dragging');
+      chip.style.left = ''; chip.style.top = ''; chip.style.width = '';
+      var under = document.elementFromPoint(e.clientX, e.clientY);
+      var tgt = under ? under.closest('.dnd-target') : null;
+      if(tgt) tryPlace(chip, tgt);
+    }
+    var wasMoved = st.drag.moved;
+    st.drag = null;
+    if(wasMoved) st.suppressClick = true;
+  }
+  return { init: init, correction: correction };
+}
+
+var matchGameFamilies = makeMatchGame([
+  { left: 'Groupe hydroxyle –OH', right: 'Famille des alcools' },
+  { left: 'Groupe carbonyle en bout de chaîne', right: 'Famille des aldéhydes' },
+  { left: 'Groupe carbonyle lié à 2 carbones', right: 'Famille des cétones' },
+  { left: 'Groupe carboxyle –COOH', right: 'Famille des acides carboxyliques' }
+], 'matchPool', 'matchTargets', 'matchScoreBanner');
+
+var matchGameTD1 = makeMatchGame([
+  { left: '1 · Linalol — (CH₃)₂C=CH–CH₂–CH₂–C(OH)(CH₃)–CH=CH₂', right: 'Famille des alcools' },
+  { left: '2 · Citronellal — (CH₃)₂C=CH–CH₂–CH₂–CH(CH₃)–CH₂–CHO', right: 'Famille des aldéhydes' },
+  { left: '3 · Muscone — cétone cyclique en C₁₆', right: 'Famille des cétones' },
+  { left: '4 · 2-méthylundécanal — CH₃–(CH₂)₈–CH(CH₃)–CHO', right: 'Famille des aldéhydes' }
+], 'matchPoolTD1', 'matchTargetsTD1', 'matchScoreBannerTD1');
+
+var matchGameTD2 = makeMatchGame([
+  { left: 'A — CH₃–CO–C₆H₄–CH₂–CH(CH₃)₂', right: 'Famille des cétones' },
+  { left: 'B — CH₃–CH(OH)–C₆H₄–CH₂–CH(CH₃)₂', right: 'Famille des alcools' },
+  { left: 'C (ibuprofène) — CH₃–CH(COOH)–C₆H₄–CH₂–CH(CH₃)₂', right: 'Famille des acides carboxyliques' }
+], 'matchPoolTD2', 'matchTargetsTD2', 'matchScoreBannerTD2');
+
+var matchGameTD3 = makeMatchGame([
+  { left: 'Dissoudre le bornéol, ajouter l\'oxone', right: 'Réaliser la transformation chimique (oxydation)' },
+  { left: 'Transvaser dans une ampoule à décanter, séparer les phases', right: 'Commencer l\'isolement du camphre' },
+  { left: 'Extraire la phase aqueuse avec de l\'éthanoate d\'éthyle', right: 'Récupérer le camphre resté dans la phase aqueuse' },
+  { left: 'Laver la phase organique à l\'eau distillée', right: 'Éliminer les espèces ioniques I' },
+  { left: 'Évaporer le solvant', right: 'Isoler le camphre à l\'état solide' },
+  { left: 'Analyser par CCM révélée au diiode', right: 'Contrôler l\'identité et la pureté du produit' }
+], 'matchPoolTD3', 'matchTargetsTD3', 'matchScoreBannerTD3');
+
+/* ===== Escape Game : Mission Parfumeur ===== */
+function escSetProgress(n){
+  for(var i=1;i<=4;i++){
+    var el = document.getElementById('escProg'+i);
+    el.classList.remove('done','current');
+    if(i<n) el.classList.add('done');
+    else if(i===n) el.classList.add('current');
+  }
+}
+function escUnlock(stepId, progressN){
+  document.getElementById(stepId).classList.remove('locked');
+  escSetProgress(progressN);
+}
+
+var escReagentCorrectCount = 0;
+function escPickReagent(el, isCorrect){
+  if(el.classList.contains('picked')) return;
+  var tip = document.getElementById('escTooltip1');
+  if(isCorrect){
+    el.classList.add('picked');
+    escReagentCorrectCount++;
+    tip.classList.remove('show');
+    if(escReagentCorrectCount === 2){
+      document.getElementById('escEquation1').classList.add('show');
+      document.getElementById('escSuccess1').classList.add('show');
+      escUnlock('escStep2', 2);
+    }
+  } else {
+    var hint = el.getAttribute('data-hint');
+    tip.innerHTML = '❌ ' + hint;
+    tip.classList.add('show');
+    el.classList.add('incorrect-flash');
+    setTimeout(function(){ el.classList.remove('incorrect-flash'); }, 700);
+  }
+}
+
+var escEquipOrder = [];
+var escEquipCorrect = [0,1,2,3];
+function escPickEquip(el, idx){
+  var tip = document.getElementById('escTooltip2');
+  if(idx === -1){
+    tip.innerHTML = '⚠️ Danger ! Cet élément n\'a pas sa place dans ce montage (risque de sécurité). Choisis un autre équipement.';
+    tip.classList.add('show');
+    return;
+  }
+  tip.classList.remove('show');
+  el.classList.add('used');
+  escEquipOrder.push(idx);
+  var stackEl = document.getElementById('escEquipStackEl');
+  if(escEquipOrder.length === 1) stackEl.innerHTML = '';
+  var div = document.createElement('div');
+  div.className = 'equip-stack-item';
+  div.textContent = el.textContent;
+  stackEl.appendChild(div);
+  if(escEquipOrder.length === 4){
+    document.getElementById('escVerifyMontage').style.display = 'inline-block';
+  }
+}
+function escResetMontage(){
+  escEquipOrder = [];
+  document.querySelectorAll('#escEquipGrid .equip-btn').forEach(function(b){ b.classList.remove('used'); });
+  document.getElementById('escEquipStackEl').innerHTML = '<span style="font-size:.8rem;color:var(--texte-leger)">Le montage se construit ici, du bas vers le haut…</span>';
+  document.getElementById('escVerifyMontage').style.display = 'none';
+  document.getElementById('escTooltip2').classList.remove('show');
+}
+function escCheckMontage(){
+  var tip = document.getElementById('escTooltip2');
+  var ok = escEquipOrder.length === 4 && escEquipOrder.every(function(v,i){ return v === escEquipCorrect[i]; });
+  if(ok){
+    tip.classList.remove('show');
+    document.getElementById('escSuccess2a').classList.add('show');
+    document.getElementById('escQuizBlock').style.display = 'block';
+  } else {
+    tip.innerHTML = '❌ L\'ordre n\'est pas le bon. Pense à la stabilité du montage et à la circulation des vapeurs. Réessaie !';
+    tip.classList.add('show');
+  }
+}
+var escQuiz1ok = false, escQuiz2ok = false;
+function escQuizCheck(el, isCorrect, qNum){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(function(o){ o.classList.remove('correct','incorrect'); });
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  if(qNum === 1) escQuiz1ok = isCorrect; else escQuiz2ok = isCorrect;
+  if(escQuiz1ok && escQuiz2ok){
+    document.getElementById('escSuccess2b').classList.add('show');
+    escUnlock('escStep3', 3);
+  }
+}
+
+function escPickPhase(isTop){
+  var tip = document.getElementById('escTooltip3');
+  if(isTop){
+    tip.classList.remove('show');
+    document.getElementById('escSuccess3').classList.add('show');
+    escUnlock('escStep4', 4);
+  } else {
+    tip.innerHTML = '❌ Compare à nouveau les masses volumiques : la phase organique (cyclohexane + produit) est-elle plus ou moins dense que l\'eau salée ? Recalcule et réessaie.';
+    tip.classList.add('show');
+  }
+}
+
+var escDepositsDone = [false,false,false];
+function escDeposit(i, btn){
+  escDepositsDone[i] = true;
+  btn.classList.add('used');
+  document.getElementById(['escSpotH0','escSpotL0','escSpotS0'][i]).style.display = 'block';
+  if(escDepositsDone.every(function(v){return v;})){
+    document.getElementById('escElutionRow').style.display = 'flex';
+  }
+}
+function escRevealCcm(){
+  document.getElementById('escSpotH0').style.display = 'none';
+  document.getElementById('escSpotL0').style.display = 'none';
+  document.getElementById('escSpotS0').style.display = 'none';
+  document.getElementById('escCcmResult').style.display = 'block';
+  document.getElementById('escElutionRow').style.display = 'none';
+  document.getElementById('escCcmConclusions').style.display = 'block';
+}
+function escValidateCcm(){
+  var boxes = document.querySelectorAll('#escCcmConclusions input[type=checkbox]');
+  var allOk = true;
+  boxes.forEach(function(b){
+    var shouldBeChecked = b.getAttribute('data-ok') === 'true';
+    if(b.checked !== shouldBeChecked) allOk = false;
+  });
+  var tip = document.getElementById('escTooltip4');
+  if(allOk){
+    tip.classList.remove('show');
+    document.getElementById('escFinal').classList.add('show');
+    escSetProgress(5);
+    document.getElementById('escFinal').scrollIntoView({behavior:'smooth', block:'center'});
+  } else {
+    tip.innerHTML = '❌ Revois attentivement le chromatogramme : compare la hauteur des taches (H), (L) et (S).';
+    tip.classList.add('show');
+  }
+}
+var protocolSteps = [
+  "Dans un ballon, introduire 10 mL d'alcool benzylique, 28 mL d'anhydride éthanoïque, 10 mL de cyclohexane et un barreau aimanté.",
+  "Chauffer à reflux pendant 30 minutes.",
+  "Refroidir le milieu réactionnel, ajouter 50 mL de solution aqueuse d'hydrogénocarbonate de sodium et agiter.",
+  "Verser le contenu du ballon dans une ampoule à décanter puis éliminer la phase aqueuse.",
+  "Ajouter 50 mL de solution de chlorure de sodium saturée, agiter puis laisser décanter.",
+  "Récupérer la phase organique, la sécher avec du sulfate de magnésium anhydre puis filtrer.",
+  "Éliminer le solvant par distillation pour ne récupérer que l'éthanoate de benzyle."
+];
+var reorderCurrent = [];
+function reorderInit(){
+  var list = document.getElementById('reorderList');
+  list.innerHTML = '';
+  document.getElementById('reorderFb').className = 'exo-fb';
+  document.getElementById('reorderFb').innerHTML = '';
+  reorderCurrent = matchShuffle(protocolSteps.map(function(t,i){ return {text:t, orig:i}; }));
+  renderReorder();
+}
+function renderReorder(){
+  var list = document.getElementById('reorderList');
+  list.innerHTML = '';
+  reorderCurrent.forEach(function(item, i){
+    var li = document.createElement('li');
+    li.className = 'reorder-item';
+    li.innerHTML = '<div class="pos-badge">'+(i+1)+'</div>'
+      + '<div class="txt">'+item.text+'</div>'
+      + '<div class="updown"><button onclick="reorderMove('+i+',-1)">▲</button><button onclick="reorderMove('+i+',1)">▼</button></div>';
+    list.appendChild(li);
+  });
+}
+function reorderMove(i, dir){
+  var j = i + dir;
+  if(j < 0 || j >= reorderCurrent.length) return;
+  var tmp = reorderCurrent[i];
+  reorderCurrent[i] = reorderCurrent[j];
+  reorderCurrent[j] = tmp;
+  renderReorder();
+}
+function reorderCheck(){
+  var items = document.querySelectorAll('#reorderList .reorder-item');
+  var allCorrect = true;
+  reorderCurrent.forEach(function(item, i){
+    var ok = item.orig === i;
+    if(!ok) allCorrect = false;
+    items[i].classList.remove('correct','incorrect');
+    items[i].classList.add(ok ? 'correct' : 'incorrect');
+  });
+  var fb = document.getElementById('reorderFb');
+  fb.className = allCorrect ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = allCorrect ? '✓ Bravo, l\'ordre du protocole est correct !' : '✗ Certaines étapes ne sont pas encore à la bonne place (en rouge). Réessaie.';
+}
+
+/* ===== Initialisation ===== */
+/* ===== Icône du header : 3 scènes en rotation ===== */
+var hiconScenes = ['hicon-1','hicon-2','hicon-3'];
+var hiconIdx = 0;
+function hiconShow(idx){
+  hiconScenes.forEach(function(id){ document.getElementById(id).classList.remove('active'); });
+  var el = document.getElementById(hiconScenes[idx]);
+  el.classList.add('active');
+  if(hiconScenes[idx] === 'hicon-1'){
+    el.querySelectorAll('.hicon-pop').forEach(function(node){
+      node.style.animation = 'none';
+      node.getBoundingClientRect();
+      node.style.animation = '';
+    });
+  }
+  if(hiconScenes[idx] === 'hicon-2'){
+    var path = el.querySelector('.hicon-curve');
+    var len = path.getTotalLength();
+    path.style.transition = 'none';
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+    path.getBoundingClientRect();
+    requestAnimationFrame(function(){
+      path.style.transition = '';
+      path.style.strokeDashoffset = '0';
+    });
+  }
+}
+setInterval(function(){
+  hiconIdx = (hiconIdx + 1) % hiconScenes.length;
+  hiconShow(hiconIdx);
+}, 4000);
+
+matchGameFamilies.init();
+matchGameTD1.init();
+matchGameTD2.init();
+matchGameTD3.init();
+irAnimateScene(document.getElementById('ir-alcool'));
+reorderInit();
+</script>
+</body>
+</html>
