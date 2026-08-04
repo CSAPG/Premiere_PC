@@ -601,6 +601,72 @@ function iconSeq12(suffix) {
     </svg>`;
 }
 
+function iconSeq13(suffix) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130">
+      <style>
+        .hicon-scene-${suffix}{opacity:0;animation:hiconFade13-${suffix} 12s ease-in-out infinite}
+        .hicon-a-${suffix}{animation-delay:0s}
+        .hicon-b-${suffix}{animation-delay:4s}
+        .hicon-c-${suffix}{animation-delay:8s}
+        @keyframes hiconFade13-${suffix}{0%{opacity:1}30%{opacity:1}36%{opacity:0}94%{opacity:0}100%{opacity:1}}
+        .hicon-o-pulse-${suffix} circle{animation:hiconPulse-${suffix} 1.6s ease-in-out infinite}
+        @keyframes hiconPulse-${suffix}{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+        .hicon-o-pulse-${suffix} circle{transform-box:fill-box;transform-origin:center}
+        .hicon-reflux-liquid-${suffix}{fill:#2D5F8A;opacity:.55;animation:hiconRefluxSlosh-${suffix} 3s ease-in-out infinite}
+        .hicon-reflux-bubble1-${suffix}{fill:#5B8FB9;opacity:0;animation:hiconRefluxBubble-${suffix} 2.4s ease-in-out .2s infinite}
+        .hicon-reflux-bubble2-${suffix}{fill:#5B8FB9;opacity:0;animation:hiconRefluxBubble-${suffix} 2.4s ease-in-out .9s infinite}
+        .hicon-reflux-bubble3-${suffix}{fill:#5B8FB9;opacity:0;animation:hiconRefluxBubble-${suffix} 2.4s ease-in-out 1.5s infinite}
+        .hicon-reflux-vapor1-${suffix}{fill:#B8D4EC;opacity:0;animation:hiconRefluxVapor-${suffix} 2s ease-out 0s infinite}
+        .hicon-reflux-vapor2-${suffix}{fill:#E8F1F8;opacity:0;animation:hiconRefluxVapor-${suffix} 2s ease-out 1s infinite}
+        .hicon-reflux-drop-${suffix}{fill:#2D5F8A;opacity:0;animation:hiconRefluxDrop-${suffix} 2s ease-in .5s infinite}
+        @keyframes hiconRefluxSlosh-${suffix}{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+        @keyframes hiconRefluxBubble-${suffix}{0%{opacity:0;transform:translateY(0)}20%{opacity:.8}100%{opacity:0;transform:translateY(-18px)}}
+        @keyframes hiconRefluxVapor-${suffix}{0%{opacity:0;transform:translateY(0) scale(1)}30%{opacity:.6}100%{opacity:0;transform:translateY(-28px) scale(1.8)}}
+        @keyframes hiconRefluxDrop-${suffix}{0%{opacity:0;transform:translateY(-22px)}40%{opacity:.9}100%{opacity:0;transform:translateY(8px)}}
+      </style>
+      <rect width="200" height="130" rx="10" fill="#E8F1F8"/>
+      <g class="hicon-scene-${suffix} hicon-a-${suffix}">
+        <text x="100" y="20" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Chaîne carbonée</text>
+        <line x1="45" y1="70" x2="80" y2="55" stroke="#5A6B7A" stroke-width="2.5"/>
+        <line x1="80" y1="55" x2="115" y2="70" stroke="#5A6B7A" stroke-width="2.5"/>
+        <line x1="115" y1="70" x2="150" y2="55" stroke="#5A6B7A" stroke-width="2.5"/>
+        <g><circle cx="45" cy="70" r="10" fill="#3A8A6E"/><text x="45" y="74" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">C</text></g>
+        <g><circle cx="80" cy="55" r="10" fill="#3A8A6E"/><text x="80" y="59" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">C</text></g>
+        <g><circle cx="115" cy="70" r="10" fill="#3A8A6E"/><text x="115" y="74" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">C</text></g>
+        <g class="hicon-o-pulse-${suffix}"><circle cx="150" cy="55" r="10" fill="#C0392B"/><text x="150" y="59" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">O</text></g>
+        <text x="100" y="105" text-anchor="middle" font-size="7.5" font-family="Nunito,sans-serif" font-weight="700" fill="#5A6B7A">groupe caractéristique</text>
+      </g>
+      <g class="hicon-scene-${suffix} hicon-b-${suffix}">
+        <text x="100" y="18" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Spectre IR</text>
+        <line x1="24" y1="105" x2="180" y2="105" stroke="#5A6B7A" stroke-width="1.2"/>
+        <line x1="24" y1="105" x2="24" y2="28" stroke="#5A6B7A" stroke-width="1.2"/>
+        <path d="M24,40 L95,40 C104,40 108,90 118,90 C128,90 132,40 141,40 L180,40" fill="none" stroke="#2D5F8A" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="100" y="120" text-anchor="middle" font-size="7" font-family="Nunito,sans-serif" font-weight="700" fill="#5A6B7A">bande d'absorption</text>
+      </g>
+      <g class="hicon-scene-${suffix} hicon-c-${suffix}">
+        <text x="100" y="18" text-anchor="middle" font-size="8.5" font-family="Outfit,sans-serif" font-weight="800" fill="#2D5F8A">Montage à reflux</text>
+        <g transform="translate(62,18) scale(0.75)">
+          <line x1="50" y1="4" x2="50" y2="58" stroke="#5B8FB9" stroke-width="3"/>
+          <circle fill="none" stroke="#5B8FB9" stroke-width="2.5" cx="50" cy="14" r="9"/>
+          <circle fill="none" stroke="#5B8FB9" stroke-width="2.5" cx="50" cy="32" r="9"/>
+          <circle fill="none" stroke="#5B8FB9" stroke-width="2.5" cx="50" cy="50" r="9"/>
+          <circle class="hicon-reflux-vapor1-${suffix}" cx="50" cy="60" r="3.5"/>
+          <circle class="hicon-reflux-vapor2-${suffix}" cx="50" cy="60" r="3"/>
+          <circle class="hicon-reflux-drop-${suffix}" cx="50" cy="54" r="3"/>
+          <path fill="none" stroke="#5B8FB9" stroke-width="2.5" d="M42,60 L42,72 L58,72 L58,60"/>
+          <circle fill="none" stroke="#5B8FB9" stroke-width="2.5" cx="50" cy="94" r="26"/>
+          <defs><clipPath id="hiconBallonClip-${suffix}"><circle cx="50" cy="94" r="25"/></clipPath></defs>
+          <rect class="hicon-reflux-liquid-${suffix}" clip-path="url(#hiconBallonClip-${suffix})" x="24" y="86" width="52" height="34"/>
+          <circle class="hicon-reflux-bubble1-${suffix}" cx="42" cy="110" r="3"/>
+          <circle class="hicon-reflux-bubble2-${suffix}" cx="54" cy="113" r="2.5"/>
+          <circle class="hicon-reflux-bubble3-${suffix}" cx="62" cy="108" r="3"/>
+          <rect x="14" y="124" width="72" height="7" rx="2" fill="#8593A2"/>
+        </g>
+      </g>
+    </svg>`;
+}
+
 const PRE_ICONS = {
   'seq00': iconSeq00,
   'seq01': iconLumiereCouleurs,
@@ -615,6 +681,7 @@ const PRE_ICONS = {
   'seq10': iconSeq10,
   'seq11': iconSeq11,
   'seq12': iconSeq12,
+  'seq13': iconSeq13,
   'seq14': iconSeq14
 };
 
