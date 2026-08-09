@@ -459,7 +459,7 @@ table.macromicro td.macro-cell{font-weight:600}
 
   <nav class="tabs">
     <div class="tab on" onclick="showTab('cours')">📘 Cours</div>
-    <div class="tab" onclick="showTab('methode')">🧪 Méthode &amp; TD</div>
+    <div class="tab" onclick="showTab('activites')">🧪 Activités</div>
     <div class="tab" onclick="showTab('exercices')">✏️ Exercices</div>
     <div class="tab" onclick="showTab('bilan')">✓ Bilan &amp; Ressources</div>
   </nav>
@@ -471,11 +471,14 @@ table.macromicro td.macro-cell{font-weight:600}
 <div class="panel on" id="tab-cours">
 
   <nav class="sub-tabs-nav" id="sub-nav-cours">
-    <button class="sub-tab-btn active" onclick="switchSubTab('cours',0)">📘 Cours</button>
-    <button class="sub-tab-btn" onclick="switchSubTab('cours',1)">🧪 Activité — vidéo &amp; expérience maison</button>
+    <button class="sub-tab-btn active" onclick="switchSubTab('cours',0)">① Description d'un fluide</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('cours',1)">② Loi de Mariotte</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('cours',2)">③ Statique des fluides</button>
   </nav>
 
+
   <div class="sub-tab-content active" id="cours-sub-0">
+
 
     <div class="intro-box">
       Vidéo débat p220 : pourquoi la canette se déforme-t-elle si on aspire l'air qu'elle contient ? Pour comprendre ce phénomène, il faut décrire ce qu'est un fluide, comment il exerce des forces sur les parois qui le contiennent, et comment sa pression évolue avec la profondeur.
@@ -563,17 +566,18 @@ table.macromicro td.macro-cell{font-weight:600}
 
     <div class="card">
       <div class="card-title"><span class="icon" style="background:var(--orange-clair);color:var(--orange);">🧪</span>Simulateur — Force pressante sur une paroi</div>
-      <p style="font-size:.86rem;margin-bottom:6px;">Fais varier la pression du fluide (surface fixée à S = 1,8 m², comme la peau d'un plongeur) et observe l'effet sur la paroi mobile et sur la valeur de F.</p>
+      <p style="font-size:.86rem;margin-bottom:6px;">Fais varier la pression du fluide (surface fixée à S = 1,8 m², comme la peau d'un plongeur) et observe l'effet sur l'intensité de la force pressante F exercée sur la paroi, qui reste immobile.</p>
       <svg viewBox="0 0 380 150" style="max-width:420px;width:100%;height:auto;display:block;margin:0 auto 6px;" id="fpSvg">
         <rect width="380" height="150" rx="10" fill="#F5F7FA" stroke="#DDE3EC"/>
         <rect x="30" y="30" width="180" height="90" fill="#DCEAF5" stroke="#5B8FB9" stroke-width="2"/>
         <text x="120" y="24" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="10" fill="#2D5F8A">Fluide (pression P)</text>
         <!-- flèches de force -->
         <g id="fpArrows"></g>
-        <!-- paroi mobile -->
+        <!-- paroi fixe -->
         <rect x="210" y="26" width="10" height="98" fill="#5A6B7A" id="fpWall"/>
-        <text x="270" y="80" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="10" fill="#5A6B7A">paroi</text>
+        <text x="270" y="80" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="10" fill="#5A6B7A">paroi fixe</text>
       </svg>
+      <div class="legend" style="text-align:center;margin:-2px 0 10px;">🟠 Flèches oranges : force pressante exercée par le fluide sur la paroi (perpendiculaire à la paroi, dirigée du fluide vers la paroi) — leur longueur augmente avec P, la paroi ne se déplace pas.</div>
       <div class="redox-slider-wrap">
         <span class="redox-slider-label">P faible</span>
         <input type="range" min="100000" max="3000000" step="50000" value="500000" id="fpSlider" class="redox-slider" oninput="fpUpdate(this.value)">
@@ -612,7 +616,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <p style="font-size:.85rem;">TD : Plongée en apnée p224 (voir onglet <strong>Méthode &amp; TD</strong>) • Exercices p231 n°29 (calculer une force pressante) et p234 n°43 (bouchon de champagne) — voir onglet <strong>Exercices</strong>.</p>
     </div>
 
-    <div class="section-title"><span class="icon">💨</span>III. Loi de Mariotte</div>
+    
+  </div><!-- /cours-sub-0 -->
+
+  <div class="sub-tab-content" id="cours-sub-1">
+<div class="section-title"><span class="icon">💨</span>III. Loi de Mariotte</div>
     <p style="font-size:.86rem;color:var(--texte-leger);font-style:italic;margin-bottom:12px;">Objectif : utiliser la loi de Mariotte.</p>
 
     <div class="card">
@@ -712,7 +720,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <p style="font-size:.85rem;">Vidéo expliquant la loi (onglet <strong>Bilan &amp; Ressources</strong>) • Exercices p229 n°13 (volume occupé par un gaz), p231 n°30 (risques en apnée), p233 n°38 (conditionner l'hélium) — voir onglet <strong>Exercices</strong>.</p>
     </div>
 
-    <div class="section-title"><span class="icon">🌊</span>IV. Loi fondamentale de la statique des fluides</div>
+    
+  </div><!-- /cours-sub-1 -->
+
+  <div class="sub-tab-content" id="cours-sub-2">
+<div class="section-title"><span class="icon">🌊</span>IV. Loi fondamentale de la statique des fluides</div>
     <p style="font-size:.86rem;color:var(--texte-leger);font-style:italic;margin-bottom:12px;">Objectif : dans le cas d'un fluide incompressible au repos, utiliser la relation fournie exprimant la loi fondamentale de la statique des fluides.</p>
 
     <div class="card">
@@ -811,9 +823,23 @@ table.macromicro td.macro-cell{font-weight:600}
       <p style="font-size:.85rem;">Exercices p229 n°12 (pression dans un liquide), p230 n°22 (hauteur d'un château d'eau), p232 n°36 (construire un château d'eau surélevé), p234 n°44 (surpression pulmonaire — utiliser aussi la loi de Mariotte pour la question b), p238 n°54 (profondimètre, résolution de problème fiche méthode p432) — voir onglet <strong>Exercices</strong>.</p>
     </div>
 
-  </div><!-- /cours-sub-0 -->
+  
+  </div><!-- /cours-sub-2 -->
 
-  <div class="sub-tab-content" id="cours-sub-1">
+</div><!-- /tab-cours -->
+
+<!-- ══════════════════ TAB 2 — ACTIVITÉS ══════════════════ -->
+<div class="panel" id="tab-activites">
+
+<nav class="sub-tabs-nav" id="sub-nav-activites">
+    <button class="sub-tab-btn active" onclick="switchSubTab('activites',0)">🎬 Activité — vidéo &amp; expérience maison</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('activites',1)">📋 Fiche méthode</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('activites',2)">🤿 TD — Plongée en apnée</button>
+  </nav>
+
+
+  <div class="sub-tab-content active" id="activites-sub-0">
+
 
     <div class="section-title"><span class="icon">🎬</span>Activité vidéo — Description des fluides au repos (TD p222)</div>
     <div class="intro-box">Cette simulation compare le comportement microscopique de particules de gaz « lourdes » et « légères » enfermées dans une enceinte, à différentes températures. Observe attentivement l'agitation des particules, la fréquence de leurs chocs contre les parois (jauge de pression) et leur proximité, pour compléter le tableau macro/micro du cours.</div>
@@ -870,19 +896,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <div class="reveal-body">La pression atmosphérique exerce sur la feuille de papier, de bas en haut, une force pressante F = P<sub>atm</sub> × S. Cette force pressante compense (et dépasse légèrement) le poids de l'eau contenue dans le verre : la feuille reste donc plaquée contre le verre. Cette expérience illustre, comme l'ampoule à décanter évoquée en introduction, que <strong>la pression atmosphérique exerce des forces pressantes bien réelles</strong>, souvent insoupçonnées car elles s'exercent dans toutes les directions et s'équilibrent habituellement.</div>
     </div>
 
-  </div><!-- /cours-sub-1 -->
+  
+  </div><!-- /activites-sub-0 -->
 
-</div><!-- /tab-cours -->
+  <div class="sub-tab-content" id="activites-sub-1">
 
-<!-- ══════════════════ TAB 2 — MÉTHODE & TD ══════════════════ -->
-<div class="panel" id="tab-methode">
-
-  <nav class="sub-tabs-nav" id="sub-nav-methode">
-    <button class="sub-tab-btn active" onclick="switchSubTab('methode',0)">📋 Fiche méthode</button>
-    <button class="sub-tab-btn" onclick="switchSubTab('methode',1)">🤿 TD — Plongée en apnée</button>
-  </nav>
-
-  <div class="sub-tab-content active" id="methode-sub-0">
 
     <div class="section-title"><span class="icon">🖐️</span>Méthode — Calculer une force pressante</div>
     <ol class="methode-list">
@@ -913,9 +931,11 @@ table.macromicro td.macro-cell{font-weight:600}
       <p style="font-size:.87rem;line-height:1.6;">Pour un exercice de résolution de problème (comme le calcul de la profondeur maximale atteignable par un plongeur à partir de la pression maximale supportée par son organisme), utilise la <strong>fiche méthode de résolution de problème p432</strong> du manuel : identifier les données, la ou les relations utiles (ici la loi fondamentale de la statique des fluides), construire une démarche en plusieurs étapes, puis vérifier l'ordre de grandeur du résultat obtenu.</p>
     </div>
 
-  </div><!-- /methode-sub-0 -->
+  
+  </div><!-- /activites-sub-1 -->
 
-  <div class="sub-tab-content" id="methode-sub-1">
+  <div class="sub-tab-content" id="activites-sub-2">
+
 
     <div class="section-title"><span class="icon">🤿</span>TD — Plongée en apnée (p224)</div>
     <div class="intro-box">Un apnéiste descend verticalement dans l'eau de mer (ρ = 1,03×10³ kg·m⁻³, g = 9,8 N·kg⁻¹). En surface, la pression vaut P<sub>atm</sub> = 1,0×10⁵ Pa.</div>
@@ -951,9 +971,12 @@ table.macromicro td.macro-cell{font-weight:600}
       <div class="exo-fb" id="apnee3fb"></div>
     </div>
 
-  </div><!-- /methode-sub-1 -->
+  
+  </div><!-- /activites-sub-2 -->
 
-</div><!-- /tab-methode -->
+</div><!-- /tab-activites -->
+
+
 
 <!-- ══════════════════ TAB 3 — EXERCICES ══════════════════ -->
 <div class="panel" id="tab-exercices">
@@ -1411,7 +1434,7 @@ table.macromicro td.macro-cell{font-weight:600}
 <script>
 /* === Onglets principaux === */
 function showTab(id){
-  var ids=['cours','methode','exercices','bilan'];
+  var ids=['cours','activites','exercices','bilan'];
   document.querySelectorAll('.tabs > .tab').forEach(function(t,i){ t.classList.toggle('on', ids[i]===id); });
   document.querySelectorAll('.main > .panel').forEach(function(p){ p.classList.remove('on'); });
   document.getElementById('tab-'+id).classList.add('on');
@@ -1730,23 +1753,42 @@ function checkEx9(){
 }
 
 /* === Simulateur force pressante === */
+function sciNotationFR(value, decimals){
+  // Renvoie "m×10^e Pa/N"-ready mantisse et exposant, mantisse toujours dans [1;10[
+  if(value === 0) return {mantisse:'0', exposant:0};
+  var exposant = Math.floor(Math.log10(Math.abs(value)));
+  var mantisse = value / Math.pow(10, exposant);
+  // Correction des arrondis flottants (ex: 9.9999999 -> 10)
+  if(Math.round(mantisse*Math.pow(10,decimals))/Math.pow(10,decimals) >= 10){
+    mantisse = mantisse/10; exposant += 1;
+  }
+  var expDigits = ['⁰','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹'];
+  var expStr = String(exposant).split('').map(function(d){return d==='-'?'⁻':expDigits[+d];}).join('');
+  return {
+    mantisse: mantisse.toLocaleString('fr-FR',{minimumFractionDigits:decimals,maximumFractionDigits:decimals}),
+    exposant: expStr
+  };
+}
 function fpUpdate(val){
   var P = parseFloat(val);
   var S = 1.8;
   var F = P * S;
-  document.getElementById('fpPval').textContent = (P/1e5).toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}) + '×10⁵ Pa';
-  document.getElementById('fpFval').textContent = (F/1e5).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '×10⁵ N';
-  // déplacement de la paroi (plus la pression est forte, plus elle recule) + flèches
-  var wallX = 210 + Math.min(60, (P-100000)/3000000*60);
-  document.getElementById('fpWall').setAttribute('x', wallX);
+  var pFmt = sciNotationFR(P, 1);
+  var fFmt = sciNotationFR(F, 2);
+  document.getElementById('fpPval').textContent = pFmt.mantisse + '×10' + pFmt.exposant + ' Pa';
+  document.getElementById('fpFval').textContent = fFmt.mantisse + '×10' + fFmt.exposant + ' N';
+  // La paroi est fixe et le fluide ne se déplace pas : seule l'intensité de la force pressante
+  // (longueur et épaisseur des flèches) varie avec la pression P.
   var arrowsGroup = document.getElementById('fpArrows');
   var n = 3;
-  var arrowLen = 15 + Math.min(35, (P-100000)/3000000*35);
+  var t = Math.min(1, (P-100000)/2900000); // progression 0→1 sur la plage du curseur
+  var arrowLen = 15 + t*35;
+  var strokeW = 2 + t*2.5;
   var html = '';
   for(var i=0;i<n;i++){
     var y = 45 + i*30;
     var x2 = 90 + arrowLen;
-    html += '<line x1="90" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="#E8783A" stroke-width="2.5" marker-end="url(#fpArrowHead)"/>';
+    html += '<line x1="90" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="#E8783A" stroke-width="'+strokeW+'" marker-end="url(#fpArrowHead)"/>';
   }
   arrowsGroup.innerHTML = '<defs><marker id="fpArrowHead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#E8783A"/></marker></defs>' + html;
 }
