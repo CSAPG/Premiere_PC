@@ -826,6 +826,9 @@ table.tex select{width:100%;padding:5px;border-radius:5px;border:1px solid var(-
 
   <div class="sub-tabs-nav">
     <button class="sub-tab-btn active" onclick="showSub(this,'exo-1')">📝 QCM</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-facile')">🟢 Facile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-inter')">🟡 Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-diff')">🔴 Difficile</button>
     <button class="sub-tab-btn" onclick="showSub(this,'exo-2')">🕵️ Escape Game</button>
   </div>
 
@@ -852,6 +855,21 @@ table.tex select{width:100%;padding:5px;border-radius:5px;border:1px solid var(-
     </div>
 
 
+</div>
+<div class="sub-tab-content" id="exo-facile">
+    <div class="section-title"><span class="icon">🟢</span>Exercices — niveau facile</div>
+    <p style="font-size:.86rem;color:var(--texte-leger);margin-bottom:14px;">Application directe d'une seule relation. Identifie d'abord l'état physique de l'espèce (ou la donnée fournie), puis choisis la relation adaptée.</p>
+    <div id="exoFacileBox"></div>
+</div>
+<div class="sub-tab-content" id="exo-inter">
+    <div class="section-title"><span class="icon">🟡</span>Exercices — niveau intermédiaire</div>
+    <p style="font-size:.86rem;color:var(--texte-leger);margin-bottom:14px;">Ces exercices enchaînent deux relations, ou demandent de combiner plusieurs données.</p>
+    <div id="exoInterBox"></div>
+</div>
+<div class="sub-tab-content" id="exo-diff">
+    <div class="section-title"><span class="icon">🔴</span>Exercices — niveau difficile</div>
+    <p style="font-size:.86rem;color:var(--texte-leger);margin-bottom:14px;">Problèmes de type protocole expérimental complet, combinant plusieurs notions de la séquence (masses molaires, dilution, Beer-Lambert).</p>
+    <div id="exoDiffBox"></div>
 </div>
 <div class="sub-tab-content" id="exo-2">
     <div class="section-title"><span class="icon">🕵️</span>Escape Game — Le Coffre du Laboratoire</div>
@@ -1692,6 +1710,170 @@ renderQCM('qcmBL', QCM_BL);
 renderQCM('qcmGM', QCM_GM);
 renderQCM('qcmDIL', QCM_DIL);
 renderQCM('qcmQM', QCM_QM);
+
+/* ═══ Exercices gradués — Facile / Intermédiaire / Difficile ═══ */
+var GQM_OPTS = ['n = m/M','n = V/V\u2098','n = C\u00d7V','n = N/N_A'];
+var GDIL_OPTS = ['C\u2098\u00e8\u1d63\u2091\u00d7V\u2098\u00e8\u1d63\u2091 = C\u1da0\u1d62\u02e1\u02e1\u1d49\u00d7V\u1da0\u1d62\u02e1\u02e1\u1d49','F = V\u1da0\u1d62\u02e1\u02e1\u1d49/V\u2098\u00e8\u1d63\u2091','n = C\u00d7V'];
+var GBL_OPTS = ['c = A/(\u03b5\u00b7\u2113)','A = \u03b5\u00b7\u2113\u00b7c','c = \u03b5\u00b7\u2113/A'];
+var GMIX_OPTS = ['n_totale = n\u2081 + n\u2082','n_totale = n\u2081 \u00d7 n\u2082','n_totale = (n\u2081+n\u2082)/2'];
+var GCM_OPTS = ['C = C\u2098/M','C = C\u2098\u00d7M','C = M/C\u2098'];
+
+var EXO_GRADED = [
+  /* ---- FACILE ---- */
+  { id:'gf1', box:'exoFacileBox', diff:'d1', title:'Exercice 1 — Hydroxyde de sodium solide',
+    statement:'Calculer la quantité de matière contenue dans m = 4,0 g d\'hydroxyde de sodium NaOH solide (M = 40 g\u00b7mol\u207b\u00b9).',
+    fields:[{id:'gf1n', label:'n(NaOH) =', unit:'mol', ans:0.10, tol:0.01, formula:{options:GQM_OPTS, correctIndex:0}}],
+    expl:'n = m/M = 4,0/40 = 0,10 mol.' },
+  { id:'gf2', box:'exoFacileBox', diff:'d1', title:'Exercice 2 — Dioxygène gazeux',
+    statement:'Quel volume de dioxygène O\u2082(g) faut-il prélever, à 20 °C sous pression atmosphérique (V\u2098 = 24 L\u00b7mol\u207b\u00b9), pour obtenir n = 0,50 mol ?',
+    fields:[{id:'gf2V', label:'V(O\u2082) =', unit:'L', ans:12.0, tol:0.3, formula:{options:GQM_OPTS, correctIndex:1}}],
+    expl:'V = n \u00d7 V\u2098 = 0,50 \u00d7 24 = 12 L.' },
+  { id:'gf3', box:'exoFacileBox', diff:'d1', title:'Exercice 3 — Solution de chlorure de sodium',
+    statement:'Une solution de chlorure de sodium a une concentration C = 0,50 mol\u00b7L\u207b\u00b9. Quelle quantité de matière est contenue dans un volume V = 200 mL de cette solution ?',
+    fields:[{id:'gf3n', label:'n(NaCl) =', unit:'mol', ans:0.10, tol:0.01, formula:{options:GQM_OPTS, correctIndex:2}}],
+    expl:'n = C \u00d7 V = 0,50 \u00d7 0,200 = 0,10 mol.' },
+  { id:'gf4', box:'exoFacileBox', diff:'d1', title:'Exercice 4 — Masse molaire du dioxyde de carbone',
+    statement:'Calculer la masse molaire du dioxyde de carbone CO\u2082, avec M(C) = 12 g\u00b7mol\u207b\u00b9 et M(O) = 16 g\u00b7mol\u207b\u00b9.',
+    fields:[{id:'gf4M', label:'M(CO\u2082) =', unit:'g\u00b7mol\u207b\u00b9', ans:44, tol:0.5}],
+    expl:'M(CO\u2082) = M(C) + 2\u00d7M(O) = 12 + 2\u00d716 = 44 g\u00b7mol\u207b\u00b9.' },
+  { id:'gf5', box:'exoFacileBox', diff:'d1', title:'Exercice 5 — Facteur de dilution',
+    statement:'On prélève V\u2098\u00e8\u1d63\u2091 = 10 mL d\'une solution mère pour préparer, par dilution, V\u1da0\u1d62\u02e1\u02e1\u1d49 = 200 mL de solution fille. Calculer le facteur de dilution F.',
+    fields:[{id:'gf5F', label:'F =', unit:'', ans:20, tol:0.5, formula:{options:GDIL_OPTS, correctIndex:1}}],
+    expl:'F = V\u1da0\u1d62\u02e1\u02e1\u1d49/V\u2098\u00e8\u1d63\u2091 = 200/10 = 20.' },
+
+  /* ---- INTERMEDIAIRE ---- */
+  { id:'gi1', box:'exoInterBox', diff:'d2', title:'Exercice 1 — Dissolution d\'hydrogénocarbonate de sodium',
+    statement:'On dissout entièrement m = 3,00 g d\'hydrogénocarbonate de sodium NaHCO\u2083 solide (M = 84 g\u00b7mol\u207b\u00b9), puis on complète jusqu\'à V = 500 mL de solution. Calculer d\'abord la quantité de matière dissoute, puis la concentration molaire C de la solution obtenue.',
+    fields:[
+      {id:'gi1n', label:'n(NaHCO\u2083) =', unit:'mol', ans:0.0357, tol:0.001, formula:{options:GQM_OPTS, correctIndex:0}},
+      {id:'gi1C', label:'C =', unit:'mol\u00b7L\u207b\u00b9', ans:0.0714, tol:0.002}
+    ],
+    expl:'n = m/M = 3,00/84 \u2248 0,0357 mol ; C = n/V = 0,0357/0,500 \u2248 0,0714 mol\u00b7L\u207b\u00b9.' },
+  { id:'gi2', box:'exoInterBox', diff:'d2', title:'Exercice 2 — Retrouver la concentration mère',
+    statement:'On prélève V\u2098\u00e8\u1d63\u2091 = 25 mL d\'une solution mère de concentration C\u2098\u00e8\u1d63\u2091 inconnue, que l\'on dilue dans une fiole de V\u1da0\u1d62\u02e1\u02e1\u1d49 = 500 mL. On mesure alors C\u1da0\u1d62\u02e1\u02e1\u1d49 = 0,015 mol\u00b7L\u207b\u00b9. En déduire C\u2098\u00e8\u1d63\u2091.',
+    fields:[{id:'gi2C', label:'C\u2098\u00e8\u1d63\u2091 =', unit:'mol\u00b7L\u207b\u00b9', ans:0.30, tol:0.01, formula:{options:GDIL_OPTS, correctIndex:0}}],
+    expl:'C\u2098\u00e8\u1d63\u2091\u00d7V\u2098\u00e8\u1d63\u2091 = C\u1da0\u1d62\u02e1\u02e1\u1d49\u00d7V\u1da0\u1d62\u02e1\u02e1\u1d49 \u21d2 C\u2098\u00e8\u1d63\u2091 = 0,015\u00d7500/25 = 0,30 mol\u00b7L\u207b\u00b9.' },
+  { id:'gi3', box:'exoInterBox', diff:'d2', title:'Exercice 3 — Mélange gazeux',
+    statement:'Un mélange gazeux contient 0,20 mol de diazote N\u2082 et une masse m = 8,0 g de dioxygène O\u2082 (M = 32 g\u00b7mol\u207b\u00b9). Calculer la quantité de matière totale du mélange.',
+    fields:[{id:'gi3n', label:'n_totale =', unit:'mol', ans:0.45, tol:0.01, formula:{options:GMIX_OPTS, correctIndex:0}}],
+    expl:'n(O\u2082) = m/M = 8,0/32 = 0,25 mol ; n_totale = n(N\u2082) + n(O\u2082) = 0,20 + 0,25 = 0,45 mol.' },
+  { id:'gi4', box:'exoInterBox', diff:'d2', title:'Exercice 4 — Concentration par spectrophotométrie',
+    statement:'Une solution colorée présente une absorbance A = 0,72 à \u03bb_max, mesurée dans une cuve de largeur \u2113 = 1,0 cm. Le coefficient d\'extinction molaire de l\'espèce vaut \u03b5 = 1,8\u00d710\u00b3 L\u00b7mol\u207b\u00b9\u00b7cm\u207b\u00b9. Calculer sa concentration molaire c.',
+    fields:[{id:'gi4c', label:'c =', unit:'mol\u00b7L\u207b\u00b9', ans:0.0004, tol:0.00002, formula:{options:GBL_OPTS, correctIndex:0}}],
+    expl:'c = A/(\u03b5\u00b7\u2113) = 0,72/(1800\u00d71) = 4,0\u00d710\u207b\u2074 mol\u00b7L\u207b\u00b9.' },
+  { id:'gi5', box:'exoInterBox', diff:'d2', title:'Exercice 5 — Même quantité de matière, deux états physiques',
+    statement:'On dispose de n = 0,30 mol de dioxygène gazeux (20 °C, pression atmosphérique, V\u2098 = 24 L\u00b7mol\u207b\u00b9) et de la même quantité de matière de fer solide (M(Fe) = 56 g\u00b7mol\u207b\u00b9). Calculer le volume occupé par le gaz, puis la masse de fer correspondante.',
+    fields:[
+      {id:'gi5V', label:'V(O\u2082) =', unit:'L', ans:7.2, tol:0.2, formula:{options:GQM_OPTS, correctIndex:1}},
+      {id:'gi5m', label:'m(Fe) =', unit:'g', ans:16.8, tol:0.5}
+    ],
+    expl:'V = n\u00d7V\u2098 = 0,30\u00d724 = 7,2 L ; m = n\u00d7M = 0,30\u00d756 = 16,8 g. La quantité de matière est la même, seule la grandeur mesurée change avec l\'état physique.' },
+
+  /* ---- DIFFICILE ---- */
+  { id:'gd1', box:'exoDiffBox', diff:'d3', title:'Exercice 1 — Protocole complet : pesée, dilution, spectrophotométrie',
+    statement:'On pèse m = 2,45 g de sulfate de cuivre pentahydraté CuSO\u2084\u00b75H\u2082O (M = 250 g\u00b7mol\u207b\u00b9), dissous intégralement puis complété à V\u2080 = 100 mL (solution mère S\u2080). On prélève V\u2098\u00e8\u1d63\u2091 = 10,0 mL de S\u2080, dilués dans une fiole de V\u1da0\u1d62\u02e1\u02e1\u1d49 = 100 mL (solution S\u2081). Calculer successivement : la quantité de matière pesée, la concentration C\u2080 de S\u2080, le facteur de dilution F, puis la concentration C\u2081 de S\u2081.',
+    fields:[
+      {id:'gd1n', label:'n(CuSO\u2084\u00b75H\u2082O) =', unit:'mol', ans:0.0098, tol:0.0003, formula:{options:GQM_OPTS, correctIndex:0}},
+      {id:'gd1C0', label:'C\u2080 =', unit:'mol\u00b7L\u207b\u00b9', ans:0.098, tol:0.003},
+      {id:'gd1F', label:'F =', unit:'', ans:10, tol:0.5},
+      {id:'gd1C1', label:'C\u2081 =', unit:'mol\u00b7L\u207b\u00b9', ans:0.0098, tol:0.0003}
+    ],
+    expl:'n = m/M = 2,45/250 = 0,0098 mol ; C\u2080 = n/V\u2080 = 0,0098/0,100 = 0,098 mol\u00b7L\u207b\u00b9 ; F = V\u1da0\u1d62\u02e1\u02e1\u1d49/V\u2098\u00e8\u1d63\u2091 = 100/10 = 10 ; C\u2081 = C\u2080/F = 0,098/10 = 0,0098 mol\u00b7L\u207b\u00b9. Avec \u03b5 = 50 L\u00b7mol\u207b\u00b9\u00b7cm\u207b\u00b9 et \u2113 = 1,0 cm, on prédirait A = \u03b5\u00b7\u2113\u00b7C\u2081 = 50\u00d70,0098 = 0,49, cohérent avec une mesure expérimentale.' },
+  { id:'gd2', box:'exoDiffBox', diff:'d3', title:'Exercice 2 — Pourquoi diluer avant de mesurer l\'absorbance',
+    statement:'La droite d\'étalonnage d\'une solution de permanganate de potassium vérifie A = k\u00d7C avec k = 2,4\u00d710\u00b3 L\u00b7mol\u207b\u00b9 (\u2113 = 1,0 cm). Une solution S, trop concentrée, sort du domaine de validité de la loi de Beer-Lambert. On dilue 10 fois S pour obtenir S\u2019, dont on mesure A\u2019 = 0,60. Déterminer la concentration de S\u2019, puis celle de la solution initiale S.',
+    fields:[
+      {id:'gd2Cp', label:'C(S\u2019) =', unit:'mol\u00b7L\u207b\u00b9', ans:0.00025, tol:0.00001, formula:{options:GBL_OPTS, correctIndex:0}},
+      {id:'gd2C', label:'C(S) =', unit:'mol\u00b7L\u207b\u00b9', ans:0.0025, tol:0.0001}
+    ],
+    expl:'C(S\u2019) = A\u2019/k = 0,60/2400 = 2,5\u00d710\u207b\u2074 mol\u00b7L\u207b\u00b9. Comme S\u2019 est 10 fois moins concentrée que S : C(S) = C(S\u2019)\u00d7F = 2,5\u00d710\u207b\u2074\u00d710 = 2,5\u00d710\u207b\u00b3 mol\u00b7L\u207b\u00b9. On dilue justement pour ramener l\'absorbance dans le domaine linéaire de la loi de Beer-Lambert.' },
+  { id:'gd3', box:'exoDiffBox', diff:'d3', title:'Exercice 3 — Mélange de deux solutions de même soluté',
+    statement:'On mélange, sans variation de volume, V\u2081 = 100 mL d\'une solution de chlorure de sodium à C\u2081 = 0,20 mol\u00b7L\u207b\u00b9 et V\u2082 = 150 mL d\'une solution de chlorure de sodium à C\u2082 = 0,50 mol\u00b7L\u207b\u00b9. Calculer la quantité de matière totale de NaCl, puis la concentration de la solution obtenue (volume total V = V\u2081+V\u2082 = 250 mL).',
+    fields:[
+      {id:'gd3n', label:'n_totale =', unit:'mol', ans:0.095, tol:0.002, formula:{options:GMIX_OPTS, correctIndex:0}},
+      {id:'gd3C', label:'C =', unit:'mol\u00b7L\u207b\u00b9', ans:0.38, tol:0.01}
+    ],
+    expl:'n\u2081 = C\u2081\u00d7V\u2081 = 0,20\u00d70,100 = 0,020 mol ; n\u2082 = C\u2082\u00d7V\u2082 = 0,50\u00d70,150 = 0,075 mol ; n_totale = 0,020+0,075 = 0,095 mol ; C = n_totale/V = 0,095/0,250 = 0,38 mol\u00b7L\u207b\u00b9.' },
+  { id:'gd4', box:'exoDiffBox', diff:'d4', title:'Exercice 4 — Retrouver une masse molaire inconnue',
+    statement:'Une masse m = 1,20 g d\'un solide ionique X, de masse molaire M inconnue, est intégralement dissoute dans de l\'eau puis complétée à V = 250 mL. Une mesure indépendante donne la concentration molaire de X dans cette solution : C = 4,80\u00d710\u207b\u00b2 mol\u00b7L\u207b\u00b9. Déterminer la masse molaire M de X.',
+    fields:[
+      {id:'gd4n', label:'n(X) =', unit:'mol', ans:0.0120, tol:0.0005, formula:{options:GQM_OPTS, correctIndex:2}},
+      {id:'gd4M', label:'M(X) =', unit:'g\u00b7mol\u207b\u00b9', ans:100, tol:3}
+    ],
+    expl:'n = C\u00d7V = 4,80\u00d710\u207b\u00b2\u00d70,250 = 0,0120 mol ; M = m/n = 1,20/0,0120 = 100 g\u00b7mol\u207b\u00b9.' },
+  { id:'gd5', box:'exoDiffBox', diff:'d4', title:'Exercice 5 — Concentration en masse et dilution combinées',
+    statement:'Un flacon de solution commerciale d\'ammoniac indique une concentration en masse C\u2098 = 68 g\u00b7L\u207b\u00b9 (M(NH\u2083) = 17 g\u00b7mol\u207b\u00b9). Calculer la concentration molaire C de cette solution, puis le volume V\u2098\u00e8\u1d63\u2091 à prélever pour préparer, par dilution, V\u1da0\u1d62\u02e1\u02e1\u1d49 = 500 mL d\'une solution fille à C\u1da0\u1d62\u02e1\u02e1\u1d49 = 0,10 mol\u00b7L\u207b\u00b9.',
+    fields:[
+      {id:'gd5C', label:'C =', unit:'mol\u00b7L\u207b\u00b9', ans:4.0, tol:0.1, formula:{options:GCM_OPTS, correctIndex:0}},
+      {id:'gd5V', label:'V\u2098\u00e8\u1d63\u2091 =', unit:'mL', ans:12.5, tol:0.5}
+    ],
+    expl:'C = C\u2098/M = 68/17 = 4,0 mol\u00b7L\u207b\u00b9. Puis C\u2098\u00e8\u1d63\u2091\u00d7V\u2098\u00e8\u1d63\u2091 = C\u1da0\u1d62\u02e1\u02e1\u1d49\u00d7V\u1da0\u1d62\u02e1\u02e1\u1d49 \u21d2 V\u2098\u00e8\u1d63\u2091 = 0,10\u00d7500/4,0 = 12,5 mL.' }
+];
+
+function gRenderField(f){
+  var html = '';
+  if(f.formula){
+    var opts = f.formula.options.map(function(opt,i){
+      return '<label><input type="radio" name="'+f.id+'-formula" value="'+i+'"> '+opt+'</label>';
+    }).join('');
+    html += '<div class="exo-formula-choice"><em>Quelle relation utiliser ?</em>'+opts+'</div>';
+  }
+  html += '<div class="exo-field">'+f.label+' <input type="number" step="0.0001" id="'+f.id+'" placeholder="?"> '+f.unit+'</div>';
+  return html;
+}
+function gFieldsCorrectionHtml(fields){
+  return fields.map(function(f){
+    if(f.formula) return '<strong>'+f.label.replace(' =','')+'</strong> \u2192 '+f.formula.options[f.formula.correctIndex];
+    return '';
+  }).filter(Boolean).join('<br>');
+}
+function renderGradedBox(boxId){
+  var box = document.getElementById(boxId);
+  var html = '';
+  EXO_GRADED.filter(function(it){ return it.box===boxId; }).forEach(function(item){
+    var diffLabel = item.diff==='d1'?'Facile':item.diff==='d2'?'Intermédiaire':item.diff==='d3'?'Difficile':'Avancé';
+    html += '<div class="exo-box"><h5>'+item.title+'<span class="diff-badge '+item.diff+'">'+diffLabel+'</span></h5>'
+      + '<p style="font-size:.86rem;margin-bottom:8px;">'+item.statement+'</p>';
+    item.fields.forEach(function(f){ html += gRenderField(f); });
+    html += '<div class="exo-btn-row"><button class="exo-btn" onclick="checkGraded(\''+item.id+'\')">Vérifier</button>'
+      + '<button class="exo-btn secondary" onclick="resetGraded(\''+item.id+'\')">🔄 Recommencer</button></div>'
+      + '<div class="exo-fb" id="fb-'+item.id+'"></div>';
+    var corrLine = gFieldsCorrectionHtml(item.fields);
+    html += '<button class="accord-btn" onclick="toggleAccord(this)">👁 Voir la correction <span class="accord-arrow">▾</span></button>'
+      + '<div class="accord-body">'+(corrLine ? '<p>'+corrLine+'</p>' : '')+'<p style="margin-top:6px;">'+item.expl+'</p></div></div>';
+  });
+  box.innerHTML = html;
+}
+function resetGraded(id){
+  var item = EXO_GRADED.find(function(d){ return d.id===id; });
+  item.fields.forEach(function(f){
+    document.getElementById(f.id).value = '';
+    if(f.formula) document.getElementsByName(f.id+'-formula').forEach(function(r){ r.checked = false; });
+  });
+  var fb = document.getElementById('fb-'+id);
+  fb.className='exo-fb'; fb.innerHTML='';
+}
+function checkGraded(id){
+  var item = EXO_GRADED.find(function(d){ return d.id===id; });
+  var fb = document.getElementById('fb-'+id);
+  var allOk = true, anyEmpty = false, formulaOk = true;
+  item.fields.forEach(function(f){
+    var val = parseFloat(document.getElementById(f.id).value);
+    if(isNaN(val)){ anyEmpty = true; return; }
+    if(f.formula){
+      var checked = document.querySelector('input[name="'+f.id+'-formula"]:checked');
+      if(!checked){ anyEmpty = true; return; }
+      if(parseInt(checked.value) !== f.formula.correctIndex) formulaOk = false;
+    }
+    if(Math.abs(val-f.ans) > f.tol) allOk = false;
+  });
+  if(anyEmpty){ fb.className='exo-fb ko'; fb.innerHTML='Choisis une relation (si demandée) et renseigne toutes les valeurs demandées.'; return; }
+  if(allOk && formulaOk){ fb.className='exo-fb ok'; fb.innerHTML='✓ Correct ! '+item.expl; }
+  else if(allOk && !formulaOk){ fb.className='exo-fb ko'; fb.innerHTML='Le résultat numérique est bon, mais relis la relation cochée. '+item.expl; }
+  else { fb.className='exo-fb ko'; fb.innerHTML='✗ Pas tout à fait. '+item.expl; }
+}
+renderGradedBox('exoFacileBox');
+renderGradedBox('exoInterBox');
+renderGradedBox('exoDiffBox');
 
 /* ═══ Escape Game — Le Coffre du Laboratoire ═══ */
 var EB_CASES = [
