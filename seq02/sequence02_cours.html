@@ -313,24 +313,26 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
     </ul>
   </div>
 
-  <nav class="tabs">
-    <div class="tab on" onclick="showTab('sources')">🌈 Sources &amp; spectres</div>
-    <div class="tab" onclick="showTab('photon')">⚛ Photon &amp; niveaux d'énergie</div>
-    <div class="tab" onclick="showTab('bilan')">✓ Bilan &amp; Ressources</div>
-  </nav>
+  <div class="tabs">
+    <div class="tab on" onclick="showTab(this,'cours')">📘 Cours</div>
+    <div class="tab" onclick="showTab(this,'activites')">🧪 Activités</div>
+    <div class="tab" onclick="showTab(this,'exercices')">✏️ Exercices</div>
+    <div class="tab" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</div>
+  </div>
 </div>
 
 <div class="main">
 
-<!-- ══════════════════════ PANEL 1 — SOURCES & SPECTRES ══════════════════════ -->
-<div class="panel on" id="tab-sources">
+<!-- ══════════════════ TAB 1 — COURS ══════════════════ -->
+<div class="panel on" id="tab-cours">
 
-  <nav class="sub-tabs-nav" id="sub-nav-sources">
-    <button class="sub-tab-btn active" onclick="switchSubTab('sources',0)">📘 Cours</button>
-    <button class="sub-tab-btn" onclick="switchSubTab('sources',1)">✏️ Exercices</button>
-  </nav>
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-I')">I. Sources &amp; spectres</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-II')">II. Photon &amp; niveaux d'énergie</button>
+  </div>
 
-  <div class="sub-tab-content active" id="sources-sub-0">
+  <!-- ===== SOUS-PARTIE I ===== -->
+  <div class="sub-tab-content active" id="sub-I">
 
   <div class="intro-box">
     Toutes les sources de lumière ne se ressemblent pas : une ampoule à incandescence, le Soleil, une lampe à vapeur
@@ -346,6 +348,8 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
     radiation lumineuse et s'exprime en mètre (souvent en nanomètre, 1 nm = 10⁻⁹ m). Le domaine du visible
     s'étend approximativement de 400 nm (violet) à 800 nm (rouge).</p>
   </div>
+
+  <div class="section-title"><span class="icon">🌈</span> I. Sources et spectres lumineux</div>
 
   <div class="section-title"><span class="icon">🔎</span>Comment différencier les sources lumineuses ?</div>
 
@@ -613,25 +617,6 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
     </div>
   </div>
 
-  <div class="section-title"><span class="icon">☀️</span>Le vrai spectre du Soleil : ni tout à fait continu, ni de raies</div>
-
-  <div class="sun-demo">
-    <p style="font-size:.86rem;color:var(--texte-leger);margin-bottom:6px">Le Soleil est une source chaude : son spectre est <strong>continu</strong>. Mais en l'observant avec un
-    spectroscope suffisamment précis, on constate qu'il est en réalité <strong>strié de fines raies noires</strong> :
-    ce sont les <strong>raies d'absorption de Fraunhofer</strong>. Clique pour les révéler.</p>
-    <div class="sun-demo-bar" id="sunDemoBar">
-      <div class="fraunhofer-line strong wide" style="left:10%" title="Raie G — Ca/Fe, ≈ 431 nm"></div>
-      <div class="fraunhofer-line medium" style="left:29%" title="Raie F — hydrogène Hβ, ≈ 486 nm"></div>
-      <div class="fraunhofer-line strong" style="left:39%" title="Raie b1 — magnésium, ≈ 518 nm"></div>
-      <div class="fraunhofer-line weak" style="left:42%" title="Raie E2 — fer, ≈ 527 nm"></div>
-      <div class="fraunhofer-line strong wide" style="left:63%" title="Raie D — sodium, ≈ 589 nm"></div>
-      <div class="fraunhofer-line medium" style="left:85%" title="Raie C — hydrogène Hα, ≈ 656 nm"></div>
-    </div>
-    <div class="sun-demo-scale"><span>400 nm</span><span>500 nm</span><span>600 nm</span><span>700 nm</span></div>
-    <button class="sun-demo-btn" id="sunDemoBtn" onclick="sunDemoToggle()">▶ Révéler les raies d'absorption</button>
-    <div class="sun-demo-caption" id="sunDemoCaption">👆 Ce que l'on voit d'abord : un fond continu, comme si toutes les longueurs d'onde du visible étaient
-    émises sans interruption.</div>
-  </div>
 
   <div class="card">
     <div class="card-title"><span class="icon">🔬</span>Comment expliquer ces raies noires ?</div>
@@ -656,6 +641,115 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
     </ul>
   </div>
 
+  </div><!-- /sub-I -->
+
+  <!-- ===== SOUS-PARTIE II ===== -->
+  <div class="sub-tab-content" id="sub-II">
+
+  <div class="intro-box">
+    Le spectre de raies d'une lampe à vapeur métallique ne s'explique pas avec un modèle ondulatoire seul : il faut
+    changer de point de vue et considérer que la lumière est aussi constituée de « grains » d'énergie, les photons,
+    échangés avec les atomes selon des règles bien précises.
+  </div>
+
+  <div class="section-title"><span class="icon">⚛</span> II. Le photon et les niveaux d'énergie</div>
+
+  <div class="section-title"><span class="icon">💡</span>Le photon</div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📖</span>Le modèle particulaire de la lumière</div>
+    <p style="font-size:.88rem;line-height:1.65">Depuis les travaux d'<strong>Albert Einstein</strong> publiés en 1905, on considère que la lumière est
+    constituée de corpuscules — des particules de très petites dimensions appelées <strong>photons</strong>. On
+    parle de <strong>modèle particulaire de la lumière</strong>, complémentaire du modèle ondulatoire.</p>
+    <p style="font-size:.88rem;line-height:1.65;margin-top:8px">L'énergie de la lumière est transportée par les photons : chaque photon associé à une radiation lumineuse
+    transporte un <strong>quantum</strong> (ou « paquet ») d'énergie :</p>
+    <div class="formula">E = h × fréquence = h × c / longueur d'onde</div>
+    <p style="font-size:.85rem;color:var(--texte-leger)">avec E l'énergie du photon (en J), h = 6,63×10⁻³⁴ J·s la constante de Planck, la fréquence exprimée en Hz et la
+    longueur d'onde dans le vide exprimée en m. En physique atomique, l'énergie est souvent exprimée en <strong>électron-volt (eV)</strong>,
+    avec 1 eV = 1,60×10⁻¹⁹ J.</p>
+  </div>
+
+
+  <div class="section-title"><span class="icon">⚛</span>Quantification de l'énergie d'un atome</div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📖</span>Le modèle de Bohr</div>
+    <p style="font-size:.88rem;line-height:1.65"><strong>Niels Bohr</strong>, en 1913, a postulé que l'énergie d'un atome ne peut prendre que certaines valeurs
+    bien définies : on dit que l'énergie d'un atome est <strong>quantifiée</strong>. Un atome ne peut exister que
+    dans des états bien définis, chaque état étant caractérisé par un niveau d'énergie.</p>
+    <ul>
+      <li>L'état de plus basse énergie est appelé <strong>état fondamental</strong> : c'est l'état le plus stable,
+      dans lequel l'atome se trouve en l'absence d'apport extérieur d'énergie.</li>
+      <li>Les autres états, d'énergie supérieure, sont appelés <strong>états excités</strong> : un atome excité est
+      instable et retourne spontanément vers un niveau d'énergie inférieur.</li>
+    </ul>
+    <div class="attention">📎 Le diagramme de niveaux d'énergie d'un atome représente, sous forme de traits horizontaux empilés, les
+    niveaux d'énergie possibles de cet atome (en général exprimés en eV).</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🔄</span>Interaction lumière-matière : absorption et émission</div>
+    <div class="grid-2">
+      <div>
+        <p style="font-size:.87rem;font-weight:700;color:var(--bleu);margin-bottom:6px">Spectre d'absorption</p>
+        <p style="font-size:.86rem;line-height:1.6">Lors d'une transition d'un niveau donné vers un niveau <strong>supérieur</strong>, l'atome <strong>reçoit</strong>
+        de l'énergie. Cette transition peut être provoquée par l'<strong>absorption</strong> d'un photon dont
+        l'énergie E est exactement égale à la différence d'énergie entre les deux niveaux :</p>
+        <div class="formula" style="font-size:.85rem">E = ΔE = E<sub>final</sub> − E<sub>initial</sub></div>
+      </div>
+      <div>
+        <p style="font-size:.87rem;font-weight:700;color:var(--bleu);margin-bottom:6px">Spectre d'émission</p>
+        <p style="font-size:.86rem;line-height:1.6">Lors d'une transition d'un niveau donné vers un niveau <strong>inférieur</strong>, l'atome <strong>cède</strong>
+        de l'énergie : il y a <strong>émission</strong> d'un photon dont l'énergie est égale à la diminution
+        d'énergie de l'atome :</p>
+        <div class="formula" style="font-size:.85rem">E = |ΔE| = E<sub>initial</sub> − E<sub>final</sub></div>
+      </div>
+    </div>
+    <div class="attention">⚠ Dans les deux cas, l'énergie du photon échangé (absorbé ou émis) est reliée à sa fréquence et à sa longueur
+    d'onde par E = h × fréquence = h × c / longueur d'onde. C'est ce qui explique pourquoi un atome donné n'absorbe et n'émet que certaines
+    radiations bien précises : celles dont l'énergie correspond exactement à un écart entre deux niveaux d'énergie
+    de cet atome.</div>
+  </div>
+
+
+  </div><!-- /sub-II -->
+
+</div><!-- /tab-cours -->
+
+<!-- ══════════════════ TAB 2 — ACTIVITÉS ══════════════════ -->
+<div class="panel" id="tab-activites">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-act-1')">🌈 Sources &amp; spectres</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-act-2')">⚛ Photon &amp; niveaux d'énergie</button>
+  </div>
+
+  <!-- ===== ACTIVITÉS — SOURCES & SPECTRES ===== -->
+  <div class="sub-tab-content active" id="sub-act-1">
+
+  <div class="intro-box">Deux activités interactives pour explorer, à ton rythme, le spectre du Soleil et le spectre visible.</div>
+
+  <div class="section-title"><span class="icon">☀️</span>Le vrai spectre du Soleil : ni tout à fait continu, ni de raies</div>
+
+  <div class="sun-demo">
+    <p style="font-size:.86rem;color:var(--texte-leger);margin-bottom:6px">Le Soleil est une source chaude : son spectre est <strong>continu</strong>. Mais en l'observant avec un
+    spectroscope suffisamment précis, on constate qu'il est en réalité <strong>strié de fines raies noires</strong> :
+    ce sont les <strong>raies d'absorption de Fraunhofer</strong>. Clique pour les révéler.</p>
+    <div class="sun-demo-bar" id="sunDemoBar">
+      <div class="fraunhofer-line strong wide" style="left:10%" title="Raie G — Ca/Fe, ≈ 431 nm"></div>
+      <div class="fraunhofer-line medium" style="left:29%" title="Raie F — hydrogène Hβ, ≈ 486 nm"></div>
+      <div class="fraunhofer-line strong" style="left:39%" title="Raie b1 — magnésium, ≈ 518 nm"></div>
+      <div class="fraunhofer-line weak" style="left:42%" title="Raie E2 — fer, ≈ 527 nm"></div>
+      <div class="fraunhofer-line strong wide" style="left:63%" title="Raie D — sodium, ≈ 589 nm"></div>
+      <div class="fraunhofer-line medium" style="left:85%" title="Raie C — hydrogène Hα, ≈ 656 nm"></div>
+    </div>
+    <div class="sun-demo-scale"><span>400 nm</span><span>500 nm</span><span>600 nm</span><span>700 nm</span></div>
+    <button class="sun-demo-btn" id="sunDemoBtn" onclick="sunDemoToggle()">▶ Révéler les raies d'absorption</button>
+    <div class="sun-demo-caption" id="sunDemoCaption">👆 Ce que l'on voit d'abord : un fond continu, comme si toutes les longueurs d'onde du visible étaient
+    émises sans interruption.</div>
+  </div>
+
+
   <div class="section-title"><span class="icon">🎛️</span>Visualiseur de spectre interactif</div>
 
   <div class="spectrum-wrap">
@@ -677,9 +771,98 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
     <div class="spectrum-domain" id="specDomain"></div>
   </div>
 
-  </div><!-- /sources-sub-0 -->
+  </div><!-- /sub-act-1 -->
 
-  <div class="sub-tab-content" id="sources-sub-1">
+  <!-- ===== ACTIVITÉS — PHOTON & NIVEAUX D'ÉNERGIE ===== -->
+  <div class="sub-tab-content" id="sub-act-2">
+
+  <div class="intro-box">Deux outils interactifs pour manipuler la relation E = h×ν et construire des diagrammes de niveaux d'énergie.</div>
+
+  <div class="section-title"><span class="icon">🎛️</span>Calculatrice photon</div>
+
+  <div class="photon-calc">
+    <p style="font-size:.86rem;color:var(--texte-leger);margin-bottom:10px">Renseigne <strong>une seule</strong> des trois grandeurs puis clique sur « Calculer » : les deux autres seront
+    déduites à partir de E = h × fréquence = h × c / longueur d'onde.</p>
+    <div class="pc-row">
+      <label>Longueur d'onde</label>
+      <input type="number" id="pcLambda" placeholder="ex : 589">
+      <span class="unit">nm</span>
+    </div>
+    <div class="pc-row">
+      <label>Fréquence</label>
+      <input type="number" id="pcNu" placeholder="ex : 5,09×10¹⁴">
+      <span class="unit">Hz</span>
+    </div>
+    <div class="pc-row">
+      <label>E (énergie)</label>
+      <input type="number" id="pcE" placeholder="ex : 2,10">
+      <span class="unit">eV</span>
+    </div>
+    <button class="pc-btn" onclick="pcCompute()">Calculer</button>
+    <button class="pc-btn reset" onclick="pcReset()">↺ Réinitialiser</button>
+    <div class="exo-fb" id="pcFeedback" style="text-align:center"></div>
+    <p class="pc-note">Astuce : la raie jaune du sodium a pour longueur d'onde environ 589 nm — essaie de retrouver son énergie en eV !</p>
+  </div>
+
+  <div class="section-title"><span class="icon">🎛️</span>Diagramme de niveaux d'énergie interactif</div>
+
+  <div class="energy-wrap">
+    <p style="font-size:.86rem;color:var(--texte-leger);margin-bottom:10px">Choisis un niveau de départ et un niveau d'arrivée pour un atome fictif possédant 4 niveaux d'énergie, puis
+    clique sur « Tracer la transition » pour voir s'il s'agit d'une absorption ou d'une émission, calculer
+    l'énergie, la fréquence et la longueur d'onde du photon échangé, <strong>et visualiser la raie que cette
+    transition produit sur un spectre</strong>.</p>
+    <div class="energy-ctrl">
+      <label style="font-size:.84rem;font-weight:700;color:var(--bleu)">Niveau initial :</label>
+      <select id="eNivIni">
+        <option value="0">E₀ = 0,00 eV (fondamental)</option>
+        <option value="1">E₁ = 1,90 eV</option>
+        <option value="2">E₂ = 3,40 eV</option>
+        <option value="3">E₃ = 4,10 eV</option>
+      </select>
+      <label style="font-size:.84rem;font-weight:700;color:var(--bleu)">Niveau final :</label>
+      <select id="eNivFin">
+        <option value="0">E₀ = 0,00 eV (fondamental)</option>
+        <option value="1" selected>E₁ = 1,90 eV</option>
+        <option value="2">E₂ = 3,40 eV</option>
+        <option value="3">E₃ = 4,10 eV</option>
+      </select>
+      <button onclick="energyDraw()">▶ Tracer la transition</button>
+    </div>
+    <div class="energy-svg-box">
+      <svg id="energySvg" viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block"></svg>
+    </div>
+    <div class="energy-result" id="energyResult"></div>
+
+    <div id="energySpecWrap" style="display:none">
+      <div class="energy-domain-row">
+        <span class="energy-domain-badge" id="domUV">UV (&lt; 400 nm)</span>
+        <span class="energy-domain-badge" id="domVis">Visible (400 – 700 nm)</span>
+        <span class="energy-domain-badge" id="domIR">IR (&gt; 700 nm)</span>
+      </div>
+      <div id="energySpecBarWrap" style="display:none">
+        <div class="energy-spec-bar" id="energySpecBar"><div class="energy-spec-marker" id="energySpecMarker"></div></div>
+        <div class="energy-spec-scale"><span>400 nm</span><span>500 nm</span><span>600 nm</span><span>700 nm</span></div>
+      </div>
+      <div class="energy-spec-note" id="energySpecNote"></div>
+    </div>
+  </div>
+
+  </div><!-- /sub-act-2 -->
+
+</div><!-- /tab-activites -->
+
+<!-- ══════════════════ TAB 3 — EXERCICES ══════════════════ -->
+<div class="panel" id="tab-exercices">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'sub-exo-sources')">🌈 Sources &amp; spectres</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-exo-photon')">⚛ Photon &amp; niveaux d'énergie</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'sub-exo-escape')">🎮 Escape Game</button>
+  </div>
+
+  <!-- ===== EXERCICES — SOURCES & SPECTRES ===== -->
+  <div class="sub-tab-content active" id="sub-exo-sources">
+
     <div class="section-title"><span class="icon">✏️</span>Exercices — sources et spectres <span class="diff-badge d1">⭐ Niveau 1</span></div>
 
     <div class="exo-box">
@@ -761,154 +944,12 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       <button class="exo-btn" onclick="checkChaudFroid()">Vérifier le tableau</button>
       <div class="exo-fb" id="fbChaudFroid"></div>
     </div>
-  </div><!-- /sources-sub-1 -->
 
-</div><!-- /tab-sources -->
+  </div><!-- /sub-exo-sources -->
 
-<!-- ══════════════════════ PANEL 2 — PHOTON & NIVEAUX D'ÉNERGIE ══════════════════════ -->
-<div class="panel" id="tab-photon">
+  <!-- ===== EXERCICES — PHOTON & NIVEAUX D'ÉNERGIE ===== -->
+  <div class="sub-tab-content" id="sub-exo-photon">
 
-  <nav class="sub-tabs-nav" id="sub-nav-photon">
-    <button class="sub-tab-btn active" onclick="switchSubTab('photon',0)">📘 Cours</button>
-    <button class="sub-tab-btn" onclick="switchSubTab('photon',1)">✏️ Exercices</button>
-  </nav>
-
-  <div class="sub-tab-content active" id="photon-sub-0">
-
-  <div class="intro-box">
-    Le spectre de raies d'une lampe à vapeur métallique ne s'explique pas avec un modèle ondulatoire seul : il faut
-    changer de point de vue et considérer que la lumière est aussi constituée de « grains » d'énergie, les photons,
-    échangés avec les atomes selon des règles bien précises.
-  </div>
-
-  <div class="section-title"><span class="icon">💡</span>Le photon</div>
-
-  <div class="card">
-    <div class="card-title"><span class="icon">📖</span>Le modèle particulaire de la lumière</div>
-    <p style="font-size:.88rem;line-height:1.65">Depuis les travaux d'<strong>Albert Einstein</strong> publiés en 1905, on considère que la lumière est
-    constituée de corpuscules — des particules de très petites dimensions appelées <strong>photons</strong>. On
-    parle de <strong>modèle particulaire de la lumière</strong>, complémentaire du modèle ondulatoire.</p>
-    <p style="font-size:.88rem;line-height:1.65;margin-top:8px">L'énergie de la lumière est transportée par les photons : chaque photon associé à une radiation lumineuse
-    transporte un <strong>quantum</strong> (ou « paquet ») d'énergie :</p>
-    <div class="formula">E = h × fréquence = h × c / longueur d'onde</div>
-    <p style="font-size:.85rem;color:var(--texte-leger)">avec E l'énergie du photon (en J), h = 6,63×10⁻³⁴ J·s la constante de Planck, la fréquence exprimée en Hz et la
-    longueur d'onde dans le vide exprimée en m. En physique atomique, l'énergie est souvent exprimée en <strong>électron-volt (eV)</strong>,
-    avec 1 eV = 1,60×10⁻¹⁹ J.</p>
-  </div>
-
-  <div class="section-title"><span class="icon">🎛️</span>Calculatrice photon</div>
-
-  <div class="photon-calc">
-    <p style="font-size:.86rem;color:var(--texte-leger);margin-bottom:10px">Renseigne <strong>une seule</strong> des trois grandeurs puis clique sur « Calculer » : les deux autres seront
-    déduites à partir de E = h × fréquence = h × c / longueur d'onde.</p>
-    <div class="pc-row">
-      <label>Longueur d'onde</label>
-      <input type="number" id="pcLambda" placeholder="ex : 589">
-      <span class="unit">nm</span>
-    </div>
-    <div class="pc-row">
-      <label>Fréquence</label>
-      <input type="number" id="pcNu" placeholder="ex : 5,09×10¹⁴">
-      <span class="unit">Hz</span>
-    </div>
-    <div class="pc-row">
-      <label>E (énergie)</label>
-      <input type="number" id="pcE" placeholder="ex : 2,10">
-      <span class="unit">eV</span>
-    </div>
-    <button class="pc-btn" onclick="pcCompute()">Calculer</button>
-    <button class="pc-btn reset" onclick="pcReset()">↺ Réinitialiser</button>
-    <div class="exo-fb" id="pcFeedback" style="text-align:center"></div>
-    <p class="pc-note">Astuce : la raie jaune du sodium a pour longueur d'onde environ 589 nm — essaie de retrouver son énergie en eV !</p>
-  </div>
-
-  <div class="section-title"><span class="icon">⚛</span>Quantification de l'énergie d'un atome</div>
-
-  <div class="card">
-    <div class="card-title"><span class="icon">📖</span>Le modèle de Bohr</div>
-    <p style="font-size:.88rem;line-height:1.65"><strong>Niels Bohr</strong>, en 1913, a postulé que l'énergie d'un atome ne peut prendre que certaines valeurs
-    bien définies : on dit que l'énergie d'un atome est <strong>quantifiée</strong>. Un atome ne peut exister que
-    dans des états bien définis, chaque état étant caractérisé par un niveau d'énergie.</p>
-    <ul>
-      <li>L'état de plus basse énergie est appelé <strong>état fondamental</strong> : c'est l'état le plus stable,
-      dans lequel l'atome se trouve en l'absence d'apport extérieur d'énergie.</li>
-      <li>Les autres états, d'énergie supérieure, sont appelés <strong>états excités</strong> : un atome excité est
-      instable et retourne spontanément vers un niveau d'énergie inférieur.</li>
-    </ul>
-    <div class="attention">📎 Le diagramme de niveaux d'énergie d'un atome représente, sous forme de traits horizontaux empilés, les
-    niveaux d'énergie possibles de cet atome (en général exprimés en eV).</div>
-  </div>
-
-  <div class="card">
-    <div class="card-title"><span class="icon">🔄</span>Interaction lumière-matière : absorption et émission</div>
-    <div class="grid-2">
-      <div>
-        <p style="font-size:.87rem;font-weight:700;color:var(--bleu);margin-bottom:6px">Spectre d'absorption</p>
-        <p style="font-size:.86rem;line-height:1.6">Lors d'une transition d'un niveau donné vers un niveau <strong>supérieur</strong>, l'atome <strong>reçoit</strong>
-        de l'énergie. Cette transition peut être provoquée par l'<strong>absorption</strong> d'un photon dont
-        l'énergie E est exactement égale à la différence d'énergie entre les deux niveaux :</p>
-        <div class="formula" style="font-size:.85rem">E = ΔE = E<sub>final</sub> − E<sub>initial</sub></div>
-      </div>
-      <div>
-        <p style="font-size:.87rem;font-weight:700;color:var(--bleu);margin-bottom:6px">Spectre d'émission</p>
-        <p style="font-size:.86rem;line-height:1.6">Lors d'une transition d'un niveau donné vers un niveau <strong>inférieur</strong>, l'atome <strong>cède</strong>
-        de l'énergie : il y a <strong>émission</strong> d'un photon dont l'énergie est égale à la diminution
-        d'énergie de l'atome :</p>
-        <div class="formula" style="font-size:.85rem">E = |ΔE| = E<sub>initial</sub> − E<sub>final</sub></div>
-      </div>
-    </div>
-    <div class="attention">⚠ Dans les deux cas, l'énergie du photon échangé (absorbé ou émis) est reliée à sa fréquence et à sa longueur
-    d'onde par E = h × fréquence = h × c / longueur d'onde. C'est ce qui explique pourquoi un atome donné n'absorbe et n'émet que certaines
-    radiations bien précises : celles dont l'énergie correspond exactement à un écart entre deux niveaux d'énergie
-    de cet atome.</div>
-  </div>
-
-  <div class="section-title"><span class="icon">🎛️</span>Diagramme de niveaux d'énergie interactif</div>
-
-  <div class="energy-wrap">
-    <p style="font-size:.86rem;color:var(--texte-leger);margin-bottom:10px">Choisis un niveau de départ et un niveau d'arrivée pour un atome fictif possédant 4 niveaux d'énergie, puis
-    clique sur « Tracer la transition » pour voir s'il s'agit d'une absorption ou d'une émission, calculer
-    l'énergie, la fréquence et la longueur d'onde du photon échangé, <strong>et visualiser la raie que cette
-    transition produit sur un spectre</strong>.</p>
-    <div class="energy-ctrl">
-      <label style="font-size:.84rem;font-weight:700;color:var(--bleu)">Niveau initial :</label>
-      <select id="eNivIni">
-        <option value="0">E₀ = 0,00 eV (fondamental)</option>
-        <option value="1">E₁ = 1,90 eV</option>
-        <option value="2">E₂ = 3,40 eV</option>
-        <option value="3">E₃ = 4,10 eV</option>
-      </select>
-      <label style="font-size:.84rem;font-weight:700;color:var(--bleu)">Niveau final :</label>
-      <select id="eNivFin">
-        <option value="0">E₀ = 0,00 eV (fondamental)</option>
-        <option value="1" selected>E₁ = 1,90 eV</option>
-        <option value="2">E₂ = 3,40 eV</option>
-        <option value="3">E₃ = 4,10 eV</option>
-      </select>
-      <button onclick="energyDraw()">▶ Tracer la transition</button>
-    </div>
-    <div class="energy-svg-box">
-      <svg id="energySvg" viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block"></svg>
-    </div>
-    <div class="energy-result" id="energyResult"></div>
-
-    <div id="energySpecWrap" style="display:none">
-      <div class="energy-domain-row">
-        <span class="energy-domain-badge" id="domUV">UV (&lt; 400 nm)</span>
-        <span class="energy-domain-badge" id="domVis">Visible (400 – 700 nm)</span>
-        <span class="energy-domain-badge" id="domIR">IR (&gt; 700 nm)</span>
-      </div>
-      <div id="energySpecBarWrap" style="display:none">
-        <div class="energy-spec-bar" id="energySpecBar"><div class="energy-spec-marker" id="energySpecMarker"></div></div>
-        <div class="energy-spec-scale"><span>400 nm</span><span>500 nm</span><span>600 nm</span><span>700 nm</span></div>
-      </div>
-      <div class="energy-spec-note" id="energySpecNote"></div>
-    </div>
-  </div>
-
-  </div><!-- /photon-sub-0 -->
-
-  <div class="sub-tab-content" id="photon-sub-1">
     <div class="section-title"><span class="icon">✏️</span>Calculs d'énergie de photon <span class="diff-badge d2">⭐⭐ Niveau 2</span></div>
 
     <div class="exo-box">
@@ -1050,6 +1091,11 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       <div class="exo-fb" id="fbBohrLambdaPrime"></div>
     </div>
 
+  </div><!-- /sub-exo-photon -->
+
+  <!-- ===== ESCAPE GAME ===== -->
+  <div class="sub-tab-content" id="sub-exo-escape">
+
     <div class="section-title"><span class="icon">🕵️</span>Escape Game — Le Signal de l'Étoile Inconnue</div>
 
     <div class="escape-wrap">
@@ -1109,20 +1155,21 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       <button class="escape-reset" onclick="eNewSignal()">🎲 Nouveau signal (recommencer les 3 épreuves)</button>
       <div class="escape-score" id="eScore">Signaux décodés : 0</div>
     </div>
-  </div><!-- /photon-sub-1 -->
 
-</div><!-- /tab-photon -->
+  </div><!-- /sub-exo-escape -->
 
-<!-- ══════════════════════ PANEL 3 — BILAN & RESSOURCES ══════════════════════ -->
+</div><!-- /tab-exercices -->
+
+<!-- ══════════════════ TAB 4 — BILAN & RESSOURCES ══════════════════ -->
 <div class="panel" id="tab-bilan">
 
-  <nav class="sub-tabs-nav" id="sub-nav-bilan">
-    <button class="sub-tab-btn active" onclick="switchSub(0)">📋 Bilan</button>
-    <button class="sub-tab-btn" onclick="switchSub(1)">📖 Glossaire</button>
-    <button class="sub-tab-btn" onclick="switchSub(2)">🔗 Ressources</button>
-  </nav>
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
 
-  <div class="sub-tab-content active" id="sub-0">
+  <div class="sub-tab-content active" id="bilan-sub-0">
     <div class="bilan-grid">
       <div class="bilan-card">
         <h4>🌈 Sources &amp; spectres</h4>
@@ -1161,9 +1208,9 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
         <a class="bilan-video-link" href="https://physique.ostralo.net/spectre_em_abs/" target="_blank" rel="noopener">▶ Animation — Spectres d'émission et d'absorption des éléments</a>
       </div>
     </div>
-  </div><!-- /sub-0 -->
+  </div><!-- /bilan-sub-0 -->
 
-  <div class="sub-tab-content" id="sub-1">
+  <div class="sub-tab-content" id="bilan-sub-1">
     <div class="section-title"><span class="icon">📖</span>Glossaire</div>
     <input class="gloss-search" id="glossSearch" placeholder="🔍 Rechercher un terme…" oninput="glossFilter()">
     <div class="gloss-grid" id="glossGrid">
@@ -1221,9 +1268,9 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
         <dd>Vitesse de propagation de la lumière dans le vide, c = 3,00×10⁸ m·s⁻¹.</dd>
       </div>
     </div>
-  </div><!-- /sub-1 -->
+  </div><!-- /bilan-sub-1 -->
 
-  <div class="sub-tab-content" id="sub-2">
+  <div class="sub-tab-content" id="bilan-sub-2">
 
     <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
@@ -1315,34 +1362,26 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
 
     </div>
 
-  </div><!-- /sub-2 -->
+  </div><!-- /bilan-sub-2 -->
 
 </div><!-- /tab-bilan -->
 
 </div><!-- /main -->
 
 <script>
-/* ═══ Navigation onglets principaux ═══ */
-function showTab(id){
-  var ids=['sources','photon','bilan'];
-  document.querySelectorAll('.tabs > .tab').forEach(function(t,i){ t.classList.toggle('on', ids[i]===id); });
-  document.querySelectorAll('.main > .panel').forEach(function(p){ p.classList.remove('on'); });
+/* ===== Navigation onglets ===== */
+function showTab(el,id){
+  document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.main > .panel').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
   document.getElementById('tab-'+id).classList.add('on');
 }
-
-/* ═══ Sous-onglets (Cours/Exercices) — générique ═══ */
-function switchSubTab(group, idx){
-  var btns = document.querySelectorAll('#sub-nav-'+group+' .sub-tab-btn');
-  var contents = document.querySelectorAll('[id^="'+group+'-sub-"]');
-  btns.forEach(function(b,i){ b.classList.toggle('active', i===idx); });
-  contents.forEach(function(c,i){ c.classList.toggle('active', i===idx); });
-}
-/* Bilan & Ressources (ids sub-0 / sub-1 / sub-2) */
-function switchSub(idx){
-  var btns = document.querySelectorAll('#sub-nav-bilan .sub-tab-btn');
-  var contents = [document.getElementById('sub-0'), document.getElementById('sub-1'), document.getElementById('sub-2')];
-  btns.forEach(function(b,i){ b.classList.toggle('active', i===idx); });
-  contents.forEach(function(c,i){ if(c) c.classList.toggle('active', i===idx); });
+function showSub(btn,id){
+  var panel = btn.closest('.panel');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b=>b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
 }
 function glossFilter(){
   var q = document.getElementById('glossSearch').value.trim().toLowerCase();
