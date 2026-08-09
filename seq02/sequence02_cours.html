@@ -86,6 +86,30 @@ button.cap-toggle:hover{background:#1e4466}
 @media(max-width:700px){.grid-2{grid-template-columns:1fr}}
 .formula{background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:12px 16px;text-align:center;font-family:'DM Mono',monospace;font-weight:700;color:var(--bleu);margin:12px 0}
 .attention{background:#FFF8E6;border-left:4px solid #cc8800;border-radius:0 8px 8px 0;padding:10px 14px;font-size:.82rem;color:#5a3a00;margin-top:10px;line-height:1.6}
+
+/* ── Activités : questions guidées ── */
+.activite-q{background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:10px;padding:14px 16px;margin-bottom:16px}
+.activite-q .qtext{font-size:.9rem;line-height:1.6;margin-bottom:10px}
+.comp-badge{display:inline-block;font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.03em;color:#fff;padding:4px 11px;border-radius:6px;margin-bottom:8px}
+.comp-badge.app{background:var(--orange)}
+.comp-badge.rea{background:var(--violet)}
+.comp-badge.ana{background:var(--vert)}
+.comp-badge.com{background:var(--bleu)}
+.qcm-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.qcm-opt{background:#fff;border:1.5px solid var(--gris-bord);border-radius:7px;padding:7px 13px;font-size:.82rem;font-weight:600;font-family:'Nunito',sans-serif;color:var(--texte);cursor:pointer;transition:all .15s}
+.qcm-opt:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.qcm-opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.qcm-opt.incorrect{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+.qi-expl{display:none;margin-top:8px;padding:9px 12px;border-radius:7px;font-size:.83rem;line-height:1.6;background:#fff;border-left:4px solid var(--bleu-moyen)}
+.qi-expl.show{display:block;animation:fadeIn .2s}
+.btn-reveal{background:var(--orange);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer}
+.btn-reveal:hover{background:#c8602a}
+.reveal-body{display:none;margin-top:10px;padding:12px 14px;background:#fff;border:1.5px solid var(--vert);border-radius:8px;font-size:.86rem;line-height:1.6}
+.reveal-body.open{display:block;animation:fadeIn .2s}
+.reveal-body strong{color:var(--vert)}
+.activite-btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.btn-restart{background:#fff;color:var(--bleu);border:1.5px solid var(--bleu-moyen);padding:7px 14px;border-radius:7px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s}
+.btn-restart:hover{background:var(--bleu-clair)}
 .accord-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 16px;background:var(--gris-fond);border:1.5px solid var(--gris-bord);border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;color:var(--texte);transition:background .2s;margin:10px 0}
 .accord-btn:hover{background:var(--bleu-clair)}
 .accord-body{display:none;padding:14px;background:var(--blanc);border:1.5px solid var(--gris-bord);border-top:none;border-radius:0 0 8px 8px;font-size:.88rem;line-height:1.7;margin-top:-10px;margin-bottom:10px}
@@ -749,6 +773,21 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
     émises sans interruption.</div>
   </div>
 
+  <div class="activite-q">
+    <div class="comp-badge app">S'APPROPRIER</div>
+    <div class="qtext">Une fois les raies de Fraunhofer révélées, comment qualifier le spectre du Soleil ?</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Un spectre de raies pur</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Un spectre continu strié de raies d'absorption</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Un spectre continu pur, sans aucune raie</div>
+    </div>
+    <div class="qi-expl">Le fond du spectre solaire est bien continu (source chaude), mais il est traversé par de fines raies noires : ce sont des raies d'<strong>absorption</strong>, dues aux gaz plus froids traversés par la lumière avant d'arriver jusqu'à nous.</div>
+    <div class="activite-btn-row">
+      <button class="btn-reveal" onclick="toggleReveal(this)">✅ Voir la correction</button>
+      <div class="reveal-body"><strong>Correction :</strong> la photosphère solaire, chaude, émet un spectre continu. Mais cette lumière traverse ensuite des couches de gaz plus froids (chromosphère solaire, atmosphère terrestre) qui absorbent exactement certaines longueurs d'onde : cela crée les raies noires de Fraunhofer, superposées au fond continu.</div>
+      <button class="btn-restart" onclick="activiteReset(this)">🔄 Recommencer</button>
+    </div>
+  </div>
 
   <div class="section-title"><span class="icon">🎛️</span>Visualiseur de spectre interactif</div>
 
@@ -769,6 +808,22 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       <div><div class="lbl">Couleur perçue</div><div class="val" id="specColorName">—</div></div>
     </div>
     <div class="spectrum-domain" id="specDomain"></div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge ana">ANALYSER-RAISONNER</div>
+    <div class="qtext">Place le curseur du visualiseur sur λ ≈ 480 nm. À quelle couleur perçue et à quel domaine spectral cette longueur d'onde correspond-elle ?</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Rouge, domaine infrarouge</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Bleu, domaine visible</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Violet, domaine ultraviolet</div>
+    </div>
+    <div class="qi-expl">480 nm se situe bien à l'intérieur de l'intervalle du visible (400 – 800 nm), du côté des courtes longueurs d'onde : l'œil perçoit une couleur bleue.</div>
+    <div class="activite-btn-row">
+      <button class="btn-reveal" onclick="toggleReveal(this)">✅ Voir la correction</button>
+      <div class="reveal-body"><strong>Correction :</strong> 480 nm appartient au domaine <strong>visible</strong> (400 – 800 nm), plus précisément à sa partie « courtes longueurs d'onde » : la couleur perçue est le <strong>bleu</strong>. Rappelle-toi que plus λ diminue, plus on se rapproche du violet et de l'UV ; plus λ augmente, plus on se rapproche du rouge puis de l'IR.</div>
+      <button class="btn-restart" onclick="activiteReset(this)">🔄 Recommencer</button>
+    </div>
   </div>
 
   </div><!-- /sub-act-1 -->
@@ -802,6 +857,22 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
     <button class="pc-btn reset" onclick="pcReset()">↺ Réinitialiser</button>
     <div class="exo-fb" id="pcFeedback" style="text-align:center"></div>
     <p class="pc-note">Astuce : la raie jaune du sodium a pour longueur d'onde environ 589 nm — essaie de retrouver son énergie en eV !</p>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge app">S'APPROPRIER</div>
+    <div class="qtext">À l'aide de la calculatrice ci-dessus, détermine l'énergie (en eV) d'un photon de longueur d'onde 700 nm (rouge). Que peut-on dire par rapport à un photon bleu de 450 nm ?</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Le photon rouge est plus énergétique que le photon bleu</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Le photon rouge est moins énergétique que le photon bleu</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Les deux photons ont exactement la même énergie</div>
+    </div>
+    <div class="qi-expl">E = h×c/λ : l'énergie est inversement proportionnelle à la longueur d'onde. Une plus grande longueur d'onde (rouge, 700 nm) correspond donc à une énergie plus faible qu'une longueur d'onde plus courte (bleu, 450 nm).</div>
+    <div class="activite-btn-row">
+      <button class="btn-reveal" onclick="toggleReveal(this)">✅ Voir la correction</button>
+      <div class="reveal-body"><strong>Correction :</strong> avec E = h×c/λ, on trouve E(700 nm) ≈ 1,77 eV contre E(450 nm) ≈ 2,76 eV. Le photon rouge transporte donc <strong>moins</strong> d'énergie que le photon bleu : plus λ est grande, plus E est petite.</div>
+      <button class="btn-restart" onclick="activiteReset(this)">🔄 Recommencer</button>
+    </div>
   </div>
 
   <div class="section-title"><span class="icon">🎛️</span>Diagramme de niveaux d'énergie interactif</div>
@@ -844,6 +915,22 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
         <div class="energy-spec-scale"><span>400 nm</span><span>500 nm</span><span>600 nm</span><span>700 nm</span></div>
       </div>
       <div class="energy-spec-note" id="energySpecNote"></div>
+    </div>
+  </div>
+
+  <div class="activite-q">
+    <div class="comp-badge ana">ANALYSER-RAISONNER</div>
+    <div class="qtext">Trace la transition du niveau E₀ (fondamental) vers le niveau E₃ = 4,10 eV avec le diagramme ci-dessus. S'agit-il d'une absorption ou d'une émission de photon ?</div>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmCheck(this,true)">Absorption : l'atome reçoit de l'énergie</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Émission : l'atome cède de l'énergie</div>
+      <div class="qcm-opt" onclick="qcmCheck(this,false)">Ni l'un ni l'autre : aucun photon n'est échangé</div>
+    </div>
+    <div class="qi-expl">Le niveau final (E₃ = 4,10 eV) est supérieur au niveau initial (E₀ = 0 eV) : l'atome monte en énergie, il reçoit donc un photon. C'est une absorption.</div>
+    <div class="activite-btn-row">
+      <button class="btn-reveal" onclick="toggleReveal(this)">✅ Voir la correction</button>
+      <div class="reveal-body"><strong>Correction :</strong> lors d'une transition vers un niveau <strong>supérieur</strong> (ici de E₀ = 0 eV vers E₃ = 4,10 eV), l'atome reçoit de l'énergie : c'est une <strong>absorption</strong> d'un photon d'énergie E = ΔE = 4,10 eV, ce qui correspond à une longueur d'onde λ = hc/E ≈ 302 nm, dans le domaine <strong>ultraviolet</strong>.</div>
+      <button class="btn-restart" onclick="activiteReset(this)">🔄 Recommencer</button>
     </div>
   </div>
 
@@ -1382,6 +1469,27 @@ function showSub(btn,id){
   panel.querySelectorAll('.sub-tab-content').forEach(c=>c.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(id).classList.add('active');
+}
+
+/* ===== Questions guidées (Activités) ===== */
+function qcmCheck(el,isCorrect){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(o=>o.classList.remove('correct','incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  var expl = el.parentElement.nextElementSibling;
+  if(expl && expl.classList.contains('qi-expl')){ expl.classList.add('show'); }
+}
+function toggleReveal(btn){
+  var body = btn.nextElementSibling;
+  body.classList.toggle('open');
+  btn.textContent = body.classList.contains('open') ? '🙈 Masquer la correction' : '✅ Voir la correction';
+}
+function activiteReset(btn){
+  var block = btn.closest('.activite-q');
+  block.querySelectorAll('.qcm-opt').forEach(o=>o.classList.remove('correct','incorrect'));
+  block.querySelectorAll('.qi-expl').forEach(e=>e.classList.remove('show'));
+  block.querySelectorAll('.reveal-body').forEach(e=>e.classList.remove('open'));
+  block.querySelectorAll('.btn-reveal').forEach(b=>b.textContent='✅ Voir la correction');
 }
 function glossFilter(){
   var q = document.getElementById('glossSearch').value.trim().toLowerCase();
