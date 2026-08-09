@@ -545,7 +545,7 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
 
   <div class="sub-tab-content" id="cours-sub-2">
 
-  <div class="section-title"><span class="icon">🖤</span>b. Couleur des objets et synthèse soustractive</div>
+  <div class="section-title"><span class="icon">⬛</span>b. Couleur des objets et synthèse soustractive</div>
 
   <div class="card">
     <div class="card-title"><span class="icon" style="background:var(--vert-clair);color:var(--vert);">◧</span>Absorption, diffusion, transmission</div>
@@ -644,25 +644,172 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
 <div class="panel" id="tab-activites">
 
   <nav class="sub-tabs-nav" id="sub-nav-activites">
-    <button class="sub-tab-btn active" onclick="switchSubTab('activites',0)">🔴🟢🔵 Synthèse additive</button>
-    <button class="sub-tab-btn" onclick="switchSubTab('activites',1)">🖤 Synthèse soustractive</button>
+    <button class="sub-tab-btn active" onclick="switchSubTab('activites',0)">🔭 Lentille convergente</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('activites',1)">🔴🟢🔵 Synthèse additive</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('activites',2)">🎨 Synthèse soustractive</button>
   </nav>
 
+  <!-- ═══ ACTIVITÉ 1 — LENTILLE CONVERGENTE (application Hatier) ═══ -->
   <div class="sub-tab-content active" id="activites-sub-0">
-    <div class="section-title"><span class="icon">🔴🟢🔵</span>Activité — Synthèse additive</div>
-    <div class="activite-placeholder">
-      <strong>Contenu en cours de préparation</strong>
-      Cette activité guidée (mélangeur RGB repris en version questionnée, avec badges de compétences) sera proposée pour validation avant intégration.
+    <div class="section-title"><span class="icon">🔭</span>Activité — Lentille convergente</div>
+    <div class="intro-box">
+      Cette activité s'appuie sur l'application interactive du manuel Hatier (lentille convergente). Ouvre-la dans un nouvel onglet, puis réponds aux questions ci-dessous en explorant les 7 rubriques du menu.
+    </div>
+    <div class="card" style="text-align:center;">
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/lentille_premiere/index.html" target="_blank" class="exo-btn" style="display:inline-block;text-decoration:none;">🔗 Ouvrir l'application « Lentille convergente » (Hatier)</a>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 1 — Échauffements <span class="comp-badge app">S'approprier</span></div>
+      <div class="qtext">Dans la rubrique « Échauffements », repère sur l'application le centre optique O, le foyer objet F et le foyer image F′. Que devient un faisceau de rayons parallèles à l'axe optique après avoir traversé la lentille ?</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 2 — Rayons particuliers <span class="comp-badge rea">Réaliser</span></div>
+      <div class="qtext">Dans la rubrique « Rayons particuliers », trace ou identifie les 3 rayons caractéristiques. Pour chacun, rappelle la règle de construction qu'il vérifie.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 3 — Méthode de Bessel <span class="comp-badge ana">Analyser</span></div>
+      <div class="qtext">Utilise la méthode de Bessel proposée par l'application pour déterminer expérimentalement la distance focale d'une lentille. Compare la valeur obtenue à la valeur attendue.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 4 — Nature d'une image <span class="comp-badge ana">Analyser</span></div>
+      <div class="qtext">Pour un objet donné dans l'application, détermine si l'image est réelle ou virtuelle, droite ou renversée, et calcule le grandissement γ = A′B′/AB.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 5 — Taille et position d'une image <span class="comp-badge rea">Réaliser</span></div>
+      <div class="qtext">Utilise la relation de conjugaison et la relation de grandissement pour <strong>prévoir</strong> OA′ et A′B′ avant de vérifier ta prévision avec l'application.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 6 — Taille et position d'un objet <span class="comp-badge ana">Analyser</span></div>
+      <div class="qtext">Problème inverse : à partir des caractéristiques souhaitées pour l'image, détermine où placer l'objet devant la lentille.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 7 — Une loupe <span class="comp-badge val">Valider</span></div>
+      <div class="qtext">Place l'objet entre O et F dans l'application. Décris les caractéristiques de l'image obtenue et relie ce résultat à l'usage courant de la loupe.</div>
     </div>
   </div><!-- /activites-sub-0 -->
 
+  <!-- ═══ ACTIVITÉ 2 — SYNTHÈSE ADDITIVE ═══ -->
   <div class="sub-tab-content" id="activites-sub-1">
-    <div class="section-title"><span class="icon">🖤</span>Activité — Synthèse soustractive</div>
-    <div class="activite-placeholder">
-      <strong>Contenu en cours de préparation</strong>
-      Cette activité guidée (simulateur de filtres repris en version questionnée, avec badges de compétences) sera proposée pour validation avant intégration.
+    <div class="section-title"><span class="icon">🔴🟢🔵</span>Activité — Synthèse additive</div>
+    <div class="intro-box">
+      Utilise le mélangeur de lumières colorées ci-dessous pour répondre aux questions. Prends le temps de <strong>prédire</strong> le résultat avant de manipuler.
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--orange-clair);color:var(--orange);">🔴🟢🔵</span>Mélangeur de lumières colorées</div>
+      <div class="mix-wrap">
+        <div class="mix-stage">
+          <div class="mix-circle mix-r" id="actCircR"></div>
+          <div class="mix-circle mix-g" id="actCircG"></div>
+          <div class="mix-circle mix-b" id="actCircB"></div>
+        </div>
+        <div class="mix-ctrl">
+          <label class="mix-chk rr"><input type="checkbox" id="actChkR" onchange="updateMixAct()"> Rouge</label>
+          <label class="mix-chk gg"><input type="checkbox" id="actChkG" onchange="updateMixAct()"> Vert</label>
+          <label class="mix-chk bb"><input type="checkbox" id="actChkB" onchange="updateMixAct()"> Bleu</label>
+          <div class="mix-result">
+            <div class="mix-swatch" id="actMixSwatch"></div>
+            <div class="mix-label" id="actMixLabel">Noir</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 1 <span class="comp-badge app">S'approprier</span></div>
+      <div class="qtext">Avant de manipuler : d'après le cours, que donne l'addition de Rouge et Vert ? Vérifie ta réponse avec le mélangeur.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 2 <span class="comp-badge rea">Réaliser</span></div>
+      <div class="qtext">Coche Rouge et Bleu seuls (sans le Vert) : quelle couleur obtiens-tu ? Est-ce cohérent avec le tableau des couleurs secondaires du cours ?</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 3 <span class="comp-badge ana">Analyser</span></div>
+      <div class="qtext">Trouve, par tâtonnement, une combinaison qui donne du blanc <strong>sans</strong> cocher les 3 lampes. Relie ta réponse à la notion de couleurs complémentaires.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 4 <span class="comp-badge val">Valider</span></div>
+      <div class="qtext">Une lumière jaune est-elle une lumière « pure » (une seule longueur d'onde) ou un mélange de lumières ? Justifie ta réponse à l'aide du mélangeur.</div>
     </div>
   </div><!-- /activites-sub-1 -->
+
+  <!-- ═══ ACTIVITÉ 3 — SYNTHÈSE SOUSTRACTIVE ═══ -->
+  <div class="sub-tab-content" id="activites-sub-2">
+    <div class="section-title"><span class="icon">🎨</span>Activité — Synthèse soustractive</div>
+    <div class="intro-box">
+      Utilise le simulateur filtre / objet coloré ci-dessous pour répondre aux questions. Prends le temps de <strong>prédire</strong> le résultat avant de manipuler.
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--rouge-clair);color:var(--rouge);">🔍</span>Simulateur filtre / objet coloré</div>
+      <div class="filt-wrap">
+        <div class="filt-field">
+          <label>Lumière incidente</label>
+          <select id="actFiltSrc" onchange="updateFiltAct()">
+            <option value="RGB">Blanche</option>
+            <option value="R">Rouge</option>
+            <option value="G">Verte</option>
+            <option value="B">Bleue</option>
+            <option value="RG">Jaune</option>
+            <option value="RB">Magenta</option>
+            <option value="GB">Cyan</option>
+          </select>
+        </div>
+        <div class="filt-field">
+          <label>Élément coloré traversé / éclairé</label>
+          <select id="actFiltObj" onchange="updateFiltAct()">
+            <option value="R">Filtre / objet rouge</option>
+            <option value="G">Filtre / objet vert</option>
+            <option value="B">Filtre / objet bleu</option>
+            <option value="RG">Filtre / objet jaune</option>
+            <option value="RB">Filtre / objet magenta</option>
+            <option value="GB">Filtre / objet cyan</option>
+          </select>
+        </div>
+        <div class="filt-field">
+          <label>Mode</label>
+          <select id="actFiltMode" onchange="updateFiltAct()">
+            <option value="transmission">Filtre (transmission)</option>
+            <option value="diffusion">Objet opaque (diffusion)</option>
+          </select>
+        </div>
+      </div>
+      <div class="filt-result">
+        <div class="filt-swatch" id="actFiltSwatch"></div>
+        <div class="filt-txt" id="actFiltTxt">—</div>
+      </div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 1 <span class="comp-badge app">S'approprier</span></div>
+      <div class="qtext">Sélectionne lumière blanche + filtre rouge (mode transmission). Quelle couleur observes-tu en sortie ? Pourquoi ?</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 2 <span class="comp-badge rea">Réaliser</span></div>
+      <div class="qtext">Garde le filtre rouge, mais choisis une lumière incidente cyan : prédis le résultat avant de vérifier avec le simulateur.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 3 <span class="comp-badge ana">Analyser</span></div>
+      <div class="qtext">Passe en mode « objet opaque (diffusion) » avec un objet bleu éclairé en lumière jaune. Que perçoit-on ? Relie ce résultat aux phénomènes d'absorption et de diffusion.</div>
+    </div>
+
+    <div class="activite-q">
+      <div class="qnum">Question 4 <span class="comp-badge val">Valider</span></div>
+      <div class="qtext">Explique pourquoi un objet n'a pas de couleur « propre », en t'appuyant sur au moins deux essais différents du simulateur.</div>
+    </div>
+  </div><!-- /activites-sub-2 -->
 
 </div><!-- /tab-activites -->
 
@@ -1084,7 +1231,7 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
         <a class="bilan-video-link" href="https://youtu.be/IMdL0p6JGF4" target="_blank" rel="noopener">▶ Vidéo — Synthèse additive (Les Bons Profs)</a>
       </div>
       <div class="bilan-card">
-        <h4>🖤 Synthèse soustractive</h4>
+        <h4>🎨 Synthèse soustractive</h4>
         <ul class="ke-list">
           <li>Absorption / diffusion / transmission</li>
           <li>Couleur d'un objet = lumière diffusée ou transmise</li>
@@ -1529,6 +1676,18 @@ function updateMix(){
 }
 updateMix();
 
+/* ═══ Activité — Synthèse additive (mélangeur dupliqué) ═══ */
+function updateMixAct(){
+  var r=document.getElementById('actChkR').checked, g=document.getElementById('actChkG').checked, b=document.getElementById('actChkB').checked;
+  document.getElementById('actCircR').classList.toggle('on', r);
+  document.getElementById('actCircG').classList.toggle('on', g);
+  document.getElementById('actCircB').classList.toggle('on', b);
+  var key = (r?'1':'0')+(g?'1':'0')+(b?'1':'0');
+  document.getElementById('actMixSwatch').style.background = MIX_COLORS[key];
+  document.getElementById('actMixLabel').textContent = MIX_NAMES[key];
+}
+updateMixAct();
+
 /* ═══ Synthèse soustractive — simulateur filtre / objet ═══ */
 var COMP_COLORS = {
   '': 'Noir', 'R':'Rouge','G':'Vert','B':'Bleu','RG':'Jaune','RB':'Magenta','GB':'Cyan','RGB':'Blanc'
@@ -1555,6 +1714,26 @@ function updateFilt(){
     'Couleur perçue : <b>' + (COMP_COLORS[key] || 'noire') + '</b>';
 }
 updateFilt();
+
+/* ═══ Activité — Synthèse soustractive (simulateur dupliqué) ═══ */
+function updateFiltAct(){
+  var src = toSet(document.getElementById('actFiltSrc').value);
+  var obj = toSet(document.getElementById('actFiltObj').value);
+  var mode = document.getElementById('actFiltMode').value;
+  var result = src.filter(function(c){ return obj.indexOf(c) !== -1; });
+  var order = ['R','G','B'];
+  result.sort(function(a,b){ return order.indexOf(a)-order.indexOf(b); });
+  var key = result.join('');
+  var absorbed = src.filter(function(c){ return obj.indexOf(c) === -1; });
+  var absTxt = absorbed.length ? absorbed.map(function(c){return c==='R'?'rouge':c==='G'?'vert':'bleu';}).join(', ') : 'aucune';
+  var verbe = mode === 'transmission' ? 'transmet' : 'diffuse';
+  document.getElementById('actFiltSwatch').style.background = COMP_HEX[key] || '#000';
+  document.getElementById('actFiltTxt').innerHTML =
+    'Le ' + (mode==='transmission'?'filtre':'objet') + ' ' + verbe + ' : <b>' + (COMP_COLORS[key] || 'aucune couleur (noir)') + '</b><br>' +
+    'Composante(s) absorbée(s) : <b>' + absTxt + '</b><br>' +
+    'Couleur perçue : <b>' + (COMP_COLORS[key] || 'noire') + '</b>';
+}
+updateFiltAct();
 
 /* ═══ Exercices — vérifications ═══ */
 function checkGamma(){
