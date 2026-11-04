@@ -269,6 +269,70 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
   .panel{padding:12px}
   .main{padding:0 0 30px}
 }
+
+/* ── ANIMATION : LE PHOTON AU RALENTI ── */
+.ph-canvas-wrap{border:1.5px solid var(--gris-bord);border-radius:10px;overflow:hidden;background:#fff;margin:10px 0 14px}
+#phCanvas{display:block;width:100%;height:230px;background:#fff}
+.ph-control{margin-bottom:14px}
+.ph-control label{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.86rem;font-weight:700;color:var(--bleu);margin-bottom:6px}
+.ph-control label span.ph-flux-name{font-family:'Nunito',sans-serif;color:var(--bleu)}
+.ph-control label span{font-family:'DM Mono',monospace;color:var(--texte)}
+.ph-range{-webkit-appearance:none;appearance:none;width:100%;height:14px;border-radius:7px;border:1px solid var(--gris-bord);background:var(--gris-bord);cursor:pointer;margin:0;display:block}
+.ph-range::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--bleu);box-shadow:0 1px 4px rgba(26,42,58,.35)}
+.ph-range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--bleu);box-shadow:0 1px 4px rgba(26,42,58,.35)}
+.ph-range:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.ph-scale{display:flex;justify-content:space-between;font-size:.72rem;color:var(--texte-leger);margin-top:4px}
+.ph-readout{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.ph-readout div{background:var(--gris-fond);border:1px solid var(--gris-bord);border-radius:9px;padding:9px 10px;text-align:center}
+.ph-readout small{display:block;font-size:.72rem;color:var(--texte-leger);margin-bottom:3px}
+.ph-readout b{font-family:'DM Mono',monospace;font-size:.92rem;color:var(--texte);white-space:nowrap}
+.ph-readout .ph-main{background:var(--bleu-clair);border-color:#B8D4EC}
+.ph-readout .ph-main b{color:var(--bleu)}
+.ph-gauge-label{display:flex;justify-content:space-between;gap:10px;font-size:.8rem;font-weight:700;color:var(--bleu);margin-bottom:5px}
+.ph-gauge{height:14px;border-radius:7px;background:var(--gris-fond);border:1px solid var(--gris-bord);overflow:hidden;margin-bottom:14px}
+.ph-gauge div{height:100%;border-radius:7px 0 0 7px;transition:width .15s}
+#phCalc{overflow-wrap:anywhere}
+#phCalc strong{color:var(--bleu)}
+.ph-detector{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between;background:var(--vert-clair);border:1px solid #BFE0D3;border-radius:9px;padding:9px 12px;font-size:.85rem;margin-bottom:12px}
+.ph-actions{display:flex;flex-wrap:wrap;gap:8px}
+.ph-btn{border:none;border-radius:999px;padding:7px 15px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;color:#fff;cursor:pointer;background:var(--bleu)}
+.ph-btn:hover{background:#1e4466}
+.ph-btn.ph-restart{background:#4a4a4a}
+.ph-btn.ph-restart:hover{background:#6c6c6c}
+.ph-qfb{display:none;margin-top:8px;padding:9px 12px;border-radius:7px;font-size:.83rem;line-height:1.6;background:#fff;border-left:4px solid var(--bleu-moyen)}
+.ph-qfb.show{display:block}
+.ph-step{font-size:.87rem;line-height:1.75}
+.ph-step strong{color:var(--bleu)}
+#phAnim .accord-btn{margin-bottom:10px}
+.ph-sits{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0 10px}
+.ph-sit{background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;padding:10px 8px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;line-height:1.3;color:var(--texte);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
+.ph-sit span{font-size:1.35rem;line-height:1}
+.ph-sit:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.ph-sit.active{border-color:var(--bleu);background:var(--bleu-clair);color:var(--bleu)}
+.ph-sit:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.ph-sit-detail{display:none;background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:11px 14px;font-size:.86rem;line-height:1.6;margin-bottom:10px}
+.ph-sit-detail.open{display:block;animation:fadeIn .2s}
+.ph-sit-detail strong{color:var(--bleu)}
+.ph-sit-meta{font-family:'DM Mono',monospace;font-size:.8rem;margin-top:6px;color:var(--texte)}
+@media(max-width:700px){.ph-sits{grid-template-columns:repeat(2,1fr)}.ph-sit:last-child{grid-column:1 / -1}#phCanvas{height:190px}.ph-readout{grid-template-columns:repeat(2,1fr)}.ph-readout b{font-size:.84rem}}
+
+/* ── ANIMATION : SPECTRE D'ABSORPTION ── */
+#abCanvas{display:block;width:100%;height:320px;background:#fff}
+.ab-atoms{display:flex;justify-content:space-between;font-size:.76rem;font-weight:700;color:var(--texte-leger);margin-top:5px}
+.ab-atoms span.on{color:var(--bleu)}
+.ab-lambda-row{display:flex;align-items:center;gap:8px}
+.ab-lambda-row .ph-range{flex:1;min-width:0}
+.ab-step{flex:none;width:34px;height:34px;border-radius:8px;border:1.5px solid var(--gris-bord);background:#fff;color:var(--bleu);font-weight:800;font-size:1.05rem;cursor:pointer}
+.ab-step:hover{background:var(--bleu-clair)}
+.ab-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.ab-buttons .ph-btn:disabled{opacity:.45;cursor:not-allowed}
+.ab-info{display:grid;grid-template-columns:1fr 2fr;gap:10px;margin-bottom:10px}
+.ab-info div{background:var(--gris-fond);border:1px solid var(--gris-bord);border-radius:9px;padding:9px 10px;text-align:center}
+.ab-info small{display:block;font-size:.72rem;color:var(--texte-leger);margin-bottom:3px}
+.ab-info b{font-family:'DM Mono',monospace;font-size:.88rem;color:var(--texte)}
+.ab-msg{min-height:44px;background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:10px 13px;font-size:.85rem;line-height:1.55;margin-bottom:10px}
+.ab-found{font-size:.82rem;font-weight:700;color:var(--vert);margin-bottom:6px}
+@media(max-width:700px){#abCanvas{height:430px}.ab-info{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -682,15 +746,129 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
 
   <div class="card">
     <div class="card-title"><span class="icon">📖</span>Le modèle particulaire de la lumière</div>
-    <p style="font-size:.88rem;line-height:1.65">Depuis les travaux d'<strong>Albert Einstein</strong> publiés en 1905, on considère que la lumière est
-    constituée de corpuscules — des particules de très petites dimensions appelées <strong>photons</strong>. On
-    parle de <strong>modèle particulaire de la lumière</strong>, complémentaire du modèle ondulatoire.</p>
-    <p style="font-size:.88rem;line-height:1.65;margin-top:8px">L'énergie de la lumière est transportée par les photons : chaque photon associé à une radiation lumineuse
-    transporte un <strong>quantum</strong> (ou « paquet ») d'énergie :</p>
-    <div class="formula">E = h × fréquence = h × c / longueur d'onde</div>
-    <p style="font-size:.85rem;color:var(--texte-leger)">avec E l'énergie du photon (en J), h = 6,63×10⁻³⁴ J·s la constante de Planck, la fréquence exprimée en Hz et la
-    longueur d'onde dans le vide exprimée en m. En physique atomique, l'énergie est souvent exprimée en <strong>électron-volt (eV)</strong>,
-    avec 1 eV = 1,60×10⁻¹⁹ J.</p>
+    <p style="font-size:.88rem;line-height:1.65">En 1905, <strong>Albert Einstein</strong> propose que l'énergie de la lumière est transportée par « paquets » : les
+    quanta de lumière, appelés plus tard <strong>photons</strong>. On parle de <strong>modèle particulaire de la lumière</strong>,
+    complémentaire du modèle ondulatoire : selon le phénomène étudié, on utilise l'un ou l'autre.</p>
+    <p style="font-size:.88rem;line-height:1.65;margin-top:8px">Un photon :</p>
+    <ul>
+      <li>a une <strong>masse nulle</strong> et se déplace dans le vide à la célérité c = 3,00×10⁸ m·s⁻¹, quelle que soit sa couleur ;</li>
+      <li>transporte un <strong>quantum</strong> d'énergie, c'est-à-dire une quantité d'énergie bien déterminée, qui dépend de la radiation ;</li>
+      <li>est échangé <strong>en entier</strong> : un atome l'absorbe ou l'émet en totalité, jamais en partie.</li>
+    </ul>
+    <div class="formula">E = h × ν = h × c / λ</div>
+    <ul>
+      <li><strong>E</strong> : énergie d'un photon, en joule (J) ;</li>
+      <li><strong>h</strong> = 6,63×10⁻³⁴ J·s : constante de Planck ;</li>
+      <li><strong>ν</strong> : fréquence de la radiation, en hertz (Hz) ;</li>
+      <li><strong>c</strong> = 3,00×10⁸ m·s⁻¹ : célérité de la lumière dans le vide ;</li>
+      <li><strong>λ</strong> : longueur d'onde dans le vide, en mètre (m).</li>
+    </ul>
+    <p style="font-size:.85rem;color:var(--texte-leger)">En physique atomique, l'énergie est souvent exprimée en <strong>électronvolt (eV)</strong>, avec 1 eV = 1,60×10⁻¹⁹ J.</p>
+  </div>
+
+  <div class="card" id="phAnim">
+    <div class="card-title"><span class="icon">🔬</span>Animation : le photon au ralenti</div>
+    <p style="font-size:.88rem;line-height:1.65">Chaque paquet d'onde représente <strong>un photon</strong>. Clique sur une situation de la vie courante, puis fais
+    varier la luminosité : qu'est-ce qui change ? Qu'est-ce qui ne change pas ?</p>
+
+    <div class="ph-sits" id="phSits" role="group" aria-label="Situations de la vie courante"></div>
+    <div class="ph-sit-detail" id="phSitDetail"></div>
+
+    <div class="ph-canvas-wrap">
+      <canvas id="phCanvas" role="img" aria-label="Des photons, représentés par des paquets d'onde, se déplacent à la même vitesse d'une source vers un récepteur."></canvas>
+    </div>
+
+    <div class="ph-control">
+      <label for="phLambda">Longueur d'onde λ <span id="phLambdaVal">589 nm</span></label>
+      <input class="ph-range" type="range" id="phLambda" min="300" max="1000" step="1" value="589">
+      <div class="ph-scale"><span>300 nm · UV</span><span>visible (≈ 400 à 800 nm)</span><span>IR · 1000 nm</span></div>
+    </div>
+
+    <div class="ph-control">
+      <label for="phFlux"><span class="ph-flux-name" id="phFluxName">Luminosité de la source</span> <span id="phFluxVal">2 photons par seconde (au ralenti)</span></label>
+      <input class="ph-range" type="range" id="phFlux" min="1" max="6" step="1" value="2">
+      <div class="ph-scale"><span>faible</span><span>forte</span></div>
+    </div>
+
+    <div class="ph-readout">
+      <div><small>Domaine</small><b id="phDomain">–</b></div>
+      <div><small>Fréquence ν</small><b id="phNu">–</b></div>
+      <div><small>Énergie E en joule</small><b id="phEJ">–</b></div>
+      <div class="ph-main"><small>Énergie E en eV</small><b id="phEeV">–</b></div>
+    </div>
+
+    <div class="ph-gauge-label"><span>Énergie d'un seul photon</span><span id="phGaugeVal">–</span></div>
+    <div class="ph-gauge"><div id="phGauge"></div></div>
+
+    <div class="ph-detector">
+      <span id="phCount">0 photon reçu</span>
+      <div class="ph-actions">
+        <button type="button" class="ph-btn" id="phPause">⏸ Pause</button>
+        <button type="button" class="ph-btn ph-restart" id="phReset">↺ Recommencer</button>
+      </div>
+    </div>
+
+    <div class="attention" style="margin-bottom:12px"><strong>À retenir :</strong> E est l'énergie transportée par <strong>un seul</strong> photon. Elle dépend uniquement de
+    la radiation (ν ou λ). Une lumière plus intense contient <strong>plus de photons</strong>, mais pas des photons plus énergétiques.</div>
+
+    <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">🧮 Voir le calcul pour la longueur d'onde choisie</button>
+    <div class="accord-body"><div id="phCalc"></div></div>
+
+    <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">🪙 Une image pour retenir : le photon et la pièce de monnaie</button>
+    <div class="accord-body">
+      <p>Imagine que chaque photon est une <strong>pièce de monnaie</strong> dont la valeur dépend de sa couleur : un photon bleu est une « pièce » de plus grande valeur qu'un photon rouge.</p>
+      <p style="margin-top:8px">Une lumière plus intense revient à recevoir <strong>plus de pièces</strong>, pas des pièces de plus grande valeur.</p>
+      <p style="margin-top:8px"><strong>Limite de cette image :</strong> des pièces s'additionnent. Un atome, lui, n'additionne pas deux photons pour changer de niveau d'énergie : dans le cadre de ce cours, un seul photon doit apporter exactement l'énergie nécessaire.</p>
+    </div>
+
+    <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">✏️ Exemple rédigé : le photon de la raie jaune du sodium</button>
+    <div class="accord-body">
+      <p class="ph-step">Calculer l'énergie d'un photon de longueur d'onde λ = 589 nm, en joule puis en électronvolt.</p>
+      <p class="ph-step"><strong>Conversion :</strong> λ = 589 nm = 589×10⁻⁹ m</p>
+      <p class="ph-step"><strong>Formule :</strong> E = h × c / λ</p>
+      <p class="ph-step"><strong>Calcul :</strong> E = 6,63×10⁻³⁴ × 3,00×10⁸ / (589×10⁻⁹)</p>
+      <p class="ph-step"><strong>Résultat :</strong> E = 3,38×10⁻¹⁹ J</p>
+      <p class="ph-step"><strong>En électronvolt :</strong> E = 3,38×10⁻¹⁹ / 1,60×10⁻¹⁹ = 2,11 eV</p>
+    </div>
+
+    <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">📝 Vérifier ma compréhension (3 questions)</button>
+    <div class="accord-body">
+      <div class="activite-q">
+        <div class="comp-badge ana">ANALYSER-RAISONNER</div>
+        <div class="qtext">Tu augmentes la luminosité de l'écran de ton téléphone : il émet 5 fois plus de photons bleus par seconde. Que devient l'énergie de chacun de ces photons ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="phQcm(this,false,'Non : E = hc/λ ne fait pas intervenir le nombre de photons. Seul le nombre de photons émis chaque seconde est multiplié par 5.')">Elle est multipliée par 5</div>
+          <div class="qcm-opt" onclick="phQcm(this,true,'Oui : λ ne change pas, donc E ne change pas. Ton œil reçoit simplement plus de photons chaque seconde.')">Elle ne change pas</div>
+          <div class="qcm-opt" onclick="phQcm(this,false,'Non : les photons ne se partagent pas une énergie. E = hc/λ ne dépend que de la radiation.')">Elle est divisée par 5</div>
+        </div>
+        <div class="ph-qfb"></div>
+      </div>
+
+      <div class="activite-q">
+        <div class="comp-badge app">S'APPROPRIER</div>
+        <div class="qtext">Parmi ces sources, laquelle émet les photons les plus énergétiques ? Vérifie à l'aide des situations de l'animation.</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="phQcm(this,false,'Non : à 940 nm, E ≈ 1,32 eV. C\'est la plus grande longueur d\'onde des trois, donc la plus faible énergie.')">Télécommande, 940 nm</div>
+          <div class="qcm-opt" onclick="phQcm(this,false,'Non : à 589 nm, E ≈ 2,11 eV. Cherche une longueur d\'onde plus petite.')">Lampadaire au sodium, 589 nm</div>
+          <div class="qcm-opt" onclick="phQcm(this,true,'Oui : à 310 nm, E ≈ 4,01 eV. E est inversement proportionnelle à λ : la plus petite longueur d\'onde donne la plus grande énergie.')">UV du Soleil, 310 nm</div>
+        </div>
+        <div class="ph-qfb"></div>
+      </div>
+
+      <div class="activite-q" style="margin-bottom:0">
+        <div class="comp-badge ana">ANALYSER-RAISONNER</div>
+        <div class="qtext">Pourquoi peut-on attraper un coup de soleil à cause des UV, mais pas à cause de la lumière d'une lampe de bureau ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="phQcm(this,false,'Non : dans le vide, tous les photons ont la même célérité c, quelle que soit leur couleur.')">Les photons UV vont plus vite</div>
+          <div class="qcm-opt" onclick="phQcm(this,true,'Oui : c\'est l\'énergie de chaque photon qui compte ici. Un photon UV peut endommager l\'ADN des cellules de la peau, ce que ne fait pas un photon de lumière visible.')">Chaque photon UV transporte plus d'énergie</div>
+          <div class="qcm-opt" onclick="phQcm(this,false,'Non : le nombre de photons n\'est pas la raison. Le Soleil émet même beaucoup plus de photons visibles que de photons UV.')">Le Soleil envoie plus de photons UV que de photons visibles</div>
+        </div>
+        <div class="ph-qfb"></div>
+      </div>
+    </div>
+
+    <p class="pc-note">Modèle non à l'échelle : un photon n'est ni une bille ni un petit serpent. Le paquet d'onde est une image qui rappelle les deux modèles
+    de la lumière. Une vraie lampe émet des milliards de milliards de photons par seconde.</p>
   </div>
 
 
@@ -730,9 +908,54 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       </div>
     </div>
     <div class="attention">⚠ Dans les deux cas, l'énergie du photon échangé (absorbé ou émis) est reliée à sa fréquence et à sa longueur
-    d'onde par E = h × fréquence = h × c / longueur d'onde. C'est ce qui explique pourquoi un atome donné n'absorbe et n'émet que certaines
+    d'onde par E = hν = hc/λ. C'est ce qui explique pourquoi un atome donné n'absorbe et n'émet que certaines
     radiations bien précises : celles dont l'énergie correspond exactement à un écart entre deux niveaux d'énergie
     de cet atome.</div>
+    <div style="margin-top:14px">
+    <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">🌑 Animation : comment se forme un spectre d'absorption ?</button>
+    <div class="accord-body" id="abAnim">
+      <p style="font-size:.87rem;line-height:1.6;margin-bottom:10px">Choisis un atome, règle la longueur d'onde, puis envoie un photon. <strong>Quels photons l'atome absorbe-t-il ?</strong>
+      Compare l'énergie E du photon aux écarts entre les niveaux d'énergie de l'atome.</p>
+
+      <div class="ph-control">
+        <label for="abAtom">Atome du gaz traversé <span id="abAtomVal">Sodium</span></label>
+        <input class="ph-range" type="range" id="abAtom" min="0" max="3" step="1" value="0">
+        <div class="ab-atoms" id="abAtoms"><span class="on">Sodium</span><span>Lithium</span><span>Calcium</span><span>Mercure</span></div>
+      </div>
+
+      <div class="ph-canvas-wrap">
+        <canvas id="abCanvas" role="img" aria-label="À gauche, diagramme des niveaux d'énergie de l'atome. À droite, un photon traverse le gaz, et le spectre observé apparaît en dessous."></canvas>
+      </div>
+
+      <div class="ph-control">
+        <label for="abLambda">Longueur d'onde du photon λ <span id="abLambdaVal">500 nm</span></label>
+        <div class="ab-lambda-row">
+          <button type="button" class="ab-step" id="abMinus" aria-label="Diminuer λ de 1 nm">−</button>
+          <input class="ph-range" type="range" id="abLambda" min="180" max="800" step="1" value="500">
+          <button type="button" class="ab-step" id="abPlus" aria-label="Augmenter λ de 1 nm">+</button>
+        </div>
+      </div>
+
+      <div class="ab-info">
+        <div><small>Énergie du photon E = hc/λ</small><b id="abE">–</b></div>
+        <div><small>Écarts d'énergie depuis l'état fondamental</small><b id="abGaps">–</b></div>
+      </div>
+
+      <div class="ab-buttons">
+        <button type="button" class="ph-btn" id="abSend">➤ Envoyer un photon</button>
+        <button type="button" class="ph-btn" id="abWhite">🌈 Envoyer de la lumière blanche</button>
+        <button type="button" class="ph-btn ph-restart" id="abReset">↺ Recommencer</button>
+      </div>
+
+      <div class="ab-found" id="abFound"></div>
+      <div class="ab-msg" id="abMsg" aria-live="polite"></div>
+
+      <div class="attention"><strong>Pourquoi la raie reste-t-elle noire ?</strong> L'atome excité se désexcite très vite et réémet de la lumière, mais
+      dans <strong>toutes les directions</strong>. Très peu de photons de cette longueur d'onde continuent donc vers l'observateur.</div>
+      <p class="pc-note">Modèle simplifié et non à l'échelle : seuls deux niveaux excités sont représentés pour chaque atome (valeurs arrondies, données NIST).
+      Dans un vrai gaz, un très grand nombre d'atomes interviennent.</p>
+    </div>
+    </div>
   </div>
 
 
@@ -1183,14 +1406,14 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
   <!-- ===== ESCAPE GAME ===== -->
   <div class="sub-tab-content" id="sub-exo-escape">
 
-    <div class="section-title"><span class="icon">🕵️</span>Escape Game — Le Signal de l'Étoile Inconnue</div>
+    <div class="section-title"><span class="icon">🕵️</span>Escape Game — Le Signal de la lampe inconnue</div>
 
     <div class="escape-wrap">
       <div class="escape-story">
-        📡 Un radiotélescope a capté la lumière d'une étoile mystérieuse. Pour identifier l'élément chimique qui
-        compose son atmosphère et transmettre le rapport, résous les <strong>3 épreuves</strong> dans l'ordre :
-        analyse le type de spectre reçu, calcule l'énergie du photon correspondant à sa raie principale, puis
-        retrouve la transition atomique responsable de cette émission.
+        🧪 Le laboratoire du lycée a reçu une lampe sans étiquette. Pour identifier le gaz qu'elle contient et
+        transmettre le rapport, résous les <strong>3 épreuves</strong> dans l'ordre : analyse le type de spectre obtenu au
+        spectroscope, calcule l'énergie du photon correspondant à l'une de ses raies, puis retrouve la transition
+        atomique responsable de cette émission.
       </div>
 
       <div class="escape-steps-nav">
@@ -1201,7 +1424,7 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
 
       <!-- ÉTAPE 1 -->
       <div class="escape-stage on" id="estage1">
-        <div class="escape-img-box"><img id="eObjImg" src="spectre_sodium.jpg" alt="Spectre reçu"></div>
+        <div class="escape-img-box"><img id="eObjImg" src="spectre_sodium.jpg" alt="Spectre de la lampe inconnue"></div>
         <p style="text-align:center;font-size:.84rem;color:var(--texte-leger);margin-bottom:10px">Ce spectre est-il un spectre continu (source chaude) ou un spectre de raies (source froide) ?</p>
         <div class="escape-choice-row">
           <button class="escape-choice-btn" onclick="eChoiceType('continu',this)">Spectre continu</button>
@@ -1214,7 +1437,7 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       <div class="escape-stage" id="estage2">
         <div class="escape-locked" id="elocked2">🔒 Résous d'abord l'étape 1 pour débloquer le calcul d'énergie.</div>
         <div id="econtent2" style="display:none">
-          <p style="text-align:center;font-size:.84rem;color:var(--texte-leger);margin-bottom:10px">La raie principale du signal a pour longueur d'onde <strong><span id="eLambdaVal">589</span> nm</strong>.
+          <p style="text-align:center;font-size:.84rem;color:var(--texte-leger);margin-bottom:10px">Une raie de cette lampe a pour longueur d'onde <strong><span id="eLambdaVal">589</span> nm</strong>.
           Calcule l'énergie du photon correspondant, en <strong>eV</strong> (arrondi au centième).</p>
           <div class="escape-input-row">
             <input type="text" id="eEnergyInput" placeholder="E (eV)">
@@ -1228,19 +1451,18 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       <div class="escape-stage" id="estage3">
         <div class="escape-locked" id="elocked3">🔒 Résous d'abord l'étape 2 pour débloquer le diagramme final.</div>
         <div id="econtent3" style="display:none">
-          <p style="text-align:center;font-size:.84rem;color:var(--texte-leger);margin-bottom:10px">Parmi les transitions atomiques suivantes, laquelle correspond exactement à l'énergie calculée à l'étape 2 ?</p>
+          <p style="text-align:center;font-size:.84rem;color:var(--texte-leger);margin-bottom:10px">Parmi les transitions atomiques suivantes, laquelle correspond à l'énergie calculée à l'étape 2 (aux arrondis près) ?</p>
           <div class="escape-choice-row" id="eTransChoices"></div>
           <div class="escape-result" id="eResult3"></div>
           <div class="escape-victory" id="eVictory">
             <h3>🎉 Rapport transmis !</h3>
-            <p>Tu as identifié la signature du sodium : la raie jaune à 589 nm correspond à la transition
-            E₁ → E₀ de l'atome. Clique sur « 🎲 Nouveau signal » pour recommencer avec une autre étoile.</p>
+            <p id="eVictoryText"></p>
           </div>
         </div>
       </div>
 
-      <button class="escape-reset" onclick="eNewSignal()">🎲 Nouveau signal (recommencer les 3 épreuves)</button>
-      <div class="escape-score" id="eScore">Signaux décodés : 0</div>
+      <button class="escape-reset" onclick="eNewSignal()">🎲 Nouvelle lampe (recommencer les 3 épreuves)</button>
+      <div class="escape-score" id="eScore">Lampes identifiées : 0</div>
     </div>
 
   </div><!-- /sub-exo-escape -->
@@ -1937,20 +2159,29 @@ function checkExoE1(){
   }
 }
 
-/* ═══ Escape Game — Le Signal de l'Étoile Inconnue ═══ */
+/* ═══ Escape Game — Le Signal de la lampe inconnue ═══ */
 var eStep = 1;
 var eSolvedCount = 0;
+/* Niveaux réels simplifiés et arrondis (source : NIST), un jeu de transitions par élément */
 var ESCAPE_SIGNALS = [
-  {img:'spectre_sodium.jpg', type:'raies', lambda:589, elementLabel:'sodium', transLabel:'E₁ → E₀ (1,90 → 0,00 eV)'},
-  {img:'spectre_mercure.jpg', type:'raies', lambda:436, elementLabel:'mercure', transLabel:'E₂ → E₀ (2,84 → 0,00 eV)'}
+  {img:'spectre_sodium.jpg', type:'raies', lambda:589, elementLabel:'sodium',
+   victory:'Tu as identifié la signature du sodium : la raie jaune à 589 nm correspond à la transition E₁ → E₀ de l\'atome (2,10 → 0,00 eV). Clique sur « 🎲 Nouvelle lampe » pour en analyser une autre.',
+   pool:[
+    {label:'E₃ → E₀ (3,75 → 0,00 eV)', deltaE:3.75},
+    {label:'E₁ → E₀ (2,10 → 0,00 eV)', deltaE:2.10},
+    {label:'E₂ → E₁ (3,19 → 2,10 eV)', deltaE:1.09},
+    {label:'E₃ → E₂ (3,75 → 3,19 eV)', deltaE:0.56}
+   ]},
+  {img:'spectre_mercure.jpg', type:'raies', lambda:436, elementLabel:'mercure',
+   victory:'Tu as identifié la signature du mercure : la raie bleue à 436 nm correspond à la transition E₃ → E₁ de l\'atome (7,73 → 4,89 eV). Clique sur « 🎲 Nouvelle lampe » pour en analyser une autre.',
+   pool:[
+    {label:'E₁ → E₀ (4,89 → 0,00 eV)', deltaE:4.89},
+    {label:'E₃ → E₂ (7,73 → 5,46 eV)', deltaE:2.27},
+    {label:'E₃ → E₁ (7,73 → 4,89 eV)', deltaE:2.84},
+    {label:'E₂ → E₁ (5,46 → 4,89 eV)', deltaE:0.57}
+   ]}
 ];
 var eCurrentSignal = ESCAPE_SIGNALS[0];
-var eTransitionsPool = [
-  {label:'E₁ → E₀ (1,90 → 0,00 eV)', deltaE:1.90},
-  {label:'E₂ → E₀ (3,40 → 0,00 eV)', deltaE:3.40},
-  {label:'E₃ → E₁ (4,10 → 1,90 eV)', deltaE:2.20},
-  {label:'E₂ → E₁ (3,40 → 1,90 eV)', deltaE:1.50}
-];
 
 function eSetBadges(){
   ['ebadge1','ebadge2','ebadge3'].forEach(function(id,idx){
@@ -1962,10 +2193,11 @@ function eSetBadges(){
 }
 function eShowStage(n){
   ['estage1','estage2','estage3'].forEach(function(id,idx){
-    document.getElementById(id).classList.toggle('on', idx+1===n);
+    document.getElementById(id).classList.toggle('on', idx+1<=n);
   });
 }
 function eChoiceType(val, btn){
+  if(eStep > 1) return;
   document.querySelectorAll('#estage1 .escape-choice-btn').forEach(function(b){ b.classList.remove('sel'); });
   btn.classList.add('sel');
   var res = document.getElementById('eResult1');
@@ -1977,12 +2209,14 @@ function eChoiceType(val, btn){
     document.getElementById('elocked2').style.display = 'none';
     document.getElementById('econtent2').style.display = '';
     document.getElementById('eLambdaVal').textContent = eCurrentSignal.lambda;
+    eShowStage(2);
   } else {
     res.className = 'escape-result lose';
     res.textContent = '❌ Regarde bien l\'image : les raies colorées séparées par du noir signalent un spectre de raies, pas un spectre continu.';
   }
 }
 function eCheckEnergy(){
+  if(eStep > 2) return;
   var val = parseFloat(document.getElementById('eEnergyInput').value.replace(',','.'));
   var res = document.getElementById('eResult2');
   var attendu = (H_J*C_MS/(eCurrentSignal.lambda*1e-9))/EV_J;
@@ -1993,12 +2227,13 @@ function eCheckEnergy(){
   }
   if(Math.abs(val - attendu) < 0.06){
     res.className = 'escape-result win';
-    res.textContent = '✓ Bravo, E ≈ '+attendu.toFixed(2)+' eV. Étape 3 débloquée !';
+    res.textContent = '✓ Bravo, E ≈ '+attendu.toFixed(2).replace('.',',')+' eV. Étape 3 débloquée !';
     eStep = 3;
     eSetBadges();
     document.getElementById('elocked3').style.display = 'none';
     document.getElementById('econtent3').style.display = '';
     eBuildTransitionChoices(attendu);
+    eShowStage(3);
   } else {
     res.className = 'escape-result lose';
     res.textContent = '❌ Utilise E = h × c / longueur d\'onde (h en J·s, longueur d\'onde en m), puis convertis en eV (1 eV = 1,60×10⁻¹⁹ J). Réessaie.';
@@ -2007,7 +2242,7 @@ function eCheckEnergy(){
 function eBuildTransitionChoices(targetE){
   var grid = document.getElementById('eTransChoices');
   grid.innerHTML = '';
-  eTransitionsPool.forEach(function(t){
+  eCurrentSignal.pool.forEach(function(t){
     var btn = document.createElement('button');
     btn.className = 'escape-choice-btn';
     btn.textContent = t.label;
@@ -2021,11 +2256,12 @@ function eCheckTransition(t, targetE, btn){
   var res = document.getElementById('eResult3');
   if(Math.abs(t.deltaE - targetE) < 0.06){
     res.className = 'escape-result win';
-    res.textContent = '🎉 C\'est la bonne transition ! Signal identifié comme celui du '+eCurrentSignal.elementLabel+'.';
+    res.textContent = '🎉 C\'est la bonne transition ! Lampe identifiée : elle contient du '+eCurrentSignal.elementLabel+'.';
     eSolvedCount++;
-    document.getElementById('eScore').textContent = 'Signaux décodés : '+eSolvedCount;
+    document.getElementById('eScore').textContent = 'Lampes identifiées : '+eSolvedCount;
     document.getElementById('ebadge3').classList.remove('active');
     document.getElementById('ebadge3').classList.add('done');
+    document.getElementById('eVictoryText').textContent = eCurrentSignal.victory;
     document.getElementById('eVictory').classList.add('show');
     document.querySelectorAll('#eTransChoices .escape-choice-btn').forEach(function(b){ b.style.pointerEvents='none'; b.style.opacity=(b===btn)?'1':'.45'; });
   } else {
@@ -2034,7 +2270,7 @@ function eCheckTransition(t, targetE, btn){
   }
 }
 function eNewSignal(){
-  eCurrentSignal = ESCAPE_SIGNALS[Math.floor(Math.random()*ESCAPE_SIGNALS.length)];
+  eCurrentSignal = ESCAPE_SIGNALS[(ESCAPE_SIGNALS.indexOf(eCurrentSignal)+1)%ESCAPE_SIGNALS.length];
   eStep = 1;
   eSetBadges();
   eShowStage(1);
@@ -2054,6 +2290,583 @@ function eNewSignal(){
   document.getElementById('eVictory').classList.remove('show');
 }
 eSetBadges();
+
+/* ═══ Animation : le photon au ralenti ═══ */
+function phQcm(el,ok,msg){
+  var opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(function(o){o.classList.remove('correct','incorrect');});
+  el.classList.add(ok ? 'correct' : 'incorrect');
+  var fb = el.parentElement.nextElementSibling;
+  fb.textContent = msg;
+  fb.classList.add('show');
+}
+(function(){
+  var cv = document.getElementById('phCanvas');
+  if(!cv) return;
+  var ctx = cv.getContext('2d');
+  var H_PL = 6.63e-34, C_L = 3.00e8, EV = 1.60e-19, E_MAX = 4.2;
+  var elL = document.getElementById('phLambda'), elF = document.getElementById('phFlux');
+  var SITS=[
+    {ico:'📺',t:'Changer de chaîne',l:940,src:'Télécommande',rec:'Capteur TV',par:'par le capteur de la télévision',ico2:'📺',
+     d:'La diode de la télécommande émet des photons <strong>infrarouges</strong>, invisibles pour l\'œil. Le capteur de la télévision les détecte. Ce sont les photons les moins énergétiques de ces cinq situations.',s:'Télécommande (IR)',r:'capteur de la télévision'},
+    {ico:'🔴',t:'Pointer un tableau',l:650,src:'Laser rouge',rec:'Tableau',par:'par le tableau',ico2:'⬜',
+     d:'Le laser émet des photons rouges vers le tableau. Le tableau en renvoie une partie dans toutes les directions : c\'est cette lumière diffusée, bien moins intense, qui permet de voir le point rouge. <strong>Sécurité :</strong> ne jamais diriger un laser vers les yeux.',s:'Laser rouge',r:'tableau'},
+    {ico:'🌃',t:'Marcher sous un lampadaire',l:589,src:'Lampadaire',rec:'Œil',par:'par l\'œil',ico2:'👁️',
+     d:'Dans une lampe à vapeur de sodium, les atomes de sodium émettent surtout des photons de 589 nm : c\'est la raie jaune du spectre photographié en partie I.',s:'Lampe à vapeur de sodium',r:'œil'},
+    {ico:'📱',t:'Regarder son téléphone',l:450,src:'Écran',rec:'Œil',par:'par l\'œil',ico2:'👁️',
+     d:'Un écran mélange des lumières rouge, verte et bleue. Les pixels bleus émettent les photons visibles les plus énergétiques de ces trois couleurs. Augmenter la luminosité augmente le nombre de photons, pas leur énergie.',s:'Pixel bleu de l\'écran',r:'œil'},
+    {ico:'☀️',t:'Attraper un coup de soleil',l:310,src:'Soleil',rec:'Peau',par:'par la peau',ico2:'🧍',
+     d:'Une partie des photons <strong>ultraviolets</strong> du Soleil atteint la peau. Chacun transporte assez d\'énergie pour endommager l\'ADN des cellules, ce que ne fait pas un photon de lumière visible. C\'est l\'énergie de <strong>chaque photon</strong> qui compte ici.',s:'Soleil (UV)',r:'peau'}
+  ];
+  var state = {sit:2,lambda:589, flux:2, photons:[], count:0, flash:0, paused:false, acc:0, last:0, W:0, H:0};
+
+  function rgb(l){
+    var r=0,g=0,b=0, x=Math.min(780,Math.max(380,l));
+    if(x<440){r=(440-x)/60;b=1;}
+    else if(x<490){g=(x-440)/50;b=1;}
+    else if(x<510){g=1;b=(510-x)/20;}
+    else if(x<580){r=(x-510)/70;g=1;}
+    else if(x<645){r=1;g=(645-x)/65;}
+    else{r=1;}
+    return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
+  }
+  function visible(l){return l>=400 && l<=800;}
+  /* Couleur lisible sur fond blanc : le jaune et le vert clair sont assombris */
+  function drawColor(l){
+    if(!visible(l)) return '#6b7785';
+    var c=rgb(l), lum=(.299*c[0]+.587*c[1]+.114*c[2])/255, k=lum>.45?.45/lum:1;
+    return 'rgb('+Math.round(c[0]*k)+','+Math.round(c[1]*k)+','+Math.round(c[2]*k)+')';
+  }
+  function sup(n){
+    var m={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+    return String(n).split('').map(function(c){return m[c];}).join('');
+  }
+  function fr(x,d){return x.toFixed(d).replace('.',',');}
+  function sci(x){
+    var e=Math.floor(Math.log10(x)), m=x/Math.pow(10,e);
+    if(parseFloat(m.toFixed(2))>=10){m/=10;e+=1;}
+    return fr(m,2)+'×10'+sup(e);
+  }
+  function domain(l){
+    if(l<400) return 'UV';
+    if(l>800) return 'Infrarouge';
+    if(l<430) return 'Violet';
+    if(l<490) return 'Bleu';
+    if(l<520) return 'Cyan';
+    if(l<565) return 'Vert';
+    if(l<590) return 'Jaune';
+    if(l<625) return 'Orange';
+    return 'Rouge';
+  }
+  function energyJ(){return H_PL*C_L/(state.lambda*1e-9);}
+  function energyEv(){return energyJ()/EV;}
+
+  function updateCount(){
+    var n=state.count, s=SITS[state.sit];
+    document.getElementById('phCount').innerHTML=(s?s.ico2+' ':'')+'<strong>'+n+(n>1?' photons reçus':' photon reçu')+'</strong> '+(s?s.par:'par le récepteur');
+  }
+  function updateReadout(){
+    var l=state.lambda, ej=energyJ(), ev=energyEv();
+    document.getElementById('phLambdaVal').textContent=l+' nm';
+    updateFlux();
+    document.getElementById('phDomain').textContent=domain(l);
+    document.getElementById('phNu').textContent=sci(C_L/(l*1e-9))+' Hz';
+    document.getElementById('phEJ').textContent=sci(ej)+' J';
+    document.getElementById('phEeV').textContent=fr(ev,2)+' eV';
+    document.getElementById('phGaugeVal').textContent=fr(ev,2)+' eV';
+    var g=document.getElementById('phGauge');
+    g.style.width=Math.min(100,ev/E_MAX*100)+'%';
+    g.style.background=drawColor(l);
+    elL.setAttribute('aria-valuetext',l+' nanomètres, '+domain(l)+', énergie '+fr(ev,2)+' électronvolts');
+    document.getElementById('phCalc').innerHTML=
+      '<strong>Formule :</strong> E = h × c / λ<br>'+
+      '<strong>Calcul :</strong> E = 6,63×10⁻³⁴ × 3,00×10⁸ / ('+l+'×10⁻⁹)<br>'+
+      '<strong>Résultat :</strong> E = '+sci(ej)+' J, soit E = '+sci(ej)+' / 1,60×10⁻¹⁹ = <strong>'+fr(ev,2)+' eV</strong>';
+    updateCount();
+  }
+  function bounds(){
+    var srcW=state.W<480?42:60, detW=state.W<480?48:66;
+    return {x0:12+srcW, x1:state.W-12-detW, srcW:srcW, detW:detW};
+  }
+  function addPhoton(x){
+    /* Couloir le plus dégagé, pour que les photons restent bien distincts */
+    var lanes=[.3,.42,.54,.66,.78], lane=lanes[0], best=-Infinity;
+    lanes.forEach(function(f){
+      var near=Infinity;
+      state.photons.forEach(function(p){if(p.lane===f) near=Math.min(near,p.x-x);});
+      if(near===Infinity) near=1e6;
+      near+=Math.random()*20;
+      if(near>best){best=near;lane=f;}
+    });
+    state.photons.push({x:x,lane:lane,lambda:state.lambda});
+  }
+  function seed(){
+    if(!state.W) return;
+    var b=bounds();
+    state.photons=[];
+    addPhoton(b.x0+(b.x1-b.x0)*.3);
+    addPhoton(b.x0+(b.x1-b.x0)*.68);
+  }
+  function resetRun(){
+    state.count=0; state.flash=0; state.acc=0;
+    seed(); updateCount(); draw();
+  }
+  function resize(){
+    var r=cv.getBoundingClientRect();
+    if(r.width<1) return false;
+    var d=window.devicePixelRatio||1, w=Math.round(r.width), h=Math.round(r.height);
+    if(w!==state.W || h!==state.H){
+      var first=!state.W;
+      state.W=w; state.H=h;
+      cv.width=Math.round(w*d); cv.height=Math.round(h*d);
+      ctx.setTransform(d,0,0,d,0,0);
+      if(first) seed();
+    }
+    return true;
+  }
+  function drawPacket(p,b){
+    var half=state.W<480?27:62, amp=state.H*.062, L=p.lambda*.04, y=state.H*p.lane;
+    ctx.save();
+    ctx.beginPath(); ctx.rect(b.x0,0,b.x1-b.x0,state.H); ctx.clip();
+    ctx.strokeStyle=drawColor(p.lambda); ctx.lineWidth=2.4; ctx.lineJoin='round';
+    if(!visible(p.lambda)) ctx.setLineDash([5,4]);
+    ctx.beginPath();
+    for(var i=-half;i<=half;i+=1){
+      var env=Math.exp(-Math.pow(i/(half*.52),2));
+      var yy=y-amp*env*Math.sin(2*Math.PI*i/L);
+      if(i===-half) ctx.moveTo(p.x+i,yy); else ctx.lineTo(p.x+i,yy);
+    }
+    ctx.stroke();
+    ctx.restore();
+  }
+  function rr(x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+  function txt(s,x,y,size,col,align,weight){
+    ctx.fillStyle=col;
+    ctx.font=(weight||600)+' '+size+'px Nunito, sans-serif';
+    ctx.textAlign=align||'left';
+    ctx.fillText(s,x,y);
+  }
+  function draw(){
+    if(!state.W) return;
+    var W=state.W,H=state.H,b=bounds(),col=drawColor(state.lambda),small=W<480;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    /* trajet */
+    ctx.strokeStyle='#E8EDF3'; ctx.lineWidth=1;
+    [.3,.42,.54,.66,.78].forEach(function(f){
+      ctx.beginPath(); ctx.moveTo(b.x0,H*f); ctx.lineTo(b.x1,H*f); ctx.stroke();
+    });
+    state.photons.forEach(function(p){drawPacket(p,b);});
+    /* source */
+    var top=H*.2,h=H*.68;
+    ctx.fillStyle='#F5F7FA'; ctx.strokeStyle='#9AA9B8'; ctx.lineWidth=1.5;
+    rr(12,top,b.srcW,h,8); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=col;
+    ctx.beginPath(); ctx.arc(12+b.srcW/2,top+h/2,small?10:13,0,Math.PI*2); ctx.fill();
+    /* détecteur */
+    var dx=W-12-b.detW;
+    ctx.fillStyle='#F5F7FA'; ctx.strokeStyle='#9AA9B8';
+    rr(dx,top,b.detW,h,8); ctx.fill(); ctx.stroke();
+    if(state.flash>0){
+      ctx.save(); ctx.globalAlpha=state.flash*.55; ctx.fillStyle=col;
+      rr(dx,top,b.detW,h,8); ctx.fill(); ctx.restore();
+    }
+    if(SITS[state.sit]) txt(SITS[state.sit].ico2,dx+b.detW/2,top+h/2-14,small?18:22,'#1A2A3A','center');
+    txt(String(state.count),dx+b.detW/2,top+h/2+22,small?20:24,'#1A2A3A','center',800);
+    /* légendes */
+    var sz=small?11:12.5;
+    var sit=SITS[state.sit];
+    txt(sit?sit.src:'Source',12,top-7,sz,'#5A6B7A','left');
+    txt(sit?sit.rec:'Récepteur',W-12,top-7,sz,'#5A6B7A','right');
+    txt(small?'Même vitesse c':'Tous les photons ont la même vitesse c',W/2,top-7,sz,'#5A6B7A','center');
+    if(!visible(state.lambda)){
+      txt((state.lambda<400?'UV':'IR')+' : invisible pour l\'œil (tracé en gris)',W/2,H-7,sz,'#5A6B7A','center',700);
+    }
+  }
+  function step(t){
+    requestAnimationFrame(step);
+    if(cv.offsetParent===null || !resize()){state.last=t;return;}
+    var dt=Math.min(.05,(t-(state.last||t))/1000);
+    state.last=t;
+    if(state.paused) return;
+    var b=bounds(), speed=(b.x1-b.x0)/(state.W<480?2.2:3.2);
+    state.acc+=dt*state.flux;
+    while(state.acc>=1){state.acc-=1;addPhoton(b.x0-(state.W<480?27:62));}
+    var kept=[];
+    state.photons.forEach(function(p){
+      p.x+=speed*dt;
+      if(p.x>=b.x1){state.count++;state.flash=1;updateCount();}
+      else kept.push(p);
+    });
+    state.photons=kept;
+    state.flash=Math.max(0,state.flash-dt*3.5);
+    draw();
+  }
+  function updateFlux(){
+    var n=state.flux;
+    document.getElementById('phFluxName').textContent=visible(state.lambda)?'Luminosité de la source':'Intensité du rayonnement';
+    document.getElementById('phFluxVal').textContent=n+(n>1?' photons':' photon')+' par seconde (au ralenti)';
+  }
+  function setLambda(l){
+    state.lambda=l; elL.value=l;
+    resetRun(); updateReadout();
+  }
+  var sitBox=document.getElementById('phSits'), sitDetail=document.getElementById('phSitDetail');
+  function renderSits(open){
+    sitBox.querySelectorAll('.ph-sit').forEach(function(b,i){
+      var on=i===state.sit;
+      b.classList.toggle('active',on);
+      b.setAttribute('aria-expanded',on&&open?'true':'false');
+    });
+    var s=SITS[state.sit];
+    if(s&&open){
+      sitDetail.innerHTML='<div>'+s.d+'</div><div class="ph-sit-meta">Source : '+s.s+' · Récepteur : '+s.r+' · λ = '+s.l+' nm · E = '+fr(H_PL*C_L/(s.l*1e-9)/EV,2)+' eV</div>';
+      sitDetail.classList.add('open');
+    } else {
+      sitDetail.classList.remove('open');
+    }
+  }
+  SITS.forEach(function(s,i){
+    var b=document.createElement('button');
+    b.type='button'; b.className='ph-sit';
+    b.innerHTML='<span aria-hidden="true">'+s.ico+'</span>'+s.t;
+    b.addEventListener('click',function(){
+      var wasOpen=state.sit===i && sitDetail.classList.contains('open');
+      state.sit=i;
+      renderSits(!wasOpen);
+      if(state.lambda!==s.l) setLambda(s.l); else updateCount();
+    });
+    sitBox.appendChild(b);
+  });
+  renderSits(false);
+  /* Piste du curseur : gris hors du visible */
+  var stops=[];
+  for(var l=300;l<=1000;l+=20){
+    var c=rgb(l), v=visible(l);
+    stops.push((v?'rgb('+c.join(',')+')':'#c9d1da')+' '+((l-300)/7).toFixed(1)+'%');
+  }
+  elL.style.background='linear-gradient(to right,'+stops.join(',')+')';
+
+  elL.addEventListener('input',function(){
+    var v=parseInt(elL.value,10), found=-1;
+    SITS.forEach(function(s,i){if(s.l===v) found=i;});
+    state.sit=found;
+    renderSits(false);
+    setLambda(v);
+  });
+  elF.addEventListener('input',function(){
+    state.flux=parseInt(elF.value,10);
+    updateFlux();
+  });
+  var pauseBtn=document.getElementById('phPause');
+  function setPaused(p){
+    state.paused=p;
+    pauseBtn.textContent=p?'▶ Lecture':'⏸ Pause';
+  }
+  pauseBtn.addEventListener('click',function(){setPaused(!state.paused);});
+  document.getElementById('phReset').addEventListener('click',resetRun);
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) setPaused(true);
+  window.addEventListener('resize',function(){if(cv.offsetParent!==null && resize()) draw();});
+  updateReadout();
+  requestAnimationFrame(step);
+})();
+
+/* ═══ Animation : spectre d'absorption ═══ */
+(function(){
+  var cv=document.getElementById('abCanvas');
+  if(!cv) return;
+  var ctx=cv.getContext('2d');
+  var H_PL=6.63e-34,C_L=3.00e8,EV=1.60e-19,L_MIN=180,L_MAX=800,TOL=2;
+  /* Niveaux réels depuis l'état fondamental, arrondis (NIST) */
+  var ATOMS=[
+    {name:'Sodium',de:'du sodium',lines:[{E:2.10,nm:589},{E:3.75,nm:330}]},
+    {name:'Lithium',de:'du lithium',lines:[{E:1.85,nm:671},{E:3.83,nm:323}]},
+    {name:'Calcium',de:'du calcium',lines:[{E:2.93,nm:423},{E:4.55,nm:272}]},
+    {name:'Mercure',de:'du mercure',lines:[{E:4.89,nm:254},{E:6.70,nm:185}]}
+  ];
+  var IDX=['₀','₁','₂'];
+  var S={atom:0,lambda:500,photons:[],reemit:[],level:0,markE:0,exc:0,lineA:[0,0],white:false,acc:0,last:0,W:0,H:0,busy:false,flash:0};
+  var el=function(id){return document.getElementById(id);};
+  var elL=el('abLambda');
+
+  function fr(x,d){return x.toFixed(d).replace('.',',');}
+  function eOf(l){return H_PL*C_L/(l*1e-9)/EV;}
+  function vis(l){return l>=400&&l<=800;}
+  function rgb(l){
+    var r=0,g=0,b=0,x=Math.min(780,Math.max(380,l));
+    if(x<440){r=(440-x)/60;b=1;}
+    else if(x<490){g=(x-440)/50;b=1;}
+    else if(x<510){g=1;b=(510-x)/20;}
+    else if(x<580){r=(x-510)/70;g=1;}
+    else if(x<645){r=1;g=(645-x)/65;}
+    else{r=1;}
+    return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
+  }
+  function col(l){
+    if(!vis(l)) return '#6b7785';
+    var c=rgb(l),lum=(.299*c[0]+.587*c[1]+.114*c[2])/255,k=lum>.45?.45/lum:1;
+    return 'rgb('+Math.round(c[0]*k)+','+Math.round(c[1]*k)+','+Math.round(c[2]*k)+')';
+  }
+  function match(l){
+    var A=ATOMS[S.atom];
+    for(var i=0;i<A.lines.length;i++) if(Math.abs(A.lines[i].nm-l)<=TOL) return i;
+    return -1;
+  }
+  function layout(){
+    var wide=S.W>=620,dg,sc;
+    if(wide){dg={x:8,y:8,w:Math.min(240,S.W*.3),h:S.H-16};sc={x:dg.x+dg.w+14,y:8};sc.w=S.W-sc.x-10;sc.h=S.H-16;}
+    else{dg={x:8,y:8,w:S.W-16,h:178};sc={x:8,y:194,w:S.W-16,h:S.H-202};}
+    sc.py=sc.y+(sc.h-74)*.5;      /* trajet des photons */
+    sc.x0=sc.x+(wide?52:42);      /* sortie de la source */
+    sc.x1=sc.x+sc.w-(wide?76:62); /* entrée du spectroscope */
+    sc.ax=(sc.x0+sc.x1)/2;        /* atome */
+    sc.sy=sc.y+sc.h-42;           /* bande du spectre */
+    return {dg:dg,sc:sc};
+  }
+  function resize(){
+    var r=cv.getBoundingClientRect();
+    if(r.width<1) return false;
+    var d=window.devicePixelRatio||1,w=Math.round(r.width),h=Math.round(r.height);
+    if(w!==S.W||h!==S.H){
+      S.W=w;S.H=h;cv.width=Math.round(w*d);cv.height=Math.round(h*d);
+      ctx.setTransform(d,0,0,d,0,0);
+    }
+    return true;
+  }
+  function txt(s,x,y,size,c,align,weight){
+    ctx.fillStyle=c;ctx.font=(weight||600)+' '+size+'px Nunito, sans-serif';ctx.textAlign=align||'left';ctx.fillText(s,x,y);
+  }
+  function rr(x,y,w,h,r){
+    ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
+  }
+  function packet(x,y,l,angle,alpha,clip){
+    var half=24,amp=9,L=Math.max(7,l*.04);
+    ctx.save();
+    if(clip){ctx.beginPath();ctx.rect(clip.a,0,clip.b-clip.a,S.H);ctx.clip();}
+    ctx.globalAlpha=alpha;ctx.translate(x,y);ctx.rotate(angle);
+    ctx.strokeStyle=col(l);ctx.lineWidth=2.2;ctx.beginPath();
+    for(var i=-half;i<=half;i++){
+      var e=Math.exp(-Math.pow(i/(half*.55),2)),yy=-amp*e*Math.sin(2*Math.PI*i/L);
+      if(i===-half) ctx.moveTo(i,yy); else ctx.lineTo(i,yy);
+    }
+    ctx.stroke();ctx.restore();
+  }
+  function drawDiagram(d){
+    var A=ATOMS[S.atom],top=d.y+36,bot=d.y+d.h-20,maxE=A.lines[1].E;
+    var yOf=function(E){return bot-(E/maxE)*(bot-top);};
+    var x0=d.x+34,x1=d.x+d.w-(d.w>300?120:6);
+    txt('Énergie',d.x,d.y+11,11.5,'#5A6B7A','left',700);
+    ctx.strokeStyle='#5A6B7A';ctx.lineWidth=1.4;
+    ctx.beginPath();ctx.moveTo(d.x+14,bot+8);ctx.lineTo(d.x+14,top-6);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(d.x+10,top-1);ctx.lineTo(d.x+14,top-8);ctx.lineTo(d.x+18,top-1);ctx.stroke();
+    var levels=[0,A.lines[0].E,A.lines[1].E];
+    levels.forEach(function(E,i){
+      var y=yOf(E);
+      ctx.strokeStyle=i===S.level&&S.exc>0?'#2D5F8A':'#1A2A3A';ctx.lineWidth=2.2;
+      ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x1,y);ctx.stroke();
+      txt('E'+IDX[i]+' = '+fr(E,2)+' eV',d.w>300?x1+8:x0+4,d.w>300?y+4:y-5,12,'#1A2A3A','left',700);
+    });
+    txt(i18n0(),d.x+34,bot+15,10.5,'#5A6B7A','left');
+    var ax=x0+(x1-x0)*.72;
+    if(S.exc>0&&S.level>0){
+      var c=col(A.lines[S.level-1].nm),yA=yOf(0)-3,yB=yOf(levels[S.level])+5;
+      ctx.strokeStyle=c;ctx.fillStyle=c;ctx.lineWidth=2.6;
+      ctx.beginPath();ctx.moveTo(ax,yA);ctx.lineTo(ax,yB);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(ax-6,yB+8);ctx.lineTo(ax,yB-2);ctx.lineTo(ax+6,yB+8);ctx.closePath();ctx.fill();
+    }
+    ctx.fillStyle='#2D5F8A';ctx.strokeStyle='#fff';ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(ax-22,yOf(S.markE),7,0,Math.PI*2);ctx.fill();ctx.stroke();
+  }
+  function i18n0(){return 'État fondamental : E₀';}
+  function drawScene(s){
+    var small=S.W<620,sz=small?11:12;
+    /* Trajet */
+    ctx.strokeStyle='#E8EDF3';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(s.x0,s.py);ctx.lineTo(s.x1,s.py);ctx.stroke();
+    /* Gaz */
+    var gw=small?74:104,gh=small?70:88;
+    ctx.fillStyle='#F3F7FB';ctx.strokeStyle='#B8D4EC';ctx.lineWidth=1.4;
+    rr(s.ax-gw/2,s.py-gh/2,gw,gh,12);ctx.fill();ctx.stroke();
+    txt('Gaz : '+ATOMS[S.atom].name.toLowerCase(),s.ax,s.py-gh/2-6,sz,'#5A6B7A','center',700);
+    /* Photons */
+    var clip={a:s.x0,b:s.x1};
+    S.photons.forEach(function(p){packet(p.x,s.py,p.l,0,1,clip);});
+    S.reemit.forEach(function(r){packet(s.ax+Math.cos(r.a)*r.d,s.py+Math.sin(r.a)*r.d,r.l,r.a,Math.max(0,1-r.d/70)*.8);});
+    /* Atome */
+    if(S.exc>0){ctx.fillStyle='rgba(232,120,58,.18)';ctx.beginPath();ctx.arc(s.ax,s.py,22,0,Math.PI*2);ctx.fill();}
+    ctx.fillStyle=S.exc>0?'#E8783A':'#2D5F8A';ctx.beginPath();ctx.arc(s.ax,s.py,12,0,Math.PI*2);ctx.fill();
+    txt('atome',s.ax,s.py+gh/2-7,small?10:11,'#5A6B7A','center');
+    /* Source */
+    var bw=s.x0-s.x-4,bh=small?54:64;
+    ctx.fillStyle='#F5F7FA';ctx.strokeStyle='#9AA9B8';ctx.lineWidth=1.4;
+    rr(s.x,s.py-bh/2,bw,bh,8);ctx.fill();ctx.stroke();
+    ctx.fillStyle=S.white?'#E8783A':col(S.lambda);ctx.beginPath();ctx.arc(s.x+bw/2,s.py,small?8:10,0,Math.PI*2);ctx.fill();
+    txt('Source',s.x,s.py-bh/2-6,sz,'#5A6B7A','left');
+    /* Spectroscope */
+    var sx=s.x1+4,sw=s.x+s.w-sx;
+    ctx.fillStyle='#F5F7FA';ctx.strokeStyle='#9AA9B8';
+    rr(sx,s.py-bh/2,sw,bh,8);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#7B8A98';ctx.beginPath();ctx.moveTo(sx+sw*.3,s.py+13);ctx.lineTo(sx+sw*.5,s.py-14);ctx.lineTo(sx+sw*.7,s.py+13);ctx.closePath();ctx.fill();
+    txt('Spectroscope',s.x+s.w,s.py-bh/2-6,small?10:11,'#5A6B7A','right');
+    /* Spectre */
+    var y=s.sy,h=20,x=s.x,w=s.w,i,l;
+    txt('Spectre observé après le gaz',x,y-6,sz,'#5A6B7A','left',700);
+    for(i=0;i<w;i++){
+      l=L_MIN+(i/w)*(L_MAX-L_MIN);
+      if(vis(l)){var c=rgb(l);ctx.fillStyle='rgb('+c.join(',')+')';}
+      else ctx.fillStyle=(Math.floor(i/5)%2)?'#D8DEE5':'#CBD3DB';
+      ctx.fillRect(x+i,y,1.5,h);
+    }
+    ATOMS[S.atom].lines.forEach(function(L,k){
+      if(S.lineA[k]>0){
+        ctx.fillStyle='rgba(0,0,0,'+S.lineA[k]+')';
+        ctx.fillRect(x+((L.nm-L_MIN)/(L_MAX-L_MIN))*w-1.5,y-2,3,h+4);
+      }
+    });
+    [200,400,600,800].forEach(function(t){
+      var tx=x+((t-L_MIN)/(L_MAX-L_MIN))*w;
+      ctx.fillStyle='#5A6B7A';ctx.fillRect(tx-.5,y+h,1,4);
+      txt(t+(t===800?' nm':''),t===800?x+w:tx,y+h+15,10.5,'#5A6B7A',t===800?'right':'center');
+    });
+    txt('UV (invisible)',x+((300-L_MIN)/(L_MAX-L_MIN))*w,y+h+15,small?9:10,'#3F4C59','center',700);
+  }
+  function draw(){
+    if(!S.W) return;
+    ctx.clearRect(0,0,S.W,S.H);ctx.fillStyle='#fff';ctx.fillRect(0,0,S.W,S.H);
+    var L=layout();drawDiagram(L.dg);drawScene(L.sc);
+    if(S.W>=620){ctx.strokeStyle='#E8EDF3';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(L.sc.x-7,12);ctx.lineTo(L.sc.x-7,S.H-12);ctx.stroke();}
+    else{ctx.strokeStyle='#E8EDF3';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(10,188);ctx.lineTo(S.W-10,188);ctx.stroke();}
+  }
+  function msg(t){el('abMsg').innerHTML=t;}
+  function updateFound(){
+    var n=S.lineA.filter(function(a){return a>0;}).length;
+    el('abFound').textContent=n?('Raies d\'absorption trouvées : '+n+' sur 2'):'';
+  }
+  function updateInfo(){
+    el('abLambdaVal').textContent=S.lambda+' nm';
+    el('abE').textContent=fr(eOf(S.lambda),2)+' eV';
+    elL.setAttribute('aria-valuetext',S.lambda+' nanomètres, énergie '+fr(eOf(S.lambda),2)+' électronvolts');
+    var A=ATOMS[S.atom];
+    el('abGaps').textContent='E₁ − E₀ = '+fr(A.lines[0].E,2)+' eV  ·  E₂ − E₀ = '+fr(A.lines[1].E,2)+' eV';
+  }
+  function setWhite(on){
+    S.white=on;
+    el('abWhite').textContent=on?'⏸ Arrêter la lumière blanche':'🌈 Envoyer de la lumière blanche';
+    el('abSend').disabled=on||S.busy;
+  }
+  function setBusy(b){S.busy=b;el('abSend').disabled=b||S.white;}
+  function reset(text){
+    S.photons=[];S.reemit=[];S.level=0;S.markE=0;S.exc=0;S.lineA=[0,0];S.acc=0;
+    setWhite(false);setBusy(false);updateFound();updateInfo();
+    msg(text||'Règle λ, puis clique sur « Envoyer un photon ».');
+    draw();
+  }
+  function arrive(p){
+    var m=match(p.l),A=ATOMS[S.atom],E=eOf(p.l);
+    if(m>=0&&S.exc===0){
+      var L=A.lines[m];
+      p.dead=true;
+      S.level=m+1;S.exc=S.white?.9:1.8;
+      S.lineA[m]=p.single?1:Math.min(1,S.lineA[m]+.5);
+      updateFound();
+      if(p.single){
+        var txt0='<strong>✓ Photon absorbé !</strong> E = '+fr(E,2)+' eV ≈ E'+IDX[m+1]+' − E₀ = '+fr(L.E,2)+' eV (aux arrondis près). L\'atome passe de E₀ à E'+IDX[m+1]+' et une raie noire apparaît à '+L.nm+' nm.';
+        if(S.lineA[0]>0&&S.lineA[1]>0){
+          txt0+=' Tu as trouvé les deux raies '+A.de+'.';
+          if(S.atom===3) txt0+=' Elles sont dans l\'UV : à l\'œil, elles ne se voient pas dans le spectre visible.';
+        }
+        msg(txt0);
+      }
+    } else if(p.single){
+      msg(m>=0 ? 'L\'atome est encore excité : ce photon traverse le gaz.' :
+        '<strong>Photon non absorbé.</strong> E = '+fr(E,2)+' eV ne correspond à aucun écart entre deux niveaux de l\'atome : le photon traverse le gaz sans interagir.');
+    }
+  }
+  function launch(l,single){
+    var s=layout().sc;
+    S.photons.push({x:s.x0-24,l:l,single:single,passed:false});
+  }
+  function step(t){
+    requestAnimationFrame(step);
+    if(cv.offsetParent===null||!resize()){S.last=t;return;}
+    var dt=Math.min(.05,(t-(S.last||t))/1000);S.last=t;
+    var s=layout().sc,speed=(s.x1-s.x0)/2.2;
+    if(S.white){
+      S.acc+=dt*3.2;
+      while(S.acc>=1){
+        S.acc-=1;
+        var A=ATOMS[S.atom],l;
+        if(Math.random()<.22) l=A.lines[Math.floor(Math.random()*2)].nm;
+        else l=Math.round(L_MIN+Math.random()*(L_MAX-L_MIN));
+        launch(l,false);
+      }
+    }
+    var kept=[];
+    S.photons.forEach(function(p){
+      var before=p.x;
+      p.x+=speed*dt;
+      if(!p.passed&&before<s.ax&&p.x>=s.ax){p.passed=true;arrive(p);}
+      if(!p.dead&&p.x<s.x1+24) kept.push(p);
+    });
+    S.photons=kept;
+    if(S.exc>0){
+      S.exc-=dt;
+      if(S.exc<=0){
+        var L0=ATOMS[S.atom].lines[S.level-1];
+        var dirs=[-2.3,-1.57,-.9,.9,1.57,2.3];
+        S.reemit.push({a:dirs[Math.floor(Math.random()*dirs.length)],d:18,l:L0.nm});
+        S.level=0;S.exc=0;
+      }
+    }
+    var target=S.level>0?ATOMS[S.atom].lines[S.level-1].E:0;
+    S.markE+=(target-S.markE)*Math.min(1,dt*9);
+    S.reemit.forEach(function(r){r.d+=dt*70;});
+    S.reemit=S.reemit.filter(function(r){return r.d<70;});
+    if(S.busy&&!S.white&&S.photons.length===0&&S.exc===0&&S.reemit.length===0) setBusy(false);
+    draw();
+  }
+  function setLambda(v){
+    S.lambda=Math.max(L_MIN,Math.min(L_MAX,v));elL.value=S.lambda;updateInfo();
+  }
+  var stops=[];
+  for(var l=L_MIN;l<=L_MAX;l+=20){
+    var c0=rgb(l);
+    stops.push((vis(l)?'rgb('+c0.join(',')+')':'#c9d1da')+' '+(((l-L_MIN)/(L_MAX-L_MIN))*100).toFixed(1)+'%');
+  }
+  elL.style.background='linear-gradient(to right,'+stops.join(',')+')';
+  elL.addEventListener('input',function(){setLambda(parseInt(elL.value,10));});
+  el('abMinus').addEventListener('click',function(){setLambda(S.lambda-1);});
+  el('abPlus').addEventListener('click',function(){setLambda(S.lambda+1);});
+  el('abAtom').addEventListener('input',function(){
+    S.atom=parseInt(this.value,10);
+    el('abAtomVal').textContent=ATOMS[S.atom].name;
+    this.setAttribute('aria-valuetext',ATOMS[S.atom].name);
+    el('abAtoms').querySelectorAll('span').forEach(function(sp,i){sp.classList.toggle('on',i===S.atom);});
+    reset();
+  });
+  el('abSend').addEventListener('click',function(){
+    if(S.busy||S.white) return;
+    setBusy(true);
+    msg('Le photon de '+S.lambda+' nm se dirige vers l\'atome…');
+    launch(S.lambda,true);
+  });
+  el('abWhite').addEventListener('click',function(){
+    var on=!S.white;
+    setWhite(on);
+    if(on) msg('<strong>Lumière blanche :</strong> des photons de toutes les longueurs d\'onde arrivent sur le gaz. Seuls ceux dont l\'énergie correspond à un écart entre deux niveaux sont absorbés : les raies noires se creusent peu à peu.');
+    else{setBusy(S.photons.length>0||S.exc>0);msg('Lumière blanche arrêtée. Tu peux envoyer un photon, ou cliquer sur « Recommencer ».');}
+  });
+  el('abReset').addEventListener('click',function(){reset();});
+  window.addEventListener('resize',function(){if(cv.offsetParent!==null&&resize()) draw();});
+  reset();
+  requestAnimationFrame(step);
+})();
 </script>
 </body>
 </html>
