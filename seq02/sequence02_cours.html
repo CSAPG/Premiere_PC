@@ -272,7 +272,7 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
 
 /* ── ANIMATION : LE PHOTON AU RALENTI ── */
 .ph-canvas-wrap{border:1.5px solid var(--gris-bord);border-radius:10px;overflow:hidden;background:#fff;margin:10px 0 14px}
-#phCanvas{display:block;width:100%;height:230px;background:#fff}
+#phCanvas{display:block;width:100%;height:200px;background:#fff}
 .ph-control{margin-bottom:14px}
 .ph-control label{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.86rem;font-weight:700;color:var(--bleu);margin-bottom:6px}
 .ph-control label span.ph-flux-name{font-family:'Nunito',sans-serif;color:var(--bleu)}
@@ -288,7 +288,17 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
 .ph-readout b{font-family:'DM Mono',monospace;font-size:.92rem;color:var(--texte);white-space:nowrap}
 .ph-readout .ph-main{background:var(--bleu-clair);border-color:#B8D4EC}
 .ph-readout .ph-main b{color:var(--bleu)}
-.ph-gauge-label{display:flex;justify-content:space-between;gap:10px;font-size:.8rem;font-weight:700;color:var(--bleu);margin-bottom:5px}
+.ph-gauge-label{font-size:.78rem;font-weight:700;color:var(--bleu);margin-bottom:4px}
+.ph-compact{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;align-items:start;margin-bottom:12px}
+.ph-compact .ph-canvas-wrap{margin-top:0;margin-bottom:10px}
+.ph-compact .ph-detector{margin-bottom:0}
+.ph-compact .ph-control{margin-bottom:10px}
+.ph-compact .ph-gauge{margin-bottom:0;height:10px}
+.ph-result{display:flex;flex-wrap:wrap;gap:3px 12px;background:var(--gris-fond);border:1px solid var(--gris-bord);border-radius:9px;padding:7px 10px;margin-bottom:9px;font-size:.84rem}
+.ph-result small{font-size:.76rem;color:var(--texte-leger)}
+.ph-result b{font-family:'DM Mono',monospace;font-size:.82rem;white-space:nowrap}
+.ph-result .ph-ev{color:var(--bleu)}
+@media(max-width:860px){.ph-compact{grid-template-columns:minmax(0,1fr)}}
 .ph-gauge{height:14px;border-radius:7px;background:var(--gris-fond);border:1px solid var(--gris-bord);overflow:hidden;margin-bottom:14px}
 .ph-gauge div{height:100%;border-radius:7px 0 0 7px;transition:width .15s}
 #phCalc{overflow-wrap:anywhere}
@@ -303,10 +313,10 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
 .ph-qfb.show{display:block}
 .ph-step{font-size:.87rem;line-height:1.75}
 .ph-step strong{color:var(--bleu)}
-#phAnim .accord-btn{margin-bottom:10px}
+#phCard .accord-btn{margin-bottom:10px}
 .ph-sits{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0 10px}
-.ph-sit{background:#fff;border:1.5px solid var(--gris-bord);border-radius:10px;padding:10px 8px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;line-height:1.3;color:var(--texte);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
-.ph-sit span{font-size:1.35rem;line-height:1}
+.ph-sit{background:#fff;border:1.5px solid var(--gris-bord);border-radius:8px;padding:7px 6px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;line-height:1.3;color:var(--texte);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;text-align:center}
+.ph-sit span{font-size:1.05rem;line-height:1}
 .ph-sit:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
 .ph-sit.active{border-color:var(--bleu);background:var(--bleu-clair);color:var(--bleu)}
 .ph-sit:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
@@ -316,23 +326,79 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
 .ph-sit-meta{font-family:'DM Mono',monospace;font-size:.8rem;margin-top:6px;color:var(--texte)}
 @media(max-width:700px){.ph-sits{grid-template-columns:repeat(2,1fr)}.ph-sit:last-child{grid-column:1 / -1}#phCanvas{height:190px}.ph-readout{grid-template-columns:repeat(2,1fr)}.ph-readout b{font-size:.84rem}}
 
-/* ── ANIMATION : SPECTRE D'ABSORPTION ── */
-#abCanvas{display:block;width:100%;height:320px;background:#fff}
-.ab-atoms{display:flex;justify-content:space-between;font-size:.76rem;font-weight:700;color:var(--texte-leger);margin-top:5px}
-.ab-atoms span.on{color:var(--bleu)}
-.ab-lambda-row{display:flex;align-items:center;gap:8px}
-.ab-lambda-row .ph-range{flex:1;min-width:0}
-.ab-step{flex:none;width:34px;height:34px;border-radius:8px;border:1.5px solid var(--gris-bord);background:#fff;color:var(--bleu);font-weight:800;font-size:1.05rem;cursor:pointer}
-.ab-step:hover{background:var(--bleu-clair)}
-.ab-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.ab-buttons .ph-btn:disabled{opacity:.45;cursor:not-allowed}
-.ab-info{display:grid;grid-template-columns:1fr 2fr;gap:10px;margin-bottom:10px}
-.ab-info div{background:var(--gris-fond);border:1px solid var(--gris-bord);border-radius:9px;padding:9px 10px;text-align:center}
-.ab-info small{display:block;font-size:.72rem;color:var(--texte-leger);margin-bottom:3px}
-.ab-info b{font-family:'DM Mono',monospace;font-size:.88rem;color:var(--texte)}
-.ab-msg{min-height:44px;background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:10px 13px;font-size:.85rem;line-height:1.55;margin-bottom:10px}
-.ab-found{font-size:.82rem;font-weight:700;color:var(--vert);margin-bottom:6px}
-@media(max-width:700px){#abCanvas{height:430px}.ab-info{grid-template-columns:1fr}}
+/* ── SCHÉMAS FIXES : ABSORPTION ET ÉMISSION ── */
+.sf-canvas{display:block;width:100%;height:390px;background:#fff}
+.sf-atom-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-bottom:12px}
+.sf-atom-lab{font-size:.86rem;font-weight:700;color:var(--bleu)}
+.sf-atom-btns{display:flex;flex-wrap:wrap;gap:7px}
+.sf-atom{background:#fff;border:1.5px solid var(--bleu-moyen);border-radius:8px;padding:7px 14px;font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:700;color:var(--bleu);cursor:pointer}
+.sf-atom:hover{background:var(--bleu-clair)}
+.sf-atom.on{background:var(--bleu);border-color:var(--bleu);color:#fff}
+.sf-atom:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.sf-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.sf-chip{background:#fff;border:1.5px solid var(--gris-bord);border-radius:7px;padding:6px 10px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;color:var(--texte);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.sf-chip:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.sf-chip.on{border-color:var(--bleu);background:var(--bleu-clair);color:var(--bleu)}
+.sf-chip:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.sf-chip i{width:11px;height:11px;border-radius:50%;display:inline-block;flex:none}
+.sf-msg{min-height:44px;background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:10px 13px;font-size:.85rem;line-height:1.55;margin-bottom:10px}
+.sf-photo{display:none;margin:10px 0;border:1.5px solid var(--gris-bord);border-radius:10px;overflow:hidden;background:#fff}
+.sf-photo.show{display:block}
+.sf-photo img{display:block;width:100%;height:auto}
+.sf-photo p{font-size:.8rem;color:var(--texte-leger);padding:7px 11px;line-height:1.5}
+@media(max-width:700px){.sf-canvas{height:380px}}
+
+/* ── IMAGES DE LA PARTIE PHOTON ET NIVEAUX ── */
+.doc-flex{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:flex-start}
+.doc-flex .doc-text{flex:1 1 260px;min-width:0}
+.doc-flex .doc-media{flex:0 1 240px;margin:0 auto}
+.doc-media img{display:block;width:100%;height:auto;border-radius:8px}
+.doc-center{text-align:center;margin-top:10px}
+.doc-center img{display:inline-block;max-width:240px;width:100%;height:auto;border-radius:8px}
+
+/* ── NAVIGATION DES EXERCICES ET ACTIVITÉS ── */
+.exo-tabs-nav{display:flex;gap:8px;margin:8px 0 18px;flex-wrap:wrap}
+.exo-tab-btn{display:flex;align-items:center;gap:7px;padding:8px 14px;border:1.5px solid var(--gris-bord);background:#fff;color:var(--bleu);font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;border-radius:999px;cursor:pointer;text-align:left}
+.exo-tab-btn:hover{border-color:var(--bleu)}
+.exo-tab-btn.active{background:var(--bleu);color:#fff;border-color:var(--bleu)}
+.exo-tab-btn .exo-tab-stars{font-size:.76rem;color:var(--orange);font-weight:400;white-space:nowrap}
+.exo-tab-btn.active .exo-tab-stars{color:#FFD9B3}
+.exo-tab-btn:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.exo-item-content{display:none}
+.exo-item-content.active{display:block;animation:fadeIn .2s}
+
+/* ── EXERCICE 41 : INDICES, CORRECTION, IMAGE ── */
+.btn-indice{background:#FFF6E0;color:#8A5F00;border:1.5px solid #C98A00;border-radius:7px;padding:3px 10px;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;margin-left:4px;white-space:nowrap}
+.btn-indice:hover{background:#C98A00;color:#fff}
+.indice-box{display:none;background:#FFF6E0;border-left:4px solid #C98A00;border-radius:0 7px 7px 0;padding:8px 12px;font-size:.84rem;line-height:1.55;margin:0 0 10px}
+.indice-box.open{display:block;animation:fadeIn .2s}
+.exo-q{font-size:.88rem;line-height:1.75;margin-bottom:8px}
+.btn-correction{display:block;background:var(--vert);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:800;cursor:pointer;margin-top:12px}
+.btn-correction:hover{background:#2d6e57}
+.correction-box{display:none;background:#fff;border:1.5px solid var(--vert);border-radius:8px;padding:12px 14px;margin-top:10px;font-size:.86rem;line-height:1.65}
+.correction-box.open{display:block;animation:fadeIn .2s}
+.correction-box p+p{margin-top:8px}
+.correction-box strong{color:var(--vert)}
+.exo-img{display:block;max-width:100%;height:auto;margin:0 auto 14px;border-radius:8px}
+.exo-split{display:flex;flex-wrap:wrap;align-items:flex-start;gap:14px 20px;margin-bottom:12px}
+.exo-split-img{flex:0 0 auto;max-width:100%}
+.exo-split-img .exo-img{margin:0}
+.exo-split-txt{flex:1 1 300px;min-width:0}
+
+/* ── ACTIVITÉS : SIMULATEUR ET PYTHON ── */
+.activite-sim{background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:12px 14px;margin-bottom:14px}
+.btn-sim{display:inline-block;background:var(--bleu);color:#fff;border-radius:8px;padding:8px 14px;font-size:.84rem;font-weight:800;text-decoration:none;margin:2px 0 8px}
+.btn-sim:hover{background:#1e4466}
+.py-box{margin:10px 0 12px}
+.py-label{display:block;font-size:.82rem;font-weight:700;color:var(--bleu);margin-bottom:5px}
+.py-editor{display:block;width:100%;background:#fff;border:1.5px solid var(--gris-bord);border-radius:8px;padding:10px 12px;font-family:'DM Mono',monospace;font-size:.78rem;line-height:1.55;color:var(--texte);overflow:auto;resize:vertical;white-space:pre;tab-size:4}
+.py-editor:focus{outline:2px solid var(--bleu-moyen);outline-offset:1px}
+.py-tools{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.py-tools .ph-btn:disabled{opacity:.5;cursor:wait}
+.py-status{font-size:.8rem;color:var(--texte-leger);margin-top:6px;min-height:18px}
+.py-out{background:#F7F9FC;border:1.5px solid #B8D4EC;border-radius:8px;padding:10px 12px;margin-top:6px;font-family:'DM Mono',monospace;font-size:.76rem;line-height:1.5;color:var(--texte);white-space:pre;overflow:auto;max-height:320px}
+.py-out.err{border-color:var(--rouge);color:var(--rouge)}
+.correction-box ul{padding-left:1.2rem;margin:6px 0}
 </style>
 </head>
 <body>
@@ -766,53 +832,59 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
     <p style="font-size:.85rem;color:var(--texte-leger)">En physique atomique, l'énergie est souvent exprimée en <strong>électronvolt (eV)</strong>, avec 1 eV = 1,60×10⁻¹⁹ J.</p>
   </div>
 
-  <div class="card" id="phAnim">
-    <div class="card-title"><span class="icon">🔬</span>Animation : le photon au ralenti</div>
-    <p style="font-size:.88rem;line-height:1.65">Chaque paquet d'onde représente <strong>un photon</strong>. Clique sur une situation de la vie courante, puis fais
-    varier la luminosité : qu'est-ce qui change ? Qu'est-ce qui ne change pas ?</p>
-
-    <div class="ph-sits" id="phSits" role="group" aria-label="Situations de la vie courante"></div>
-    <div class="ph-sit-detail" id="phSitDetail"></div>
-
-    <div class="ph-canvas-wrap">
-      <canvas id="phCanvas" role="img" aria-label="Des photons, représentés par des paquets d'onde, se déplacent à la même vitesse d'une source vers un récepteur."></canvas>
-    </div>
-
-    <div class="ph-control">
-      <label for="phLambda">Longueur d'onde λ <span id="phLambdaVal">589 nm</span></label>
-      <input class="ph-range" type="range" id="phLambda" min="300" max="1000" step="1" value="589">
-      <div class="ph-scale"><span>300 nm · UV</span><span>visible (≈ 400 à 800 nm)</span><span>IR · 1000 nm</span></div>
-    </div>
-
-    <div class="ph-control">
-      <label for="phFlux"><span class="ph-flux-name" id="phFluxName">Luminosité de la source</span> <span id="phFluxVal">2 photons par seconde (au ralenti)</span></label>
-      <input class="ph-range" type="range" id="phFlux" min="1" max="6" step="1" value="2">
-      <div class="ph-scale"><span>faible</span><span>forte</span></div>
-    </div>
-
-    <div class="ph-readout">
-      <div><small>Domaine</small><b id="phDomain">–</b></div>
-      <div><small>Fréquence ν</small><b id="phNu">–</b></div>
-      <div><small>Énergie E en joule</small><b id="phEJ">–</b></div>
-      <div class="ph-main"><small>Énergie E en eV</small><b id="phEeV">–</b></div>
-    </div>
-
-    <div class="ph-gauge-label"><span>Énergie d'un seul photon</span><span id="phGaugeVal">–</span></div>
-    <div class="ph-gauge"><div id="phGauge"></div></div>
-
-    <div class="ph-detector">
-      <span id="phCount">0 photon reçu</span>
-      <div class="ph-actions">
-        <button type="button" class="ph-btn" id="phPause">⏸ Pause</button>
-        <button type="button" class="ph-btn ph-restart" id="phReset">↺ Recommencer</button>
-      </div>
-    </div>
-
+  <div class="card" id="phCard">
+    <div class="card-title"><span class="icon">🔬</span>Comprendre l'énergie d'un photon</div>
     <div class="attention" style="margin-bottom:12px"><strong>À retenir :</strong> E est l'énergie transportée par <strong>un seul</strong> photon. Elle dépend uniquement de
     la radiation (ν ou λ). Une lumière plus intense contient <strong>plus de photons</strong>, mais pas des photons plus énergétiques.</div>
 
-    <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">🧮 Voir le calcul pour la longueur d'onde choisie</button>
+    <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">🔬 Animation : le photon au ralenti</button>
+    <div class="accord-body" id="phAnim">
+      <p style="font-size:.87rem;line-height:1.6;margin-bottom:10px">Chaque paquet d'onde représente <strong>un photon</strong>. Clique sur une situation, puis fais varier la luminosité :
+      qu'est-ce qui change ? Qu'est-ce qui ne change pas ?</p>
+
+      <div class="ph-sits" id="phSits" role="group" aria-label="Situations de la vie courante"></div>
+      <div class="ph-sit-detail" id="phSitDetail"></div>
+
+      <div class="ph-compact">
+        <div>
+          <div class="ph-canvas-wrap">
+            <canvas id="phCanvas" role="img" aria-label="Des photons, représentés par des paquets d'onde, se déplacent à la même vitesse d'une source vers un récepteur."></canvas>
+          </div>
+          <div class="ph-detector">
+            <span id="phCount">0 photon reçu</span>
+            <div class="ph-actions">
+              <button type="button" class="ph-btn" id="phPause">⏸ Pause</button>
+              <button type="button" class="ph-btn ph-restart" id="phReset">↺ Recommencer</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="ph-control">
+            <label for="phLambda">Longueur d'onde λ <span id="phLambdaVal">589 nm</span></label>
+            <input class="ph-range" type="range" id="phLambda" min="300" max="1000" step="1" value="589">
+            <div class="ph-scale"><span>300 nm · UV</span><span>visible</span><span>IR · 1000 nm</span></div>
+          </div>
+          <div class="ph-control">
+            <label for="phFlux"><span class="ph-flux-name" id="phFluxName">Luminosité de la source</span> <span id="phFluxVal">2 photons/s (au ralenti)</span></label>
+            <input class="ph-range" type="range" id="phFlux" min="1" max="6" step="1" value="2">
+            <div class="ph-scale"><span>faible</span><span>forte</span></div>
+          </div>
+          <div class="ph-result">
+            <span><small>Domaine</small> <b id="phDomain">–</b></span>
+            <span><small>ν =</small> <b id="phNu">–</b></span>
+            <span><small>E =</small> <b id="phEJ">–</b> <small>=</small> <b id="phEeV" class="ph-ev">–</b></span>
+          </div>
+          <div class="ph-gauge-label">Énergie d'un seul photon</div>
+          <div class="ph-gauge"><div id="phGauge"></div></div>
+        </div>
+      </div>
+
+      <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">🧮 Voir le calcul pour la longueur d'onde choisie</button>
     <div class="accord-body"><div id="phCalc"></div></div>
+
+      <p class="pc-note">Modèle non à l'échelle : un photon n'est ni une bille ni un petit serpent. Le paquet d'onde est une image qui rappelle les deux modèles
+    de la lumière. Une vraie lampe émet des milliards de milliards de photons par seconde.</p>
+    </div>
 
     <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">🪙 Une image pour retenir : le photon et la pièce de monnaie</button>
     <div class="accord-body">
@@ -866,9 +938,6 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
         <div class="ph-qfb"></div>
       </div>
     </div>
-
-    <p class="pc-note">Modèle non à l'échelle : un photon n'est ni une bille ni un petit serpent. Le paquet d'onde est une image qui rappelle les deux modèles
-    de la lumière. Une vraie lampe émet des milliards de milliards de photons par seconde.</p>
   </div>
 
 
@@ -876,6 +945,8 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
 
   <div class="card">
     <div class="card-title"><span class="icon">📖</span>Le modèle de Bohr</div>
+    <div class="doc-flex">
+      <div class="doc-text">
     <p style="font-size:.88rem;line-height:1.65"><strong>Niels Bohr</strong>, en 1913, a postulé que l'énergie d'un atome ne peut prendre que certaines valeurs
     bien définies : on dit que l'énergie d'un atome est <strong>quantifiée</strong>. Un atome ne peut exister que
     dans des états bien définis, chaque état étant caractérisé par un niveau d'énergie.</p>
@@ -884,9 +955,14 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       dans lequel l'atome se trouve en l'absence d'apport extérieur d'énergie.</li>
       <li>Les autres états, d'énergie supérieure, sont appelés <strong>états excités</strong> : un atome excité est
       instable et retourne spontanément vers un niveau d'énergie inférieur.</li>
+      <li>Si l'atome reçoit assez d'énergie pour atteindre le niveau E<sub>∞</sub>, il perd un électron : on obtient un <strong>atome ionisé</strong>, c'est-à-dire un ion positif.
+      L'<strong>énergie d'ionisation</strong> est l'énergie minimale à fournir à l'atome, depuis son état fondamental, pour l'ioniser.</li>
     </ul>
+      </div>
+      <div class="doc-media"><img src="diagramme_transitions.jpg" alt="Diagramme de niveaux d'énergie d'un atome : état fondamental E₁, états excités E₂, E₃, E₄ et état ionisé E∞"></div>
+    </div>
     <div class="attention">📎 Le diagramme de niveaux d'énergie d'un atome représente, sous forme de traits horizontaux empilés, les
-    niveaux d'énergie possibles de cet atome (en général exprimés en eV).</div>
+    niveaux d'énergie possibles de cet atome (en général exprimés en eV). Selon les ouvrages, le niveau fondamental est noté E₁ (comme sur ce diagramme) ou E₀ (comme dans les schémas interactifs, le simulateur et plusieurs exercices de cette séquence).</div>
   </div>
 
   <div class="card">
@@ -898,6 +974,7 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
         de l'énergie. Cette transition peut être provoquée par l'<strong>absorption</strong> d'un photon dont
         l'énergie E est exactement égale à la différence d'énergie entre les deux niveaux :</p>
         <div class="formula" style="font-size:.85rem">E = ΔE = E<sub>final</sub> − E<sub>initial</sub></div>
+        <div class="doc-center"><img src="diagramme_absorption.jpg" alt="Absorption d'un photon : l'atome passe du niveau d'énergie E₁ au niveau E₂ supérieur"></div>
       </div>
       <div>
         <p style="font-size:.87rem;font-weight:700;color:var(--bleu);margin-bottom:6px">Spectre d'émission</p>
@@ -905,55 +982,67 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
         de l'énergie : il y a <strong>émission</strong> d'un photon dont l'énergie est égale à la diminution
         d'énergie de l'atome :</p>
         <div class="formula" style="font-size:.85rem">E = |ΔE| = E<sub>initial</sub> − E<sub>final</sub></div>
+        <div class="doc-center"><img src="diagramme_emission.jpg" alt="Émission d'un photon : l'atome passe du niveau d'énergie E₂ au niveau E₁ inférieur"></div>
       </div>
     </div>
     <div class="attention">⚠ Dans les deux cas, l'énergie du photon échangé (absorbé ou émis) est reliée à sa fréquence et à sa longueur
     d'onde par E = hν = hc/λ. C'est ce qui explique pourquoi un atome donné n'absorbe et n'émet que certaines
     radiations bien précises : celles dont l'énergie correspond exactement à un écart entre deux niveaux d'énergie
     de cet atome.</div>
+
     <div style="margin-top:14px">
-    <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">🌑 Animation : comment se forme un spectre d'absorption ?</button>
-    <div class="accord-body" id="abAnim">
-      <p style="font-size:.87rem;line-height:1.6;margin-bottom:10px">Choisis un atome, règle la longueur d'onde, puis envoie un photon. <strong>Quels photons l'atome absorbe-t-il ?</strong>
-      Compare l'énergie E du photon aux écarts entre les niveaux d'énergie de l'atome.</p>
+    <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">🌑 Schéma : comment se forme un spectre d'absorption ?</button>
+    <div class="accord-body" id="saBox">
+      <p style="font-size:.87rem;line-height:1.6;margin-bottom:10px">Une lumière blanche traverse un gaz froid. Ses atomes sont à l'état fondamental E₀. Chaque flèche montre une transition possible, et elle se trouve juste au-dessus de sa raie noire. <strong>Clique sur une flèche, une raie ou un bouton.</strong></p>
 
-      <div class="ph-control">
-        <label for="abAtom">Atome du gaz traversé <span id="abAtomVal">Sodium</span></label>
-        <input class="ph-range" type="range" id="abAtom" min="0" max="3" step="1" value="0">
-        <div class="ab-atoms" id="abAtoms"><span class="on">Sodium</span><span>Lithium</span><span>Calcium</span><span>Mercure</span></div>
-      </div>
-
-      <div class="ph-canvas-wrap">
-        <canvas id="abCanvas" role="img" aria-label="À gauche, diagramme des niveaux d'énergie de l'atome. À droite, un photon traverse le gaz, et le spectre observé apparaît en dessous."></canvas>
-      </div>
-
-      <div class="ph-control">
-        <label for="abLambda">Longueur d'onde du photon λ <span id="abLambdaVal">500 nm</span></label>
-        <div class="ab-lambda-row">
-          <button type="button" class="ab-step" id="abMinus" aria-label="Diminuer λ de 1 nm">−</button>
-          <input class="ph-range" type="range" id="abLambda" min="180" max="800" step="1" value="500">
-          <button type="button" class="ab-step" id="abPlus" aria-label="Augmenter λ de 1 nm">+</button>
+      <div class="sf-atom-row">
+        <span class="sf-atom-lab" id="saAtomLab">Atome du gaz :</span>
+        <div class="sf-atom-btns" id="saAtoms" role="group" aria-labelledby="saAtomLab">
+          <button type="button" class="sf-atom on" data-i="0" aria-pressed="true">Sodium</button>
+          <button type="button" class="sf-atom" data-i="1" aria-pressed="false">Lithium</button>
+          <button type="button" class="sf-atom" data-i="2" aria-pressed="false">Calcium</button>
+          <button type="button" class="sf-atom" data-i="3" aria-pressed="false">Mercure</button>
         </div>
       </div>
 
-      <div class="ab-info">
-        <div><small>Énergie du photon E = hc/λ</small><b id="abE">–</b></div>
-        <div><small>Écarts d'énergie depuis l'état fondamental</small><b id="abGaps">–</b></div>
+      <div class="ph-canvas-wrap">
+        <canvas class="sf-canvas" id="saCanvas" role="img" aria-label="Diagramme fixe des niveaux d'énergie de l'atome. Chaque flèche représente une transition et se trouve au-dessus de la raie correspondante du spectre."></canvas>
       </div>
 
-      <div class="ab-buttons">
-        <button type="button" class="ph-btn" id="abSend">➤ Envoyer un photon</button>
-        <button type="button" class="ph-btn" id="abWhite">🌈 Envoyer de la lumière blanche</button>
-        <button type="button" class="ph-btn ph-restart" id="abReset">↺ Recommencer</button>
+      <div class="sf-chips" id="saChips" role="group" aria-label="Transitions"></div>
+      <div class="sf-msg" id="saMsg" aria-live="polite"></div>
+
+      <div class="attention"><strong>Pourquoi des raies noires ?</strong> Seuls les photons dont l'énergie correspond exactement à un écart depuis E₀ sont absorbés : les autres traversent le gaz. L'atome excité réémet ensuite de la lumière, mais dans <strong>toutes les directions</strong>. Très peu de photons de cette longueur d'onde continuent donc vers l'observateur.</div>
+      <p class="pc-note">Modèle simplifié : seuls quelques niveaux et transitions sont représentés (valeurs arrondies), et certaines transitions n'ont pas lieu, pour des raisons hors programme. Les flèches ne donnent pas l'intensité des raies.</p>
+    </div>
+    <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">✨ Schéma : comment se forme un spectre d'émission ?</button>
+    <div class="accord-body" id="seBox">
+      <p style="font-size:.87rem;line-height:1.6;margin-bottom:10px">Dans une lampe, la décharge électrique excite les atomes. En redescendant vers un niveau inférieur, chaque atome émet un photon. Chaque flèche montre une transition, et elle se trouve juste au-dessus de sa raie colorée. <strong>Clique sur une flèche, une raie ou un bouton.</strong></p>
+
+      <div class="sf-atom-row">
+        <span class="sf-atom-lab" id="seAtomLab">Atome de la lampe :</span>
+        <div class="sf-atom-btns" id="seAtoms" role="group" aria-labelledby="seAtomLab">
+          <button type="button" class="sf-atom on" data-i="0" aria-pressed="true">Sodium</button>
+          <button type="button" class="sf-atom" data-i="1" aria-pressed="false">Lithium</button>
+          <button type="button" class="sf-atom" data-i="2" aria-pressed="false">Calcium</button>
+          <button type="button" class="sf-atom" data-i="3" aria-pressed="false">Mercure</button>
+        </div>
       </div>
 
-      <div class="ab-found" id="abFound"></div>
-      <div class="ab-msg" id="abMsg" aria-live="polite"></div>
+      <div class="ph-canvas-wrap">
+        <canvas class="sf-canvas" id="seCanvas" role="img" aria-label="Diagramme fixe des niveaux d'énergie de l'atome. Chaque flèche représente une transition et se trouve au-dessus de la raie correspondante du spectre."></canvas>
+      </div>
 
-      <div class="attention"><strong>Pourquoi la raie reste-t-elle noire ?</strong> L'atome excité se désexcite très vite et réémet de la lumière, mais
-      dans <strong>toutes les directions</strong>. Très peu de photons de cette longueur d'onde continuent donc vers l'observateur.</div>
-      <p class="pc-note">Modèle simplifié et non à l'échelle : seuls deux niveaux excités sont représentés pour chaque atome (valeurs arrondies, données NIST).
-      Dans un vrai gaz, un très grand nombre d'atomes interviennent.</p>
+      <div class="sf-chips" id="seChips" role="group" aria-label="Transitions"></div>
+      <div class="sf-msg" id="seMsg" aria-live="polite"></div>
+
+      <div class="sf-photo" id="sePhoto">
+        <img id="sePhotoImg" src="spectre_sodium.jpg" alt="Photo du spectre de la lampe observé au spectroscope">
+        <p id="sePhotoCap"></p>
+      </div>
+
+      <div class="attention"><strong>Émission et absorption :</strong> les raies qui aboutissent à E₀ se retrouvent aussi en absorption, à la même longueur d'onde. Les autres n'apparaissent pas en absorption dans un gaz froid, car presque tous ses atomes sont à l'état fondamental.</div>
+      <p class="pc-note">Modèle simplifié : seuls quelques niveaux et transitions sont représentés (valeurs arrondies), et certaines transitions n'ont pas lieu, pour des raisons hors programme. Les flèches ne donnent pas l'intensité des raies.</p>
     </div>
     </div>
   </div>
@@ -974,8 +1063,15 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
   <!-- ===== ACTIVITÉS — SOURCES & SPECTRES ===== -->
   <div class="sub-tab-content active" id="sub-act-1">
 
-  <div class="intro-box">Deux activités interactives pour explorer, à ton rythme, le spectre du Soleil et le spectre visible.</div>
+  <div class="intro-box">Des activités interactives pour explorer, à ton rythme, le spectre du Soleil et le spectre visible.</div>
 
+    <!-- Pour ajouter : copier un bouton ci-dessous et un bloc exo-item-content, avec un nouvel identifiant (act-sources-…). -->
+    <div class="exo-tabs-nav">
+      <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'act-sources-1')">Activité 1 – Le spectre du Soleil</button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'act-sources-2')">Activité 2 – Visualiseur de spectre</button>
+    </div>
+
+    <div class="exo-item-content active" id="act-sources-1">
   <div class="section-title"><span class="icon">☀️</span>Le vrai spectre du Soleil : ni tout à fait continu, ni de raies</div>
 
   <div class="sun-demo">
@@ -1011,7 +1107,9 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       <button class="btn-restart" onclick="activiteReset(this)">🔄 Recommencer</button>
     </div>
   </div>
+    </div>
 
+    <div class="exo-item-content" id="act-sources-2">
   <div class="section-title"><span class="icon">🎛️</span>Visualiseur de spectre interactif</div>
 
   <div class="spectrum-wrap">
@@ -1048,14 +1146,24 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       <button class="btn-restart" onclick="activiteReset(this)">🔄 Recommencer</button>
     </div>
   </div>
+    </div>
 
   </div><!-- /sub-act-1 -->
 
   <!-- ===== ACTIVITÉS — PHOTON & NIVEAUX D'ÉNERGIE ===== -->
   <div class="sub-tab-content" id="sub-act-2">
 
-  <div class="intro-box">Deux outils interactifs pour manipuler la relation E = h×ν et construire des diagrammes de niveaux d'énergie.</div>
+  <div class="intro-box">Des outils interactifs pour manipuler la relation E = h×ν et construire des diagrammes de niveaux d'énergie.</div>
 
+    <!-- Pour ajouter : copier un bouton ci-dessous et un bloc exo-item-content, avec un nouvel identifiant (act-photon-…). -->
+    <div class="exo-tabs-nav">
+      <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'act-photon-1')">Activité 1 – Calculatrice photon</button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'act-photon-2')">Activité 2 – Diagramme de niveaux</button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'act-photon-3')">Activité 3 – Exploiter un diagramme avec le simulateur</button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'act-photon-4')">Activité 4 – Calculer des longueurs d'onde avec Python</button>
+    </div>
+
+    <div class="exo-item-content active" id="act-photon-1">
   <div class="section-title"><span class="icon">🎛️</span>Calculatrice photon</div>
 
   <div class="photon-calc">
@@ -1097,7 +1205,9 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       <button class="btn-restart" onclick="activiteReset(this)">🔄 Recommencer</button>
     </div>
   </div>
+    </div>
 
+    <div class="exo-item-content" id="act-photon-2">
   <div class="section-title"><span class="icon">🎛️</span>Diagramme de niveaux d'énergie interactif</div>
 
   <div class="energy-wrap">
@@ -1156,6 +1266,177 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       <button class="btn-restart" onclick="activiteReset(this)">🔄 Recommencer</button>
     </div>
   </div>
+    </div>
+
+    <div class="exo-item-content" id="act-photon-3">
+    <div class="section-title"><span class="icon">🔗</span>Exploiter un diagramme avec le simulateur</div>
+    <div class="activite-sim">
+      <p class="exo-q">Dans le simulateur, choisis l'atome étudié, puis clique sur les niveaux d'énergie pour sélectionner une transition. Il note le niveau fondamental <strong>E₀</strong>.</p>
+      <a class="btn-sim" href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/spectres/index.html" target="_blank" rel="noopener">🔬 Ouvrir le simulateur de spectres</a>
+      <p class="pc-note" style="text-align:left">Données : h = 6,63×10⁻³⁴ J·s ; c = 3,00×10⁸ m·s⁻¹ ; 1 eV = 1,60×10⁻¹⁹ J.</p>
+    </div>
+
+    <div class="exo-box">
+      <h5>Partie 1 – L'hydrogène : retrouver les raies visibles</h5>
+      <p class="exo-q">À la fin du XIXe siècle, Johann Balmer étudie les raies du spectre visible de l'hydrogène. On cherche à les retrouver à partir du diagramme d'énergie.</p>
+      <p class="exo-q"><strong>1.</strong> Déterminer, en eV, l'énergie maximale E<sub>max</sub> d'un photon de lumière visible, pour λ<sub>min</sub> = 400 nm. <button type="button" class="btn-indice" onclick="toggleIndice('indA1')">💡 Indice</button></p>
+      <div class="indice-box" id="indA1">Utilise E = hc/λ avec λ en mètre, puis divise par 1,60×10⁻¹⁹ pour obtenir des eV.</div>
+      <p class="exo-q"><strong>2.</strong> Déterminer, en eV, l'énergie minimale E<sub>min</sub> d'un photon de lumière visible, pour λ<sub>max</sub> = 800 nm. <button type="button" class="btn-indice" onclick="toggleIndice('indA2')">💡 Indice</button></p>
+      <div class="indice-box" id="indA2">Même méthode : λ double, que devient E ?</div>
+      <p class="exo-q"><strong>3.</strong> Sur le diagramme de l'hydrogène du simulateur, repérer les transitions dont l'écart ΔE vérifie E<sub>min</sub> &lt; ΔE &lt; E<sub>max</sub>. <button type="button" class="btn-indice" onclick="toggleIndice('indA3')">💡 Indice</button></p>
+      <div class="indice-box" id="indA3">Teste les transitions qui arrivent sur le niveau n = 2, c'est-à-dire E₁ dans le simulateur.</div>
+      <p class="exo-q"><strong>4.</strong> Vérifier la réponse avec le simulateur et en déduire les radiations visibles du spectre d'émission de l'hydrogène. <button type="button" class="btn-indice" onclick="toggleIndice('indA4')">💡 Indice</button></p>
+      <div class="indice-box" id="indA4">Clique successivement sur les deux niveaux de chaque transition, et lis la longueur d'onde affichée.</div>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>1.</strong> E<sub>max</sub> = 6,63×10⁻³⁴ × 3,00×10⁸ / (400×10⁻⁹) = 4,97×10⁻¹⁹ J, soit 3,11 eV.</p>
+        <p><strong>2.</strong> E<sub>min</sub> = 6,63×10⁻³⁴ × 3,00×10⁸ / (800×10⁻⁹) = 2,49×10⁻¹⁹ J, soit 1,55 eV.</p>
+        <p><strong>3 et 4.</strong> Quatre transitions conviennent, avec E<sub>n</sub> = −13,6 / n² :</p>
+        <ul>
+          <li>n = 3 → n = 2 (E₂ → E₁) : ΔE = 1,89 eV, soit environ 658 nm ;</li>
+          <li>n = 4 → n = 2 (E₃ → E₁) : ΔE = 2,55 eV, soit environ 488 nm ;</li>
+          <li>n = 5 → n = 2 (E₄ → E₁) : ΔE = 2,86 eV, soit environ 435 nm ;</li>
+          <li>n = 6 → n = 2 (E₅ → E₁) : ΔE = 3,02 eV, soit environ 411 nm.</li>
+        </ul>
+        <p>La transition n = 7 → n = 2 donne ΔE = 3,12 eV, soit environ 398 nm : elle est juste en dehors de l'intervalle retenu. De légers écarts avec le simulateur peuvent venir des arrondis.</p>
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Partie 2 – Le lithium : de la transition à la longueur d'onde</h5>
+      <p class="exo-q">On s'intéresse à la transition E₃ → E₁ de l'atome de lithium.</p>
+      <p class="exo-q"><strong>1.</strong> Cette transition correspond-elle à une émission ou à une absorption de photon ? <button type="button" class="btn-indice" onclick="toggleIndice('indB1')">💡 Indice</button></p>
+      <div class="indice-box" id="indB1">Compare les énergies de E₃ et de E₁ : l'atome monte-t-il ou descend-il ?</div>
+      <p class="exo-q"><strong>2.</strong> Calculer la longueur d'onde du rayonnement associé. <button type="button" class="btn-indice" onclick="toggleIndice('indB2')">💡 Indice</button></p>
+      <div class="indice-box" id="indB2">Lis E₃ et E₁ sur le diagramme, calcule ΔE, convertis en joule, puis utilise λ = hc/ΔE.</div>
+      <p class="exo-q"><strong>3.</strong> Cette radiation est-elle dans le domaine du visible ? <button type="button" class="btn-indice" onclick="toggleIndice('indB3')">💡 Indice</button></p>
+      <div class="indice-box" id="indB3">Compare ton résultat aux limites 400 nm et 800 nm.</div>
+      <p class="exo-q"><strong>4.</strong> Vérifier les réponses en sélectionnant les niveaux E₃ et E₁ sur le diagramme. <button type="button" class="btn-indice" onclick="toggleIndice('indB4')">💡 Indice</button></p>
+      <div class="indice-box" id="indB4">Clique d'abord sur E₃, puis sur E₁.</div>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>1.</strong> E₃ est supérieur à E₁ : l'atome descend et perd de l'énergie. C'est une <strong>émission</strong>.</p>
+        <p><strong>2.</strong> ΔE = E₃ − E₁, avec les valeurs lues sur le diagramme. On convertit : ΔE (en J) = ΔE (en eV) × 1,60×10⁻¹⁹. Puis λ = hc/ΔE, avec h = 6,63×10⁻³⁴ J·s et c = 3,00×10⁸ m·s⁻¹.</p>
+        <p><strong>3.</strong> La radiation est visible si λ est comprise entre 400 nm et 800 nm.</p>
+        <p><strong>4.</strong> La longueur d'onde affichée par le simulateur doit être proche de ton calcul.</p>
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <h5>Partie 3 – Le sodium : de la longueur d'onde à la transition</h5>
+      <p class="exo-q">Les lampes à vapeur de sodium émettent une lumière jaune orangé. On considère une raie de leur spectre de longueur d'onde λ = 569 nm.</p>
+      <p class="exo-q"><strong>1.</strong> Déterminer la différence d'énergie correspondant à cette radiation. <button type="button" class="btn-indice" onclick="toggleIndice('indC1')">💡 Indice</button></p>
+      <div class="indice-box" id="indC1">Utilise ΔE = hc/λ, puis convertis en eV.</div>
+      <p class="exo-q"><strong>2.</strong> À quelle transition cette radiation est-elle associée ? <button type="button" class="btn-indice" onclick="toggleIndice('indC2')">💡 Indice</button></p>
+      <div class="indice-box" id="indC2">Cherche, sur le diagramme du sodium, deux niveaux dont l'écart est égal à ta valeur.</div>
+      <p class="exo-q"><strong>3.</strong> Vérifier la réponse en sélectionnant les deux niveaux sur le diagramme. <button type="button" class="btn-indice" onclick="toggleIndice('indC3')">💡 Indice</button></p>
+      <div class="indice-box" id="indC3">La longueur d'onde affichée doit être proche de 569 nm.</div>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>1.</strong> ΔE = 6,63×10⁻³⁴ × 3,00×10⁸ / (569×10⁻⁹) = 3,50×10⁻¹⁹ J, soit 2,19 eV.</p>
+        <p><strong>2 et 3.</strong> La transition cherchée relie les deux niveaux du diagramme dont l'écart vaut environ 2,19 eV. L'atome descend de l'un à l'autre, puisqu'il s'agit d'une émission. Le simulateur doit alors afficher une longueur d'onde proche de 569 nm.</p>
+      </div>
+    </div>
+
+    <div class="activite-sim">
+      <p class="exo-q"><strong>Pour aller plus loin</strong> (activités du simulateur, sans correction ici) :</p>
+      <p class="exo-q"><a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/spectres/docs/act3a.htm" target="_blank" rel="noopener">L'atome de mercure : désexcitations successives</a><br>
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/spectres/docs/act4a.htm" target="_blank" rel="noopener">La découverte du césium : signature dans l'eau de Durkheim</a></p>
+    </div>
+    </div>
+
+    <div class="exo-item-content" id="act-photon-4">
+    <div class="section-title"><span class="icon">🔗</span>Calculer des longueurs d'onde avec Python</div>
+    <div class="exo-box">
+      <p class="exo-q">Les niveaux d'énergie de l'atome d'hydrogène sont donnés, en eV, par E<sub>n</sub> = −13,6 / n². Le programme ci-dessous calcule les écarts d'énergie entre les sept premiers niveaux, en milliélectronvolt (meV), avec 1 meV = 10⁻³ eV.</p>
+      <p class="pc-note" style="text-align:left">Données : h = 6,63×10⁻³⁴ J·s ; c = 3,00×10⁸ m·s⁻¹ ; 1 eV = 1,60×10⁻¹⁹ J.</p>
+      <div class="py-box" data-py-file="17_niveaux_energie.py">
+        <label class="py-label" for="pyEd1">Programme à modifier : tu peux écrire directement dans ce cadre, puis l'exécuter.</label>
+        <textarea class="py-editor" id="pyEd1" rows="17" spellcheck="false" autocomplete="off" autocapitalize="off" wrap="off">from numpy import *
+print("Calcul du tableau des transitions énergétiques de l atome d hydrogène")
+niveau=array([0,0,0,0,0,0,0])
+matdeltae=array([[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]])
+#saisie des niveaux d'énergie en milliélectron-volt
+for n in range(1,8) :
+    niveau[n-1]=-13603/(n**2)
+print("Niveaux d énergie en milliélectron-volt")
+print(niveau)
+# calcul des Delta E
+for n in range(7):
+    for p in range(7):
+        matdeltae[n,p]=niveau[n]-niveau[p]
+# affichage du tableau des Delta E en milliélectron-volt
+print("Tableau des transitions énergétiques Delta E en milliélectron-volt")
+print(matdeltae)
+</textarea>
+        <div class="py-tools">
+          <button type="button" class="ph-btn py-run">▶ Exécuter</button>
+          <button type="button" class="ph-btn py-dl">⬇ Télécharger le fichier</button>
+          <button type="button" class="ph-btn ph-restart py-reset">↺ Recommencer</button>
+        </div>
+        <div class="py-status" aria-live="polite"></div>
+        <pre class="py-out" aria-label="Résultat de l'exécution" hidden></pre>
+      </div>
+      <p class="exo-q"><strong>1.</strong> Modifier le code pour afficher les longueurs d'onde, en nm, de toutes les radiations émises par l'atome d'hydrogène. <button type="button" class="btn-indice" onclick="toggleIndice('indD1')">💡 Indice</button></p>
+      <div class="indice-box" id="indD1">Une émission va d'un niveau n vers un niveau p plus bas. Les valeurs sont en meV : convertis ΔE en joule (× 10⁻³ × 1,60×10⁻¹⁹), puis calcule λ = hc/ΔE, et multiplie par 10⁹ pour obtenir des nm.</div>
+      <p class="exo-q"><strong>2.</strong> Repérer, dans les résultats, les transitions qui correspondent à une radiation visible. <button type="button" class="btn-indice" onclick="toggleIndice('indD2')">💡 Indice</button></p>
+      <div class="indice-box" id="indD2">Garde les valeurs comprises entre 400 nm et 800 nm.</div>
+      <p class="exo-q"><strong>3.</strong> Vérifier les réponses avec le diagramme du simulateur. <button type="button" class="btn-indice" onclick="toggleIndice('indD3')">💡 Indice</button></p>
+      <div class="indice-box" id="indD3">Dans le simulateur, n = 1 est noté E₀, n = 2 est noté E₁, et ainsi de suite.</div>
+
+      <a class="btn-sim" href="https://www.hatier-clic.fr/miniliens/mie/9782401058705/spectres/index.html" target="_blank" rel="noopener">🔬 Ouvrir le simulateur de spectres</a>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>1.</strong> Une solution possible, à exécuter ou à modifier :</p>
+      <div class="py-box" data-py-file="17_niveaux_energie_correction.py">
+        <label class="py-label" for="pyEd2">Programme corrigé</label>
+        <textarea class="py-editor" id="pyEd2" rows="31" spellcheck="false" autocomplete="off" autocapitalize="off" wrap="off">from numpy import *
+print("Calcul du tableau des transitions énergétiques de l atome d hydrogène")
+niveau=array([0,0,0,0,0,0,0])
+matdeltae=array([[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]])
+#saisie des niveaux d'énergie en milliélectron-volt
+for n in range(1,8) :
+    niveau[n-1]=-13603/(n**2)
+print("Niveaux d énergie en milliélectron-volt")
+print(niveau)
+# calcul des Delta E
+for n in range(7):
+    for p in range(7):
+        matdeltae[n,p]=niveau[n]-niveau[p]
+# affichage du tableau des Delta E en milliélectron-volt
+print("Tableau des transitions énergétiques Delta E en milliélectron-volt")
+print(matdeltae)
+
+# Constantes
+h = 6.63e-34      # en J.s
+c = 3.00e8        # en m/s
+eV = 1.60e-19     # en J
+
+# Longueurs d'onde des radiations émises (du niveau n vers un niveau p plus bas)
+print("Longueurs d'onde en nm des radiations émises")
+for n in range(1, 7):
+    for p in range(n):
+        delta_e_joule = matdeltae[n, p] * 1e-3 * eV
+        longueur_onde = h * c / delta_e_joule * 1e9
+        print(f"n = {n + 1} vers n = {p + 1} : {longueur_onde:.0f} nm")
+</textarea>
+        <div class="py-tools">
+          <button type="button" class="ph-btn py-run">▶ Exécuter</button>
+          <button type="button" class="ph-btn py-dl">⬇ Télécharger le fichier</button>
+          <button type="button" class="ph-btn ph-restart py-reset">↺ Recommencer</button>
+        </div>
+        <div class="py-status" aria-live="polite"></div>
+        <pre class="py-out" aria-label="Résultat de l'exécution" hidden></pre>
+      </div>
+        <p><strong>2.</strong> Quatre radiations sont comprises entre 400 nm et 800 nm : 658 nm (n = 3 → n = 2), 488 nm (n = 4 → n = 2), 435 nm (n = 5 → n = 2) et 411 nm (n = 6 → n = 2). La radiation de 398 nm (n = 7 → n = 2) est juste en dehors.</p>
+        <p><strong>3.</strong> Dans le simulateur, ces transitions sont notées E₂ → E₁, E₃ → E₁, E₄ → E₁ et E₅ → E₁. De légers écarts peuvent venir des valeurs arrondies.</p>
+      </div>
+    </div>
+    </div>
 
   </div><!-- /sub-act-2 -->
 
@@ -1173,69 +1454,27 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
   <!-- ===== EXERCICES — SOURCES & SPECTRES ===== -->
   <div class="sub-tab-content active" id="sub-exo-sources">
 
-    <div class="section-title"><span class="icon">✏️</span>Exercices — sources et spectres <span class="diff-badge d1">⭐ Niveau 1</span></div>
+    <!-- Pour ajouter : copier un bouton ci-dessous et un bloc exo-item-content, avec un nouvel identifiant (exo-sources-…). -->
+    <div class="exo-tabs-nav">
+      <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-sources-1')">Exercice 1 – Vrai ou faux <span class="exo-tab-stars">★☆☆</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-sources-2')">Exercice 2 – Source chaude ou froide <span class="exo-tab-stars">★☆☆</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-sources-3')">Exercice 3 – Fréquence d'une onde radio <span class="exo-tab-stars">★★☆</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-sources-4')">Exercice 4 – Spectre d'une étoile lointaine <span class="exo-tab-stars">★★☆</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-sources-5')">Exercice 5 – Domaines spectraux <span class="exo-tab-stars">★★★</span></button>
+    </div>
 
+    <div class="exo-item-content active" id="exo-sources-1">
     <div class="exo-box">
-      <h5>1. Vrai ou faux</h5>
+      <h5>Exercice 1 – Vrai ou faux</h5>
       <div id="qcmSources"></div>
       <button class="exo-btn" onclick="checkQcmSources()">Vérifier</button>
       <div class="exo-fb" id="fbQcmSources"></div>
     </div>
-
-    <div class="section-title"><span class="icon">📐</span>Identifier un domaine spectral <span class="diff-badge d3">⭐⭐⭐ Niveau 3</span></div>
-
-    <div class="exo-box">
-      <h5>2. Associer chaque longueur d'onde à son domaine</h5>
-      <table class="tex">
-        <thead><tr><th>Longueur d'onde</th><th>Domaine</th></tr></thead>
-        <tbody>
-          <tr><td>12 cm (four à micro-ondes)</td>
-            <td><select data-row="0"><option value="?">—</option><option value="radio">Ondes radio</option><option value="micro">Micro-ondes</option><option value="ir">Infrarouge</option><option value="vis">Visible</option><option value="uv">UV</option><option value="x">Rayons X</option></select></td></tr>
-          <tr><td>550 nm (lumière verte)</td>
-            <td><select data-row="1"><option value="?">—</option><option value="radio">Ondes radio</option><option value="micro">Micro-ondes</option><option value="ir">Infrarouge</option><option value="vis">Visible</option><option value="uv">UV</option><option value="x">Rayons X</option></select></td></tr>
-          <tr><td>0,05 nm (radiographie médicale)</td>
-            <td><select data-row="2"><option value="?">—</option><option value="radio">Ondes radio</option><option value="micro">Micro-ondes</option><option value="ir">Infrarouge</option><option value="vis">Visible</option><option value="uv">UV</option><option value="x">Rayons X</option></select></td></tr>
-          <tr><td>2 μm (télécommande)</td>
-            <td><select data-row="3"><option value="?">—</option><option value="radio">Ondes radio</option><option value="micro">Micro-ondes</option><option value="ir">Infrarouge</option><option value="vis">Visible</option><option value="uv">UV</option><option value="x">Rayons X</option></select></td></tr>
-          <tr><td>20 nm (stérilisation UV-C)</td>
-            <td><select data-row="4"><option value="?">—</option><option value="radio">Ondes radio</option><option value="micro">Micro-ondes</option><option value="ir">Infrarouge</option><option value="vis">Visible</option><option value="uv">UV</option><option value="x">Rayons X</option></select></td></tr>
-        </tbody>
-      </table>
-      <button class="exo-btn" onclick="checkDomaines()">Vérifier le tableau</button>
-      <div class="exo-fb" id="fbDomaines"></div>
     </div>
 
-    <div class="section-title"><span class="icon">🧮</span>Calcul λ ↔ ν <span class="diff-badge d2">⭐⭐ Niveau 2</span></div>
-
+    <div class="exo-item-content" id="exo-sources-2">
     <div class="exo-box">
-      <h5>3. Fréquence d'une onde radio</h5>
-      <p style="font-size:.87rem;margin-bottom:10px">Une station de radio FM émet à la fréquence ν = 100 MHz. Calculer la longueur d'onde λ correspondante dans
-      le vide, en mètre (arrondi au dixième).</p>
-      <div class="escape-input-row" style="justify-content:flex-start">
-        <input type="text" id="exoLambdaRadio" placeholder="λ (m)">
-        <button class="exo-btn" style="margin-top:0" onclick="checkLambdaRadio()">Vérifier</button>
-      </div>
-      <div class="exo-fb" id="fbLambdaRadio"></div>
-    </div>
-
-    <div class="section-title"><span class="icon">🔭</span>Reconnaître un type de spectre <span class="diff-badge d2">⭐⭐ Niveau 2</span></div>
-
-    <div class="exo-box">
-      <h5>4. Le spectre d'une étoile lointaine</h5>
-      <p style="font-size:.87rem;margin-bottom:10px">Un télescope enregistre le spectre d'une étoile : il apparaît coloré et continu, mais strié de fines raies
-      noires à certaines longueurs d'onde précises. Comment qualifier ce spectre ?</p>
-      <div class="escape-choice-row" id="etoileChoices">
-        <button class="escape-choice-btn" onclick="checkEtoile('continu',this)">Spectre continu pur</button>
-        <button class="escape-choice-btn" onclick="checkEtoile('raies',this)">Spectre de raies pur</button>
-        <button class="escape-choice-btn" onclick="checkEtoile('mixte',this)">Spectre continu avec raies d'absorption</button>
-      </div>
-      <div class="exo-fb" id="fbEtoile"></div>
-    </div>
-
-    <div class="section-title"><span class="icon">🌡</span>Classer les sources <span class="diff-badge d1">⭐ Niveau 1</span></div>
-
-    <div class="exo-box">
-      <h5>5. Source chaude ou source froide ?</h5>
+      <h5>Exercice 2 – Source chaude ou source froide ?</h5>
       <table class="tex">
         <thead><tr><th>Source lumineuse</th><th>Type</th></tr></thead>
         <tbody>
@@ -1254,16 +1493,120 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       <button class="exo-btn" onclick="checkChaudFroid()">Vérifier le tableau</button>
       <div class="exo-fb" id="fbChaudFroid"></div>
     </div>
+    </div>
+
+    <div class="exo-item-content" id="exo-sources-3">
+    <div class="exo-box">
+      <h5>Exercice 3 – Fréquence d'une onde radio</h5>
+      <p style="font-size:.87rem;margin-bottom:10px">Une station de radio FM émet à la fréquence ν = 100 MHz. Calculer la longueur d'onde λ correspondante dans
+      le vide, en mètre (arrondi au dixième).</p>
+      <div class="escape-input-row" style="justify-content:flex-start">
+        <input type="text" id="exoLambdaRadio" placeholder="λ (m)">
+        <button class="exo-btn" style="margin-top:0" onclick="checkLambdaRadio()">Vérifier</button>
+      </div>
+      <div class="exo-fb" id="fbLambdaRadio"></div>
+    </div>
+    </div>
+
+    <div class="exo-item-content" id="exo-sources-4">
+    <div class="exo-box">
+      <h5>Exercice 4 – Le spectre d'une étoile lointaine</h5>
+      <p style="font-size:.87rem;margin-bottom:10px">Un télescope enregistre le spectre d'une étoile : il apparaît coloré et continu, mais strié de fines raies
+      noires à certaines longueurs d'onde précises. Comment qualifier ce spectre ?</p>
+      <div class="escape-choice-row" id="etoileChoices">
+        <button class="escape-choice-btn" onclick="checkEtoile('continu',this)">Spectre continu pur</button>
+        <button class="escape-choice-btn" onclick="checkEtoile('raies',this)">Spectre de raies pur</button>
+        <button class="escape-choice-btn" onclick="checkEtoile('mixte',this)">Spectre continu avec raies d'absorption</button>
+      </div>
+      <div class="exo-fb" id="fbEtoile"></div>
+    </div>
+    </div>
+
+    <div class="exo-item-content" id="exo-sources-5">
+    <div class="exo-box">
+      <h5>Exercice 5 – Associer chaque longueur d'onde à son domaine</h5>
+      <table class="tex">
+        <thead><tr><th>Longueur d'onde</th><th>Domaine</th></tr></thead>
+        <tbody>
+          <tr><td>12 cm (four à micro-ondes)</td>
+            <td><select data-row="0"><option value="?">—</option><option value="radio">Ondes radio</option><option value="micro">Micro-ondes</option><option value="ir">Infrarouge</option><option value="vis">Visible</option><option value="uv">UV</option><option value="x">Rayons X</option></select></td></tr>
+          <tr><td>550 nm (lumière verte)</td>
+            <td><select data-row="1"><option value="?">—</option><option value="radio">Ondes radio</option><option value="micro">Micro-ondes</option><option value="ir">Infrarouge</option><option value="vis">Visible</option><option value="uv">UV</option><option value="x">Rayons X</option></select></td></tr>
+          <tr><td>0,05 nm (radiographie médicale)</td>
+            <td><select data-row="2"><option value="?">—</option><option value="radio">Ondes radio</option><option value="micro">Micro-ondes</option><option value="ir">Infrarouge</option><option value="vis">Visible</option><option value="uv">UV</option><option value="x">Rayons X</option></select></td></tr>
+          <tr><td>2 μm (télécommande)</td>
+            <td><select data-row="3"><option value="?">—</option><option value="radio">Ondes radio</option><option value="micro">Micro-ondes</option><option value="ir">Infrarouge</option><option value="vis">Visible</option><option value="uv">UV</option><option value="x">Rayons X</option></select></td></tr>
+          <tr><td>20 nm (stérilisation UV-C)</td>
+            <td><select data-row="4"><option value="?">—</option><option value="radio">Ondes radio</option><option value="micro">Micro-ondes</option><option value="ir">Infrarouge</option><option value="vis">Visible</option><option value="uv">UV</option><option value="x">Rayons X</option></select></td></tr>
+        </tbody>
+      </table>
+      <button class="exo-btn" onclick="checkDomaines()">Vérifier le tableau</button>
+      <div class="exo-fb" id="fbDomaines"></div>
+    </div>
+    </div>
 
   </div><!-- /sub-exo-sources -->
 
   <!-- ===== EXERCICES — PHOTON & NIVEAUX D'ÉNERGIE ===== -->
   <div class="sub-tab-content" id="sub-exo-photon">
 
-    <div class="section-title"><span class="icon">✏️</span>Calculs d'énergie de photon <span class="diff-badge d2">⭐⭐ Niveau 2</span></div>
+    <!-- Pour ajouter : copier un bouton ci-dessous et un bloc exo-item-content, avec un nouvel identifiant (exo-photon-…). -->
+    <div class="exo-tabs-nav">
+      <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-photon-1')">Exercice 1 – Utiliser l'électronvolt <span class="exo-tab-stars">★☆☆</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-photon-2')">Exercice 2 – Associer un photon à un rayonnement <span class="exo-tab-stars">★☆☆</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-photon-3')">Exercice 3 – Énergie d'un photon <span class="exo-tab-stars">★★☆</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-photon-4')">Exercice 4 – Longueurs d'onde de l'hydrogène <span class="exo-tab-stars">★★☆</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-photon-5')">Exercice 5 – Laser médical <span class="exo-tab-stars">★★☆</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-photon-6')">Exercice 6 – La nébuleuse d'Orion <span class="exo-tab-stars">★★☆</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-photon-7')">Exercice 7 – La découverte de l'hélium <span class="exo-tab-stars">★★☆</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-photon-8')">Exercice 8 – Vrai ou faux <span class="exo-tab-stars">★★★</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-photon-9')">Exercice 9 – Diagramme : vrai ou faux <span class="exo-tab-stars">★★★</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-photon-10')">Exercice 10 – Lampes à vapeur de sodium <span class="exo-tab-stars">★★★</span></button>
+      <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-photon-11')">Exercice 11 – Modèle de Bohr <span class="exo-tab-stars">★★★</span></button>
+    </div>
 
+    <div class="exo-item-content active" id="exo-photon-1">
     <div class="exo-box">
-      <h5>1. Énergie d'un photon</h5>
+      <h5>Exercice 27 : Utiliser l'électronvolt</h5>
+      <p class="exo-q">Un photon émis par une source lumineuse a une énergie |ΔE| = 2,2 eV.</p>
+
+      <p class="exo-q"><strong>a.</strong> Exprimer cette énergie en joule. <button type="button" class="btn-indice" onclick="toggleIndice('ind27a')">💡 Indice</button></p>
+      <div class="indice-box" id="ind27a">Rappel : 1 eV = 1,60×10⁻¹⁹ J.</div>
+
+      <p class="exo-q"><strong>b.</strong> En déduire la fréquence ν et la longueur d'onde dans le vide λ du rayonnement associé. <button type="button" class="btn-indice" onclick="toggleIndice('ind27b')">💡 Indice</button></p>
+      <div class="indice-box" id="ind27b">Utilise |ΔE| = hν, en joule, pour trouver ν. Utilise ensuite λ = c/ν.</div>
+
+      <p class="exo-q"><strong>c.</strong> Vérifier que ce rayonnement appartient au domaine des ondes lumineuses. <button type="button" class="btn-indice" onclick="toggleIndice('ind27c')">💡 Indice</button></p>
+      <div class="indice-box" id="ind27c">Convertis λ en nanomètres et compare aux limites du domaine visible (environ 400 à 800 nm).</div>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>a.</strong> |ΔE| = 2,2 × 1,60×10⁻¹⁹ = 3,5×10⁻¹⁹ J.</p>
+        <p><strong>b.</strong> ν = |ΔE| / h = 3,5×10⁻¹⁹ / (6,63×10⁻³⁴) = 5,3×10¹⁴ Hz.</p>
+        <p>λ = c / ν = 3,00×10⁸ / (5,3×10¹⁴) = 5,7×10⁻⁷ m, soit environ 570 nm.</p>
+        <p><strong>c.</strong> 570 nm est compris entre 400 nm et 800 nm : ce rayonnement appartient bien au domaine des ondes lumineuses (visible).</p>
+      </div>
+    </div>
+    </div>
+
+    <div class="exo-item-content" id="exo-photon-2">
+    <div class="exo-box">
+      <h5>Exercice 28 : Associer un photon à un rayonnement</h5>
+
+      <p class="exo-q">Un rayonnement monochromatique rouge a une longueur d'onde dans le vide λ = 650 nm. Calculer l'énergie |ΔE|, en joule puis en électronvolt, du photon associé à ce rayonnement. <button type="button" class="btn-indice" onclick="toggleIndice('ind28a')">💡 Indice</button></p>
+      <div class="indice-box" id="ind28a">Utilise |ΔE| = hc/λ, avec λ en mètre : 650 nm = 650×10⁻⁹ m. Pour passer en électronvolt, divise par 1,60×10⁻¹⁹.</div>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p>|ΔE| = hc/λ = 6,63×10⁻³⁴ × 3,00×10⁸ / (650×10⁻⁹) = 3,06×10⁻¹⁹ J.</p>
+        <p>En électronvolt : |ΔE| = 3,06×10⁻¹⁹ / 1,60×10⁻¹⁹ = 1,91 eV.</p>
+      </div>
+    </div>
+    </div>
+
+    <div class="exo-item-content" id="exo-photon-3">
+    <div class="exo-box">
+      <h5>Exercice 3 – Énergie d'un photon</h5>
       <p style="font-size:.87rem;margin-bottom:10px">Une radiation laser a pour longueur d'onde 633 nm (laser Hélium-Néon). Calcule l'énergie du photon
       correspondant, en eV (arrondi au centième).</p>
       <div class="escape-input-row" style="justify-content:flex-start">
@@ -1272,133 +1615,330 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
       </div>
       <div class="exo-fb" id="fbExoE1"></div>
     </div>
+    </div>
 
-    <div class="section-title"><span class="icon">⚛</span>Diagramme d'énergie — vrai/faux <span class="diff-badge d3">⭐⭐⭐ Niveau 3</span></div>
-
+    <div class="exo-item-content" id="exo-photon-4">
     <div class="exo-box">
-      <h5>2. Vrai ou faux</h5>
+      <h5>Exercice 38 : Longueurs d'onde dans le spectre de l'hydrogène</h5>
+
+      <div class="exo-split">
+        <div class="exo-split-img">
+          <!-- Taille de l'image : modifier la valeur de width -->
+          <img class="exo-img" src="ex38.jpg" style="width:200px" alt="Lampe à vapeur d'hydrogène allumée, émettant une lumière rose.">
+        </div>
+        <div class="exo-split-txt">
+      <p class="exo-q">Les différents niveaux d'énergie de l'atome d'hydrogène permettent d'expliquer notamment la couleur de la lumière émise par une lampe à vapeur d'hydrogène. Ces niveaux d'énergie sont représentés sur le diagramme de l'exercice 52 ; ils sont donnés par E<sub>n</sub> = −13,6 / n² (en eV).</p>
+          <p class="exo-q"><strong>1.</strong> Déterminer les longueurs d'onde dans le vide des rayonnements d'énergies maximale et minimale de la série de Balmer (retour de l'atome d'hydrogène au niveau d'énergie n = 2). <button type="button" class="btn-indice" onclick="toggleIndice('ind38a')">💡 Indice</button></p>
+          <div class="indice-box" id="ind38a">L'atome finit toujours sur n = 2. L'énergie est maximale quand il part de plus haut possible (niveau d'ionisation, 0 eV), et minimale quand il part du niveau juste au-dessus (n = 3). Utilise ensuite λ = hc/E.</div>
+          <p class="exo-q"><strong>2.</strong> Recopier le diagramme et représenter les transitions quantiques correspondantes. À quel domaine spectral appartiennent-elles ? <button type="button" class="btn-indice" onclick="toggleIndice('ind38b')">💡 Indice</button></p>
+          <div class="indice-box" id="ind38b">Les flèches descendent vers n = 2. Compare chaque longueur d'onde aux limites du domaine visible (environ 400 à 800 nm).</div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>1.</strong> <strong>Énergie maximale</strong> (départ du niveau d'ionisation) : E = 0 − (−3,40) = 3,40 eV = 3,40 × 1,60×10⁻¹⁹ = 5,44×10⁻¹⁹ J.</p>
+        <p>λ = hc/E = 6,63×10⁻³⁴ × 3,00×10⁸ / (5,44×10⁻¹⁹) = 3,66×10⁻⁷ m, soit λ ≈ 366 nm.</p>
+        <p><strong>Énergie minimale</strong> (départ de n = 3) : E = −1,51 − (−3,40) = 1,89 eV = 1,89 × 1,60×10⁻¹⁹ = 3,02×10⁻¹⁹ J.</p>
+        <p>λ = hc/E = 6,63×10⁻³⁴ × 3,00×10⁸ / (3,02×10⁻¹⁹) = 6,58×10⁻⁷ m, soit λ ≈ 658 nm.</p>
+        <p><strong>2.</strong> La radiation de 366 nm appartient au domaine de l'<strong>ultraviolet</strong> (proche du visible), et celle de 658 nm au domaine du <strong>visible</strong> (rouge).</p>
+        <svg viewBox="0 0 440 270" role="img" aria-label="Diagramme des niveaux n = 1, n = 2, n = 3 et n infini de l'atome d'hydrogène, avec deux flèches descendant vers n = 2 : depuis le niveau d'ionisation (366 nm) et depuis n = 3 (658 nm)." style="width:100%;max-width:440px;height:auto;display:block;margin:8px auto 0;background:#fff">
+          <g font-family="Nunito, sans-serif" font-size="11.5" font-weight="700" fill="#1A2A3A">
+            <line x1="60" y1="14.0" x2="300" y2="14.0" stroke="#1A2A3A" stroke-width="1.8"/><text x="308" y="18.0">n = ∞ : 0 eV</text>
+            <line x1="60" y1="40.4" x2="300" y2="40.4" stroke="#1A2A3A" stroke-width="1.8"/><text x="308" y="44.4">n = 3 : −1,51 eV</text>
+            <line x1="60" y1="73.5" x2="300" y2="73.5" stroke="#1A2A3A" stroke-width="1.8"/><text x="308" y="77.5">n = 2 : −3,40 eV</text>
+            <line x1="60" y1="252.0" x2="300" y2="252.0" stroke="#1A2A3A" stroke-width="1.8"/><text x="308" y="256.0">n = 1 : −13,6 eV</text>
+          </g>
+          <line x1="120" y1="14.0" x2="120" y2="64.5" stroke="#6b7785" stroke-width="2.6"/><path d="M114 63.5 L120 73.5 L126 63.5 Z" fill="#6b7785"/>
+          <line x1="220" y1="40.4" x2="220" y2="64.5" stroke="#D0291C" stroke-width="2.6"/><path d="M214 63.5 L220 73.5 L226 63.5 Z" fill="#D0291C"/>
+          <g font-family="Nunito, sans-serif" font-size="11.5" font-weight="600" fill="#5A6B7A">
+            <text x="128" y="31.2">366 nm (UV)</text>
+            <text x="228" y="60.95">658 nm</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+    </div>
+
+    <div class="exo-item-content" id="exo-photon-5">
+    <div class="exo-box">
+      <h5>Exercice 46 : Laser médical</h5>
+      <p class="exo-q">En chirurgie, l'ablation des tumeurs peut être réalisée avec un laser à dioxyde de carbone de longueur d'onde dans le vide λ = 10,6 µm.</p>
+
+      <p class="exo-q"><strong>a.</strong> Indiquer à quel domaine spectral appartient le rayonnement émis par le laser à dioxyde de carbone. <button type="button" class="btn-indice" onclick="toggleIndice('ind46a')">💡 Indice</button></p>
+      <div class="indice-box" id="ind46a">Convertis λ en nanomètres (1 µm = 1000 nm), puis compare aux limites du domaine visible.</div>
+
+      <p class="exo-q"><strong>b.</strong> Pour que le chirurgien puisse diriger correctement le faisceau sur la tumeur, on utilise un laser He-Ne auxiliaire de longueur d'onde dans le vide λ = 632,8 nm. Quelle est la couleur du faisceau ? <button type="button" class="btn-indice" onclick="toggleIndice('ind46b')">💡 Indice</button></p>
+      <div class="indice-box" id="ind46b">Situe 632,8 nm sur le spectre de la lumière visible.</div>
+
+      <p class="exo-q"><strong>c.</strong> Justifier l'utilisation de ce laser auxiliaire. <button type="button" class="btn-indice" onclick="toggleIndice('ind46c')">💡 Indice</button></p>
+      <div class="indice-box" id="ind46c">Le chirurgien peut-il voir le faisceau du laser à dioxyde de carbone ?</div>
+
+      <p class="exo-q"><strong>d.</strong> Le laser à dioxyde de carbone émet chaque seconde N = 2,7×10²¹ photons. Calculer l'énergie |ΔE| transportée par un photon, puis en déduire la puissance P du faisceau. <button type="button" class="btn-indice" onclick="toggleIndice('ind46d')">💡 Indice</button></p>
+      <div class="indice-box" id="ind46d">Calcule |ΔE| = hc/λ avec λ en mètre. La puissance est l'énergie transportée chaque seconde : P = N × |ΔE| / Δt, avec Δt = 1 s.</div>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>a.</strong> λ = 10,6 µm = 10 600 nm. Cette valeur est supérieure à 800 nm : le rayonnement appartient au domaine de l'<strong>infrarouge</strong>.</p>
+        <p><strong>b.</strong> λ = 632,8 nm correspond à un faisceau de couleur <strong>rouge</strong>.</p>
+        <p><strong>c.</strong> Le rayonnement infrarouge du laser à dioxyde de carbone est invisible pour l'œil. Le faisceau rouge, visible, permet au chirurgien de repérer l'endroit visé et de diriger le laser sur la tumeur.</p>
+        <p><strong>d.</strong> |ΔE| = hc/λ = 6,63×10⁻³⁴ × 3,00×10⁸ / (10,6×10⁻⁶) = 1,88×10⁻²⁰ J.</p>
+        <p>P = N × |ΔE| / Δt = 2,7×10²¹ × 1,88×10⁻²⁰ / 1 = 51 W.</p>
+      </div>
+    </div>
+    </div>
+
+    <div class="exo-item-content" id="exo-photon-6">
+    <div class="exo-box">
+      <h5>Exercice : La nébuleuse d'Orion (M42)</h5>
+
+      <div class="exo-split">
+        <div class="exo-split-img">
+          <!-- Taille de l'image : modifier la valeur de width -->
+          <img class="exo-img" src="ex_orion.jpg" style="width:300px" alt="Diagramme des niveaux d'énergie de l'atome d'hydrogène : n = 1 à −13,6 eV ; n = 2 à −3,39 eV ; n = 3 à −1,51 eV ; n = 4 à −0,85 eV ; n = 5 à −0,54 eV ; n = 6 à −0,37 eV ; n tendant vers l'infini à 0,00 eV. Trois états sont à compléter.">
+        </div>
+        <div class="exo-split-txt">
+      <p class="exo-q">La nébuleuse d'Orion est un nuage de gaz interstellaire, principalement constitué d'atomes d'hydrogène ionisés par des étoiles voisines. Sa couleur rose-rougeâtre est due à la transition entre le deuxième et le premier état excité.</p>
+          <p class="pc-note" style="text-align:left">Données : h = 6,63×10⁻³⁴ J·s ; c = 3,00×10⁸ m·s⁻¹ ; 1 eV = 1,60×10⁻¹⁹ J.</p>
+      <p class="exo-q"><strong>1.</strong> Expliquer la distribution des niveaux d'énergie. <button type="button" class="btn-indice" onclick="toggleIndice('indO1')">💡 Indice</button></p>
+      <div class="indice-box" id="indO1">Les niveaux peuvent-ils prendre n'importe quelle valeur ? Observe aussi leur écartement quand l'énergie augmente.</div>
+      <p class="exo-q"><strong>2.</strong> Identifier les états de l'atome aux différents niveaux d'énergie, en complétant les pointillés du diagramme. <button type="button" class="btn-indice" onclick="toggleIndice('indO2')">💡 Indice</button></p>
+      <div class="indice-box" id="indO2">Pense aux termes état fondamental, état excité et état ionisé.</div>
+      <p class="exo-q"><strong>3.</strong> Indiquer le sens de la transition sur le diagramme. <button type="button" class="btn-indice" onclick="toggleIndice('indO3')">💡 Indice</button></p>
+      <div class="indice-box" id="indO3">Le niveau n = 1 est le fondamental. Quels sont le premier et le deuxième état excité ? L'atome émet-il ou absorbe-t-il de la lumière ?</div>
+      <p class="exo-q"><strong>4.</strong> Calculer la variation d'énergie associée à cette transition. <button type="button" class="btn-indice" onclick="toggleIndice('indO4')">💡 Indice</button></p>
+      <div class="indice-box" id="indO4">Calcule la différence entre les énergies des deux niveaux, en eV, puis convertis-la en joule.</div>
+      <p class="exo-q"><strong>5.</strong> En déduire l'expression de la longueur d'onde correspondante, puis vérifier si sa valeur est cohérente avec l'observation. <button type="button" class="btn-indice" onclick="toggleIndice('indO5')">💡 Indice</button></p>
+      <div class="indice-box" id="indO5">Exprime λ à partir de |ΔE| = hc/λ, calcule sa valeur, puis compare-la à la couleur observée.</div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>1.</strong> L'énergie de l'atome est quantifiée : seuls certains niveaux sont possibles. Ils sont de plus en plus rapprochés quand l'énergie augmente.</p>
+        <p><strong>2.</strong> n = 1 : état <strong>fondamental</strong>. n = 2 à n = 6 : états <strong>excités</strong>. n → ∞ (0,00 eV) : état <strong>ionisé</strong>.</p>
+        <p><strong>3.</strong> Le premier état excité est n = 2 et le deuxième est n = 3. L'atome émet de la lumière : la transition se fait de n = 3 vers n = 2, donc vers le bas.</p>
+        <svg viewBox="0 0 300 280" role="img" aria-label="Diagramme à l'échelle des niveaux de l'atome d'hydrogène, avec une flèche descendant de n = 3 vers n = 2." style="width:100%;max-width:300px;height:auto;display:block;margin:0 auto;background:#fff">
+          <g font-family="Nunito, sans-serif" font-size="11.5" font-weight="700" fill="#1A2A3A">
+          <line x1="40" y1="20" x2="170" y2="20" stroke="#1A2A3A" stroke-width="1.8"/><line x1="170" y1="20" x2="186" y2="10" stroke="#9AA9B8"/><text x="190" y="14">n → ∞ : 0,00 eV</text>
+          <line x1="40" y1="26.7" x2="170" y2="26.7" stroke="#1A2A3A" stroke-width="1.8"/><line x1="170" y1="26.7" x2="186" y2="24" stroke="#9AA9B8"/><text x="190" y="28">n = 6 : −0,37 eV</text>
+          <line x1="40" y1="29.7" x2="170" y2="29.7" stroke="#1A2A3A" stroke-width="1.8"/><line x1="170" y1="29.7" x2="186" y2="38" stroke="#9AA9B8"/><text x="190" y="42">n = 5 : −0,54 eV</text>
+          <line x1="40" y1="35.3" x2="170" y2="35.3" stroke="#1A2A3A" stroke-width="1.8"/><line x1="170" y1="35.3" x2="186" y2="52" stroke="#9AA9B8"/><text x="190" y="56">n = 4 : −0,85 eV</text>
+          <line x1="40" y1="47.2" x2="170" y2="47.2" stroke="#1A2A3A" stroke-width="1.8"/><line x1="170" y1="47.2" x2="186" y2="66" stroke="#9AA9B8"/><text x="190" y="70">n = 3 : −1,51 eV</text>
+          <line x1="40" y1="81.0" x2="170" y2="81.0" stroke="#1A2A3A" stroke-width="1.8"/><line x1="170" y1="81.0" x2="186" y2="84" stroke="#9AA9B8"/><text x="190" y="88">n = 2 : −3,39 eV</text>
+          <line x1="40" y1="264.8" x2="170" y2="264.8" stroke="#1A2A3A" stroke-width="1.8"/><line x1="170" y1="264.8" x2="186" y2="262" stroke="#9AA9B8"/><text x="190" y="266">n = 1 : −13,6 eV</text>
+          </g>
+          <line x1="105" y1="47.2" x2="105" y2="72.0" stroke="#D0291C" stroke-width="2.6"/><path d="M99 71.0 L105 81.0 L111 71.0 Z" fill="#D0291C"/>
+        </svg>
+        <p><strong>4.</strong> |ΔE| = |−3,39 − (−1,51)| = 1,88 eV, soit 1,88 × 1,60×10⁻¹⁹ = 3,01×10⁻¹⁹ J.</p>
+        <p><strong>5.</strong> λ = hc / |ΔE| = 6,63×10⁻³⁴ × 3,00×10⁸ / (3,01×10⁻¹⁹) = 6,61×10⁻⁷ m, soit environ 661 nm. Cette radiation est rouge : le résultat est cohérent avec la couleur rose-rougeâtre de la nébuleuse.</p>
+      </div>
+    </div>
+    </div>
+
+    <div class="exo-item-content" id="exo-photon-7">
+    <div class="exo-box">
+      <h5>Exercice : La découverte de l'hélium</h5>
+
+      <div class="exo-split">
+        <div class="exo-split-img">
+          <!-- Taille de l'image : modifier la valeur de width -->
+          <svg viewBox="0 0 280 240" role="img" aria-label="Diagramme de niveaux d'énergie de l'atome d'hélium : 0,0 ; −1,5 ; −1,6 ; −1,7 ; −1,9 ; −3,6 ; −4,0 et −4,8 eV." style="width:280px;max-width:100%;height:auto;display:block;background:#fff">
+          <text x="4" y="12" font-family="Nunito, sans-serif" font-size="11" font-weight="700" fill="#5A6B7A">E (eV)</text>
+          <line x1="22" y1="232" x2="22" y2="18" stroke="#5A6B7A" stroke-width="1.3"/><path d="M18 26 L22 17 L26 26" fill="none" stroke="#5A6B7A" stroke-width="1.3"/>
+          <g font-family="Nunito, sans-serif" font-size="11.5" font-weight="700" fill="#1A2A3A">
+          <line x1="40" y1="14" x2="190" y2="14" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="14" x2="204" y2="12" stroke="#9AA9B8"/><text x="208" y="16">0,0 eV</text>
+          <line x1="40" y1="80.0" x2="190" y2="80.0" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="80.0" x2="204" y2="74" stroke="#9AA9B8"/><text x="208" y="78">−1,5 eV</text>
+          <line x1="40" y1="84.4" x2="190" y2="84.4" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="84.4" x2="204" y2="88" stroke="#9AA9B8"/><text x="208" y="92">−1,6 eV</text>
+          <line x1="40" y1="88.8" x2="190" y2="88.8" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="88.8" x2="204" y2="102" stroke="#9AA9B8"/><text x="208" y="106">−1,7 eV</text>
+          <line x1="40" y1="97.6" x2="190" y2="97.6" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="97.6" x2="204" y2="116" stroke="#9AA9B8"/><text x="208" y="120">−1,9 eV</text>
+          <line x1="40" y1="172.4" x2="190" y2="172.4" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="172.4" x2="204" y2="166" stroke="#9AA9B8"/><text x="208" y="170">−3,6 eV</text>
+          <line x1="40" y1="190.0" x2="190" y2="190.0" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="190.0" x2="204" y2="184" stroke="#9AA9B8"/><text x="208" y="188">−4,0 eV</text>
+          <line x1="40" y1="225.2" x2="190" y2="225.2" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="225.2" x2="204" y2="222" stroke="#9AA9B8"/><text x="208" y="226">−4,8 eV</text>
+          </g>
+        </svg>
+        </div>
+        <div class="exo-split-txt">
+      <p class="exo-q">En 1868, lors d'une éclipse solaire, Jules Janssen observe dans le spectre d'émission du Soleil une raie jaune attribuée à une substance inconnue, nommée hélium.</p>
+          <p class="exo-q">Le diagramme ci-contre donne des niveaux d'énergie de l'atome d'hélium.</p>
+          <p class="pc-note" style="text-align:left">Données : h = 6,63×10⁻³⁴ J·s ; c = 3,00×10⁸ m·s⁻¹ ; 1 eV = 1,60×10⁻¹⁹ J.</p>
+          <p class="exo-q">Déterminer la longueur d'onde de cette raie et la transition correspondante, sachant que l'émission de la radiation fait intervenir le troisième niveau d'énergie. <button type="button" class="btn-indice" onclick="toggleIndice('indHe1')">💡 Indice</button></p>
+          <div class="indice-box" id="indHe1">Compte les niveaux à partir du plus bas : le troisième est à −3,6 eV. Une raie jaune a une longueur d'onde voisine de 580 nm : calcule l'énergie du photon correspondant, puis cherche le niveau de départ qui convient.</div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>Ordre de grandeur :</strong> pour une raie jaune (λ voisine de 580 nm), E = hc/λ = 6,63×10⁻³⁴ × 3,00×10⁸ / (580×10⁻⁹) = 3,4×10⁻¹⁹ J, soit environ 2,1 eV.</p>
+        <p><strong>Transition :</strong> le troisième niveau en partant du bas vaut −3,6 eV. L'écart de 2,1 eV correspond au niveau de départ −1,5 eV, car −1,5 − (−3,6) = 2,1 eV. L'atome passe donc de −1,5 eV à −3,6 eV en émettant un photon.</p>
+        <svg viewBox="0 0 280 240" role="img" aria-label="Diagramme de niveaux d'énergie de l'atome d'hélium : 0,0 ; −1,5 ; −1,6 ; −1,7 ; −1,9 ; −3,6 ; −4,0 et −4,8 eV." style="width:100%;max-width:280px;height:auto;display:block;margin:0 auto;background:#fff">
+          <text x="4" y="12" font-family="Nunito, sans-serif" font-size="11" font-weight="700" fill="#5A6B7A">E (eV)</text>
+          <line x1="22" y1="232" x2="22" y2="18" stroke="#5A6B7A" stroke-width="1.3"/><path d="M18 26 L22 17 L26 26" fill="none" stroke="#5A6B7A" stroke-width="1.3"/>
+          <g font-family="Nunito, sans-serif" font-size="11.5" font-weight="700" fill="#1A2A3A">
+          <line x1="40" y1="14" x2="190" y2="14" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="14" x2="204" y2="12" stroke="#9AA9B8"/><text x="208" y="16">0,0 eV</text>
+          <line x1="40" y1="80.0" x2="190" y2="80.0" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="80.0" x2="204" y2="74" stroke="#9AA9B8"/><text x="208" y="78">−1,5 eV</text>
+          <line x1="40" y1="84.4" x2="190" y2="84.4" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="84.4" x2="204" y2="88" stroke="#9AA9B8"/><text x="208" y="92">−1,6 eV</text>
+          <line x1="40" y1="88.8" x2="190" y2="88.8" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="88.8" x2="204" y2="102" stroke="#9AA9B8"/><text x="208" y="106">−1,7 eV</text>
+          <line x1="40" y1="97.6" x2="190" y2="97.6" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="97.6" x2="204" y2="116" stroke="#9AA9B8"/><text x="208" y="120">−1,9 eV</text>
+          <line x1="40" y1="172.4" x2="190" y2="172.4" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="172.4" x2="204" y2="166" stroke="#9AA9B8"/><text x="208" y="170">−3,6 eV</text>
+          <line x1="40" y1="190.0" x2="190" y2="190.0" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="190.0" x2="204" y2="184" stroke="#9AA9B8"/><text x="208" y="188">−4,0 eV</text>
+          <line x1="40" y1="225.2" x2="190" y2="225.2" stroke="#1A2A3A" stroke-width="1.8"/><line x1="190" y1="225.2" x2="204" y2="222" stroke="#9AA9B8"/><text x="208" y="226">−4,8 eV</text>
+          </g>
+          <line x1="115" y1="80.0" x2="115" y2="163.4" stroke="#B58900" stroke-width="2.6"/><path d="M109 162.4 L115 172.4 L121 162.4 Z" fill="#B58900"/>
+        </svg>
+        <p><strong>Longueur d'onde :</strong> |ΔE| = 2,1 × 1,60×10⁻¹⁹ = 3,36×10⁻¹⁹ J, donc λ = hc / |ΔE| = 6,63×10⁻³⁴ × 3,00×10⁸ / (3,36×10⁻¹⁹) = 5,9×10⁻⁷ m, soit environ 590 nm : c'est bien une radiation jaune, aux arrondis près.</p>
+      </div>
+    </div>
+    </div>
+
+    <div class="exo-item-content" id="exo-photon-8">
+    <div class="exo-box">
+      <h5>Exercice 8 – Vrai ou faux</h5>
       <div id="qcmPhoton"></div>
       <button class="exo-btn" onclick="checkQcmPhoton()">Vérifier</button>
       <div class="exo-fb" id="fbQcmPhoton"></div>
     </div>
-
-    <div class="section-title"><span class="icon">📘</span>Diagramme réel — Vrai ou faux avec justification <span class="diff-badge d3">⭐⭐⭐ Niveau 3</span></div>
-
-    <div class="exo-box">
-      <h5>3. Une partie du diagramme des niveaux d'énergie d'un atome</h5>
-      <svg viewBox="0 0 420 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;height:auto;display:block;margin:0 auto">
-      <text x="10" y="16" font-size="12" fill="#5A6B7A" font-family="Nunito, sans-serif">E (en eV)</text>
-      <line x1="70" y1="30.0" x2="280" y2="30.0" stroke="#2D5F8A" stroke-width="2.2"/>
-      <text x="60" y="34.0" font-size="12" fill="#1A2A3A" text-anchor="end" font-family="DM Mono, monospace">0</text>
-      <text x="288" y="34.0" font-size="12" fill="#5A6B7A" font-family="Nunito, sans-serif">Ionisation</text>
-      <line x1="70" y1="75.8" x2="280" y2="75.8" stroke="#2D5F8A" stroke-width="2.2"/>
-      <text x="60" y="79.8" font-size="12" fill="#1A2A3A" text-anchor="end" font-family="DM Mono, monospace">−22,6</text>
-      <text x="288" y="79.8" font-size="12" fill="#5A6B7A" font-family="Nunito, sans-serif">E₃</text>
-      <line x1="70" y1="149.9" x2="280" y2="149.9" stroke="#2D5F8A" stroke-width="2.2"/>
-      <text x="60" y="153.9" font-size="12" fill="#1A2A3A" text-anchor="end" font-family="DM Mono, monospace">−59,2</text>
-      <text x="288" y="153.9" font-size="12" fill="#5A6B7A" font-family="Nunito, sans-serif">E₂</text>
-      <line x1="70" y1="190.0" x2="280" y2="190.0" stroke="#2D5F8A" stroke-width="2.2"/>
-      <text x="60" y="194.0" font-size="12" fill="#1A2A3A" text-anchor="end" font-family="DM Mono, monospace">−79</text>
-      <text x="288" y="194.0" font-size="12" fill="#5A6B7A" font-family="Nunito, sans-serif">E₁ (fondamental)</text>
-      </svg>
-      <p style="font-size:.85rem;color:var(--texte-leger);margin:12px 0">Indiquer si les affirmations suivantes sont vraies ou fausses, <strong>en justifiant chaque réponse</strong>
-      sur ton cahier avant de vérifier.</p>
-      <div id="qcmEx41"></div>
-      <button class="exo-btn" onclick="checkQcmEx41()">Vérifier</button>
-      <div class="exo-fb" id="fbQcmEx41"></div>
-      <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">💡 Voir les justifications complètes</button>
-      <div class="accord-body">
-        <p><strong>a. Vrai.</strong> E₂ − E₁ = −59,2 − (−79) = 19,8 eV : ce photon peut être absorbé lors de la transition fondamental → E₂.</p>
-        <p style="margin-top:6px"><strong>b. Faux.</strong> Un photon de λ = 32,0 nm a une énergie E = hc/λ ≈ 38,7 eV, qui ne correspond à aucun écart entre deux niveaux du diagramme (19,8 ; 36,6 ; 56,4 ; 22,6 ; 59,2 ou 79 eV).</p>
-        <p style="margin-top:6px"><strong>c. Faux.</strong> Un photon de 9,9 eV ne correspond à aucune transition possible depuis le niveau fondamental : l'atome ne peut pas l'absorber, même en plusieurs étapes — chaque photon absorbé doit correspondre exactement à un écart entre deux niveaux.</p>
-        <p style="margin-top:6px"><strong>d. Vrai.</strong> L'ionisation depuis le fondamental correspond à E = 0 − (−79) = 79,0 eV.</p>
-        <p style="margin-top:6px"><strong>e. Vrai.</strong> λ = 22,0 nm correspond à E = hc/λ ≈ 56,4 eV = E₁ − E₃ (transition E₃ → E₁), donc à une raie d'émission possible.</p>
-      </div>
     </div>
 
-    <div class="section-title"><span class="icon">🟠</span>Lampes à vapeur de sodium <span class="diff-badge d3">⭐⭐⭐ Niveau 3</span></div>
-
+    <div class="exo-item-content" id="exo-photon-9">
     <div class="exo-box">
-      <h5>4. Le doublet jaune du sodium</h5>
-      <p style="font-size:.87rem;line-height:1.6;margin-bottom:10px">Les lampes à vapeur de sodium émettent une lumière jaune-orange (éclairage routier). Une décharge électrique
-      traverse la vapeur de sodium ; les atomes sont portés dans un état excité par les chocs avec les électrons,
-      puis se désexcitent en émettant deux raies jaune-orange très voisines, de longueurs d'onde dans le vide
-      λ₁ = 589,0 nm et λ₂ = 589,6 nm.</p>
-      <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">a. Un atome dans l'état fondamental peut-il émettre directement de la lumière ?</button>
-      <div class="accord-body">
-        <p>Non : un atome dans l'état fondamental est stable et n'émet rien spontanément. Ce sont les <strong>électrons
-        libres</strong> qui circulent dans la lampe (courant de la décharge électrique) qui, en entrant en collision
-        avec les atomes de sodium, leur transfèrent de l'énergie cinétique et les portent vers des <strong>états
-        excités</strong>. C'est en se désexcitant depuis ces états excités que les atomes émettent ensuite de la
-        lumière.</p>
+      <h5>Exercice 41 : Vrai ou faux ?</h5>
+
+      <div class="exo-split">
+        <div class="exo-split-img">
+          <!-- Taille de l'image : modifier la valeur de width -->
+          <img class="exo-img" src="ex41.jpg" style="width:300px" alt="Diagramme des niveaux d'énergie d'un atome : E₁ = −79 eV (fondamental), E₂ = −59,2 eV, E₃ = −22,6 eV et ionisation à 0 eV.">
+        </div>
+        <div class="exo-split-txt">
+      <p class="exo-q">Une partie du diagramme des niveaux d'énergie d'un atome est représentée ci-contre. Indiquer si les affirmations suivantes sont vraies ou fausses, en justifiant chaque réponse.</p>
+      <p class="exo-q"><strong>a.</strong> L'atome étudié peut absorber un photon d'énergie |ΔE| = 19,8 eV. <button type="button" class="btn-indice" onclick="toggleIndice('ind41a')">💡 Indice</button></p>
+      <div class="indice-box" id="ind41a">Calcule l'écart entre le niveau fondamental et chacun des niveaux supérieurs, puis compare à 19,8 eV.</div>
+      <p class="exo-q"><strong>b.</strong> L'atome étudié peut émettre dans certaines conditions un photon dont le rayonnement associé a une longueur d'onde dans le vide λ = 32,0 nm. <button type="button" class="btn-indice" onclick="toggleIndice('ind41b')">💡 Indice</button></p>
+      <div class="indice-box" id="ind41b">Calcule E = hc/λ en eV, puis compare cette valeur aux écarts entre deux niveaux du diagramme.</div>
+      <p class="exo-q"><strong>c.</strong> L'atome étudié peut passer de l'état fondamental au premier état excité en absorbant deux photons d'énergie |ΔE| = 9,9 eV. <button type="button" class="btn-indice" onclick="toggleIndice('ind41c')">💡 Indice</button></p>
+      <div class="indice-box" id="ind41c">Le premier état excité est E₂. Pour changer de niveau, un seul photon doit apporter exactement l'écart d'énergie.</div>
+      <p class="exo-q"><strong>d.</strong> L'énergie d'ionisation de l'atome étudié vaut 79,0 eV. <button type="button" class="btn-indice" onclick="toggleIndice('ind41d')">💡 Indice</button></p>
+      <div class="indice-box" id="ind41d">C'est l'énergie minimale à fournir depuis l'état fondamental pour atteindre le niveau d'ionisation (0 eV).</div>
+      <p class="exo-q"><strong>e.</strong> Le rayonnement de longueur d'onde dans le vide λ = 22,0 nm correspond à une raie du spectre d'émission de cet atome. <button type="button" class="btn-indice" onclick="toggleIndice('ind41e')">💡 Indice</button></p>
+      <div class="indice-box" id="ind41e">Calcule E = hc/λ en eV, puis cherche si cette valeur correspond à un écart entre deux niveaux.</div>
+        </div>
       </div>
-      <p style="font-size:.86rem;font-weight:700;color:var(--bleu);margin:14px 0 8px">b. Calcule les énergies des deux niveaux excités (en eV, le niveau fondamental étant pris comme référence à 0 eV).</p>
-      <table class="tex">
-        <tbody>
-          <tr><td>Niveau associé à λ₁ = 589,0 nm</td><td><input type="text" id="exoNa1" placeholder="E (eV)" style="width:90px;padding:5px 8px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace"></td></tr>
-          <tr><td>Niveau associé à λ₂ = 589,6 nm</td><td><input type="text" id="exoNa2" placeholder="E (eV)" style="width:90px;padding:5px 8px;border:1.5px solid var(--gris-bord);border-radius:6px;font-family:'DM Mono',monospace"></td></tr>
-        </tbody>
-      </table>
-      <button class="exo-btn" onclick="checkExoNa()">Vérifier</button>
-      <div class="exo-fb" id="fbExoNa"></div>
-      <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">c. Voir le diagramme corrigé (sans souci d'échelle)</button>
-      <div class="accord-body">
-        <svg viewBox="0 0 380 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:380px;height:auto;display:block;margin:0 auto">
-          <line x1="60" y1="30" x2="270" y2="30" stroke="#2D5F8A" stroke-width="2.2"/>
-          <text x="278" y="34" font-size="11" fill="#5A6B7A" font-family="Nunito, sans-serif">E₃ ≈ 2,105 eV</text>
-          <line x1="60" y1="42" x2="270" y2="42" stroke="#2D5F8A" stroke-width="2.2"/>
-          <text x="278" y="52" font-size="11" fill="#5A6B7A" font-family="Nunito, sans-serif">E₂ ≈ 2,103 eV</text>
-          <line x1="60" y1="140" x2="270" y2="140" stroke="#2D5F8A" stroke-width="2.2"/>
-          <text x="278" y="144" font-size="11" fill="#5A6B7A" font-family="Nunito, sans-serif">E₁ = 0 (fondamental)</text>
-          <path d="M120,42 Q112,90 120,140" stroke="#f5c400" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
-          <path d="M170,30 Q162,90 170,140" stroke="#ff9000" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
-          <text x="50" y="16" font-size="11" fill="#5A6B7A" font-family="Nunito, sans-serif">(échelle non respectée — écart réel très faible)</text>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>a. Vrai.</strong> E₂ − E₁ = −59,2 − (−79) = 19,8 eV : ce photon permet la transition E₁ → E₂.</p>
+        <p><strong>b. Faux.</strong> E = hc/λ = 6,63×10⁻³⁴ × 3,00×10⁸ / (32,0×10⁻⁹) = 6,22×10⁻¹⁸ J, soit environ 39 eV. Les écarts entre niveaux valent 19,8 eV, 36,6 eV et 56,4 eV : aucun ne correspond.</p>
+        <p><strong>c. Faux.</strong> L'écart E₂ − E₁ vaut bien 2 × 9,9 eV, mais un photon de 9,9 eV ne correspond à aucun écart depuis l'état fondamental : il n'est pas absorbé. Un seul photon doit apporter exactement 19,8 eV.</p>
+        <p><strong>d. Vrai.</strong> E<sub>ionisation</sub> = 0 − (−79) = 79,0 eV.</p>
+        <p><strong>e. Vrai.</strong> E = hc/λ = 6,63×10⁻³⁴ × 3,00×10⁸ / (22,0×10⁻⁹) = 9,04×10⁻¹⁸ J, soit environ 56,5 eV. Cette valeur correspond, aux arrondis près, à E₃ − E₁ = −22,6 − (−79) = 56,4 eV : c'est la transition E₃ → E₁.</p>
+      </div>
+    </div>
+    </div>
+
+    <!-- ===== MODÈLE à copier pour ajouter un exercice ===== -->
+    <div class="exo-item-content" id="exo-photon-10">
+    <div class="exo-box">
+      <h5>Exercice 43 : Lampes à vapeur de sodium</h5>
+
+      <div class="exo-split">
+        <div class="exo-split-img">
+          <!-- Taille de l'image : modifier la valeur de width -->
+          <img class="exo-img" src="ex43.jpg" style="width:350px" alt="Énoncé de l'exercice 43 : lampes à vapeur de sodium, deux raies jaune-orange de longueurs d'onde 589,0 nm et 589,6 nm, et données h, c et 1 eV.">
+        </div>
+        <div class="exo-split-txt">
+      <!-- Une question : le texte, puis son bouton d'indice et son indice -->
+      <p class="exo-q"><strong>a.</strong> Un atome de sodium dans son état fondamental peut-il contribuer à l'émission de lumière ? Indiquer le rôle des électrons qui circulent dans la lampe. <button type="button" class="btn-indice" onclick="toggleIndice('ind43a')">💡 Indice</button></p>
+      <div class="indice-box" id="ind43a">Pour émettre un photon, l'atome doit descendre vers un niveau inférieur. Existe-t-il un niveau plus bas que le niveau fondamental ?</div>
+
+      <p class="exo-q"><strong>b.</strong> Les transitions associées aux deux raies du spectre font intervenir toutes les deux le niveau fondamental de l'atome. En prenant pour référence des énergies le niveau fondamental, calculer en joule puis en électronvolt les énergies des deux autres niveaux intervenant dans ces transitions. <button type="button" class="btn-indice" onclick="toggleIndice('ind43b')">💡 Indice</button></p>
+      <div class="indice-box" id="ind43b">Le niveau fondamental est pris comme référence (E₀ = 0). L'énergie du niveau excité est donc égale à celle du photon émis : E = hc/λ, avec λ en mètre.</div>
+
+      <p class="exo-q"><strong>c.</strong> Dessiner, sans souci d'échelle, la partie du diagramme des niveaux d'énergie de l'atome de sodium qui interviennent dans les transitions étudiées précédemment. Représenter sur ce diagramme ces transitions par des flèches droites et l'émission de photons par des flèches ondulées. <button type="button" class="btn-indice" onclick="toggleIndice('ind43c')">💡 Indice</button></p>
+      <div class="indice-box" id="ind43c">Trace trois niveaux horizontaux. Les flèches droites descendent vers le niveau fondamental, et chacune est accompagnée d'une flèche ondulée qui part vers l'extérieur.</div>
+
+      <!-- Le bouton de correction, puis la correction juste après -->
+        </div>
+      </div>
+
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>a.</strong> Non : le niveau fondamental est le plus bas, donc l'atome ne peut pas descendre plus bas pour émettre un photon. Les électrons qui circulent dans la lampe entrent en collision avec les atomes et leur cèdent de l'énergie : ils les portent dans un état excité.</p>
+        <p><strong>b.</strong> Avec E = hc/λ et le niveau fondamental comme référence :</p>
+        <p>Pour λ₁ = 589,0 nm : E = 6,626×10⁻³⁴ × 2,998×10⁸ / (589,0×10⁻⁹) = 3,373×10⁻¹⁹ J, soit 3,373×10⁻¹⁹ / 1,602×10⁻¹⁹ = 2,105 eV.</p>
+        <p>Pour λ₂ = 589,6 nm : E = 6,626×10⁻³⁴ × 2,998×10⁸ / (589,6×10⁻⁹) = 3,369×10⁻¹⁹ J, soit 3,369×10⁻¹⁹ / 1,602×10⁻¹⁹ = 2,103 eV.</p>
+        <p><strong>c.</strong> Diagramme, sans souci d'échelle :</p>
+        <svg viewBox="0 0 430 210" role="img" aria-label="Diagramme : niveaux E₀ = 0, E₁ = 2,103 eV et E₂ = 2,105 eV. Deux flèches droites descendent vers E₀, accompagnées chacune d'une flèche ondulée représentant le photon émis." style="width:100%;max-width:430px;height:auto;display:block;margin:6px auto 0;background:#fff">
+          <g font-family="Nunito, sans-serif" font-size="12.5" fill="#1A2A3A" font-weight="700">
+            <line x1="70" y1="30" x2="300" y2="30" stroke="#1A2A3A" stroke-width="2"/><text x="62" y="34" text-anchor="end">E₂</text><text x="306" y="34">2,105 eV</text>
+            <line x1="70" y1="62" x2="300" y2="62" stroke="#1A2A3A" stroke-width="2"/><text x="62" y="66" text-anchor="end">E₁</text><text x="306" y="66">2,103 eV</text>
+            <line x1="70" y1="185" x2="300" y2="185" stroke="#1A2A3A" stroke-width="2"/><text x="62" y="189" text-anchor="end">E₀</text><text x="306" y="189">0 (fondamental)</text>
+          </g>
+          <g stroke="#B58900" stroke-width="2.4" fill="#B58900">
+            <line x1="125" y1="30" x2="125" y2="176"/><path d="M119 174 L125 185 L131 174 Z"/>
+            <line x1="215" y1="62" x2="215" y2="176"/><path d="M209 174 L215 185 L221 174 Z"/>
+          </g>
+          <g stroke="#B58900" stroke-width="1.8" fill="none">
+            <path d="M130 118 q6 -8 12 0 t12 0 t12 0 t12 0 t12 0"/>
+            <path d="M220 118 q6 -8 12 0 t12 0 t12 0 t12 0 t12 0"/>
+          </g>
+          <g fill="#B58900"><path d="M190 118 l-9 -5 v10 Z"/><path d="M280 118 l-9 -5 v10 Z"/></g>
+          <g font-family="Nunito, sans-serif" font-size="11.5" fill="#5A6B7A" font-weight="600">
+            <text x="133" y="103">λ₁ = 589,0 nm</text><text x="223" y="103">λ₂ = 589,6 nm</text>
+          </g>
         </svg>
-        <p style="font-size:.82rem;color:var(--texte-leger);text-align:center;margin-top:6px">Les deux niveaux excités sont très proches en énergie : c'est ce qui explique que λ₁ et λ₂ soient si voisines
-        (raies « jumelles » du doublet du sodium).</p>
       </div>
     </div>
+    </div>
 
-    <div class="section-title"><span class="icon">🔵</span>Modèle de Bohr — spectre de l'hydrogène <span class="diff-badge d4">⭐⭐⭐⭐ Niveau 4</span></div>
-
+    <div class="exo-item-content" id="exo-photon-11">
     <div class="exo-box">
-      <h5>5. Interpréter le spectre de l'atome d'hydrogène</h5>
-      <p style="font-size:.87rem;line-height:1.6;margin-bottom:10px">Niels Bohr a montré que l'énergie de l'atome d'hydrogène est quantifiée, avec E<sub>n</sub> (en eV) = −13,6 / n².
-      Le spectre ci-dessous présente des raies à 410,2 ; 434,2 ; 486,1 et 656,3 nm, sur fond continu servant
-      d'échelle de couleurs.</p>
-      <p style="font-size:.86rem;font-weight:700;color:var(--bleu);margin-bottom:8px">a. Ce spectre est-il un spectre d'émission ou d'absorption ?</p>
-      <div class="escape-choice-row" id="bohrTypeChoices">
-        <button class="escape-choice-btn" onclick="checkBohrType('emission',this)">Spectre d'émission</button>
-        <button class="escape-choice-btn" onclick="checkBohrType('absorption',this)">Spectre d'absorption</button>
-      </div>
-      <div class="exo-fb" id="fbBohrType"></div>
+      <h5>Exercice 52 : Modèle de Bohr</h5>
 
-      <button class="accord-btn" onclick="this.nextElementSibling.classList.toggle('open')">b. Voir les 6 premiers niveaux d'énergie (formule E_n = −13,6/n²)</button>
-      <div class="accord-body">
-        <table class="tex">
-          <thead><tr><th>n</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>Ionisation</th></tr></thead>
-          <tbody><tr><td>E<sub>n</sub> (eV)</td><td>−13,60</td><td>−3,40</td><td>−1,51</td><td>−0,85</td><td>−0,54</td><td>−0,38</td><td>0</td></tr></tbody>
-        </table>
-        <p style="font-size:.82rem;color:var(--texte-leger);margin-top:8px">À toi de placer ces niveaux sur un diagramme, à l'échelle 1 cm pour 1 eV.</p>
+      <div class="exo-split">
+        <div class="exo-split-img">
+          <!-- Taille de l'image : modifier la valeur de width -->
+          <img class="exo-img" src="ex52.jpg" style="width:520px" alt="Énoncé de l'exercice 52 : énergie des niveaux de l'atome d'hydrogène, En = −13,6 / n² en eV, et spectre de l'atome d'hydrogène, avec des raies noires à 410,2 ; 434,2 ; 486,1 et 656,3 nm sur un fond coloré.">
+        </div>
+        <div class="exo-split-txt">
+      <p class="exo-q"><strong>a.</strong> Le spectre de l'atome d'hydrogène représenté ci-contre est-il un spectre d'émission ou un spectre d'absorption ? Justifier la réponse. <button type="button" class="btn-indice" onclick="toggleIndice('ind52a')">💡 Indice</button></p>
+      <div class="indice-box" id="ind52a">Observe le fond du spectre et la couleur des raies. Des raies noires sur un fond coloré correspondent-elles à de la lumière émise ou à de la lumière qui manque ?</div>
+
+      <p class="exo-q"><strong>b.</strong> Réaliser un schéma représentant sur un diagramme les six premiers niveaux d'énergie et le niveau d'ionisation E = 0 eV de l'atome d'hydrogène, en utilisant l'échelle 1 cm pour 1 eV. <button type="button" class="btn-indice" onclick="toggleIndice('ind52b')">💡 Indice</button></p>
+      <div class="indice-box" id="ind52b">Calcule E<sub>n</sub> = −13,6 / n² pour n = 1 à 6. Le niveau E₁ se trouve alors à 13,6 cm sous le niveau d'ionisation.</div>
+
+      <p class="exo-q"><strong>c.</strong> Tracer sur le diagramme des niveaux d'énergie la transition quantique qui correspond à la raie de longueur d'onde dans le vide λ = 486,1 nm. <button type="button" class="btn-indice" onclick="toggleIndice('ind52c')">💡 Indice</button></p>
+      <div class="indice-box" id="ind52c">Calcule l'énergie du photon avec E = hc/λ, en eV, puis cherche deux niveaux dont l'écart a cette valeur. La réponse à la question a indique le sens de la flèche.</div>
+
+      <p class="exo-q"><strong>d.</strong> Un ion H⁺ absorbe un électron d'énergie cinétique E<sub>c</sub> = 1 eV. L'atome formé se désexcite aussitôt vers l'état fondamental. Calculer la longueur d'onde dans le vide λ' du rayonnement émis. <button type="button" class="btn-indice" onclick="toggleIndice('ind52d')">💡 Indice</button></p>
+      <div class="indice-box" id="ind52d">Au départ, l'ensemble « ion H⁺ + électron » a pour énergie 0 eV + 1 eV. Le photon emporte toute la différence avec le niveau fondamental E₁.</div>
+        </div>
       </div>
 
-      <p style="font-size:.86rem;font-weight:700;color:var(--bleu);margin:14px 0 8px">c. Quelle transition n<sub>i</sub> → n<sub>f</sub> correspond à la raie λ = 486,1 nm ?</p>
-      <div class="escape-input-row">
-        <label style="font-size:.84rem">n<sub>i</sub> =</label>
-        <select id="bohrNi"><option value="?">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select>
-        <label style="font-size:.84rem">→ n<sub>f</sub> =</label>
-        <select id="bohrNf"><option value="?">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select>
-        <button class="escape-btn" onclick="checkBohrTransition()">Valider</button>
+      <button type="button" class="btn-correction" onclick="toggleCorrection(this)">▶ Voir la correction</button>
+      <div class="correction-box">
+        <p><strong>a.</strong> C'est un spectre d'<strong>absorption</strong> : il présente des raies noires sur le fond coloré d'un spectre continu.</p>
+        <p><strong>b.</strong> Avec E<sub>n</sub> = −13,6 / n² : E₁ = −13,6 eV ; E₂ = −3,40 eV ; E₃ = −1,51 eV ; E₄ = −0,85 eV ; E₅ = −0,54 eV ; E₆ = −0,38 eV. Sur le schéma à réaliser, ces niveaux se placent à 13,6 cm ; 3,40 cm ; 1,51 cm ; 0,85 cm ; 0,54 cm et 0,38 cm sous le niveau d'ionisation.</p>
+        <p><strong>c.</strong> E = hc/λ = 6,63×10⁻³⁴ × 3,00×10⁸ / (486,1×10⁻⁹) = 4,09×10⁻¹⁹ J, soit 4,09×10⁻¹⁹ / 1,60×10⁻¹⁹ = 2,56 eV. Or E₄ − E₂ = −0,85 − (−3,40) = 2,55 eV. Aux arrondis près, la raie correspond donc à la transition entre E₂ et E₄. Comme il s'agit d'une absorption, la flèche monte de E₂ vers E₄.</p>
+        <svg viewBox="0 0 440 280" role="img" aria-label="Diagramme à l'échelle des niveaux d'énergie de l'atome d'hydrogène, de E₁ = −13,6 eV au niveau d'ionisation à 0 eV, avec une flèche montant de E₂ vers E₄." style="width:100%;max-width:440px;height:auto;display:block;margin:8px auto;background:#fff">
+          <g font-family="Nunito, sans-serif" font-size="11.5" font-weight="700" fill="#1A2A3A">
+            <line x1="70" y1="20" x2="300" y2="20" stroke="#1A2A3A" stroke-width="1.8"/><line x1="300" y1="20" x2="316" y2="10" stroke="#9AA9B8"/><text x="320" y="14">Ionisation : 0 eV</text>
+            <line x1="70" y1="26.8" x2="300" y2="26.8" stroke="#1A2A3A" stroke-width="1.8"/><line x1="300" y1="26.8" x2="316" y2="24" stroke="#9AA9B8"/><text x="320" y="28">E₆ = −0,38 eV</text>
+            <line x1="70" y1="29.8" x2="300" y2="29.8" stroke="#1A2A3A" stroke-width="1.8"/><line x1="300" y1="29.8" x2="316" y2="38" stroke="#9AA9B8"/><text x="320" y="42">E₅ = −0,54 eV</text>
+            <line x1="70" y1="35.3" x2="300" y2="35.3" stroke="#1A2A3A" stroke-width="1.8"/><line x1="300" y1="35.3" x2="316" y2="52" stroke="#9AA9B8"/><text x="320" y="56">E₄ = −0,85 eV</text>
+            <line x1="70" y1="47.2" x2="300" y2="47.2" stroke="#1A2A3A" stroke-width="1.8"/><line x1="300" y1="47.2" x2="316" y2="66" stroke="#9AA9B8"/><text x="320" y="70">E₃ = −1,51 eV</text>
+            <line x1="70" y1="81.2" x2="300" y2="81.2" stroke="#1A2A3A" stroke-width="1.8"/><line x1="300" y1="81.2" x2="316" y2="84" stroke="#9AA9B8"/><text x="320" y="88">E₂ = −3,40 eV</text>
+            <line x1="70" y1="264.8" x2="300" y2="264.8" stroke="#1A2A3A" stroke-width="1.8"/><line x1="300" y1="264.8" x2="316" y2="262" stroke="#9AA9B8"/><text x="320" y="266">E₁ = −13,6 eV</text>
+          </g>
+          <line x1="160" y1="81.2" x2="160" y2="43.3" stroke="#0087A8" stroke-width="2.6"/>
+          <path d="M154 45.3 L160 35.3 L166 45.3 Z" fill="#0087A8"/>
+          <path d="M92 57.8 q6 -8 12 0 t12 0 t12 0 t12 0" stroke="#0087A8" stroke-width="1.8" fill="none"/>
+          <path d="M152 57.8 l-10 -5 v10 Z" fill="#0087A8"/>
+          <text x="172" y="61.8" font-family="Nunito, sans-serif" font-size="11.5" font-weight="600" fill="#5A6B7A">λ = 486,1 nm</text>
+        </svg>
+        <p><strong>d.</strong> L'énergie de départ est 0 + 1 = 1 eV, et l'énergie d'arrivée est E₁ = −13,6 eV. Le photon émis a donc pour énergie E = 1 − (−13,6) = 14,6 eV, soit 14,6 × 1,60×10⁻¹⁹ = 2,34×10⁻¹⁸ J.</p>
+        <p>λ' = hc/E = 6,63×10⁻³⁴ × 3,00×10⁸ / (2,34×10⁻¹⁸) = 8,5×10⁻⁸ m, soit λ' ≈ 85 nm (domaine de l'ultraviolet).</p>
       </div>
-      <div class="exo-fb" id="fbBohrTransition"></div>
-
-      <p style="font-size:.86rem;font-weight:700;color:var(--bleu);margin:14px 0 8px">d. Un ion H⁺ capture un électron d'énergie cinétique E<sub>c</sub> = 1 eV ; l'atome formé se désexcite aussitôt
-      vers l'état fondamental. Calcule la longueur d'onde λ' du rayonnement émis (en nm).</p>
-      <div class="escape-input-row" style="justify-content:flex-start">
-        <input type="text" id="bohrLambdaPrime" placeholder="λ' (nm)">
-        <button class="exo-btn" style="margin-top:0" onclick="checkBohrLambdaPrime()">Vérifier</button>
-      </div>
-      <div class="exo-fb" id="fbBohrLambdaPrime"></div>
+    </div>
     </div>
 
   </div><!-- /sub-exo-photon -->
@@ -1546,6 +2086,14 @@ table.tex select{padding:5px 8px;border-radius:6px;border:1.5px solid var(--gris
         <dd>État d'énergie supérieure à l'état fondamental ; instable, l'atome y retourne spontanément vers un
         niveau inférieur.</dd>
       </div>
+      <div class="gloss-item" data-term="atome ionise ion ionisation">
+        <dt>Atome ionisé</dt>
+        <dd>Atome qui a perdu un électron après avoir atteint le niveau d'énergie E<sub>∞</sub> : c'est un ion positif.</dd>
+      </div>
+      <div class="gloss-item" data-term="energie ionisation">
+        <dt>Énergie d'ionisation</dt>
+        <dd>Énergie minimale à fournir à un atome, depuis son état fondamental, pour lui arracher un électron.</dd>
+      </div>
       <div class="gloss-item" data-term="absorption">
         <dt>Absorption</dt>
         <dd>Phénomène par lequel un atome capte un photon et passe à un niveau d'énergie supérieur.</dd>
@@ -1684,6 +2232,20 @@ function showTab(el,id){
   document.querySelectorAll('.main > .panel').forEach(p=>p.classList.remove('on'));
   el.classList.add('on');
   document.getElementById('tab-'+id).classList.add('on');
+}
+function showExoItem(btn,id){
+  var panel = btn.closest('.sub-tab-content');
+  panel.querySelectorAll('.exo-tab-btn').forEach(b=>b.classList.remove('active'));
+  panel.querySelectorAll('.exo-item-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function toggleIndice(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleCorrection(btn){
+  var open = btn.nextElementSibling.classList.toggle('open');
+  btn.textContent = open ? '▼ Masquer la correction' : '▶ Voir la correction';
 }
 function showSub(btn,id){
   var panel = btn.closest('.panel');
@@ -1972,97 +2534,6 @@ var QCM_PHOTON = [
 buildQcm('qcmPhoton', QCM_PHOTON);
 function checkQcmPhoton(){ checkQcm('qcmPhoton', QCM_PHOTON, 'fbQcmPhoton'); }
 
-/* ═══ Exercice 41 : vrai/faux avec diagramme réel (0, -22.6, -59.2, -79 eV) ═══ */
-var QCM_EX41 = [
-  {q:'L\'atome étudié peut absorber un photon d\'énergie |ΔE| = 19,8 eV.', rep:true},
-  {q:'L\'atome étudié peut émettre dans certaines conditions un photon de longueur d\'onde dans le vide λ = 32,0 nm.', rep:false},
-  {q:'L\'atome étudié peut passer de l\'état fondamental au premier état excité en absorbant deux photons d\'énergie |ΔE| = 9,9 eV.', rep:false},
-  {q:'L\'énergie d\'ionisation de l\'atome étudié vaut 79,0 eV.', rep:true},
-  {q:'Le rayonnement de longueur d\'onde dans le vide λ = 22,0 nm correspond à une raie du spectre d\'émission de cet atome.', rep:true}
-];
-buildQcm('qcmEx41', QCM_EX41);
-function checkQcmEx41(){ checkQcm('qcmEx41', QCM_EX41, 'fbQcmEx41'); }
-
-/* ═══ Exercice 43 : lampes à vapeur de sodium ═══ */
-function checkExoNa(){
-  var v1 = parseFloat(document.getElementById('exoNa1').value.replace(',','.'));
-  var v2 = parseFloat(document.getElementById('exoNa2').value.replace(',','.'));
-  var fb = document.getElementById('fbExoNa');
-  var att1 = (H_J*C_MS/(589.0e-9))/EV_J; // ≈ 2.105 eV
-  var att2 = (H_J*C_MS/(589.6e-9))/EV_J; // ≈ 2.103 eV
-  if(isNaN(v1) || isNaN(v2)){
-    fb.className = 'exo-fb ko';
-    fb.textContent = '⚠ Renseigne les deux énergies (en eV).';
-    return;
-  }
-  var ok1 = Math.abs(v1-att1) < 0.01;
-  var ok2 = Math.abs(v2-att2) < 0.01;
-  if(ok1 && ok2){
-    fb.className = 'exo-fb ok';
-    fb.textContent = '✓ Exact ! E(λ₁) ≈ '+att1.toFixed(3)+' eV et E(λ₂) ≈ '+att2.toFixed(3)+' eV — deux niveaux très proches.';
-  } else {
-    fb.className = 'exo-fb ko';
-    fb.textContent = '❌ Utilise E = hc/λ (converti en eV) pour chaque longueur d\'onde. Attendu : E(λ₁) ≈ '+att1.toFixed(3)+' eV, E(λ₂) ≈ '+att2.toFixed(3)+' eV.';
-  }
-}
-
-/* ═══ Exercice 52 : modèle de Bohr, spectre de l'hydrogène ═══ */
-function checkBohrType(val, btn){
-  document.querySelectorAll('#bohrTypeChoices .escape-choice-btn').forEach(function(b){ b.classList.remove('sel'); });
-  btn.classList.add('sel');
-  var fb = document.getElementById('fbBohrType');
-  if(val === 'emission'){
-    fb.className = 'exo-fb ok';
-    fb.textContent = '✓ C\'est un spectre d\'émission : il ne présente que quelques raies isolées à des longueurs d\'onde précises (spectre de raies), typique d\'un gaz excité comme l\'hydrogène dans un tube à décharge — pas un fond continu strié de raies noires.';
-  } else {
-    fb.className = 'exo-fb ko';
-    fb.textContent = '❌ Un spectre d\'absorption serait un fond continu strié de raies noires. Ici, seules quelques raies isolées apparaissent : relis la définition du spectre de raies.';
-  }
-}
-var BOHR_LEVELS_EV = {1:-13.6, 2:-3.4, 3:-1.511, 4:-0.85, 5:-0.544, 6:-0.378};
-function checkBohrTransition(){
-  var ni = document.getElementById('bohrNi').value;
-  var nf = document.getElementById('bohrNf').value;
-  var fb = document.getElementById('fbBohrTransition');
-  if(ni === '?' || nf === '?'){
-    fb.className = 'exo-fb ko';
-    fb.textContent = '⚠ Choisis un niveau initial et un niveau final.';
-    return;
-  }
-  if(ni === nf){
-    fb.className = 'exo-fb ko';
-    fb.textContent = '⚠ Choisis deux niveaux différents.';
-    return;
-  }
-  var deltaE = Math.abs(BOHR_LEVELS_EV[nf] - BOHR_LEVELS_EV[ni]);
-  var lambda_nm = (H_J*C_MS/(deltaE*EV_J))*1e9;
-  if(Math.abs(lambda_nm - 486.1) < 3){
-    fb.className = 'exo-fb ok';
-    fb.textContent = '✓ Exact ! La transition n = '+ni+' → n = '+nf+' correspond à ΔE = '+deltaE.toFixed(2)+' eV, soit λ ≈ '+lambda_nm.toFixed(1)+' nm (raie Hβ de la série de Balmer).';
-  } else {
-    fb.className = 'exo-fb ko';
-    fb.textContent = '❌ Cette transition correspond à λ ≈ '+lambda_nm.toFixed(1)+' nm, pas à 486,1 nm. Essaie une autre paire de niveaux (indice : la raie visible λ = 486,1 nm appartient à la série de Balmer, qui se termine toujours sur n = 2).';
-  }
-}
-function checkBohrLambdaPrime(){
-  var val = parseFloat(document.getElementById('bohrLambdaPrime').value.replace(',','.'));
-  var fb = document.getElementById('fbBohrLambdaPrime');
-  var deltaE_eV = 1 + 13.6; // Ec + |E1|
-  var attendu = (H_J*C_MS/(deltaE_eV*EV_J))*1e9; // ≈ 85.0 nm
-  if(isNaN(val)){
-    fb.className = 'exo-fb ko';
-    fb.textContent = '⚠ Saisis une valeur numérique en nm.';
-    return;
-  }
-  if(Math.abs(val - attendu) < 2){
-    fb.className = 'exo-fb ok';
-    fb.textContent = '✓ Exact ! L\'énergie totale libérée est E_c + |E₁| = 1 + 13,6 = 14,6 eV, d\'où λ\' = hc/E ≈ '+attendu.toFixed(1)+' nm (domaine UV).';
-  } else {
-    fb.className = 'exo-fb ko';
-    fb.textContent = '❌ Pense à la conservation de l\'énergie : l\'électron capturé apporte E_c = 1 eV, et l\'atome descend jusqu\'à E₁ = −13,6 eV. L\'énergie totale libérée sous forme de photon est E_c + |E₁| = 14,6 eV. Réessaie.';
-  }
-}
-
 /* ═══ Exercice domaines spectraux ═══ */
 var DOMAINES_REP = ['micro','vis','x','ir','uv'];
 function checkDomaines(){
@@ -2307,15 +2778,15 @@ function phQcm(el,ok,msg){
   var H_PL = 6.63e-34, C_L = 3.00e8, EV = 1.60e-19, E_MAX = 4.2;
   var elL = document.getElementById('phLambda'), elF = document.getElementById('phFlux');
   var SITS=[
-    {ico:'📺',t:'Changer de chaîne',l:940,src:'Télécommande',rec:'Capteur TV',par:'par le capteur de la télévision',ico2:'📺',
+    {ico:'📺',t:'Télécommande',l:940,src:'Télécommande',rec:'Capteur TV',par:'par le capteur de la télévision',ico2:'📺',
      d:'La diode de la télécommande émet des photons <strong>infrarouges</strong>, invisibles pour l\'œil. Le capteur de la télévision les détecte. Ce sont les photons les moins énergétiques de ces cinq situations.',s:'Télécommande (IR)',r:'capteur de la télévision'},
-    {ico:'🔴',t:'Pointer un tableau',l:650,src:'Laser rouge',rec:'Tableau',par:'par le tableau',ico2:'⬜',
+    {ico:'🔴',t:'Laser et tableau',l:650,src:'Laser rouge',rec:'Tableau',par:'par le tableau',ico2:'⬜',
      d:'Le laser émet des photons rouges vers le tableau. Le tableau en renvoie une partie dans toutes les directions : c\'est cette lumière diffusée, bien moins intense, qui permet de voir le point rouge. <strong>Sécurité :</strong> ne jamais diriger un laser vers les yeux.',s:'Laser rouge',r:'tableau'},
-    {ico:'🌃',t:'Marcher sous un lampadaire',l:589,src:'Lampadaire',rec:'Œil',par:'par l\'œil',ico2:'👁️',
+    {ico:'🌃',t:'Lampadaire',l:589,src:'Lampadaire',rec:'Œil',par:'par l\'œil',ico2:'👁️',
      d:'Dans une lampe à vapeur de sodium, les atomes de sodium émettent surtout des photons de 589 nm : c\'est la raie jaune du spectre photographié en partie I.',s:'Lampe à vapeur de sodium',r:'œil'},
-    {ico:'📱',t:'Regarder son téléphone',l:450,src:'Écran',rec:'Œil',par:'par l\'œil',ico2:'👁️',
+    {ico:'📱',t:'Téléphone',l:450,src:'Écran',rec:'Œil',par:'par l\'œil',ico2:'👁️',
      d:'Un écran mélange des lumières rouge, verte et bleue. Les pixels bleus émettent les photons visibles les plus énergétiques de ces trois couleurs. Augmenter la luminosité augmente le nombre de photons, pas leur énergie.',s:'Pixel bleu de l\'écran',r:'œil'},
-    {ico:'☀️',t:'Attraper un coup de soleil',l:310,src:'Soleil',rec:'Peau',par:'par la peau',ico2:'🧍',
+    {ico:'☀️',t:'Coup de soleil',l:310,src:'Soleil',rec:'Peau',par:'par la peau',ico2:'🧍',
      d:'Une partie des photons <strong>ultraviolets</strong> du Soleil atteint la peau. Chacun transporte assez d\'énergie pour endommager l\'ADN des cellules, ce que ne fait pas un photon de lumière visible. C\'est l\'énergie de <strong>chaque photon</strong> qui compte ici.',s:'Soleil (UV)',r:'peau'}
   ];
   var state = {sit:2,lambda:589, flux:2, photons:[], count:0, flash:0, paused:false, acc:0, last:0, W:0, H:0};
@@ -2373,7 +2844,6 @@ function phQcm(el,ok,msg){
     document.getElementById('phNu').textContent=sci(C_L/(l*1e-9))+' Hz';
     document.getElementById('phEJ').textContent=sci(ej)+' J';
     document.getElementById('phEeV').textContent=fr(ev,2)+' eV';
-    document.getElementById('phGaugeVal').textContent=fr(ev,2)+' eV';
     var g=document.getElementById('phGauge');
     g.style.width=Math.min(100,ev/E_MAX*100)+'%';
     g.style.background=drawColor(l);
@@ -2425,7 +2895,7 @@ function phQcm(el,ok,msg){
     return true;
   }
   function drawPacket(p,b){
-    var half=state.W<480?27:62, amp=state.H*.062, L=p.lambda*.04, y=state.H*p.lane;
+    var half=state.W<480?27:(state.W<700?42:62), amp=state.H*.062, L=p.lambda*.04, y=state.H*p.lane;
     ctx.save();
     ctx.beginPath(); ctx.rect(b.x0,0,b.x1-b.x0,state.H); ctx.clip();
     ctx.strokeStyle=drawColor(p.lambda); ctx.lineWidth=2.4; ctx.lineJoin='round';
@@ -2495,9 +2965,9 @@ function phQcm(el,ok,msg){
     var dt=Math.min(.05,(t-(state.last||t))/1000);
     state.last=t;
     if(state.paused) return;
-    var b=bounds(), speed=(b.x1-b.x0)/(state.W<480?2.2:3.2);
+    var b=bounds(), speed=(b.x1-b.x0)/(state.W<480?2.2:(state.W<700?2.4:3.2));
     state.acc+=dt*state.flux;
-    while(state.acc>=1){state.acc-=1;addPhoton(b.x0-(state.W<480?27:62));}
+    while(state.acc>=1){state.acc-=1;addPhoton(b.x0-(state.W<480?27:(state.W<700?42:62)));}
     var kept=[];
     state.photons.forEach(function(p){
       p.x+=speed*dt;
@@ -2511,7 +2981,7 @@ function phQcm(el,ok,msg){
   function updateFlux(){
     var n=state.flux;
     document.getElementById('phFluxName').textContent=visible(state.lambda)?'Luminosité de la source':'Intensité du rayonnement';
-    document.getElementById('phFluxVal').textContent=n+(n>1?' photons':' photon')+' par seconde (au ralenti)';
+    document.getElementById('phFluxVal').textContent=n+' photon'+(n>1?'s':'')+'/s (au ralenti)';
   }
   function setLambda(l){
     state.lambda=l; elL.value=l;
@@ -2577,26 +3047,21 @@ function phQcm(el,ok,msg){
   requestAnimationFrame(step);
 })();
 
-/* ═══ Animation : spectre d'absorption ═══ */
+/* ═══ Schémas fixes : spectres d'absorption et d'émission ═══ */
 (function(){
-  var cv=document.getElementById('abCanvas');
-  if(!cv) return;
-  var ctx=cv.getContext('2d');
-  var H_PL=6.63e-34,C_L=3.00e8,EV=1.60e-19,L_MIN=180,L_MAX=800,TOL=2;
-  /* Niveaux réels depuis l'état fondamental, arrondis (NIST) */
+  var L_MIN=180,L_MAX=800;
+  /* Niveaux et raies réels, arrondis. u = niveau haut, d = niveau bas */
   var ATOMS=[
-    {name:'Sodium',de:'du sodium',lines:[{E:2.10,nm:589},{E:3.75,nm:330}]},
-    {name:'Lithium',de:'du lithium',lines:[{E:1.85,nm:671},{E:3.83,nm:323}]},
-    {name:'Calcium',de:'du calcium',lines:[{E:2.93,nm:423},{E:4.55,nm:272}]},
-    {name:'Mercure',de:'du mercure',lines:[{E:4.89,nm:254},{E:6.70,nm:185}]}
+    {name:'Sodium',low:'sodium',de:'du sodium',lv:[0,2.10,3.75,4.12,4.28],tr:[{u:2,d:0,nm:330},{u:4,d:1,nm:569},{u:1,d:0,nm:589},{u:3,d:1,nm:616}],
+     photo:'spectre_sodium.jpg',cap:'Photo : spectre d\'une lampe à vapeur de sodium, dominé par la raie jaune. Repère cette raie sur le schéma.'},
+    {name:'Lithium',low:'lithium',de:'du lithium',lv:[0,1.85,3.83,3.88,4.54],tr:[{u:2,d:0,nm:323},{u:4,d:1,nm:460},{u:3,d:1,nm:610},{u:1,d:0,nm:671}]},
+    {name:'Calcium',low:'calcium',de:'du calcium',lv:[0,2.93,4.55,4.62],tr:[{u:2,d:0,nm:272},{u:1,d:0,nm:423},{u:3,d:1,nm:733}]},
+    {name:'Mercure',low:'mercure',de:'du mercure',brk:true,lv:[0,4.67,4.89,5.46,6.70,7.73,8.85],
+     tr:[{u:4,d:0,nm:185},{u:2,d:0,nm:254},{u:5,d:1,nm:405},{u:5,d:2,nm:436},{u:5,d:3,nm:546},{u:6,d:4,nm:577}],
+     photo:'spectre_mercure.jpg',cap:'Photo : spectre d\'une lampe à vapeur de mercure. Repère les raies violette, bleue, verte et jaune sur le schéma.'}
   ];
-  var IDX=['₀','₁','₂'];
-  var S={atom:0,lambda:500,photons:[],reemit:[],level:0,markE:0,exc:0,lineA:[0,0],white:false,acc:0,last:0,W:0,H:0,busy:false,flash:0};
-  var el=function(id){return document.getElementById(id);};
-  var elL=el('abLambda');
-
+  var IDX=['₀','₁','₂','₃','₄','₅','₆'];
   function fr(x,d){return x.toFixed(d).replace('.',',');}
-  function eOf(l){return H_PL*C_L/(l*1e-9)/EV;}
   function vis(l){return l>=400&&l<=800;}
   function rgb(l){
     var r=0,g=0,b=0,x=Math.min(780,Math.max(380,l));
@@ -2613,260 +3078,245 @@ function phQcm(el,ok,msg){
     var c=rgb(l),lum=(.299*c[0]+.587*c[1]+.114*c[2])/255,k=lum>.45?.45/lum:1;
     return 'rgb('+Math.round(c[0]*k)+','+Math.round(c[1]*k)+','+Math.round(c[2]*k)+')';
   }
-  function match(l){
-    var A=ATOMS[S.atom];
-    for(var i=0;i<A.lines.length;i++) if(Math.abs(A.lines[i].nm-l)<=TOL) return i;
-    return -1;
-  }
-  function layout(){
-    var wide=S.W>=620,dg,sc;
-    if(wide){dg={x:8,y:8,w:Math.min(240,S.W*.3),h:S.H-16};sc={x:dg.x+dg.w+14,y:8};sc.w=S.W-sc.x-10;sc.h=S.H-16;}
-    else{dg={x:8,y:8,w:S.W-16,h:178};sc={x:8,y:194,w:S.W-16,h:S.H-202};}
-    sc.py=sc.y+(sc.h-74)*.5;      /* trajet des photons */
-    sc.x0=sc.x+(wide?52:42);      /* sortie de la source */
-    sc.x1=sc.x+sc.w-(wide?76:62); /* entrée du spectroscope */
-    sc.ax=(sc.x0+sc.x1)/2;        /* atome */
-    sc.sy=sc.y+sc.h-42;           /* bande du spectre */
-    return {dg:dg,sc:sc};
-  }
-  function resize(){
-    var r=cv.getBoundingClientRect();
-    if(r.width<1) return false;
-    var d=window.devicePixelRatio||1,w=Math.round(r.width),h=Math.round(r.height);
-    if(w!==S.W||h!==S.H){
-      S.W=w;S.H=h;cv.width=Math.round(w*d);cv.height=Math.round(h*d);
-      ctx.setTransform(d,0,0,d,0,0);
+  function dot(l){return vis(l)?'rgb('+rgb(l).join(',')+')':'#9AA9B8';}
+
+  function makeSchema(pre,mode){
+    var cv=document.getElementById(pre+'Canvas');
+    if(!cv) return;
+    var ctx=cv.getContext('2d'),S={atom:0,sel:-1,W:0,H:0};
+    var el=function(s){return document.getElementById(pre+s);};
+    function A(){return ATOMS[S.atom];}
+    function list(){return mode==='abs'?A().tr.filter(function(t){return t.d===0;}):A().tr;}
+    function geom(){
+      var small=S.W<620,gut=small?78:96,right=small?10:16;
+      var g={gut:gut,right:right,top:30,x0:gut,x1:S.W-right,small:small};
+      g.w=g.x1-g.x0;
+      g.sH=small?20:24;
+      g.sY=S.H-22-g.sH;        /* bande du spectre */
+      g.lY=g.sY-30;            /* zone des étiquettes en nm */
+      g.bot=g.lY-12;           /* niveau E0 */
+      g.xOf=function(l){return g.x0+((l-L_MIN)/(L_MAX-L_MIN))*g.w;};
+      return g;
     }
-    return true;
-  }
-  function txt(s,x,y,size,c,align,weight){
-    ctx.fillStyle=c;ctx.font=(weight||600)+' '+size+'px Nunito, sans-serif';ctx.textAlign=align||'left';ctx.fillText(s,x,y);
-  }
-  function rr(x,y,w,h,r){
-    ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
-  }
-  function packet(x,y,l,angle,alpha,clip){
-    var half=24,amp=9,L=Math.max(7,l*.04);
-    ctx.save();
-    if(clip){ctx.beginPath();ctx.rect(clip.a,0,clip.b-clip.a,S.H);ctx.clip();}
-    ctx.globalAlpha=alpha;ctx.translate(x,y);ctx.rotate(angle);
-    ctx.strokeStyle=col(l);ctx.lineWidth=2.2;ctx.beginPath();
-    for(var i=-half;i<=half;i++){
-      var e=Math.exp(-Math.pow(i/(half*.55),2)),yy=-amp*e*Math.sin(2*Math.PI*i/L);
-      if(i===-half) ctx.moveTo(i,yy); else ctx.lineTo(i,yy);
+    function yFn(g){
+      var a=A(),n=a.lv.length,max=a.lv[n-1],top=g.top+16,bot=g.bot;
+      if(!a.brk) return function(E){return bot-(E/max)*(bot-top);};
+      var low=a.lv[1]-.25,base=bot-30;
+      return function(E){return E===0?bot:base-((E-low)/(max-low))*(base-top);};
     }
-    ctx.stroke();ctx.restore();
-  }
-  function drawDiagram(d){
-    var A=ATOMS[S.atom],top=d.y+36,bot=d.y+d.h-20,maxE=A.lines[1].E;
-    var yOf=function(E){return bot-(E/maxE)*(bot-top);};
-    var x0=d.x+34,x1=d.x+d.w-(d.w>300?120:6);
-    txt('Énergie',d.x,d.y+11,11.5,'#5A6B7A','left',700);
-    ctx.strokeStyle='#5A6B7A';ctx.lineWidth=1.4;
-    ctx.beginPath();ctx.moveTo(d.x+14,bot+8);ctx.lineTo(d.x+14,top-6);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(d.x+10,top-1);ctx.lineTo(d.x+14,top-8);ctx.lineTo(d.x+18,top-1);ctx.stroke();
-    var levels=[0,A.lines[0].E,A.lines[1].E];
-    levels.forEach(function(E,i){
-      var y=yOf(E);
-      ctx.strokeStyle=i===S.level&&S.exc>0?'#2D5F8A':'#1A2A3A';ctx.lineWidth=2.2;
-      ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x1,y);ctx.stroke();
-      txt('E'+IDX[i]+' = '+fr(E,2)+' eV',d.w>300?x1+8:x0+4,d.w>300?y+4:y-5,12,'#1A2A3A','left',700);
-    });
-    txt(i18n0(),d.x+34,bot+15,10.5,'#5A6B7A','left');
-    var ax=x0+(x1-x0)*.72;
-    if(S.exc>0&&S.level>0){
-      var c=col(A.lines[S.level-1].nm),yA=yOf(0)-3,yB=yOf(levels[S.level])+5;
-      ctx.strokeStyle=c;ctx.fillStyle=c;ctx.lineWidth=2.6;
-      ctx.beginPath();ctx.moveTo(ax,yA);ctx.lineTo(ax,yB);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(ax-6,yB+8);ctx.lineTo(ax,yB-2);ctx.lineTo(ax+6,yB+8);ctx.closePath();ctx.fill();
+    function txt(s,x,y,size,c,align,weight){
+      ctx.fillStyle=c;ctx.font=(weight||600)+' '+size+'px Nunito, sans-serif';ctx.textAlign=align||'left';ctx.fillText(s,x,y);
     }
-    ctx.fillStyle='#2D5F8A';ctx.strokeStyle='#fff';ctx.lineWidth=2;
-    ctx.beginPath();ctx.arc(ax-22,yOf(S.markE),7,0,Math.PI*2);ctx.fill();ctx.stroke();
-  }
-  function i18n0(){return 'État fondamental : E₀';}
-  function drawScene(s){
-    var small=S.W<620,sz=small?11:12;
-    /* Trajet */
-    ctx.strokeStyle='#E8EDF3';ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(s.x0,s.py);ctx.lineTo(s.x1,s.py);ctx.stroke();
-    /* Gaz */
-    var gw=small?74:104,gh=small?70:88;
-    ctx.fillStyle='#F3F7FB';ctx.strokeStyle='#B8D4EC';ctx.lineWidth=1.4;
-    rr(s.ax-gw/2,s.py-gh/2,gw,gh,12);ctx.fill();ctx.stroke();
-    txt('Gaz : '+ATOMS[S.atom].name.toLowerCase(),s.ax,s.py-gh/2-6,sz,'#5A6B7A','center',700);
-    /* Photons */
-    var clip={a:s.x0,b:s.x1};
-    S.photons.forEach(function(p){packet(p.x,s.py,p.l,0,1,clip);});
-    S.reemit.forEach(function(r){packet(s.ax+Math.cos(r.a)*r.d,s.py+Math.sin(r.a)*r.d,r.l,r.a,Math.max(0,1-r.d/70)*.8);});
-    /* Atome */
-    if(S.exc>0){ctx.fillStyle='rgba(232,120,58,.18)';ctx.beginPath();ctx.arc(s.ax,s.py,22,0,Math.PI*2);ctx.fill();}
-    ctx.fillStyle=S.exc>0?'#E8783A':'#2D5F8A';ctx.beginPath();ctx.arc(s.ax,s.py,12,0,Math.PI*2);ctx.fill();
-    txt('atome',s.ax,s.py+gh/2-7,small?10:11,'#5A6B7A','center');
-    /* Source */
-    var bw=s.x0-s.x-4,bh=small?54:64;
-    ctx.fillStyle='#F5F7FA';ctx.strokeStyle='#9AA9B8';ctx.lineWidth=1.4;
-    rr(s.x,s.py-bh/2,bw,bh,8);ctx.fill();ctx.stroke();
-    ctx.fillStyle=S.white?'#E8783A':col(S.lambda);ctx.beginPath();ctx.arc(s.x+bw/2,s.py,small?8:10,0,Math.PI*2);ctx.fill();
-    txt('Source',s.x,s.py-bh/2-6,sz,'#5A6B7A','left');
-    /* Spectroscope */
-    var sx=s.x1+4,sw=s.x+s.w-sx;
-    ctx.fillStyle='#F5F7FA';ctx.strokeStyle='#9AA9B8';
-    rr(sx,s.py-bh/2,sw,bh,8);ctx.fill();ctx.stroke();
-    ctx.fillStyle='#7B8A98';ctx.beginPath();ctx.moveTo(sx+sw*.3,s.py+13);ctx.lineTo(sx+sw*.5,s.py-14);ctx.lineTo(sx+sw*.7,s.py+13);ctx.closePath();ctx.fill();
-    txt('Spectroscope',s.x+s.w,s.py-bh/2-6,small?10:11,'#5A6B7A','right');
-    /* Spectre */
-    var y=s.sy,h=20,x=s.x,w=s.w,i,l;
-    txt('Spectre observé après le gaz',x,y-6,sz,'#5A6B7A','left',700);
-    for(i=0;i<w;i++){
-      l=L_MIN+(i/w)*(L_MAX-L_MIN);
-      if(vis(l)){var c=rgb(l);ctx.fillStyle='rgb('+c.join(',')+')';}
-      else ctx.fillStyle=(Math.floor(i/5)%2)?'#D8DEE5':'#CBD3DB';
-      ctx.fillRect(x+i,y,1.5,h);
+    function arrow(x,y1,y2,c,w,head){
+      var dir=y2>y1?1:-1;
+      ctx.strokeStyle=c;ctx.fillStyle=c;ctx.lineWidth=w;
+      ctx.beginPath();ctx.moveTo(x,y1);ctx.lineTo(x,y2-dir*head*1.3);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(x-head,y2-dir*head*1.7);ctx.lineTo(x,y2);ctx.lineTo(x+head,y2-dir*head*1.7);ctx.closePath();ctx.fill();
     }
-    ATOMS[S.atom].lines.forEach(function(L,k){
-      if(S.lineA[k]>0){
-        ctx.fillStyle='rgba(0,0,0,'+S.lineA[k]+')';
-        ctx.fillRect(x+((L.nm-L_MIN)/(L_MAX-L_MIN))*w-1.5,y-2,3,h+4);
+    function draw(){
+      if(!S.W) return;
+      var g=geom(),a=A(),yOf=yFn(g),L=list(),i;
+      ctx.clearRect(0,0,S.W,S.H);ctx.fillStyle='#fff';ctx.fillRect(0,0,S.W,S.H);
+      /* Domaines */
+      var x400=g.xOf(400),sz=g.small?10:11.5;
+      txt('UV (invisible)',(g.x0+x400)/2,14,sz,'#5A6B7A','center',700);
+      txt('Lumière visible',(x400+g.x1)/2,14,sz,'#5A6B7A','center',700);
+      ctx.strokeStyle='#D5DCE4';ctx.lineWidth=1;ctx.setLineDash([3,4]);
+      ctx.beginPath();ctx.moveTo(x400,20);ctx.lineTo(x400,g.sY);ctx.stroke();ctx.setLineDash([]);
+      /* Axe de l'énergie */
+      var ax=7;
+      ctx.strokeStyle='#5A6B7A';ctx.lineWidth=1.3;
+      ctx.beginPath();ctx.moveTo(ax,g.bot+6);ctx.lineTo(ax,g.top+4);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(ax-4,g.top+11);ctx.lineTo(ax,g.top+3);ctx.lineTo(ax+4,g.top+11);ctx.stroke();
+      txt('Énergie',2,g.top-3,10.5,'#5A6B7A','left',700);
+      if(a.brk){
+        ctx.fillStyle='#fff';ctx.fillRect(ax-4,g.bot-19,8,6);
+        ctx.beginPath();ctx.moveTo(ax-5,g.bot-17);ctx.lineTo(ax+5,g.bot-21);ctx.moveTo(ax-5,g.bot-12);ctx.lineTo(ax+5,g.bot-16);ctx.stroke();
       }
-    });
-    [200,400,600,800].forEach(function(t){
-      var tx=x+((t-L_MIN)/(L_MAX-L_MIN))*w;
-      ctx.fillStyle='#5A6B7A';ctx.fillRect(tx-.5,y+h,1,4);
-      txt(t+(t===800?' nm':''),t===800?x+w:tx,y+h+15,10.5,'#5A6B7A',t===800?'right':'center');
-    });
-    txt('UV (invisible)',x+((300-L_MIN)/(L_MAX-L_MIN))*w,y+h+15,small?9:10,'#3F4C59','center',700);
-  }
-  function draw(){
-    if(!S.W) return;
-    ctx.clearRect(0,0,S.W,S.H);ctx.fillStyle='#fff';ctx.fillRect(0,0,S.W,S.H);
-    var L=layout();drawDiagram(L.dg);drawScene(L.sc);
-    if(S.W>=620){ctx.strokeStyle='#E8EDF3';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(L.sc.x-7,12);ctx.lineTo(L.sc.x-7,S.H-12);ctx.stroke();}
-    else{ctx.strokeStyle='#E8EDF3';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(10,188);ctx.lineTo(S.W-10,188);ctx.stroke();}
-  }
-  function msg(t){el('abMsg').innerHTML=t;}
-  function updateFound(){
-    var n=S.lineA.filter(function(a){return a>0;}).length;
-    el('abFound').textContent=n?('Raies d\'absorption trouvées : '+n+' sur 2'):'';
-  }
-  function updateInfo(){
-    el('abLambdaVal').textContent=S.lambda+' nm';
-    el('abE').textContent=fr(eOf(S.lambda),2)+' eV';
-    elL.setAttribute('aria-valuetext',S.lambda+' nanomètres, énergie '+fr(eOf(S.lambda),2)+' électronvolts');
-    var A=ATOMS[S.atom];
-    el('abGaps').textContent='E₁ − E₀ = '+fr(A.lines[0].E,2)+' eV  ·  E₂ − E₀ = '+fr(A.lines[1].E,2)+' eV';
-  }
-  function setWhite(on){
-    S.white=on;
-    el('abWhite').textContent=on?'⏸ Arrêter la lumière blanche':'🌈 Envoyer de la lumière blanche';
-    el('abSend').disabled=on||S.busy;
-  }
-  function setBusy(b){S.busy=b;el('abSend').disabled=b||S.white;}
-  function reset(text){
-    S.photons=[];S.reemit=[];S.level=0;S.markE=0;S.exc=0;S.lineA=[0,0];S.acc=0;
-    setWhite(false);setBusy(false);updateFound();updateInfo();
-    msg(text||'Règle λ, puis clique sur « Envoyer un photon ».');
-    draw();
-  }
-  function arrive(p){
-    var m=match(p.l),A=ATOMS[S.atom],E=eOf(p.l);
-    if(m>=0&&S.exc===0){
-      var L=A.lines[m];
-      p.dead=true;
-      S.level=m+1;S.exc=S.white?.9:1.8;
-      S.lineA[m]=p.single?1:Math.min(1,S.lineA[m]+.5);
-      updateFound();
-      if(p.single){
-        var txt0='<strong>✓ Photon absorbé !</strong> E = '+fr(E,2)+' eV ≈ E'+IDX[m+1]+' − E₀ = '+fr(L.E,2)+' eV (aux arrondis près). L\'atome passe de E₀ à E'+IDX[m+1]+' et une raie noire apparaît à '+L.nm+' nm.';
-        if(S.lineA[0]>0&&S.lineA[1]>0){
-          txt0+=' Tu as trouvé les deux raies '+A.de+'.';
-          if(S.atom===3) txt0+=' Elles sont dans l\'UV : à l\'œil, elles ne se voient pas dans le spectre visible.';
-        }
-        msg(txt0);
+      var sT=S.sel>=0?L[S.sel]:null;
+      /* Niveaux */
+      var ly=[];
+      for(i=0;i<a.lv.length;i++) ly.push(yOf(a.lv[i])+4);
+      for(i=1;i<ly.length;i++) if(ly[i]>ly[i-1]-12.5) ly[i]=ly[i-1]-12.5;
+      for(i=0;i<a.lv.length;i++){
+        var on=sT&&(i===sT.u||i===sT.d),y=yOf(a.lv[i]);
+        ctx.strokeStyle=on?'#2D5F8A':'#7E8D9C';ctx.lineWidth=on?2.6:1.6;
+        ctx.beginPath();ctx.moveTo(g.x0-4,y);ctx.lineTo(g.x1,y);ctx.stroke();
+        txt('E'+IDX[i]+' = '+fr(a.lv[i],2)+' eV',g.gut-8,ly[i],g.small?10.5:12,on?'#2D5F8A':'#1A2A3A','right',700);
       }
-    } else if(p.single){
-      msg(m>=0 ? 'L\'atome est encore excité : ce photon traverse le gaz.' :
-        '<strong>Photon non absorbé.</strong> E = '+fr(E,2)+' eV ne correspond à aucun écart entre deux niveaux de l\'atome : le photon traverse le gaz sans interagir.');
-    }
-  }
-  function launch(l,single){
-    var s=layout().sc;
-    S.photons.push({x:s.x0-24,l:l,single:single,passed:false});
-  }
-  function step(t){
-    requestAnimationFrame(step);
-    if(cv.offsetParent===null||!resize()){S.last=t;return;}
-    var dt=Math.min(.05,(t-(S.last||t))/1000);S.last=t;
-    var s=layout().sc,speed=(s.x1-s.x0)/2.2;
-    if(S.white){
-      S.acc+=dt*3.2;
-      while(S.acc>=1){
-        S.acc-=1;
-        var A=ATOMS[S.atom],l;
-        if(Math.random()<.22) l=A.lines[Math.floor(Math.random()*2)].nm;
-        else l=Math.round(L_MIN+Math.random()*(L_MAX-L_MIN));
-        launch(l,false);
+      /* Bande du spectre */
+      var sx=g.x0,sw=g.w,px;
+      for(px=0;px<sw;px++){
+        var l=L_MIN+(px/sw)*(L_MAX-L_MIN);
+        if(mode==='em') ctx.fillStyle=vis(l)?'#000':'#39424C';
+        else if(vis(l)) ctx.fillStyle='rgb('+rgb(l).join(',')+')';
+        else ctx.fillStyle=(Math.floor(px/5)%2)?'#D8DEE5':'#CBD3DB';
+        ctx.fillRect(sx+px,g.sY,1.5,g.sH);
       }
+      /* Transitions, guides et raies */
+      L.forEach(function(t,k){
+        var dim=S.sel>=0&&k!==S.sel,x=g.xOf(t.nm),yU=yOf(a.lv[t.u]),yD=yOf(a.lv[t.d]);
+        ctx.save();
+        ctx.globalAlpha=dim?.22:1;
+        var w=k===S.sel?3.2:2.2,head=g.small?3.4:(k===S.sel?6:5);
+        if(mode==='abs') arrow(x,yD,yU,col(t.nm),w,head);
+        else arrow(x,yU,yD,col(t.nm),w,head);
+        /* Guide vers la raie */
+        ctx.strokeStyle=col(t.nm);ctx.lineWidth=1;ctx.setLineDash([2,3]);
+        ctx.beginPath();ctx.moveTo(x,yD);ctx.lineTo(x,g.sY);ctx.stroke();ctx.setLineDash([]);
+        /* Raie */
+        var rw=k===S.sel?4:3;
+        if(mode==='abs') ctx.fillStyle='#000';
+        else ctx.fillStyle=vis(t.nm)?'rgb('+rgb(t.nm).join(',')+')':'#E6EBF0';
+        ctx.fillRect(x-rw/2,g.sY,rw,g.sH);
+        ctx.restore();
+      });
+      /* Étiquettes en nm, sur deux rangées si elles sont proches */
+      var last=[-99,-99];
+      L.forEach(function(t,k){
+        var x=g.xOf(t.nm),r=(x-last[0]>=24)?0:1;
+        last[r]=x;
+        var dim=S.sel>=0&&k!==S.sel;
+        ctx.save();ctx.fillStyle='#fff';ctx.globalAlpha=.85;ctx.fillRect(x-11,g.lY+r*12+1,22,12);ctx.restore();
+        txt(String(t.nm),x,g.lY+11+r*12,g.small?10:11,dim?'#B4BEC8':(k===S.sel?'#2D5F8A':'#1A2A3A'),'center',800);
+      });
+      /* Graduation */
+      [200,400,600,800].forEach(function(t){
+        var tx=g.xOf(t);
+        ctx.fillStyle='#5A6B7A';ctx.fillRect(tx-.5,g.sY+g.sH,1,4);
+        txt(t+(t===800?' nm':''),t===800?g.x1:tx,g.sY+g.sH+15,10.5,'#5A6B7A',t===800?'right':'center');
+      });
+      txt(mode==='abs'?'Spectre':'Spectre',g.gut-8,g.sY+g.sH/2+4,g.small?10.5:12,'#1A2A3A','right',700);
     }
-    var kept=[];
-    S.photons.forEach(function(p){
-      var before=p.x;
-      p.x+=speed*dt;
-      if(!p.passed&&before<s.ax&&p.x>=s.ax){p.passed=true;arrive(p);}
-      if(!p.dead&&p.x<s.x1+24) kept.push(p);
+    function resize(){
+      var r=cv.getBoundingClientRect();
+      if(r.width<1) return false;
+      var d=window.devicePixelRatio||1,w=Math.round(r.width),h=Math.round(r.height);
+      if(w!==S.W||h!==S.H){S.W=w;S.H=h;cv.width=Math.round(w*d);cv.height=Math.round(h*d);ctx.setTransform(d,0,0,d,0,0);}
+      return true;
+    }
+    function refresh(){if(resize()) draw();}
+    function hit(ev){
+      var r=cv.getBoundingClientRect(),x=ev.clientX-r.left,y=ev.clientY-r.top,g=geom(),L=list(),best=-1,bd=1e9;
+      if(y<g.top-6||y>g.sY+g.sH+2) return -1;
+      L.forEach(function(t,k){var d=Math.abs(g.xOf(t.nm)-x);if(d<bd){bd=d;best=k;}});
+      return bd<=(g.small?9:12)?best:-1;
+    }
+    function text(){
+      var L=list(),a=A();
+      if(S.sel<0){
+        if(mode==='abs'&&S.atom===3) return 'Clique sur une transition pour la lire. Ici, les deux raies sont dans l\'UV : à l\'œil, le spectre visible du mercure gazeux froid ne montre aucune raie.';
+        return 'Clique sur une transition pour lire ce qu\'elle représente.';
+      }
+      var t=L[S.sel],dE=a.lv[t.u]-a.lv[t.d],uv=vis(t.nm)?'':' C\'est une radiation UV, invisible pour l\'œil.';
+      if(mode==='abs') return '<strong>Absorption :</strong> l\'atome passe de E₀ à E'+IDX[t.u]+' en absorbant un photon d\'énergie E = E'+IDX[t.u]+' − E₀ = '+fr(dE,2)+' eV, soit λ = hc/E ≈ '+t.nm+' nm (aux arrondis près). Cette radiation manque après le gaz : c\'est la raie noire.'+uv;
+      return '<strong>Émission :</strong> l\'atome passe de E'+IDX[t.u]+' à E'+IDX[t.d]+' en émettant un photon d\'énergie E = E'+IDX[t.u]+' − E'+IDX[t.d]+' = '+fr(dE,2)+' eV, soit λ = hc/E ≈ '+t.nm+' nm (aux arrondis près).'+uv;
+    }
+    function sync(){
+      el('Msg').innerHTML=text();
+      el('Chips').querySelectorAll('.sf-chip').forEach(function(b,i){
+        var on=i===S.sel;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');
+      });
+      refresh();
+    }
+    function select(k){S.sel=(S.sel===k)?-1:k;sync();}
+    function buildChips(){
+      var box=el('Chips'),a=A();
+      box.innerHTML='';
+      list().forEach(function(t,k){
+        var b=document.createElement('button');
+        b.type='button';b.className='sf-chip';
+        var from=mode==='abs'?t.d:t.u,to=mode==='abs'?t.u:t.d;
+        b.innerHTML='<i style="background:'+dot(t.nm)+'"></i>E'+IDX[from]+' → E'+IDX[to]+' · '+t.nm+' nm';
+        b.addEventListener('click',function(){select(k);});
+        box.appendChild(b);
+      });
+    }
+    function setAtom(i){
+      S.atom=i;S.sel=-1;
+      el('Atoms').querySelectorAll('.sf-atom').forEach(function(b,n){
+        b.classList.toggle('on',n===i);b.setAttribute('aria-pressed',n===i?'true':'false');
+      });
+      buildChips();
+      var box=el('Photo');
+      if(box){
+        if(A().photo){el('PhotoImg').src=A().photo;el('PhotoCap').textContent=A().cap;box.classList.add('show');}
+        else box.classList.remove('show');
+      }
+      sync();
+    }
+    el('Atoms').querySelectorAll('.sf-atom').forEach(function(b,n){
+      b.addEventListener('click',function(){setAtom(n);});
     });
-    S.photons=kept;
-    if(S.exc>0){
-      S.exc-=dt;
-      if(S.exc<=0){
-        var L0=ATOMS[S.atom].lines[S.level-1];
-        var dirs=[-2.3,-1.57,-.9,.9,1.57,2.3];
-        S.reemit.push({a:dirs[Math.floor(Math.random()*dirs.length)],d:18,l:L0.nm});
-        S.level=0;S.exc=0;
-      }
+    cv.addEventListener('click',function(e){var k=hit(e);if(k>=0) select(k);});
+    cv.addEventListener('mousemove',function(e){cv.style.cursor=hit(e)>=0?'pointer':'default';});
+    if(window.ResizeObserver){new ResizeObserver(refresh).observe(cv);}
+    else{
+      window.addEventListener('resize',refresh);
+      cv.closest('.accord-body').previousElementSibling.addEventListener('click',function(){setTimeout(refresh,0);});
     }
-    var target=S.level>0?ATOMS[S.atom].lines[S.level-1].E:0;
-    S.markE+=(target-S.markE)*Math.min(1,dt*9);
-    S.reemit.forEach(function(r){r.d+=dt*70;});
-    S.reemit=S.reemit.filter(function(r){return r.d<70;});
-    if(S.busy&&!S.white&&S.photons.length===0&&S.exc===0&&S.reemit.length===0) setBusy(false);
-    draw();
+    setAtom(0);
   }
-  function setLambda(v){
-    S.lambda=Math.max(L_MIN,Math.min(L_MAX,v));elL.value=S.lambda;updateInfo();
-  }
-  var stops=[];
-  for(var l=L_MIN;l<=L_MAX;l+=20){
-    var c0=rgb(l);
-    stops.push((vis(l)?'rgb('+c0.join(',')+')':'#c9d1da')+' '+(((l-L_MIN)/(L_MAX-L_MIN))*100).toFixed(1)+'%');
-  }
-  elL.style.background='linear-gradient(to right,'+stops.join(',')+')';
-  elL.addEventListener('input',function(){setLambda(parseInt(elL.value,10));});
-  el('abMinus').addEventListener('click',function(){setLambda(S.lambda-1);});
-  el('abPlus').addEventListener('click',function(){setLambda(S.lambda+1);});
-  el('abAtom').addEventListener('input',function(){
-    S.atom=parseInt(this.value,10);
-    el('abAtomVal').textContent=ATOMS[S.atom].name;
-    this.setAttribute('aria-valuetext',ATOMS[S.atom].name);
-    el('abAtoms').querySelectorAll('span').forEach(function(sp,i){sp.classList.toggle('on',i===S.atom);});
-    reset();
-  });
-  el('abSend').addEventListener('click',function(){
-    if(S.busy||S.white) return;
-    setBusy(true);
-    msg('Le photon de '+S.lambda+' nm se dirige vers l\'atome…');
-    launch(S.lambda,true);
-  });
-  el('abWhite').addEventListener('click',function(){
-    var on=!S.white;
-    setWhite(on);
-    if(on) msg('<strong>Lumière blanche :</strong> des photons de toutes les longueurs d\'onde arrivent sur le gaz. Seuls ceux dont l\'énergie correspond à un écart entre deux niveaux sont absorbés : les raies noires se creusent peu à peu.');
-    else{setBusy(S.photons.length>0||S.exc>0);msg('Lumière blanche arrêtée. Tu peux envoyer un photon, ou cliquer sur « Recommencer ».');}
-  });
-  el('abReset').addEventListener('click',function(){reset();});
-  window.addEventListener('resize',function(){if(cv.offsetParent!==null&&resize()) draw();});
-  reset();
-  requestAnimationFrame(step);
+  makeSchema('sa','abs');
+  makeSchema('se','em');
 })();
+
+/* ═══ Python modifiable et exécutable en ligne (Pyodide, chargé au premier clic) ═══ */
+var PY_URL = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
+var pyEnginePromise = null;
+function getPyEngine(){
+  if(pyEnginePromise) return pyEnginePromise;
+  pyEnginePromise = new Promise(function(resolve,reject){
+    var sc = document.createElement('script');
+    sc.src = PY_URL+'pyodide.js';
+    sc.onload = function(){ loadPyodide({indexURL:PY_URL}).then(resolve,reject); };
+    sc.onerror = function(){ reject(new Error('script')); };
+    document.head.appendChild(sc);
+  }).catch(function(err){ pyEnginePromise = null; throw err; });
+  return pyEnginePromise;
+}
+document.querySelectorAll('.py-box').forEach(function(box){
+  var ta = box.querySelector('.py-editor'), out = box.querySelector('.py-out'), st = box.querySelector('.py-status'), run = box.querySelector('.py-run');
+  ta.addEventListener('keydown',function(ev){
+    if(ev.key==='Tab' && !ev.shiftKey){
+      ev.preventDefault();
+      var a = ta.selectionStart, b = ta.selectionEnd;
+      ta.value = ta.value.slice(0,a)+'    '+ta.value.slice(b);
+      ta.selectionStart = ta.selectionEnd = a+4;
+    }
+  });
+  run.addEventListener('click',function(){
+    run.disabled = true; out.hidden = true; out.classList.remove('err');
+    st.textContent = pyEnginePromise ? 'Exécution en cours…' : 'Chargement de Python : cela peut prendre quelques secondes la première fois…';
+    getPyEngine().then(function(py){
+      st.textContent = 'Exécution en cours…';
+      var lines = [];
+      py.setStdout({batched:function(t){ lines.push(t); }});
+      py.setStderr({batched:function(t){ lines.push(t); }});
+      return py.loadPackagesFromImports(ta.value).then(function(){ return py.runPythonAsync(ta.value); }).then(function(){
+        out.textContent = lines.join('\n') || '(Le programme n\'a rien affiché.)';
+        out.hidden = false; st.textContent = '✓ Programme exécuté.';
+      },function(err){
+        var msg = String(err.message||err).trim().split('\n');
+        out.textContent = lines.concat(msg.slice(-3)).join('\n');
+        out.classList.add('err'); out.hidden = false;
+        st.textContent = '⚠ Le programme contient une erreur : lis le message ci-dessous.';
+      });
+    },function(){
+      st.textContent = '⚠ Python n\'a pas pu se charger : vérifie la connexion, ou télécharge le fichier pour l\'ouvrir dans ton logiciel.';
+    }).then(function(){ run.disabled = false; });
+  });
+  box.querySelector('.py-reset').addEventListener('click',function(){
+    ta.value = ta.defaultValue; out.hidden = true; st.textContent = '';
+  });
+  box.querySelector('.py-dl').addEventListener('click',function(){
+    var url = URL.createObjectURL(new Blob([ta.value],{type:'text/x-python;charset=utf-8'}));
+    var a = document.createElement('a');
+    a.href = url; a.download = box.getAttribute('data-py-file');
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); },1000);
+  });
+});
 </script>
 </body>
 </html>
